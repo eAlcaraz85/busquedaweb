@@ -1,0 +1,917 @@
+#+TITLE: Apuntes de Recuperación de Información Web
+#+AUTHOR: Eduardo Alcaraz 
+#+LANGUAGE: es
+#+LaTeX_HEADER: \usepackage[spanish]{inputenc}
+#+SETUPFILE: /home/likcos/Materias/Recuperacion/theme-readtheorg-local.setup
+#+EXPORT_FILE_NAME: index.html
+#+OPTIONS: num:nil
+#+HTML_HEAD: <style> #content{max-width:1800px;}</style>
+#+HTML_HEAD: <style>pre.src {background-color: #303030; color: #e5e5e5;}</style>
+
+
+
+
+* Sistemas de recuperación de información
+
+** Introducción a los sistemas de recuperación de información (IRS)
+
+*** Definición y alcance
+
+Un *Sistema de Recuperación de Información* (IRS, por sus siglas en inglés
+*Information Retrieval System*) es un sistema software diseñado para almacenar,
+representar y recuperar información relevante ante consultas de usuarios.
+
+**** Características principales
+- Almacena grandes volúmenes de documentos (texto, multimedia, metadatos).
+- Permite consultas en lenguaje natural o estructurado.
+- Devuelve un *ranking* o lista ordenada de documentos según relevancia.
+- La relevancia suele ser subjetiva y dependiente del contexto del usuario.
+
+**** Ejemplo de necesidad de información
+#+BEGIN_EXAMPLE
+Usuario: "Necesito saber cómo se calcula la precisión en un sistema de búsqueda
+para poder comparar dos motores que estamos evaluando en mi empresa."
+
+El IRS no busca la frase exacta "cómo se calcula la precisión"; busca documentos
+que traten sobre *evaluación*, *precisión*, *sistemas de búsqueda* y los ordena
+según qué tan bien satisfacen esa necesidad.
+#+END_EXAMPLE
+
+*** Objetivo fundamental
+
+El objetivo no es devolver *todos* los documentos que coincidan literalmente con
+la consulta, sino aquellos que el usuario consideraría *útiles* o *relevantes*
+para satisfacer su necesidad de información.
+
+**** Diferencia con bases de datos
+
+| Bases de datos          | Recuperación de información        |
+|-------------------------+------------------------------------|
+| Consultas exactas (SQL) | Consultas por similitud/relevancia |
+| Coincidencia exacta     | Ranking y ordenación               |
+| Datos estructurados     | Texto libre, documentos            |
+| Respuesta determinista  | Respuesta aproximada, probabilista |
+
+*** Componentes típicos de un IRS
+
+1. *Índice* :: Estructura que permite localizar documentos sin escanear todo el corpus.
+2. *Motor de búsqueda* :: Algoritmos que comparan consulta vs. documentos.
+3. *Modelo de ranking* :: Criterio para ordenar resultados (TF-IDF, BM25, etc.).
+4. *Interfaz de usuario* :: Formulario de búsqueda, resultados, filtros.
+5. *Módulo de evaluación* :: Métricas para medir calidad (precisión, recall, etc.).
+
+*** Aplicaciones
+
+- Motores de búsqueda web (Google, Bing).
+- Búsqueda en bibliotecas digitales y repositorios.
+- Búsqueda en correo electrónico y documentos corporativos.
+- Sistemas de recomendación y búsqueda semántica.
+
+*** Ejemplo de flujo completo en un IRS
+
+**** Corpus mínimo de ejemplo
+Se tienen 3 documentos (para ilustrar; en la realidad son millones):
+
+| ID | Documento |
+|----+-----------|
+| d1 | "La recuperación de información usa índices para buscar documentos de forma rápida." |
+| d2 | "Los modelos vectoriales calculan similitud entre consulta y documento." |
+| d3 | "La evaluación mide precisión y recall del sistema de búsqueda." |
+
+**** Paso 1: Indexación
+- Se extraen términos (tras eliminar stopwords y aplicar stemming): =recuperación=, =información=, =índices=, =documentos=, =modelos=, =vectoriales=, =similitud=, =consulta=, =evaluación=, =precisión=, =recall=, =búsqueda=.
+- Se construye un *índice invertido*: para cada término, lista de documentos que lo contienen.
+- Ejemplo: =precisión= \(\rightarrow\) [d3], =documentos= \(\rightarrow\) [d1], =recuperación= \(\rightarrow\) [d1], etc.
+
+**** Paso 2: Consulta
+- Usuario escribe: "evaluación precisión búsqueda".
+
+**** Paso 3: Recuperación y ranking
+- El motor obtiene candidatos del índice (p. ej. d3 contiene los tres términos) y aplica el modelo (TF-IDF o BM25) para puntuar cada documento.
+- Resultado ordenado: d3 (mayor puntuación), y posiblemente d1, d2 si comparten términos.
+
+**** Paso 4: Presentación
+- Se muestra al usuario: título/snippet de d3 primero, luego los demás, para que pueda elegir el documento que le resulta relevante.
+
+** Interfaces de usuario para búsqueda
+
+*** Funciones de la interfaz
+
+La interfaz de usuario en un IRS debe permitir:
+
+1. *Formular la consulta* (caja de búsqueda, operadores, filtros).
+2. *Ver resultados* ordenados y con información suficiente para decidir.
+3. *Refinar o reformular* la consulta (búsqueda iterativa).
+4. *Acceder al documento* completo cuando se considera relevante.
+
+*** Tipos de interfaces
+
+**** Interfaz de consulta por palabras clave
+- El usuario escribe términos (palabras clave).
+- Puede usar operadores: AND, OR, NOT, comillas para frases.
+- Ejemplo: =información AND (recuperación OR búsqueda)=.
+
+***** Ejemplos de consultas booleanas
+
+| Consulta                           | Interpretación                                          |
+|------------------------------------+---------------------------------------------------------|
+| recuperación información           | documentos que contengan ambos términos (AND implícito) |
+| "recuperación de información"      | documentos con la frase exacta                          |
+| TF-IDF OR BM25                     | documentos que contengan al menos uno de los dos        |
+| evaluación NOT recall              | documentos sobre evaluación pero sin la palabra recall  |
+| (precisión OR recall) AND métricas | métricas y además precisión o recall                    |
+
+
+**** Interfaz de lenguaje natural
+- Consultas en forma de pregunta o frase.
+- El sistema interpreta la intención (a veces con NLP).
+- Ejemplo: "¿Cómo se evalúa un sistema de recuperación?"
+
+***** Ejemplo
+#+BEGIN_EXAMPLE
+Usuario escribe: "recetas de pastel de chocolate sin gluten"
+
+El sistema puede extraer: términos clave (recetas, pastel, chocolate, gluten),
+negación (sin gluten) y devolver documentos que hablen de pastel de chocolate
+y que mencionen "sin gluten" o recetas aptas para celíacos, aunque no aparezca
+la frase exacta.
+#+END_EXAMPLE
+
+**** Interfaz con filtros y facetas
+- Filtros por fecha, autor, tipo de documento, idioma.
+- Facetas: categorías o atributos para restringir resultados.
+- Muy común en tiendas online y bibliotecas digitales.
+
+***** Ejemplo (biblioteca digital)
+#+BEGIN_EXAMPLE
+Búsqueda: "recuperación de información"
+Facetas mostradas al lado:
+  Tipo de documento: Libro (120), Artículo (85), Tesis (12)
+  Año: 2020-2024 (45), 2015-2019 (98), anterior (74)
+  Idioma: Español (150), Inglés (67)
+
+El usuario hace clic en "Artículo" y "2020-2024": la lista de resultados se
+restringe a artículos de esos años, sin cambiar la consulta textual.
+#+END_EXAMPLE
+
+**** Interfaz de búsqueda por ejemplo (Query by Example)
+- El usuario proporciona un documento o fragmento como "ejemplo" de lo que busca.
+- El sistema busca documentos similares (búsqueda por similitud).
+
+***** Ejemplo
+#+BEGIN_EXAMPLE
+Usuario pega un párrafo de un artículo que le gustó:
+"El modelo vectorial representa documentos como vectores en un espacio de términos.
+La similitud coseno mide el ángulo entre el vector de la consulta y el del documento."
+
+El sistema trata ese texto como una "consulta larga" o como documento de referencia,
+calcula su vector (o embedding) y busca en el corpus los documentos más similares,
+devolviendo por ejemplo artículos sobre modelos vectoriales, TF-IDF y similitud coseno.
+#+END_EXAMPLE
+
+*** Elementos de presentación de resultados
+
+**** Lista de resultados (SERP)
+- Título, URL, snippet o fragmento del documento.
+- Destacados (bold) de los términos de la consulta.
+- Paginación o scroll infinito.
+
+**** Snippets
+- Fragmentos cortos del documento donde aparecen los términos.
+- Ayudan al usuario a juzgar relevancia sin abrir el documento.
+
+**** Agrupación y clustering
+- Resultados agrupados por sitio, fecha o tema.
+- Reduce redundancia y facilita la exploración.
+
+**** Ejemplo de SERP (página de resultados)
+#+BEGIN_EXAMPLE
+Consulta: "evaluación recuperación información"
+
+--- Resultado 1 ---
+Título: Evaluación de sistemas de recuperación de información - Wikipedia
+URL: https://es.wikipedia.org/wiki/...
+Snippet: ... La evaluación de la recuperación de información utiliza métricas como
+precisión, recall y F1. Se usan colecciones de prueba con juicios de relevancia ...
+
+--- Resultado 2 ---
+Título: Precisión y exhaustividad - Recuperación de información
+URL: https://...
+Snippet: ... Para evaluar un sistema de recuperación se definen la precisión (P) y
+la exhaustividad (recall R). La precisión mide cuántos de los recuperados son
+relevantes ...
+
+--- Resultado 3 ---
+...
+#+END_EXAMPLE
+Los términos "evaluación", "recuperación", "información" aparecerían resaltados
+en negrita en título y snippet para que el usuario juzgue la relevancia de un vistazo.
+
+*** Usabilidad y experiencia de usuario
+
+- *Tiempo de respuesta*: resultados en milisegundos.
+- *Claridad*: que el usuario entienda por qué aparece cada resultado.
+- *Opciones de refinamiento*: sugerencias, "personas también buscaron", filtros.
+- *Accesibilidad*: uso con teclado, lectores de pantalla, diseño responsive.
+
+** Modelos de recuperación de información
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+Un *modelo de recuperación* define cómo se representan documentos y consultas, y
+cómo se calcula la relevancia o similitud entre ellos.
+
+*** Modelo booleano
+
+**** Idea
+- Documentos y consultas como conjuntos de términos.
+- La consulta es una expresión booleana (AND, OR, NOT).
+- Un documento es "relevante" si satisface la expresión (verdadero/falso).
+
+**** Limitaciones
+- No hay ranking: todos los documentos que coinciden son iguales.
+- No captura importancia de términos (frecuencia, rareza).
+- Demasiado rígido para el usuario promedio.
+
+**** Ejemplo numérico (modelo booleano)
+Corpus de 4 documentos (términos tras stemming):
+
+| Doc | Términos presentes                          |
+|-----+--------------------------------------------|
+| d1  | recuperación, información, índice, documento |
+| d2  | modelo, vectorial, similitud, documento     |
+| d3  | evaluación, precisión, recall, búsqueda    |
+| d4  | evaluación, información, índice             |
+
+Consultas y resultados:
+- \(q_1\) = =recuperación AND información= \(\Rightarrow\) {d1} (solo d1 tiene ambos).
+- \(q_2\) = =evaluación OR precisión= \(\Rightarrow\) {d3, d4} (d3 tiene ambos; d4 tiene evaluación).
+- \(q_3\) = =documento NOT vectorial= \(\Rightarrow\) {d1} (d1 y d2 tienen "documento"; d2 tiene "vectorial", se excluye; d1 no tiene "vectorial", se incluye).
+
+Todos los documentos devueltos se consideran "iguales"; no hay orden de preferencia.
+
+*** Modelo vectorial
+
+**** Idea
+- Documentos y consultas como vectores en un espacio donde cada dimensión es un término.
+- Cada componente del vector es un peso (p. ej. TF-IDF).
+- Similitud = similitud coseno entre vector de consulta y vector del documento.
+
+**** Fórmula de similitud coseno
+\[
+\text{sim}(q, d) = \frac{\vec{q} \cdot \vec{d}}{|\vec{q}| \, |\vec{d}|}
+\]
+
+**** Ventajas
+- Permite ranking (ordenar por similitud).
+- Simple y eficiente.
+- TF-IDF captura importancia de términos.
+
+**** Ejemplo: espacio de términos
+Supongamos vocabulario = {recuperación, información, evaluación}. Cada documento
+y la consulta se representan como vectores de 3 dimensiones (pesos TF-IDF):
+
+- \(q\) = "recuperación información" \(\rightarrow\) \(\vec{q} = (0.8, 0.7, 0)\)
+- \(d_1\) = "recuperación de información e información" \(\rightarrow\) \(\vec{d_1} = (0.5, 0.9, 0)\)
+- \(d_2\) = "evaluación de la recuperación" \(\rightarrow\) \(\vec{d_2} = (0.6, 0, 0.8)\)
+
+Similitud coseno: \(\text{sim}(q,d) = \frac{\vec{q}\cdot\vec{d}}{|\vec{q}||\vec{d}|}\).
+- \(\vec{q}\cdot\vec{d_1} = 0.8\cdot 0.5 + 0.7\cdot 0.9 = 0.4 + 0.63 = 1.03\) (alto).
+- \(\vec{q}\cdot\vec{d_2} = 0.8\cdot 0.6 + 0 + 0 = 0.48\) (menor).
+
+Tras normalizar por las normas, \(d_1\) queda por encima de \(d_2\) en el ranking,
+que es lo esperado porque \(d_1\) comparte ambos términos de la consulta.
+
+*** TF-IDF (Term Frequency - Inverse Document Frequency)
+
+**** Frecuencia de término (TF)
+- Cuántas veces aparece el término en el documento.
+- Variantes: TF bruto, TF logarítmico (suavizado).
+
+**** Frecuencia inversa de documento (IDF)
+- \(\text{IDF}(t) = \log \frac{N}{n_t}\), donde \(N\) = número de documentos, \(n_t\) = documentos que contienen \(t\).
+- Términos raros (en pocos documentos) tienen mayor IDF.
+
+**** Peso TF-IDF
+\[
+w_{t,d} = \text{TF}(t,d) \times \text{IDF}(t)
+\]
+
+**** Ejemplo numérico TF-IDF
+Corpus: 3 documentos. Término "recuperación":
+- En d1 aparece 3 veces; en d2 aparece 1 vez; en d3 no aparece.
+- \(N = 3\), \(n_{\text{recuperación}} = 2\) (está en d1 y d2).
+- \(\text{IDF}(\text{recuperación}) = \log \frac{3}{2} \approx 0.41\).
+
+Para d1: \(\text{TF} = 3\) (o \(\log(1+3)\) si se suaviza). Peso \(\approx 3 \times 0.41 \approx 1.23\).
+Para d2: \(\text{TF} = 1\). Peso \(\approx 1 \times 0.41 \approx 0.41\).
+
+El término "recuperación" aporta más peso en d1 que en d2 porque es más frecuente
+en d1; y aporta más que un término que aparezca en los 3 documentos (IDF menor).
+
+*** Modelo probabilístico (BM25, etc.)
+
+**** Idea
+- Estimar la probabilidad de que un documento sea relevante dada la consulta.
+- Ordenar por \(P(\text{relevante} \mid d, q)\).
+
+**** BM25
+- Extensión del modelo probabilístico; muy usado en práctica.
+- Incorpora longitud del documento (penalización por documentos muy largos).
+- Parámetros: \(k_1\), \(b\) para ajustar saturación de TF y efecto de la longitud.
+
+**** Ejemplo intuitivo BM25
+Documento A: 50 palabras, "recuperación" aparece 2 veces.
+Documento B: 500 palabras, "recuperación" aparece 10 veces.
+
+En TF bruto, B tendría mayor TF. Pero BM25:
+- Satura el TF: 10 apariciones no aportan 5 veces más que 2 (crecimiento sublineal).
+- Penaliza por longitud: un documento muy largo tiene más probabilidad de contener
+  el término por casualidad; BM25 reduce el peso según la longitud respecto a la
+  media del corpus. Así, un documento corto y focalizado (A) puede rankear más alto.
+
+*** Modelos basados en lenguaje (Language Models)
+
+**** Idea
+- Modelar cada documento como una distribución de probabilidad sobre términos (language model).
+- La consulta se "genera" con cierta probabilidad desde el modelo del documento.
+- Ranking por \(P(q \mid d)\) o variantes (e.g. mezcla con modelo de colección).
+
+**** Ventajas
+- Base teórica sólida (probabilidad).
+- Permite suavizado (smoothing) para términos no vistos.
+
+*** Resumen comparativo
+
+| Modelo        | Ranking | Complejidad | Uso típico           |
+|---------------+---------+-------------+----------------------|
+| Booleano      | No      | Baja        | Sistemas legados     |
+| Vectorial     | Sí      | Media       | General, TF-IDF       |
+| Probabilístico| Sí      | Media       | BM25 en Elasticsearch |
+| Language Model| Sí      | Mayor       | Investigación, NLP    |
+
+** Evaluación de la recuperación
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+La evaluación permite comparar sistemas o configuraciones y decidir mejoras.
+
+*** Conjuntos de prueba (test collections)
+
+**** Componentes
+1. *Corpus*: conjunto de documentos.
+2. *Consultas* (topics): necesidades de información representativas.
+3. *Juicios de relevancia* (qrels): para cada par (consulta, documento), si el documento es relevante o no (idealmente por humanos).
+
+**** Ejemplos de colecciones
+- Cranfield, TREC, CLEF, NTCIR: estándar en investigación.
+- En la industria: datos propios con juicios implícitos (clics, tiempo en página).
+
+**** Ejemplo de colección mínima
+- *Corpus*: 5 documentos d1, d2, d3, d4, d5.
+- *Consulta*: "evaluación de la recuperación".
+- *Juicios de relevancia* (qrels): un evaluador humano indica qué documentos son relevantes:
+  - d1: no relevante.
+  - d2: relevante.
+  - d3: relevante.
+  - d4: no relevante.
+  - d5: relevante.
+  Total relevante = 3 (d2, d3, d5).
+
+*** Métricas principales
+
+**** Precisión (Precision)
+\[
+P = \frac{\text{documentos relevantes recuperados}}{\text{total de documentos recuperados}}
+\]
+- "De lo que devolví, ¿cuánto era relevante?"
+
+**** Recall (Exhaustividad)
+\[
+R = \frac{\text{documentos relevantes recuperados}}{\text{total de documentos relevantes en el corpus}}
+\]
+- "De todo lo relevante, ¿cuánto recuperé?"
+
+**** F1 (F-measure)
+- Media armónica de precisión y recall:
+\[
+F_1 = 2 \frac{P \cdot R}{P + R}
+\]
+
+**** Precisión en k (P@k)
+- Precisión considerando solo los primeros \(k\) resultados.
+- Útil cuando el usuario solo mira los primeros resultados (p. ej. P@10).
+
+**** Ejemplo numérico: precisión, recall, F1, P@k
+Con la colección anterior: 3 documentos relevantes (d2, d3, d5). Supongamos que
+el sistema devuelve, en orden: [d2, d1, d3, d4, d5].
+
+- *Recuperados*: 5. *Relevantes recuperados*: d2, d3, d5 \(\Rightarrow\) 3.
+- Precisión \(P = 3/5 = 0.6\) (de los 5 devueltos, 3 son relevantes).
+- Recall \(R = 3/3 = 1.0\) (recuperamos todos los relevantes).
+- \(F_1 = 2 \cdot \frac{0.6 \cdot 1}{0.6 + 1} = \frac{1.2}{1.6} \approx 0.75\).
+
+P@k:
+- P@1 = 1/1 = 1 (el primero es relevante).
+- P@2 = 1/2 = 0.5 (de los dos primeros, uno es relevante).
+- P@3 = 2/3 \(\approx\) 0.67.
+- P@5 = 3/5 = 0.6.
+
+**** Precisión promedia (AP) y MAP
+- *Average Precision (AP)*: para una consulta, promedio de precisiones en cada punto de recall donde se recupera un documento relevante.
+- *MAP (Mean Average Precision)*: media de AP sobre todas las consultas.
+- Muy usada en competiciones y literatura.
+
+**** Ejemplo: Average Precision (AP)
+Mismo ranking: [d2, d1, d3, d4, d5]; relevantes = {d2, d3, d5}.
+
+En las posiciones 1, 2, 3, 4, 5 vamos marcando si el documento es relevante (R) o no (N):
+pos 1: d2 R \(\rightarrow\) precisión hasta aquí = 1/1 = 1.0
+pos 2: d1 N
+pos 3: d3 R \(\rightarrow\) precisión hasta aquí = 2/3 \(\approx\) 0.67
+pos 4: d4 N
+pos 5: d5 R \(\rightarrow\) precisión hasta aquí = 3/5 = 0.6
+
+AP = promedio de las precisiones en cada "hit" relevante:
+\[
+\text{AP} = \frac{1 + 2/3 + 3/5}{3} = \frac{1 + 0.67 + 0.6}{3} \approx 0.76
+\]
+Un ranking perfecto [d2, d3, d5, ...] tendría AP = 1.0.
+
+**** NDCG (Normalized Discounted Cumulative Gain)
+- Tiene en cuenta la *posición* en el ranking: más relevante arriba es mejor.
+- El "gain" se descuenta según la posición (discounted).
+- NDCG normaliza por el DCG ideal (ranking perfecto).
+- Adecuado cuando hay grados de relevancia (no solo relevante/no relevante).
+
+***** Ejemplo NDCG (intuitivo)
+Supongamos relevancia en escala 0–3: 0 = no relevante, 3 = muy relevante.
+Ranking del sistema: pos1 rel=2, pos2 rel=0, pos3 rel=3, pos4 rel=1.
+
+DCG suma el "gain" (relevancia) descontado por la posición: \(\frac{\text{rel}}{\log_2(\text{pos}+1)}\).
+- Pos 1: \(2/\log_2 2 = 2\)
+- Pos 2: \(0\)
+- Pos 3: \(3/\log_2 4 = 3/2 = 1.5\)
+- Pos 4: \(1/\log_2 5 \approx 0.43\)
+DCG \(\approx 2 + 0 + 1.5 + 0.43 \approx 3.93\).
+
+El DCG ideal ordenaría por relevancia descendente: [3, 2, 1, 0] \(\Rightarrow\) IDCG.
+NDCG = DCG / IDCG (normalizado entre 0 y 1). Así se premia que los más relevantes
+estén arriba en el ranking.
+
+*** Evaluación con usuarios
+
+- *Estudios de usabilidad*: tiempo para completar tareas, satisfacción, número de clics.
+- *A/B testing*: comparar dos versiones del sistema con usuarios reales.
+- *Juicios de relevancia*: coste humano; a veces se usan juicios implícitos (clics, dwell time).
+
+*** Trade-off precisión vs. recall
+
+- Aumentar resultados mostrados \(\Rightarrow\) recall sube, precisión puede bajar.
+- Ser más estricto en el ranking \(\Rightarrow\) precisión sube, recall puede bajar.
+- Depende del dominio: en legal/medicina a veces se prioriza recall; en web comercial, precisión en los primeros resultados.
+
+**** Ejemplo
+#+BEGIN_EXAMPLE
+Corpus: 100 documentos, 10 relevantes para la consulta.
+
+- Si el sistema devuelve solo los 5 primeros y los 5 son relevantes:
+  P = 5/5 = 1.0, R = 5/10 = 0.5 (precisión perfecta, recall bajo).
+
+- Si devuelve 50 documentos y 10 son relevantes:
+  P = 10/50 = 0.2, R = 10/10 = 1.0 (recall perfecto, precisión baja).
+
+- Objetivo típico: devolver unos 10–20 resultados con varios relevantes arriba,
+  equilibrando P y R (p. ej. P@10 alto y recall razonable).
+#+END_EXAMPLE
+
+** Referencias 
+
+- Manning, Raghavan, Schütze: /Information Retrieval: Implementing and Evaluating Search Engines/ (MIT Press).
+- Baeza-Yates, Ribeiro-Neto: /Modern Information Retrieval/ (Addison Wesley).
+- TREC: ~https://trec.nist.gov/~ (benchmarks y métricas).
+
+
+* Ejemplos IRS — Recuperación de información con feeds RSS 
+
+Un *Sistema de Recuperación de Información* (IRS, o IR en inglés) es un sistema
+que permite almacenar, organizar y recuperar documentos (o ítems) relevantes
+ante una *consulta* del usuario. Los componentes típicos son:
+
+1. *Colección*: conjunto de documentos (en nuestras actividades = ítems de feeds RSS).
+2. *Consulta*: necesidad de información expresada por el usuario (query).
+3. *Proceso de recuperación*: matching entre consulta y documentos (ranking, filtrado).
+4. *Interfaz*: forma en que el usuario formula consultas y ve resultados.
+
+En estas actividades usaremos *feeds RSS* como colección de documentos: cada
+entrada (item) es un “documento” con título, descripción, fecha y enlace.
+Así practicamos extracción, limpieza e indexación como en un IRS real.
+
+** Un buscador introductorio con feeds RSS
+
+En este material construimos un *buscador muy sencillo* que usa *feeds RSS* como
+fuente de documentos: tú escribes una consulta y el sistema te devuelve ítems
+relevantes (título, enlace, fecha). Para que el buscador tenga algo que buscar,
+primero hay que *encontrar URLs de feeds RSS*. Por eso la primera actividad es
+usar *hacks de búsqueda* en Google (o DuckDuckGo, etc.) para descubrir esas
+páginas; después extraemos, limpiamos e indexamos esos feeds y probamos la
+búsqueda.
+
+*** Hacks de búsqueda: encontrar páginas y URLs de feeds RSS
+
+
+El uso de operadores de búsqueda (también conocidos como hacks de
+búsqueda) permite refinar las consultas en buscadores web con el
+objetivo de localizar páginas que publican feeds RSS. Mediante estos
+operadores es posible identificar de forma eficiente las URLs de
+dichos feeds, los cuales constituyen la fuente primaria de documentos
+para el sistema de recuperación de información. Sin una colección de
+feeds RSS adecuadamente identificada, no es posible construir ni
+alimentar el buscador de noticias propuesto.
+
+****  Operadores útiles Google Search
+| Operador       | Ejemplo                 | Descripción                          |
+|----------------+-------------------------+--------------------------------------|
+| site:          | site:bbc.com rss        | Busca RSS dentro de un dominio       |
+| inurl:         | inurl:rss noticias      | Busca URLs que contengan "rss"       |
+| intitle:       | intitle:rss technology  | Busca páginas con "rss" en el título |
+| filetype:      | filetype:xml rss        | Localiza archivos XML (feeds)        |
+| "frase exacta" | "RSS feed" site:news    | Coincidencia exacta                  |
+| OR             | rss OR "xml feed"       | Búsqueda alternativa                 |
+| -              | rss -podcast            | Excluye términos                     |
+| allinurl:      | allinurl:rss feeds news | Todas las palabras en la URL         |
+
+
+**** Operadores útiles DuckDuckGo
+
+| Operador       | Ejemplo              | Descripción                  |
+|----------------+----------------------+------------------------------|
+| site:          | site:reuters.com rss | Limita búsqueda a un dominio |
+| inurl:         | inurl:rss            | Busca "rss" en la URL        |
+| intitle:       | intitle:"rss feed"   | Busca en el título           |
+| filetype:      | filetype:xml rss     | Archivos XML                 |
+| "frase exacta" | "news rss feed"      | Coincidencia exacta          |
+| -              | rss -video           | Excluir términos             |
+
+
+**** Bing Search
+
+| Operador       | Ejemplo             | Descripción               |
+|----------------+---------------------+---------------------------|
+| site:          | site:elpais.com rss | Buscar RSS por dominio    |
+| inurl:         | inurl:feed          | URLs que contienen "feed" |
+| intitle:       | intitle:rss         | Buscar en títulos         |
+| filetype:      | filetype:xml rss    | Feeds XML                 |
+| "frase exacta" | "rss noticias"      | Coincidencia exacta       |
+| -              | rss -audio          | Exclusión                 |
+
+**** Hacks combinados (muy útiles para IRS)
+| Consulta ejemplo          |
+|---------------------------|
+| site:news "rss feed"      |
+| inurl:rss filetype:xml    |
+| site:.org intitle:rss     |
+| site:gov filetype:xml rss |
+| "rss feed" "news"         |
+
+
+
+*** Consultas de ejemplo para probar en el buscador
+
+#+begin_example
+inurl:rss noticias tecnología
+inurl:feed blog educación
+"rss" "suscribirse" site:elpais.com
+filetype:xml rss
+inurl:atom feed
+#+end_example
+
+Desde el punto de vista del IRS, la *consulta* que se escribe en el buscador
+(p. ej. ~inurl:rss noticias~) es la “consulta” del sistema de recuperación; los
+*resultados* que muestra Google (o DuckDuckGo, Bing) son la “interfaz de
+búsqueda”: un listado de documentos (páginas) que el modelo de recuperación del
+buscador consideró relevantes. Las URLs de feeds que el usuario anota pasan a
+ser la *colección* que alimentará el pequeño buscador sobre RSS.
+
+** Extraer datos de un feed RSS y guardarlos
+ 
+En un IRS la *colección* es el conjunto de documentos sobre el que el sistema
+responde a las consultas. Sin colección no hay recuperación. En nuestro caso,
+los “documentos” son los *ítems de un feed RSS*: cada entrada del feed (título,
+enlace, fecha, resumen) equivale a un documento indexable. Extraer esos ítems
+y representarlos en una estructura uniforme (p. ej. lista de diccionarios) es
+el primer paso para que el IRS pueda comparar después la consulta del usuario
+contra cada documento. Los feeds RSS son idóneos porque ya vienen estructurados
+(XML con ~<item>~ o entradas Atom), con campos de texto (título, descripción)
+que el IRS puede usar para búsqueda.
+
+- *IRS — Colección*: la lista de ítems extraídos del feed *es* la colección del
+  sistema.
+- *RSS*: el feed es la fuente externa; cada ~entry~ o ~<item>~ es un documento.
+- *Código*: descargar el feed (HTTP), parsear el XML y mapear cada ítem a
+  campos (título, link, fecha, resumen) construye esa colección en memoria.
+
+La función ~fetch_rss(url, max_entries)~ recibe la URL del feed y un límite de
+entradas. ~feedparser.parse(url)~ descarga y parsea el feed (RSS o Atom) y
+devuelve un objeto con ~.entries~: lista de ítems. Para cada entrada se
+extraen ~title~, ~link~, ~published~ (o ~updated~) y ~summary~ (o ~description~).
+Esos campos son los que un IRS necesita para identificar el documento y para
+indexar texto (título y resumen). El resultado es una lista de diccionarios:
+cada uno representa *un documento de la colección*. Si hay error de red o XML
+inválido, se devuelve un ítem con ~error~ para no romper el flujo. Al final,
+~items~ es la colección sobre la que más adelante se aplicará la consulta.
+
+#+begin_src python :session irs :results output :exports both
+import feedparser
+import json
+
+def fetch_rss(url, max_entries=20):
+    """Extrae ítems de un feed RSS/Atom. Devuelve lista de diccionarios."""
+    try:
+        feed = feedparser.parse(url)
+        items = []
+        for e in feed.entries[:max_entries]:
+            items.append({
+                "title": e.get("title", ""),
+                "link": e.get("link", ""),
+                "published": e.get("published", e.get("updated", "")),
+                "summary": e.get("summary", e.get("description", "")),
+            })
+        return items
+    except Exception as err:
+        return [{"error": str(err), "url": url}]
+
+url = "https://pyfound.blogspot.com/feeds/posts/default?alt=rss"
+items = fetch_rss(url, max_entries=15)
+print(json.dumps(items, indent=2, ensure_ascii=False))
+#+end_src
+
+** Limpieza de texto (normalización para el IRS)
+  
+Los feeds RSS suelen incluir en título y resumen *HTML* (etiquetas ~<p>~, ~<a>~,
+etc.), mayúsculas/minúsculas mezcladas y signos de puntuación. Si el IRS
+busca la palabra “python” en el texto crudo, no encontrará “Python” ni
+“<em>python</em>”. La *normalización* (limpieza) hace que todos los documentos
+y la consulta compartan el mismo “alfabeto”: minúsculas, sin HTML, sin
+caracteres que no aporten para la búsqueda. Así la comparación consulta–documento
+es consistente y el *modelo booleano* (palabras exactas) y el *vectorial* (conteo
+de términos) pueden aplicarse sobre una representación uniforme del texto.
+
+
+- *IRS*: la normalización es una etapa típica de *indexación*; el índice se
+  construye sobre el texto limpio, no sobre el raw.
+- *RSS*: los campos ~title~ y ~summary~/~description~ suelen venir en HTML;
+  ~text_clean~ es la versión “indexable” de ese contenido.
+- *Código*: ~clean_text~ transforma una cadena en texto normalizado;
+  ~normalize_items~ añade a cada documento de la colección el campo ~text_clean~
+  (título + resumen concatenados y limpios).
+
+clean_text(text)~: (1) quita etiquetas HTML con ~re.sub(r"<[^>]+>", " ", text)~;
+(2) deja solo letras, números y espacios con ~re.sub(r"[^\w\s]", " ", text,
+flags=re.UNICODE)~; (3) colapsa espacios y pasa a minúsculas con
+~.strip().lower()~. El resultado es una sola cadena en minúsculas, sin HTML ni
+puntuación, lista para comparar con la consulta. ~normalize_items(items)~
+recorre cada ítem de la colección, concatena título y resumen limpios en
+~text_clean~ y modifica el ítem in-place. A partir de aquí, la *recuperación*
+(booleana o rankeada) usará ~text_clean~, no el título/resumen originales.
+Así se garantiza que la búsqueda “python” coincida con “Python” en el feed.
+
+#+begin_src python :session irs :results output :exports both
+import re
+
+def clean_text(text):
+    """Limpieza básica: quitar tags HTML, solo letras y espacios, minúsculas."""
+    if not text:
+        return ""
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"[^\w\s]", " ", text, flags=re.UNICODE)
+    text = re.sub(r"\s+", " ", text).strip().lower()
+    return text
+
+def normalize_items(items):
+    """Añade campo 'text_clean' a cada ítem (título + resumen limpios)."""
+    for it in items:
+        if "error" in it:
+            continue
+        title = it.get("title", "")
+        summary = it.get("summary", "")
+        it["text_clean"] = clean_text(title) + " " + clean_text(summary)
+    return items
+
+items_norm = normalize_items(items)
+for i, it in enumerate(items_norm[:3]):
+    if "error" not in it:
+        print("--- Ítem", i+1, "---")
+        print("text_clean:", it.get("text_clean", "")[:200], "...")
+        print()
+#+end_src
+
+** Modelo booleano: búsqueda por palabras clave
+
+
+En el *modelo booleano* de recuperación, cada documento es *relevante* o *no
+relevante* según cumpla o no una expresión lógica sobre los términos (AND, OR,
+NOT). No hay “más o menos relevante”: es un filtro. Es el modelo más directo
+para consultas del tipo “quiero ítems que contengan *todas* estas palabras”.
+Sobre la colección de ítems RSS normalizados (~text_clean~), una búsqueda AND
+equivale a: “devolver solo los documentos cuyo ~text_clean~ contiene cada
+palabra de la consulta”. Así el IRS aplica el *proceso de recuperación*:
+comparar la *consulta* (query) con cada *documento* de la colección y decidir
+sí/no según el criterio booleano.
+
+- *IRS — Proceso de recuperación*: la función que compara consulta y documentos
+  implementa el *modelo booleano* (AND).
+- *Consulta*: la cadena que escribe el usuario (p. ej. “python software”) se
+  normaliza igual que los documentos y se divide en palabras; cada palabra debe
+  aparecer en ~text_clean~.
+- *RSS*: cada ítem del feed es un documento; el campo ~text_clean~ (título +
+  resumen limpios) es el texto sobre el que se hace la comparación.
+
+search_boolean_and(items, query)~ recibe la colección (lista de ítems con
+~text_clean~) y la consulta en lenguaje natural. Primero se *normaliza la
+consulta* con ~clean_text(query).split()~: mismas reglas que los documentos,
+para que “Python Software” y “python software” den las mismas palabras. Luego
+se recorre cada ítem: si ~text_clean~ contiene *todas* las palabras de la
+consulta (~all(w in text for w in words)~), el documento se considera relevante
+y se añade a ~results~. La lista devuelta es el *conjunto recuperado*: documentos
+que pasan el filtro booleano. No hay orden de relevancia; si se quisiera
+ordenar, se usaría un modelo con score (p. ej. el ranking siguiente).
+
+#+begin_src python :session irs :results output :exports both
+def search_boolean_and(items, query):
+    """Recupera ítems donde text_clean contiene TODAS las palabras de query."""
+    words = clean_text(query).split()
+    results = []
+    for it in items:
+        if "error" in it:
+            continue
+        text = it.get("text_clean", "")
+        if all(w in text for w in words):
+            results.append(it)
+    return results
+
+query = "python software"
+found = search_boolean_and(items_norm, query)
+print("Consulta:", repr(query))
+print("Resultados:", len(found))
+for it in found[:5]:
+    print("-", it.get("title", "")[:60])
+#+end_src
+
+** Ranking simple (modelo tipo vectorial)
+ 
+El modelo booleano devuelve un conjunto sin orden: todos los documentos
+recuperados son “igual de relevantes”. En la práctica el usuario espera ver
+*primero* los más relevantes. El *modelo vectorial* (y variantes) asigna a
+cada documento un *score* de relevancia y ordena por ese score. Una
+simplificación muy usada es contar cuántas veces aparecen los términos de la
+consulta en el documento (*term frequency*, TF): más apariciones suelen indicar
+mayor relevancia. Así el IRS no solo filtra (sí/no) sino que *rankea* los
+resultados; la interfaz puede mostrar los ~top_k~ primeros. En feeds RSS, los
+ítems con más menciones de las palabras buscadas en título y resumen aparecen
+arriba.
+
+- *IRS — Modelo de recuperación*: aquí se implementa un *ranking* inspirado en
+  el modelo vectorial (score por conteo de términos en ~text_clean~).
+- *Consulta*: se normaliza y se divide en palabras; cada palabra contribuye al
+  score del documento.
+- *RSS*: cada ítem tiene ~text_clean~; el score es la suma de las frecuencias
+  de los términos de la consulta en ese texto. Los ítems se ordenan por score
+  descendente.
+
+search_ranked(items, query, top_k)~ recibe la colección normalizada, la
+consulta y cuántos resultados devolver. Para cada ítem se calcula ~score~ como
+~sum(text.split().count(w) for w in words)~: número total de apariciones de
+cualquier término de la consulta en ~text_clean~. Solo se consideran documentos
+con score > 0. Se ordena la lista ~(score, ítem)~ por score descendente
+(~key=lambda x: -x[0]~) y se devuelven los primeros ~top_k~ ítems. Así la
+salida es una *lista ordenada por relevancia*: el primer elemento es el que más
+coincide con la consulta. Es una versión simplificada de TF (sin IDF ni
+normalización por longitud); suficiente para ilustrar el concepto de ranking
+en un IRS sobre feeds RSS.
+
+#+begin_src python :session irs :results output :exports both
+def search_ranked(items, query, top_k=10):
+    """Recupera ítems rankeados por número de apariciones de términos de la consulta."""
+    words = clean_text(query).split()
+    if not words:
+        return []
+    scored = []
+    for it in items:
+        if "error" in it:
+            continue
+        text = it.get("text_clean", "")
+        score = sum(text.split().count(w) for w in words)
+        if score > 0:
+            scored.append((score, it))
+    scored.sort(key=lambda x: -x[0])
+    return [it for _, it in scored[:top_k]]
+
+query2 = "python release"
+ranked = search_ranked(items_norm, query2, top_k=5)
+print("Consulta:", repr(query2))
+for i, it in enumerate(ranked, 1):
+    title = it.get("title", "")[:55]
+    print(i, "-", title)
+#+end_src
+
+** Interfaz de resultados
+  
+En un IRS la *interfaz* es el medio por el que el usuario formula la consulta
+y *ve los resultados*. Sin una presentación clara de los documentos recuperados,
+el sistema no es usable. En un buscador web típico la interfaz muestra título,
+enlace, fecha y a veces un snippet. En nuestro flujo con feeds RSS y Org-mode,
+la “pantalla” de resultados puede ser una *tabla Org*: cada fila es un ítem
+recuperado (por búsqueda booleana o rankeada), con columnas como número de
+orden, título, URL y fecha. Así se cierra el ciclo IRS: colección → consulta →
+recuperación → *presentación* al usuario.
+
+- *IRS — Interfaz*: la tabla generada es la *vista de resultados* del sistema;
+  el usuario ve qué documentos se recuperaron y puede acceder al enlace (RSS
+  ~link~) de cada ítem.
+- *RSS*: los campos mostrados (título, enlace, fecha) vienen directamente del
+  feed; el orden de las filas viene del *modelo de recuperación* (ranking o
+  filtro booleano).
+- *Código*: ~results_to_org_table~ transforma la lista de ítems (salida de
+  ~search_ranked~ o ~search_boolean_and~) en líneas de tabla Org.
+
+results_to_org_table(items_list)~ recibe la lista de ítems ya recuperados
+(ordenados por score si vienen de ~search_ranked~). Construye la cabecera de
+la tabla Org (~| # | Título | Enlace | Fecha |~) y el separador (~|---+...~).
+Para cada ítem añade una fila: posición (~i~), título truncado a 50 caracteres,
+~link~ (URL del ítem en el feed) y fecha truncada a 20 caracteres. El resultado
+es una cadena con las líneas de la tabla; en Org-mode se puede insertar en el
+buffer o exportar. Así el documento Org actúa como “pantalla” del IRS: el usuario
+ve el listado rankeado de ítems RSS con enlaces clicables.
+
+#+begin_src python :session irs :results value :exports both
+def results_to_org_table(items_list):
+    """Genera líneas de tabla Org (| col1 | col2 | col3 |)."""
+    lines = ["| # | Título | Enlace | Fecha |", "|---+--------+--------+-------|"]
+    for i, it in enumerate(items_list, 1):
+        if "error" in it:
+            continue
+        title = (it.get("title", "") or "")[:50]
+        link = it.get("link", "")
+        pub = (it.get("published", "") or "")[:20]
+        lines.append(f"| {i} | {title} | {link} | {pub} |")
+    return "\n".join(lines)
+
+org_table = results_to_org_table(ranked)
+print(org_table)
+#+end_src
+
+** Pipeline completo del IRS con RSS
+
+Un IRS real encadena varias etapas: obtener la colección, indexar/normalizar,
+recibir la consulta, aplicar el modelo de recuperación y presentar los
+resultados. Integrar todo en un *pipeline* (una sola función o flujo) permite
+ver de un vistazo cómo se relacionan los componentes del IRS con los feeds RSS:
+URL del feed → colección; consulta del usuario → proceso de recuperación;
+lista rankeada → interfaz (tabla). Así se evidencia que el IRS no es solo
+“búsqueda”, sino *colección + consulta + modelo + interfaz*.
+
+*** Relación IRS ↔ feeds RSS en el pipeline
+| Componente IRS      | En el pipeline con RSS                          |
+|---------------------+-------------------------------------------------|
+| Colección           | ~fetch_rss(feed_url)~ → ítems del feed          |
+| Normalización       | ~normalize_items(raw)~ → ~text_clean~ por ítem |
+| Consulta            | Parámetro ~query~ (cadena del usuario)           |
+| Modelo recuperación | ~search_ranked(normalized, query, top_k)~       |
+| Interfaz            | ~results_to_org_table(resultados)~ → tabla Org  |
+
+*** Explicación del código
+~irs_pipeline(feed_url, query, max_entries, top_k)~ encadena: (1) ~fetch_rss~
+descarga y parsea el feed y devuelve la lista de ítems (colección en bruto);
+(2) si hay error, se devuelve el mensaje; (3) ~normalize_items~ añade
+~text_clean~ a cada ítem; (4) ~search_ranked~ aplica el modelo de recuperación
+(ranking por conteo de términos) y devuelve los ~top_k~ ítems más relevantes;
+(5) opcionalmente se pasa esa lista a ~results_to_org_table~ para generar la
+vista. Una sola llamada con URL de feed y consulta produce la tabla de
+resultados que el usuario vería en la interfaz. Así queda explícito el flujo
+completo: feed RSS → colección → normalización → consulta → ranking →
+presentación.
+
+#+begin_src python :session irs :results output :exports both
+def irs_pipeline(feed_url, query, max_entries=20, top_k=5):
+    """Pipeline: fetch → normalizar → búsqueda rankeada → resultados."""
+    raw = fetch_rss(feed_url, max_entries=max_entries)
+    if raw and "error" in raw[0]:
+        return raw
+    normalized = normalize_items(raw)
+    results = search_ranked(normalized, query, top_k=top_k)
+    return results
+
+url_ejemplo = "https://pyfound.blogspot.com/feeds/posts/default?alt=rss"
+consulta = "python foundation"
+resultados = irs_pipeline(url_ejemplo, consulta, max_entries=15, top_k=5)
+print("Feed:", url_ejemplo)
+print("Consulta:", consulta)
+print(results_to_org_table(resultados))
+#+end_src
+
+
+
+

@@ -1,0 +1,2628 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<head>
+<!-- 2026-02-04 mié 07:31 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Apuntes de Recuperación de Información Web</title>
+<meta name="author" content="Eduardo Alcaraz" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style>pre.src {background-color: #303030; color: #e5e5e5;}</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Apuntes de Recuperación de Información Web</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>&Iacute;ndice</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org609d634">Instalación de requerimientos</a>
+<ul>
+<li><a href="#orgf5382e7">Verificación de Python</a></li>
+<li><a href="#org0da280f">Creación del entorno virtual</a></li>
+<li><a href="#org2c9d22d">Activación del entorno virtual</a>
+<ul>
+<li><a href="#orge6e4560">GNU/Linux y macOS</a></li>
+<li><a href="#orgb3946e0">Windows – Símbolo del sistema (CMD)</a></li>
+<li><a href="#org3205bdd">Windows – PowerShell</a></li>
+<li><a href="#org0dba58e">Windows – Git Bash</a></li>
+</ul>
+</li>
+<li><a href="#org903c9d8">Actualización del gestor de paquetes</a></li>
+<li><a href="#org295f271">Instalación de dependencias</a></li>
+<li><a href="#orgf476058">Verificación de la instalación</a></li>
+<li><a href="#orgd7f6ea6">Desactivación del entorno virtual</a></li>
+</ul>
+</li>
+<li><a href="#orgee4d35f">Manual de Entornos Virtuales en Python</a>
+<ul>
+<li><a href="#orgcb292c0">Introducción</a></li>
+<li><a href="#org0b8c713">Flujo de Trabajo Básico</a>
+<ul>
+<li><a href="#orgd2fbb55">1. Creación del entorno</a></li>
+<li><a href="#org29c0602">2. Activación</a></li>
+</ul>
+</li>
+<li><a href="#org6d623b0">Gestión de paquetes</a></li>
+<li><a href="#org7a7704c">El archivo de Requerimientos</a></li>
+<li><a href="#org4c38c0f">Exportar dependencias</a></li>
+<li><a href="#org15aa176">Instalar desde el archivo</a></li>
+<li><a href="#orgaccc41a">Tips de Limpieza</a></li>
+<li><a href="#org7d806f8">Entornos Virtuales Python (Edición Windows)</a></li>
+<li><a href="#org2b8aad1">Requisitos Previos</a></li>
+<li><a href="#orgf8bd6ea">Flujo de Trabajo en Windows</a>
+<ul>
+<li><a href="#orgba0584d">1. Crear el Entorno Virtual</a></li>
+<li><a href="#org513806b">2. El Paso Crítico: La Activación</a></li>
+<li><a href="#org3ebc8fc">3. Confirmación</a></li>
+</ul>
+</li>
+<li><a href="#org89b2b04">Gestión de Librerías con PIP</a>
+<ul>
+<li><a href="#orgc79ce6f">Instalación de paquetes</a></li>
+<li><a href="#org693f6a8">Congelar dependencias (Compartir proyecto)</a></li>
+<li><a href="#org1081876">Instalar desde un archivo recibido</a></li>
+</ul>
+</li>
+<li><a href="#org979d67e">Uso de Entornos en Emacs (Windows)</a>
+<ul>
+<li><a href="#orga6141ab">Instalación del paquete pyvenv</a></li>
+<li><a href="#org326fa4f">Cómo activarlo dentro de Emacs</a></li>
+</ul>
+</li>
+<li><a href="#org162091c">Solución de Problemas Comunes en Windows</a></li>
+<li><a href="#org5e59b56">Desactivación y Limpieza</a></li>
+<li><a href="#org20b451b">Agregar a jupyter notebook</a></li>
+</ul>
+</li>
+<li><a href="#org1f8c669">Sistemas de recuperación de información</a>
+<ul>
+<li><a href="#org4211806">Introducción a los sistemas de recuperación de información (IRS)</a>
+<ul>
+<li><a href="#orgf2bd863">Definición y alcance</a></li>
+<li><a href="#org54c70fb">Objetivo fundamental</a></li>
+<li><a href="#org47e30b9">Componentes típicos de un IRS</a></li>
+<li><a href="#orgd53b449">Aplicaciones</a></li>
+<li><a href="#org2db3dc2">Ejemplo de flujo completo en un IRS</a></li>
+</ul>
+</li>
+<li><a href="#org8a07006">Interfaces de usuario para búsqueda</a>
+<ul>
+<li><a href="#orgcef067f">Funciones de la interfaz</a></li>
+<li><a href="#org57b7ade">Tipos de interfaces</a></li>
+<li><a href="#org8d634c3">Elementos de presentación de resultados</a></li>
+<li><a href="#orge6beb46">Usabilidad y experiencia de usuario</a></li>
+</ul>
+</li>
+<li><a href="#orga9b01ab">Modelos de recuperación de información</a>
+<ul>
+<li><a href="#orgfccb372">Modelo booleano</a></li>
+<li><a href="#org307edd6">Modelo vectorial</a></li>
+<li><a href="#org951a4d4">TF-IDF (Term Frequency - Inverse Document Frequency)</a></li>
+<li><a href="#org80b6b08">Modelo probabilístico (BM25, etc.)</a></li>
+<li><a href="#org968df02">Modelos basados en lenguaje (Language Models)</a></li>
+<li><a href="#orge0b1a0d">Resumen comparativo</a></li>
+</ul>
+</li>
+<li><a href="#org7860e1a">Evaluación de la recuperación</a>
+<ul>
+<li><a href="#orgff181d0">Conjuntos de prueba (test collections)</a></li>
+<li><a href="#org9ce2118">Métricas principales</a></li>
+<li><a href="#orgff938c4">Evaluación con usuarios</a></li>
+<li><a href="#org77ae6f2">Trade-off precisión vs. recall</a></li>
+</ul>
+</li>
+<li><a href="#orgc7568d3">Referencias</a></li>
+</ul>
+</li>
+<li><a href="#orgd37bbd1">Ejemplos IRS — Recuperación de información con feeds RSS</a>
+<ul>
+<li><a href="#org9e9ddc4">Un buscador introductorio con feeds RSS</a>
+<ul>
+<li><a href="#orgd1f58af">Hacks de búsqueda: encontrar páginas y URLs de feeds RSS</a></li>
+<li><a href="#org7cbaf8d">Consultas de ejemplo para probar en el buscador</a></li>
+</ul>
+</li>
+<li><a href="#org0a8d841">Extraer datos de un feed RSS y guardarlos</a></li>
+<li><a href="#org90ee432">Limpieza de texto (normalización para el IRS)</a></li>
+<li><a href="#org9e307be">Modelo booleano: búsqueda por palabras clave</a></li>
+<li><a href="#orgabc0322">Ranking simple (modelo tipo vectorial)</a></li>
+<li><a href="#org77ffb20">Interfaz de resultados</a></li>
+<li><a href="#org09caaed">Pipeline completo del IRS con RSS</a>
+<ul>
+<li><a href="#orgb9ba652">Relación IRS ↔ feeds RSS en el pipeline</a></li>
+<li><a href="#org3147768">Explicación del código</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org609d634" class="outline-2">
+<h2 id="org609d634">Instalación de requerimientos</h2>
+<div class="outline-text-2" id="text-org609d634">
+</div>
+<div id="outline-container-orgf5382e7" class="outline-3">
+<h3 id="orgf5382e7">Verificación de Python</h3>
+<div class="outline-text-3" id="text-orgf5382e7">
+<p>
+Antes de instalar las dependencias, verifique que el sistema cuente con Python
+versión 3.9 o superior.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python --version
+</pre>
+</div>
+
+<p>
+En caso de que el comando anterior no esté disponible, intente:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python3 --version
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0da280f" class="outline-3">
+<h3 id="org0da280f">Creación del entorno virtual</h3>
+<div class="outline-text-3" id="text-org0da280f">
+<p>
+Se recomienda crear un entorno virtual para aislar las dependencias del proyecto
+y evitar conflictos entre versiones de librerías.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python -m venv mlp_env
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2c9d22d" class="outline-3">
+<h3 id="org2c9d22d">Activación del entorno virtual</h3>
+<div class="outline-text-3" id="text-org2c9d22d">
+<p>
+La activación del entorno virtual depende del sistema operativo y del intérprete
+de comandos utilizado.
+</p>
+</div>
+<div id="outline-container-orge6e4560" class="outline-4">
+<h4 id="orge6e4560">GNU/Linux y macOS</h4>
+<div class="outline-text-4" id="text-orge6e4560">
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #fe8019;">source</span> mlp_env/bin/activate
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb3946e0" class="outline-4">
+<h4 id="orgb3946e0">Windows – Símbolo del sistema (CMD)</h4>
+<div class="outline-text-4" id="text-orgb3946e0">
+<p>
+Si se utiliza el <b>Símbolo del sistema</b> (cmd.exe), ejecute:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bat">mlp_env\Scripts\activate.bat
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3205bdd" class="outline-4">
+<h4 id="org3205bdd">Windows – PowerShell</h4>
+<div class="outline-text-4" id="text-org3205bdd">
+<p>
+Si se utiliza <b>Windows PowerShell</b>, ejecute:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-powershell">mlp_env\Scripts\Activate.ps1
+</pre>
+</div>
+
+<p>
+En caso de que la ejecución de scripts esté deshabilitada, habilítela
+temporalmente con:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-powershell">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+</pre>
+</div>
+
+<p>
+Posteriormente, vuelva a ejecutar el comando de activación.
+</p>
+</div>
+</div>
+<div id="outline-container-org0dba58e" class="outline-4">
+<h4 id="org0dba58e">Windows – Git Bash</h4>
+<div class="outline-text-4" id="text-org0dba58e">
+<p>
+Si se utiliza <b>Git Bash</b>, ejecute:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #fe8019;">source</span> mlp_env/Scripts/activate
+</pre>
+</div>
+
+<p>
+Una vez activado el entorno virtual, el nombre del entorno aparecerá entre
+paréntesis al inicio de la línea de comandos.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org903c9d8" class="outline-3">
+<h3 id="org903c9d8">Actualización del gestor de paquetes</h3>
+<div class="outline-text-3" id="text-org903c9d8">
+<p>
+Antes de instalar las librerías, se recomienda actualizar el gestor de paquetes
+<code>pip</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">pip install --upgrade pip
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org295f271" class="outline-3">
+<h3 id="org295f271">Instalación de dependencias</h3>
+<div class="outline-text-3" id="text-org295f271">
+<p>
+Ejecute el siguiente comando para instalar los requerimientos del módulo
+Perceptrón Multicapa <b>feedforward</b>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">pip install numpy matplotlib scikit-learn feedparser
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf476058" class="outline-3">
+<h3 id="orgf476058">Verificación de la instalación</h3>
+<div class="outline-text-3" id="text-orgf476058">
+<p>
+Para verificar que las dependencias se instalaron correctamente, ejecute Python
+en modo interactivo:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python
+</pre>
+</div>
+
+<p>
+Posteriormente, importe las librerías:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #fb4934;">import</span> numpy
+<span style="color: #fb4934;">import</span> matplotlib
+<span style="color: #fb4934;">import</span> sklearn
+<span style="color: #fb4934;">import</span> feedparser
+<span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"Instalaci&#243;n de requerimientos completada correctamente"</span><span style="color: #fe8019;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd7f6ea6" class="outline-3">
+<h3 id="orgd7f6ea6">Desactivación del entorno virtual</h3>
+<div class="outline-text-3" id="text-orgd7f6ea6">
+<p>
+Una vez finalizado el trabajo, el entorno virtual puede desactivarse con el
+siguiente comando:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">deactivate
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgee4d35f" class="outline-2">
+<h2 id="orgee4d35f">Manual de Entornos Virtuales en Python</h2>
+<div class="outline-text-2" id="text-orgee4d35f">
+</div>
+<div id="outline-container-orgcb292c0" class="outline-3">
+<h3 id="orgcb292c0">Introducción</h3>
+<div class="outline-text-3" id="text-orgcb292c0">
+<p>
+El uso de entornos virtuales es esencial para mantener las
+dependencias de tus proyectos aisladas. En este manual aprenderás a
+gestionarlos usando el módulo estándar <code>venv</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org0b8c713" class="outline-3">
+<h3 id="org0b8c713">Flujo de Trabajo Básico</h3>
+<div class="outline-text-3" id="text-org0b8c713">
+</div>
+<div id="outline-container-orgd2fbb55" class="outline-4">
+<h4 id="orgd2fbb55">1. Creación del entorno</h4>
+<div class="outline-text-4" id="text-orgd2fbb55">
+<p>
+Para crear un entorno virtual, navega a la raíz de tu proyecto en la terminal (o dentro de un buffer de Emacs con <code>M-x shell</code>) y ejecuta:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python -m venv .venv
+</pre>
+</div>
+
+<p>
+<b>Nota:</b> El nombre <code>.venv</code> es una convención que hace que el directorio sea oculto en sistemas Unix.
+</p>
+</div>
+</div>
+<div id="outline-container-org29c0602" class="outline-4">
+<h4 id="org29c0602">2. Activación</h4>
+<div class="outline-text-4" id="text-org29c0602">
+<p>
+La activación depende de tu sistema operativo:
+</p>
+</div>
+<ul class="org-ul">
+<li><a id="orgd8560aa"></a>En Windows (PowerShell)<br />
+<div class="outline-text-5" id="text-orgd8560aa">
+<div class="org-src-container">
+<pre class="src src-powershell">.\.venv\Scripts\Activate.ps1
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org2b8e41a"></a>En macOS / Linux<br />
+<div class="outline-text-5" id="text-org2b8e41a">
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #fe8019;">source</span> .venv/bin/activate
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org6d623b0" class="outline-3">
+<h3 id="org6d623b0">Gestión de paquetes</h3>
+<div class="outline-text-3" id="text-org6d623b0">
+<p>
+Una vez activado (verás el prefijo <code>(.venv)</code> en tu prompt), puedes instalar librerías:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">pip install requests pandas
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7a7704c" class="outline-3">
+<h3 id="org7a7704c">El archivo de Requerimientos</h3>
+<div class="outline-text-3" id="text-org7a7704c">
+<p>
+Es fundamental para la reproducibilidad del proyecto.
+</p>
+</div>
+</div>
+<div id="outline-container-org4c38c0f" class="outline-3">
+<h3 id="org4c38c0f">Exportar dependencias</h3>
+<div class="outline-text-3" id="text-org4c38c0f">
+<div class="org-src-container">
+<pre class="src src-bash">pip freeze &gt; requirements.txt
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org15aa176" class="outline-3">
+<h3 id="org15aa176">Instalar desde el archivo</h3>
+<div class="outline-text-3" id="text-org15aa176">
+<div class="org-src-container">
+<pre class="src src-bash">pip install -r requirements.txt
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaccc41a" class="outline-3">
+<h3 id="orgaccc41a">Tips de Limpieza</h3>
+<div class="outline-text-3" id="text-orgaccc41a">
+<p>
+Para salir del entorno virtual:
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">deactivate
+</pre>
+</div>
+
+<p>
+Para borrar el entorno, simplemente elimina la carpeta:
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">rm -rf .venv  <span style="color: #928374;"># </span><span style="color: #928374;">En Linux/macOS
+</span>rmdir /s /q .venv  <span style="color: #928374;"># </span><span style="color: #928374;">En Windows</span>
+</pre>
+</div>
+
+<p>
+&#x2014;
+</p>
+<blockquote>
+<p>
+"Keep your global Python clean, keep your projects isolated."
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org7d806f8" class="outline-3">
+<h3 id="org7d806f8">Entornos Virtuales Python (Edición Windows)</h3>
+</div>
+
+<div id="outline-container-org2b8aad1" class="outline-3">
+<h3 id="org2b8aad1">Requisitos Previos</h3>
+<div class="outline-text-3" id="text-org2b8aad1">
+<ol class="org-ol">
+<li>Tener instalado Python (descargado de <a href="https://www.python.org/">python.org</a> o la Microsoft Store).</li>
+<li>Durante la instalación, asegúrate de marcar la casilla: <b><b>"Add Python to PATH"</b></b>.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgf8bd6ea" class="outline-3">
+<h3 id="orgf8bd6ea">Flujo de Trabajo en Windows</h3>
+<div class="outline-text-3" id="text-orgf8bd6ea">
+</div>
+<div id="outline-container-orgba0584d" class="outline-4">
+<h4 id="orgba0584d">1. Crear el Entorno Virtual</h4>
+<div class="outline-text-4" id="text-orgba0584d">
+<p>
+Abre tu terminal (PowerShell o CMD) en la carpeta de tu proyecto. El comando es el mismo para ambos:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-powershell">python -m venv venv
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org513806b" class="outline-4">
+<h4 id="org513806b">2. El Paso Crítico: La Activación</h4>
+<div class="outline-text-4" id="text-org513806b">
+<p>
+En Windows, la activación depende de qué terminal estés usando.
+</p>
+</div>
+<ul class="org-ul">
+<li><a id="org7e4ccf2"></a>Opción A: PowerShell (Recomendado)<br />
+<div class="outline-text-5" id="text-org7e4ccf2">
+<p>
+Si es la primera vez que usas scripts en Windows, podrías recibir un error de seguridad. Primero, ejecuta esto como administrador (solo una vez):
+</p>
+<div class="org-src-container">
+<pre class="src src-powershell">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+</pre>
+</div>
+
+<p>
+Luego, para activar el entorno:
+</p>
+<div class="org-src-container">
+<pre class="src src-powershell">.\venv\Scripts\Activate.ps1
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org7a653be"></a>Opción B: Símbolo del Sistema (CMD)<br />
+<div class="outline-text-5" id="text-org7a653be">
+<div class="org-src-container">
+<pre class="src src-cmd">.\venv\Scripts\activate.bat
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org3ebc8fc" class="outline-4">
+<h4 id="org3ebc8fc">3. Confirmación</h4>
+<div class="outline-text-4" id="text-org3ebc8fc">
+<p>
+Sabrás que el entorno está activo porque el nombre <code>(venv)</code> aparecerá a la izquierda de la ruta en tu terminal:
+#+example
+(venv) C:\Proyectos\MiProyecto&gt;
+#+example
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org89b2b04" class="outline-3">
+<h3 id="org89b2b04">Gestión de Librerías con PIP</h3>
+<div class="outline-text-3" id="text-org89b2b04">
+</div>
+<div id="outline-container-orgc79ce6f" class="outline-4">
+<h4 id="orgc79ce6f">Instalación de paquetes</h4>
+<div class="outline-text-4" id="text-orgc79ce6f">
+<p>
+Una vez activo el entorno, instala lo que necesites:
+</p>
+<div class="org-src-container">
+<pre class="src src-powershell">pip install pandas requests openpyxl
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org693f6a8" class="outline-4">
+<h4 id="org693f6a8">Congelar dependencias (Compartir proyecto)</h4>
+<div class="outline-text-4" id="text-org693f6a8">
+<p>
+Para que otros participantes tengan exactamente lo mismo que tú:
+</p>
+<div class="org-src-container">
+<pre class="src src-powershell">pip freeze &gt; requirements.txt
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1081876" class="outline-4">
+<h4 id="org1081876">Instalar desde un archivo recibido</h4>
+<div class="outline-text-4" id="text-org1081876">
+<p>
+Si un compañero te pasa su <code>requirements.txt</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-powershell">pip install -r requirements.txt
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org979d67e" class="outline-3">
+<h3 id="org979d67e">Uso de Entornos en Emacs (Windows)</h3>
+<div class="outline-text-3" id="text-org979d67e">
+<p>
+Para que Emacs en Windows gestione bien el entorno, añade esto a tu archivo de configuración (<code>init.el</code> o <code>.emacs</code>):
+</p>
+</div>
+<div id="outline-container-orga6141ab" class="outline-4">
+<h4 id="orga6141ab">Instalación del paquete pyvenv</h4>
+<div class="outline-text-4" id="text-orga6141ab">
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #fe8019;">(</span><span style="color: #fb4934;">use-package</span> pyvenv
+  <span style="color: #fe8019;">:ensure</span> t
+  <span style="color: #fe8019;">:config</span>
+  <span style="color: #b16286;">(</span>pyvenv-mode 1<span style="color: #b16286;">)</span><span style="color: #fe8019;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org326fa4f" class="outline-4">
+<h4 id="org326fa4f">Cómo activarlo dentro de Emacs</h4>
+<div class="outline-text-4" id="text-org326fa4f">
+<ol class="org-ol">
+<li>Presiona <code>M-x pyvenv-activate</code>.</li>
+<li>Emacs te pedirá la ruta. Navega hasta la carpeta <code>venv</code> de tu proyecto.</li>
+<li>Al seleccionarla, Emacs usará ese intérprete de Python para todos los scripts que ejecutes.</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org162091c" class="outline-3">
+<h3 id="org162091c">Solución de Problemas Comunes en Windows</h3>
+<div class="outline-text-3" id="text-org162091c">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Error / Problema</td>
+<td class="org-left">Solución</td>
+</tr>
+
+<tr>
+<td class="org-left">:---</td>
+<td class="org-left">:---</td>
+</tr>
+
+<tr>
+<td class="org-left">"python" no se reconoce</td>
+<td class="org-left">Reinstala Python y marca "Add to PATH" o usa el comando `py`.</td>
+</tr>
+
+<tr>
+<td class="org-left">Error de "Execution Policy"</td>
+<td class="org-left">Ejecuta `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`.</td>
+</tr>
+
+<tr>
+<td class="org-left">No aparece el (venv)</td>
+<td class="org-left">Asegúrate de usar el comando de activación correcto para tu terminal (.ps1 vs .bat).</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org5e59b56" class="outline-3">
+<h3 id="org5e59b56">Desactivación y Limpieza</h3>
+<div class="outline-text-3" id="text-org5e59b56">
+<p>
+Para salir del entorno:
+</p>
+<div class="org-src-container">
+<pre class="src src-powershell">deactivate
+</pre>
+</div>
+
+<p>
+Si quieres borrar el entorno por completo (para empezar de cero):
+</p>
+<div class="org-src-container">
+<pre class="src src-powershell">rmdir /s /q venv
+</pre>
+</div>
+
+<p>
+&#x2014;
+</p>
+<div class="IMPORTANT" id="org680491b">
+<p>
+<b>Recordatorio:</b> Nunca incluyas la carpeta <code>venv</code> en tus archivos compartidos o en tu repositorio de Git. Solo comparte el código y el archivo <code>requirements.txt</code>.
+</p>
+
+</div>
+</div>
+</div>
+<div id="outline-container-org20b451b" class="outline-3">
+<h3 id="org20b451b">Agregar a jupyter notebook</h3>
+<div class="outline-text-3" id="text-org20b451b">
+<div class="org-src-container">
+<pre class="src src-shell">pip install ipykernel
+python -m ipykernel install --user --name=redes --display-name=<span style="color: #b8bb26;">"redes"</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org1f8c669" class="outline-2">
+<h2 id="org1f8c669">Sistemas de recuperación de información</h2>
+<div class="outline-text-2" id="text-org1f8c669">
+</div>
+<div id="outline-container-org4211806" class="outline-3">
+<h3 id="org4211806">Introducción a los sistemas de recuperación de información (IRS)</h3>
+<div class="outline-text-3" id="text-org4211806">
+</div>
+<div id="outline-container-orgf2bd863" class="outline-4">
+<h4 id="orgf2bd863">Definición y alcance</h4>
+<div class="outline-text-4" id="text-orgf2bd863">
+<p>
+Un <b>Sistema de Recuperación de Información</b> (IRS, por sus siglas en inglés
+<b>Information Retrieval System</b>) es un sistema software diseñado para almacenar,
+representar y recuperar información relevante ante consultas de usuarios.
+</p>
+</div>
+<ul class="org-ul">
+<li><a id="org993523a"></a>Características principales<br />
+<div class="outline-text-5" id="text-org993523a">
+<ul class="org-ul">
+<li>Almacena grandes volúmenes de documentos (texto, multimedia, metadatos).</li>
+<li>Permite consultas en lenguaje natural o estructurado.</li>
+<li>Devuelve un <b>ranking</b> o lista ordenada de documentos según relevancia.</li>
+<li>La relevancia suele ser subjetiva y dependiente del contexto del usuario.</li>
+</ul>
+</div>
+</li>
+<li><a id="org3e27d0f"></a>Ejemplo de necesidad de información<br />
+<div class="outline-text-5" id="text-org3e27d0f">
+<pre class="example" id="org443b4e8">
+Usuario: "Necesito saber cómo se calcula la precisión en un sistema de búsqueda
+para poder comparar dos motores que estamos evaluando en mi empresa."
+
+El IRS no busca la frase exacta "cómo se calcula la precisión"; busca documentos
+que traten sobre *evaluación*, *precisión*, *sistemas de búsqueda* y los ordena
+según qué tan bien satisfacen esa necesidad.
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org54c70fb" class="outline-4">
+<h4 id="org54c70fb">Objetivo fundamental</h4>
+<div class="outline-text-4" id="text-org54c70fb">
+<p>
+El objetivo no es devolver <b>todos</b> los documentos que coincidan literalmente con
+la consulta, sino aquellos que el usuario consideraría <b>útiles</b> o <b>relevantes</b>
+para satisfacer su necesidad de información.
+</p>
+</div>
+<ul class="org-ul">
+<li><a id="org3ada1b8"></a>Diferencia con bases de datos<br />
+<div class="outline-text-5" id="text-org3ada1b8">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Bases de datos</th>
+<th scope="col" class="org-left">Recuperación de información</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Consultas exactas (SQL)</td>
+<td class="org-left">Consultas por similitud/relevancia</td>
+</tr>
+
+<tr>
+<td class="org-left">Coincidencia exacta</td>
+<td class="org-left">Ranking y ordenación</td>
+</tr>
+
+<tr>
+<td class="org-left">Datos estructurados</td>
+<td class="org-left">Texto libre, documentos</td>
+</tr>
+
+<tr>
+<td class="org-left">Respuesta determinista</td>
+<td class="org-left">Respuesta aproximada, probabilista</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org47e30b9" class="outline-4">
+<h4 id="org47e30b9">Componentes típicos de un IRS</h4>
+<div class="outline-text-4" id="text-org47e30b9">
+<ol class="org-ol">
+<li><b>Índice</b> :: Estructura que permite localizar documentos sin escanear todo el corpus.</li>
+<li><b>Motor de búsqueda</b> :: Algoritmos que comparan consulta vs. documentos.</li>
+<li><b>Modelo de ranking</b> :: Criterio para ordenar resultados (TF-IDF, BM25, etc.).</li>
+<li><b>Interfaz de usuario</b> :: Formulario de búsqueda, resultados, filtros.</li>
+<li><b>Módulo de evaluación</b> :: Métricas para medir calidad (precisión, recall, etc.).</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgd53b449" class="outline-4">
+<h4 id="orgd53b449">Aplicaciones</h4>
+<div class="outline-text-4" id="text-orgd53b449">
+<ul class="org-ul">
+<li>Motores de búsqueda web (Google, Bing).</li>
+<li>Búsqueda en bibliotecas digitales y repositorios.</li>
+<li>Búsqueda en correo electrónico y documentos corporativos.</li>
+<li>Sistemas de recomendación y búsqueda semántica.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2db3dc2" class="outline-4">
+<h4 id="org2db3dc2">Ejemplo de flujo completo en un IRS</h4>
+<div class="outline-text-4" id="text-org2db3dc2">
+</div>
+<ul class="org-ul">
+<li><a id="org4c03b6c"></a>Corpus mínimo de ejemplo<br />
+<div class="outline-text-5" id="text-org4c03b6c">
+<p>
+Se tienen 3 documentos (para ilustrar; en la realidad son millones):
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">ID</th>
+<th scope="col" class="org-left">Documento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">d1</td>
+<td class="org-left">"La recuperación de información usa índices para buscar documentos de forma rápida."</td>
+</tr>
+
+<tr>
+<td class="org-left">d2</td>
+<td class="org-left">"Los modelos vectoriales calculan similitud entre consulta y documento."</td>
+</tr>
+
+<tr>
+<td class="org-left">d3</td>
+<td class="org-left">"La evaluación mide precisión y recall del sistema de búsqueda."</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="orgbb08e6e"></a>Paso 1: Indexación<br />
+<div class="outline-text-5" id="text-orgbb08e6e">
+<ul class="org-ul">
+<li>Se extraen términos (tras eliminar stopwords y aplicar stemming): <code>recuperación</code>, <code>información</code>, <code>índices</code>, <code>documentos</code>, <code>modelos</code>, <code>vectoriales</code>, <code>similitud</code>, <code>consulta</code>, <code>evaluación</code>, <code>precisión</code>, <code>recall</code>, <code>búsqueda</code>.</li>
+<li>Se construye un <b>índice invertido</b>: para cada término, lista de documentos que lo contienen.</li>
+<li>Ejemplo: <code>precisión</code> \(\rightarrow\) [d3], <code>documentos</code> \(\rightarrow\) [d1], <code>recuperación</code> \(\rightarrow\) [d1], etc.</li>
+</ul>
+</div>
+</li>
+<li><a id="org7124fbd"></a>Paso 2: Consulta<br />
+<div class="outline-text-5" id="text-org7124fbd">
+<ul class="org-ul">
+<li>Usuario escribe: "evaluación precisión búsqueda".</li>
+</ul>
+</div>
+</li>
+<li><a id="org025a491"></a>Paso 3: Recuperación y ranking<br />
+<div class="outline-text-5" id="text-org025a491">
+<ul class="org-ul">
+<li>El motor obtiene candidatos del índice (p. ej. d3 contiene los tres términos) y aplica el modelo (TF-IDF o BM25) para puntuar cada documento.</li>
+<li>Resultado ordenado: d3 (mayor puntuación), y posiblemente d1, d2 si comparten términos.</li>
+</ul>
+</div>
+</li>
+<li><a id="org65962dd"></a>Paso 4: Presentación<br />
+<div class="outline-text-5" id="text-org65962dd">
+<ul class="org-ul">
+<li>Se muestra al usuario: título/snippet de d3 primero, luego los demás, para que pueda elegir el documento que le resulta relevante.</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8a07006" class="outline-3">
+<h3 id="org8a07006">Interfaces de usuario para búsqueda</h3>
+<div class="outline-text-3" id="text-org8a07006">
+</div>
+<div id="outline-container-orgcef067f" class="outline-4">
+<h4 id="orgcef067f">Funciones de la interfaz</h4>
+<div class="outline-text-4" id="text-orgcef067f">
+<p>
+La interfaz de usuario en un IRS debe permitir:
+</p>
+
+<ol class="org-ol">
+<li><b>Formular la consulta</b> (caja de búsqueda, operadores, filtros).</li>
+<li><b>Ver resultados</b> ordenados y con información suficiente para decidir.</li>
+<li><b>Refinar o reformular</b> la consulta (búsqueda iterativa).</li>
+<li><b>Acceder al documento</b> completo cuando se considera relevante.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org57b7ade" class="outline-4">
+<h4 id="org57b7ade">Tipos de interfaces</h4>
+<div class="outline-text-4" id="text-org57b7ade">
+</div>
+<ul class="org-ul">
+<li><a id="orgd08767d"></a>Interfaz de consulta por palabras clave<br />
+<div class="outline-text-5" id="text-orgd08767d">
+<ul class="org-ul">
+<li>El usuario escribe términos (palabras clave).</li>
+<li>Puede usar operadores: AND, OR, NOT, comillas para frases.</li>
+<li>Ejemplo: <code>información AND (recuperación OR búsqueda)</code>.</li>
+</ul>
+</div>
+<ul class="org-ul">
+<li><a id="orge8db5c7"></a>Ejemplos de consultas booleanas<br />
+<div class="outline-text-6" id="text-orge8db5c7">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Consulta</th>
+<th scope="col" class="org-left">Interpretación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">recuperación información</td>
+<td class="org-left">documentos que contengan ambos términos (AND implícito)</td>
+</tr>
+
+<tr>
+<td class="org-left">"recuperación de información"</td>
+<td class="org-left">documentos con la frase exacta</td>
+</tr>
+
+<tr>
+<td class="org-left">TF-IDF OR BM25</td>
+<td class="org-left">documentos que contengan al menos uno de los dos</td>
+</tr>
+
+<tr>
+<td class="org-left">evaluación NOT recall</td>
+<td class="org-left">documentos sobre evaluación pero sin la palabra recall</td>
+</tr>
+
+<tr>
+<td class="org-left">(precisión OR recall) AND métricas</td>
+<td class="org-left">métricas y además precisión o recall</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</li>
+<li><a id="orga231b86"></a>Interfaz de lenguaje natural<br />
+<div class="outline-text-5" id="text-orga231b86">
+<ul class="org-ul">
+<li>Consultas en forma de pregunta o frase.</li>
+<li>El sistema interpreta la intención (a veces con NLP).</li>
+<li>Ejemplo: "¿Cómo se evalúa un sistema de recuperación?"</li>
+</ul>
+</div>
+<ul class="org-ul">
+<li><a id="orgd60ac8c"></a>Ejemplo<br />
+<div class="outline-text-6" id="text-orgd60ac8c">
+<pre class="example" id="org0cc4a78">
+Usuario escribe: "recetas de pastel de chocolate sin gluten"
+
+El sistema puede extraer: términos clave (recetas, pastel, chocolate, gluten),
+negación (sin gluten) y devolver documentos que hablen de pastel de chocolate
+y que mencionen "sin gluten" o recetas aptas para celíacos, aunque no aparezca
+la frase exacta.
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li><a id="orgae9e8bb"></a>Interfaz con filtros y facetas<br />
+<div class="outline-text-5" id="text-orgae9e8bb">
+<ul class="org-ul">
+<li>Filtros por fecha, autor, tipo de documento, idioma.</li>
+<li>Facetas: categorías o atributos para restringir resultados.</li>
+<li>Muy común en tiendas online y bibliotecas digitales.</li>
+</ul>
+</div>
+<ul class="org-ul">
+<li><a id="orgcfbd5e8"></a>Ejemplo (biblioteca digital)<br />
+<div class="outline-text-6" id="text-orgcfbd5e8">
+<pre class="example" id="orgb642344">
+Búsqueda: "recuperación de información"
+Facetas mostradas al lado:
+  Tipo de documento: Libro (120), Artículo (85), Tesis (12)
+  Año: 2020-2024 (45), 2015-2019 (98), anterior (74)
+  Idioma: Español (150), Inglés (67)
+
+El usuario hace clic en "Artículo" y "2020-2024": la lista de resultados se
+restringe a artículos de esos años, sin cambiar la consulta textual.
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li><a id="orgec58815"></a>Interfaz de búsqueda por ejemplo (Query by Example)<br />
+<div class="outline-text-5" id="text-orgec58815">
+<ul class="org-ul">
+<li>El usuario proporciona un documento o fragmento como "ejemplo" de lo que busca.</li>
+<li>El sistema busca documentos similares (búsqueda por similitud).</li>
+</ul>
+</div>
+<ul class="org-ul">
+<li><a id="orgb270bb4"></a>Ejemplo<br />
+<div class="outline-text-6" id="text-orgb270bb4">
+<pre class="example" id="orgf47bed0">
+Usuario pega un párrafo de un artículo que le gustó:
+"El modelo vectorial representa documentos como vectores en un espacio de términos.
+La similitud coseno mide el ángulo entre el vector de la consulta y el del documento."
+
+El sistema trata ese texto como una "consulta larga" o como documento de referencia,
+calcula su vector (o embedding) y busca en el corpus los documentos más similares,
+devolviendo por ejemplo artículos sobre modelos vectoriales, TF-IDF y similitud coseno.
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-org8d634c3" class="outline-4">
+<h4 id="org8d634c3">Elementos de presentación de resultados</h4>
+<div class="outline-text-4" id="text-org8d634c3">
+</div>
+<ul class="org-ul">
+<li><a id="org778cf50"></a>Lista de resultados (SERP)<br />
+<div class="outline-text-5" id="text-org778cf50">
+<ul class="org-ul">
+<li>Título, URL, snippet o fragmento del documento.</li>
+<li>Destacados (bold) de los términos de la consulta.</li>
+<li>Paginación o scroll infinito.</li>
+</ul>
+</div>
+</li>
+<li><a id="orga9f3c1b"></a>Snippets<br />
+<div class="outline-text-5" id="text-orga9f3c1b">
+<ul class="org-ul">
+<li>Fragmentos cortos del documento donde aparecen los términos.</li>
+<li>Ayudan al usuario a juzgar relevancia sin abrir el documento.</li>
+</ul>
+</div>
+</li>
+<li><a id="orgb9c9ce5"></a>Agrupación y clustering<br />
+<div class="outline-text-5" id="text-orgb9c9ce5">
+<ul class="org-ul">
+<li>Resultados agrupados por sitio, fecha o tema.</li>
+<li>Reduce redundancia y facilita la exploración.</li>
+</ul>
+</div>
+</li>
+<li><a id="org85e31de"></a>Ejemplo de SERP (página de resultados)<br />
+<div class="outline-text-5" id="text-org85e31de">
+<pre class="example" id="orgf92f2ca">
+Consulta: "evaluación recuperación información"
+
+--- Resultado 1 ---
+Título: Evaluación de sistemas de recuperación de información - Wikipedia
+URL: https://es.wikipedia.org/wiki/...
+Snippet: ... La evaluación de la recuperación de información utiliza métricas como
+precisión, recall y F1. Se usan colecciones de prueba con juicios de relevancia ...
+
+--- Resultado 2 ---
+Título: Precisión y exhaustividad - Recuperación de información
+URL: https://...
+Snippet: ... Para evaluar un sistema de recuperación se definen la precisión (P) y
+la exhaustividad (recall R). La precisión mide cuántos de los recuperados son
+relevantes ...
+
+--- Resultado 3 ---
+...
+</pre>
+<p>
+Los términos "evaluación", "recuperación", "información" aparecerían resaltados
+en negrita en título y snippet para que el usuario juzgue la relevancia de un vistazo.
+</p>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-orge6beb46" class="outline-4">
+<h4 id="orge6beb46">Usabilidad y experiencia de usuario</h4>
+<div class="outline-text-4" id="text-orge6beb46">
+<ul class="org-ul">
+<li><b>Tiempo de respuesta</b>: resultados en milisegundos.</li>
+<li><b>Claridad</b>: que el usuario entienda por qué aparece cada resultado.</li>
+<li><b>Opciones de refinamiento</b>: sugerencias, "personas también buscaron", filtros.</li>
+<li><b>Accesibilidad</b>: uso con teclado, lectores de pantalla, diseño responsive.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orga9b01ab" class="outline-3">
+<h3 id="orga9b01ab">Modelos de recuperación de información</h3>
+<div class="outline-text-3" id="text-orga9b01ab">
+<p>
+Un <b>modelo de recuperación</b> define cómo se representan documentos y consultas, y
+cómo se calcula la relevancia o similitud entre ellos.
+</p>
+</div>
+<div id="outline-container-orgfccb372" class="outline-4">
+<h4 id="orgfccb372">Modelo booleano</h4>
+<div class="outline-text-4" id="text-orgfccb372">
+</div>
+<ul class="org-ul">
+<li><a id="org581f0d9"></a>Idea<br />
+<div class="outline-text-5" id="text-org581f0d9">
+<ul class="org-ul">
+<li>Documentos y consultas como conjuntos de términos.</li>
+<li>La consulta es una expresión booleana (AND, OR, NOT).</li>
+<li>Un documento es "relevante" si satisface la expresión (verdadero/falso).</li>
+</ul>
+</div>
+</li>
+<li><a id="org8c2f5f8"></a>Limitaciones<br />
+<div class="outline-text-5" id="text-org8c2f5f8">
+<ul class="org-ul">
+<li>No hay ranking: todos los documentos que coinciden son iguales.</li>
+<li>No captura importancia de términos (frecuencia, rareza).</li>
+<li>Demasiado rígido para el usuario promedio.</li>
+</ul>
+</div>
+</li>
+<li><a id="org03750aa"></a>Ejemplo numérico (modelo booleano)<br />
+<div class="outline-text-5" id="text-org03750aa">
+<p>
+Corpus de 4 documentos (términos tras stemming):
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Doc</th>
+<th scope="col" class="org-left">Términos presentes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">d1</td>
+<td class="org-left">recuperación, información, índice, documento</td>
+</tr>
+
+<tr>
+<td class="org-left">d2</td>
+<td class="org-left">modelo, vectorial, similitud, documento</td>
+</tr>
+
+<tr>
+<td class="org-left">d3</td>
+<td class="org-left">evaluación, precisión, recall, búsqueda</td>
+</tr>
+
+<tr>
+<td class="org-left">d4</td>
+<td class="org-left">evaluación, información, índice</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Consultas y resultados:
+</p>
+<ul class="org-ul">
+<li>\(q_1\) = <code>recuperación AND información</code> \(\Rightarrow\) {d1} (solo d1 tiene ambos).</li>
+<li>\(q_2\) = <code>evaluación OR precisión</code> \(\Rightarrow\) {d3, d4} (d3 tiene ambos; d4 tiene evaluación).</li>
+<li>\(q_3\) = <code>documento NOT vectorial</code> \(\Rightarrow\) {d1} (d1 y d2 tienen "documento"; d2 tiene "vectorial", se excluye; d1 no tiene "vectorial", se incluye).</li>
+</ul>
+
+<p>
+Todos los documentos devueltos se consideran "iguales"; no hay orden de preferencia.
+</p>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org307edd6" class="outline-4">
+<h4 id="org307edd6">Modelo vectorial</h4>
+<div class="outline-text-4" id="text-org307edd6">
+</div>
+<ul class="org-ul">
+<li><a id="org25bb46e"></a>Idea<br />
+<div class="outline-text-5" id="text-org25bb46e">
+<ul class="org-ul">
+<li>Documentos y consultas como vectores en un espacio donde cada dimensión es un término.</li>
+<li>Cada componente del vector es un peso (p. ej. TF-IDF).</li>
+<li>Similitud = similitud coseno entre vector de consulta y vector del documento.</li>
+</ul>
+</div>
+</li>
+<li><a id="org6d0d76f"></a>Fórmula de similitud coseno<br />
+<div class="outline-text-5" id="text-org6d0d76f">
+<p>
+\[
+\text{sim}(q, d) = \frac{\vec{q} \cdot \vec{d}}{|\vec{q}| \, |\vec{d}|}
+\]
+</p>
+</div>
+</li>
+<li><a id="orgdfe6a2e"></a>Ventajas<br />
+<div class="outline-text-5" id="text-orgdfe6a2e">
+<ul class="org-ul">
+<li>Permite ranking (ordenar por similitud).</li>
+<li>Simple y eficiente.</li>
+<li>TF-IDF captura importancia de términos.</li>
+</ul>
+</div>
+</li>
+<li><a id="org3767dcd"></a>Ejemplo: espacio de términos<br />
+<div class="outline-text-5" id="text-org3767dcd">
+<p>
+Supongamos vocabulario = {recuperación, información, evaluación}. Cada documento
+y la consulta se representan como vectores de 3 dimensiones (pesos TF-IDF):
+</p>
+
+<ul class="org-ul">
+<li>\(q\) = "recuperación información" \(\rightarrow\) \(\vec{q} = (0.8, 0.7, 0)\)</li>
+<li>\(d_1\) = "recuperación de información e información" \(\rightarrow\) \(\vec{d_1} = (0.5, 0.9, 0)\)</li>
+<li>\(d_2\) = "evaluación de la recuperación" \(\rightarrow\) \(\vec{d_2} = (0.6, 0, 0.8)\)</li>
+</ul>
+
+<p>
+Similitud coseno: \(\text{sim}(q,d) = \frac{\vec{q}\cdot\vec{d}}{|\vec{q}||\vec{d}|}\).
+</p>
+<ul class="org-ul">
+<li>\(\vec{q}\cdot\vec{d_1} = 0.8\cdot 0.5 + 0.7\cdot 0.9 = 0.4 + 0.63 = 1.03\) (alto).</li>
+<li>\(\vec{q}\cdot\vec{d_2} = 0.8\cdot 0.6 + 0 + 0 = 0.48\) (menor).</li>
+</ul>
+
+<p>
+Tras normalizar por las normas, \(d_1\) queda por encima de \(d_2\) en el ranking,
+que es lo esperado porque \(d_1\) comparte ambos términos de la consulta.
+</p>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org951a4d4" class="outline-4">
+<h4 id="org951a4d4">TF-IDF (Term Frequency - Inverse Document Frequency)</h4>
+<div class="outline-text-4" id="text-org951a4d4">
+</div>
+<ul class="org-ul">
+<li><a id="org430f465"></a>Frecuencia de término (TF)<br />
+<div class="outline-text-5" id="text-org430f465">
+<ul class="org-ul">
+<li>Cuántas veces aparece el término en el documento.</li>
+<li>Variantes: TF bruto, TF logarítmico (suavizado).</li>
+</ul>
+</div>
+</li>
+<li><a id="org971ba7c"></a>Frecuencia inversa de documento (IDF)<br />
+<div class="outline-text-5" id="text-org971ba7c">
+<ul class="org-ul">
+<li>\(\text{IDF}(t) = \log \frac{N}{n_t}\), donde \(N\) = número de documentos, \(n_t\) = documentos que contienen \(t\).</li>
+<li>Términos raros (en pocos documentos) tienen mayor IDF.</li>
+</ul>
+</div>
+</li>
+<li><a id="orgdae5d80"></a>Peso TF-IDF<br />
+<div class="outline-text-5" id="text-orgdae5d80">
+<p>
+\[
+w_{t,d} = \text{TF}(t,d) \times \text{IDF}(t)
+\]
+</p>
+</div>
+</li>
+<li><a id="orged7f62e"></a>Ejemplo numérico TF-IDF<br />
+<div class="outline-text-5" id="text-orged7f62e">
+<p>
+Corpus: 3 documentos. Término "recuperación":
+</p>
+<ul class="org-ul">
+<li>En d1 aparece 3 veces; en d2 aparece 1 vez; en d3 no aparece.</li>
+<li>\(N = 3\), \(n_{\text{recuperación}} = 2\) (está en d1 y d2).</li>
+<li>\(\text{IDF}(\text{recuperación}) = \log \frac{3}{2} \approx 0.41\).</li>
+</ul>
+
+<p>
+Para d1: \(\text{TF} = 3\) (o \(\log(1+3)\) si se suaviza). Peso \(\approx 3 \times 0.41 \approx 1.23\).
+Para d2: \(\text{TF} = 1\). Peso \(\approx 1 \times 0.41 \approx 0.41\).
+</p>
+
+<p>
+El término "recuperación" aporta más peso en d1 que en d2 porque es más frecuente
+en d1; y aporta más que un término que aparezca en los 3 documentos (IDF menor).
+</p>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org80b6b08" class="outline-4">
+<h4 id="org80b6b08">Modelo probabilístico (BM25, etc.)</h4>
+<div class="outline-text-4" id="text-org80b6b08">
+</div>
+<ul class="org-ul">
+<li><a id="orgd5c1b81"></a>Idea<br />
+<div class="outline-text-5" id="text-orgd5c1b81">
+<ul class="org-ul">
+<li>Estimar la probabilidad de que un documento sea relevante dada la consulta.</li>
+<li>Ordenar por \(P(\text{relevante} \mid d, q)\).</li>
+</ul>
+</div>
+</li>
+<li><a id="org07cbff6"></a>BM25<br />
+<div class="outline-text-5" id="text-org07cbff6">
+<ul class="org-ul">
+<li>Extensión del modelo probabilístico; muy usado en práctica.</li>
+<li>Incorpora longitud del documento (penalización por documentos muy largos).</li>
+<li>Parámetros: \(k_1\), \(b\) para ajustar saturación de TF y efecto de la longitud.</li>
+</ul>
+</div>
+</li>
+<li><a id="org3868ec6"></a>Ejemplo intuitivo BM25<br />
+<div class="outline-text-5" id="text-org3868ec6">
+<p>
+Documento A: 50 palabras, "recuperación" aparece 2 veces.
+Documento B: 500 palabras, "recuperación" aparece 10 veces.
+</p>
+
+<p>
+En TF bruto, B tendría mayor TF. Pero BM25:
+</p>
+<ul class="org-ul">
+<li>Satura el TF: 10 apariciones no aportan 5 veces más que 2 (crecimiento sublineal).</li>
+<li>Penaliza por longitud: un documento muy largo tiene más probabilidad de contener
+el término por casualidad; BM25 reduce el peso según la longitud respecto a la
+media del corpus. Así, un documento corto y focalizado (A) puede rankear más alto.</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org968df02" class="outline-4">
+<h4 id="org968df02">Modelos basados en lenguaje (Language Models)</h4>
+<div class="outline-text-4" id="text-org968df02">
+</div>
+<ul class="org-ul">
+<li><a id="org2bf8b2b"></a>Idea<br />
+<div class="outline-text-5" id="text-org2bf8b2b">
+<ul class="org-ul">
+<li>Modelar cada documento como una distribución de probabilidad sobre términos (language model).</li>
+<li>La consulta se "genera" con cierta probabilidad desde el modelo del documento.</li>
+<li>Ranking por \(P(q \mid d)\) o variantes (e.g. mezcla con modelo de colección).</li>
+</ul>
+</div>
+</li>
+<li><a id="org9af6e48"></a>Ventajas<br />
+<div class="outline-text-5" id="text-org9af6e48">
+<ul class="org-ul">
+<li>Base teórica sólida (probabilidad).</li>
+<li>Permite suavizado (smoothing) para términos no vistos.</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-orge0b1a0d" class="outline-4">
+<h4 id="orge0b1a0d">Resumen comparativo</h4>
+<div class="outline-text-4" id="text-orge0b1a0d">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Modelo</th>
+<th scope="col" class="org-left">Ranking</th>
+<th scope="col" class="org-left">Complejidad</th>
+<th scope="col" class="org-left">Uso típico</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Booleano</td>
+<td class="org-left">No</td>
+<td class="org-left">Baja</td>
+<td class="org-left">Sistemas legados</td>
+</tr>
+
+<tr>
+<td class="org-left">Vectorial</td>
+<td class="org-left">Sí</td>
+<td class="org-left">Media</td>
+<td class="org-left">General, TF-IDF</td>
+</tr>
+
+<tr>
+<td class="org-left">Probabilístico</td>
+<td class="org-left">Sí</td>
+<td class="org-left">Media</td>
+<td class="org-left">BM25 en Elasticsearch</td>
+</tr>
+
+<tr>
+<td class="org-left">Language Model</td>
+<td class="org-left">Sí</td>
+<td class="org-left">Mayor</td>
+<td class="org-left">Investigación, NLP</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-org7860e1a" class="outline-3">
+<h3 id="org7860e1a">Evaluación de la recuperación</h3>
+<div class="outline-text-3" id="text-org7860e1a">
+<p>
+La evaluación permite comparar sistemas o configuraciones y decidir mejoras.
+</p>
+</div>
+<div id="outline-container-orgff181d0" class="outline-4">
+<h4 id="orgff181d0">Conjuntos de prueba (test collections)</h4>
+<div class="outline-text-4" id="text-orgff181d0">
+</div>
+<ul class="org-ul">
+<li><a id="org4e188c5"></a>Componentes<br />
+<div class="outline-text-5" id="text-org4e188c5">
+<ol class="org-ol">
+<li><b>Corpus</b>: conjunto de documentos.</li>
+<li><b>Consultas</b> (topics): necesidades de información representativas.</li>
+<li><b>Juicios de relevancia</b> (qrels): para cada par (consulta, documento), si el documento es relevante o no (idealmente por humanos).</li>
+</ol>
+</div>
+</li>
+<li><a id="org93e4424"></a>Ejemplos de colecciones<br />
+<div class="outline-text-5" id="text-org93e4424">
+<ul class="org-ul">
+<li>Cranfield, TREC, CLEF, NTCIR: estándar en investigación.</li>
+<li>En la industria: datos propios con juicios implícitos (clics, tiempo en página).</li>
+</ul>
+</div>
+</li>
+<li><a id="orgf157741"></a>Ejemplo de colección mínima<br />
+<div class="outline-text-5" id="text-orgf157741">
+<ul class="org-ul">
+<li><b>Corpus</b>: 5 documentos d1, d2, d3, d4, d5.</li>
+<li><b>Consulta</b>: "evaluación de la recuperación".</li>
+<li><p>
+<b>Juicios de relevancia</b> (qrels): un evaluador humano indica qué documentos son relevantes:
+</p>
+<ul class="org-ul">
+<li>d1: no relevante.</li>
+<li>d2: relevante.</li>
+<li>d3: relevante.</li>
+<li>d4: no relevante.</li>
+<li>d5: relevante.</li>
+</ul>
+<p>
+Total relevante = 3 (d2, d3, d5).
+</p></li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org9ce2118" class="outline-4">
+<h4 id="org9ce2118">Métricas principales</h4>
+<div class="outline-text-4" id="text-org9ce2118">
+</div>
+<ul class="org-ul">
+<li><a id="org67184e4"></a>Precisión (Precision)<br />
+<div class="outline-text-5" id="text-org67184e4">
+<p>
+\[
+P = \frac{\text{documentos relevantes recuperados}}{\text{total de documentos recuperados}}
+\]
+</p>
+<ul class="org-ul">
+<li>"De lo que devolví, ¿cuánto era relevante?"</li>
+</ul>
+</div>
+</li>
+<li><a id="org020a988"></a>Recall (Exhaustividad)<br />
+<div class="outline-text-5" id="text-org020a988">
+<p>
+\[
+R = \frac{\text{documentos relevantes recuperados}}{\text{total de documentos relevantes en el corpus}}
+\]
+</p>
+<ul class="org-ul">
+<li>"De todo lo relevante, ¿cuánto recuperé?"</li>
+</ul>
+</div>
+</li>
+<li><a id="org0fe343a"></a>F1 (F-measure)<br />
+<div class="outline-text-5" id="text-org0fe343a">
+<ul class="org-ul">
+<li>Media armónica de precisión y recall:</li>
+</ul>
+<p>
+\[
+F_1 = 2 \frac{P \cdot R}{P + R}
+\]
+</p>
+</div>
+</li>
+<li><a id="org61ad36d"></a>Precisión en k (P@k)<br />
+<div class="outline-text-5" id="text-org61ad36d">
+<ul class="org-ul">
+<li>Precisión considerando solo los primeros \(k\) resultados.</li>
+<li>Útil cuando el usuario solo mira los primeros resultados (p. ej. P@10).</li>
+</ul>
+</div>
+</li>
+<li><a id="orgf2f0323"></a>Ejemplo numérico: precisión, recall, F1, P@k<br />
+<div class="outline-text-5" id="text-orgf2f0323">
+<p>
+Con la colección anterior: 3 documentos relevantes (d2, d3, d5). Supongamos que
+el sistema devuelve, en orden: [d2, d1, d3, d4, d5].
+</p>
+
+<ul class="org-ul">
+<li><b>Recuperados</b>: 5. <b>Relevantes recuperados</b>: d2, d3, d5 \(\Rightarrow\) 3.</li>
+<li>Precisión \(P = 3/5 = 0.6\) (de los 5 devueltos, 3 son relevantes).</li>
+<li>Recall \(R = 3/3 = 1.0\) (recuperamos todos los relevantes).</li>
+<li>\(F_1 = 2 \cdot \frac{0.6 \cdot 1}{0.6 + 1} = \frac{1.2}{1.6} \approx 0.75\).</li>
+</ul>
+
+<p>
+P@k:
+</p>
+<ul class="org-ul">
+<li>P@1 = 1/1 = 1 (el primero es relevante).</li>
+<li>P@2 = 1/2 = 0.5 (de los dos primeros, uno es relevante).</li>
+<li>P@3 = 2/3 \(\approx\) 0.67.</li>
+<li>P@5 = 3/5 = 0.6.</li>
+</ul>
+</div>
+</li>
+<li><a id="org8bdaa5b"></a>Precisión promedia (AP) y MAP<br />
+<div class="outline-text-5" id="text-org8bdaa5b">
+<ul class="org-ul">
+<li><b>Average Precision (AP)</b>: para una consulta, promedio de precisiones en cada punto de recall donde se recupera un documento relevante.</li>
+<li><b>MAP (Mean Average Precision)</b>: media de AP sobre todas las consultas.</li>
+<li>Muy usada en competiciones y literatura.</li>
+</ul>
+</div>
+</li>
+<li><a id="org7fe8551"></a>Ejemplo: Average Precision (AP)<br />
+<div class="outline-text-5" id="text-org7fe8551">
+<p>
+Mismo ranking: [d2, d1, d3, d4, d5]; relevantes = {d2, d3, d5}.
+</p>
+
+<p>
+En las posiciones 1, 2, 3, 4, 5 vamos marcando si el documento es relevante (R) o no (N):
+pos 1: d2 R \(\rightarrow\) precisión hasta aquí = 1/1 = 1.0
+pos 2: d1 N
+pos 3: d3 R \(\rightarrow\) precisión hasta aquí = 2/3 \(\approx\) 0.67
+pos 4: d4 N
+pos 5: d5 R \(\rightarrow\) precisión hasta aquí = 3/5 = 0.6
+</p>
+
+<p>
+AP = promedio de las precisiones en cada "hit" relevante:
+\[
+\text{AP} = \frac{1 + 2/3 + 3/5}{3} = \frac{1 + 0.67 + 0.6}{3} \approx 0.76
+\]
+Un ranking perfecto [d2, d3, d5, &#x2026;] tendría AP = 1.0.
+</p>
+</div>
+</li>
+<li><a id="org026eca7"></a>NDCG (Normalized Discounted Cumulative Gain)<br />
+<div class="outline-text-5" id="text-org026eca7">
+<ul class="org-ul">
+<li>Tiene en cuenta la <b>posición</b> en el ranking: más relevante arriba es mejor.</li>
+<li>El "gain" se descuenta según la posición (discounted).</li>
+<li>NDCG normaliza por el DCG ideal (ranking perfecto).</li>
+<li>Adecuado cuando hay grados de relevancia (no solo relevante/no relevante).</li>
+</ul>
+</div>
+<ul class="org-ul">
+<li><a id="orgedab423"></a>Ejemplo NDCG (intuitivo)<br />
+<div class="outline-text-6" id="text-orgedab423">
+<p>
+Supongamos relevancia en escala 0–3: 0 = no relevante, 3 = muy relevante.
+Ranking del sistema: pos1 rel=2, pos2 rel=0, pos3 rel=3, pos4 rel=1.
+</p>
+
+<p>
+DCG suma el "gain" (relevancia) descontado por la posición: \(\frac{\text{rel}}{\log_2(\text{pos}+1)}\).
+</p>
+<ul class="org-ul">
+<li>Pos 1: \(2/\log_2 2 = 2\)</li>
+<li>Pos 2: \(0\)</li>
+<li>Pos 3: \(3/\log_2 4 = 3/2 = 1.5\)</li>
+<li>Pos 4: \(1/\log_2 5 \approx 0.43\)</li>
+</ul>
+<p>
+DCG \(\approx 2 + 0 + 1.5 + 0.43 \approx 3.93\).
+</p>
+
+<p>
+El DCG ideal ordenaría por relevancia descendente: [3, 2, 1, 0] \(\Rightarrow\) IDCG.
+NDCG = DCG / IDCG (normalizado entre 0 y 1). Así se premia que los más relevantes
+estén arriba en el ranking.
+</p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-orgff938c4" class="outline-4">
+<h4 id="orgff938c4">Evaluación con usuarios</h4>
+<div class="outline-text-4" id="text-orgff938c4">
+<ul class="org-ul">
+<li><b>Estudios de usabilidad</b>: tiempo para completar tareas, satisfacción, número de clics.</li>
+<li><b>A/B testing</b>: comparar dos versiones del sistema con usuarios reales.</li>
+<li><b>Juicios de relevancia</b>: coste humano; a veces se usan juicios implícitos (clics, dwell time).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org77ae6f2" class="outline-4">
+<h4 id="org77ae6f2">Trade-off precisión vs. recall</h4>
+<div class="outline-text-4" id="text-org77ae6f2">
+<ul class="org-ul">
+<li>Aumentar resultados mostrados \(\Rightarrow\) recall sube, precisión puede bajar.</li>
+<li>Ser más estricto en el ranking \(\Rightarrow\) precisión sube, recall puede bajar.</li>
+<li>Depende del dominio: en legal/medicina a veces se prioriza recall; en web comercial, precisión en los primeros resultados.</li>
+</ul>
+</div>
+<ul class="org-ul">
+<li><a id="orgc5b9eea"></a>Ejemplo<br />
+<div class="outline-text-5" id="text-orgc5b9eea">
+<pre class="example" id="orga4843ef">
+Corpus: 100 documentos, 10 relevantes para la consulta.
+
+- Si el sistema devuelve solo los 5 primeros y los 5 son relevantes:
+  P = 5/5 = 1.0, R = 5/10 = 0.5 (precisión perfecta, recall bajo).
+
+- Si devuelve 50 documentos y 10 son relevantes:
+  P = 10/50 = 0.2, R = 10/10 = 1.0 (recall perfecto, precisión baja).
+
+- Objetivo típico: devolver unos 10–20 resultados con varios relevantes arriba,
+  equilibrando P y R (p. ej. P@10 alto y recall razonable).
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc7568d3" class="outline-3">
+<h3 id="orgc7568d3">Referencias</h3>
+<div class="outline-text-3" id="text-orgc7568d3">
+<ul class="org-ul">
+<li>Manning, Raghavan, Schütze: <i>Information Retrieval: Implementing and Evaluating Search Engines</i> (MIT Press).</li>
+<li>Baeza-Yates, Ribeiro-Neto: <i>Modern Information Retrieval</i> (Addison Wesley).</li>
+<li>TREC: <code>https://trec.nist.gov/</code> (benchmarks y métricas).</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd37bbd1" class="outline-2">
+<h2 id="orgd37bbd1">Ejemplos IRS — Recuperación de información con feeds RSS</h2>
+<div class="outline-text-2" id="text-orgd37bbd1">
+<p>
+Un <b>Sistema de Recuperación de Información</b> (IRS, o IR en inglés) es un sistema
+que permite almacenar, organizar y recuperar documentos (o ítems) relevantes
+ante una <b>consulta</b> del usuario. Los componentes típicos son:
+</p>
+
+<ol class="org-ol">
+<li><b>Colección</b>: conjunto de documentos (en nuestras actividades = ítems de feeds RSS).</li>
+<li><b>Consulta</b>: necesidad de información expresada por el usuario (query).</li>
+<li><b>Proceso de recuperación</b>: matching entre consulta y documentos (ranking, filtrado).</li>
+<li><b>Interfaz</b>: forma en que el usuario formula consultas y ve resultados.</li>
+</ol>
+
+<p>
+En estas actividades usaremos <b>feeds RSS</b> como colección de documentos: cada
+entrada (item) es un “documento” con título, descripción, fecha y enlace.
+Así practicamos extracción, limpieza e indexación como en un IRS real.
+</p>
+</div>
+<div id="outline-container-org9e9ddc4" class="outline-3">
+<h3 id="org9e9ddc4">Un buscador introductorio con feeds RSS</h3>
+<div class="outline-text-3" id="text-org9e9ddc4">
+<p>
+En este material construimos un <b>buscador muy sencillo</b> que usa <b>feeds RSS</b> como
+fuente de documentos: tú escribes una consulta y el sistema te devuelve ítems
+relevantes (título, enlace, fecha). Para que el buscador tenga algo que buscar,
+primero hay que <b>encontrar URLs de feeds RSS</b>. Por eso la primera actividad es
+usar <b>hacks de búsqueda</b> en Google (o DuckDuckGo, etc.) para descubrir esas
+páginas; después extraemos, limpiamos e indexamos esos feeds y probamos la
+búsqueda.
+</p>
+</div>
+<div id="outline-container-orgd1f58af" class="outline-4">
+<h4 id="orgd1f58af">Hacks de búsqueda: encontrar páginas y URLs de feeds RSS</h4>
+<div class="outline-text-4" id="text-orgd1f58af">
+<p>
+El uso de operadores de búsqueda (también conocidos como hacks de
+búsqueda) permite refinar las consultas en buscadores web con el
+objetivo de localizar páginas que publican feeds RSS. Mediante estos
+operadores es posible identificar de forma eficiente las URLs de
+dichos feeds, los cuales constituyen la fuente primaria de documentos
+para el sistema de recuperación de información. Sin una colección de
+feeds RSS adecuadamente identificada, no es posible construir ni
+alimentar el buscador de noticias propuesto.
+</p>
+</div>
+<ul class="org-ul">
+<li><a id="orgfb4eb90"></a>Operadores útiles Google Search<br />
+<div class="outline-text-5" id="text-orgfb4eb90">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Operador</th>
+<th scope="col" class="org-left">Ejemplo</th>
+<th scope="col" class="org-left">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">site:</td>
+<td class="org-left">site:bbc.com rss</td>
+<td class="org-left">Busca RSS dentro de un dominio</td>
+</tr>
+
+<tr>
+<td class="org-left">inurl:</td>
+<td class="org-left">inurl:rss noticias</td>
+<td class="org-left">Busca URLs que contengan "rss"</td>
+</tr>
+
+<tr>
+<td class="org-left">intitle:</td>
+<td class="org-left">intitle:rss technology</td>
+<td class="org-left">Busca páginas con "rss" en el título</td>
+</tr>
+
+<tr>
+<td class="org-left">filetype:</td>
+<td class="org-left">filetype:xml rss</td>
+<td class="org-left">Localiza archivos XML (feeds)</td>
+</tr>
+
+<tr>
+<td class="org-left">"frase exacta"</td>
+<td class="org-left">"RSS feed" site:news</td>
+<td class="org-left">Coincidencia exacta</td>
+</tr>
+
+<tr>
+<td class="org-left">OR</td>
+<td class="org-left">rss OR "xml feed"</td>
+<td class="org-left">Búsqueda alternativa</td>
+</tr>
+
+<tr>
+<td class="org-left">-</td>
+<td class="org-left">rss -podcast</td>
+<td class="org-left">Excluye términos</td>
+</tr>
+
+<tr>
+<td class="org-left">allinurl:</td>
+<td class="org-left">allinurl:rss feeds news</td>
+<td class="org-left">Todas las palabras en la URL</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="org53da369"></a>Operadores útiles DuckDuckGo<br />
+<div class="outline-text-5" id="text-org53da369">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Operador</th>
+<th scope="col" class="org-left">Ejemplo</th>
+<th scope="col" class="org-left">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">site:</td>
+<td class="org-left">site:reuters.com rss</td>
+<td class="org-left">Limita búsqueda a un dominio</td>
+</tr>
+
+<tr>
+<td class="org-left">inurl:</td>
+<td class="org-left">inurl:rss</td>
+<td class="org-left">Busca "rss" en la URL</td>
+</tr>
+
+<tr>
+<td class="org-left">intitle:</td>
+<td class="org-left">intitle:"rss feed"</td>
+<td class="org-left">Busca en el título</td>
+</tr>
+
+<tr>
+<td class="org-left">filetype:</td>
+<td class="org-left">filetype:xml rss</td>
+<td class="org-left">Archivos XML</td>
+</tr>
+
+<tr>
+<td class="org-left">"frase exacta"</td>
+<td class="org-left">"news rss feed"</td>
+<td class="org-left">Coincidencia exacta</td>
+</tr>
+
+<tr>
+<td class="org-left">-</td>
+<td class="org-left">rss -video</td>
+<td class="org-left">Excluir términos</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="orgf4aedff"></a>Bing Search<br />
+<div class="outline-text-5" id="text-orgf4aedff">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Operador</th>
+<th scope="col" class="org-left">Ejemplo</th>
+<th scope="col" class="org-left">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">site:</td>
+<td class="org-left">site:elpais.com rss</td>
+<td class="org-left">Buscar RSS por dominio</td>
+</tr>
+
+<tr>
+<td class="org-left">inurl:</td>
+<td class="org-left">inurl:feed</td>
+<td class="org-left">URLs que contienen "feed"</td>
+</tr>
+
+<tr>
+<td class="org-left">intitle:</td>
+<td class="org-left">intitle:rss</td>
+<td class="org-left">Buscar en títulos</td>
+</tr>
+
+<tr>
+<td class="org-left">filetype:</td>
+<td class="org-left">filetype:xml rss</td>
+<td class="org-left">Feeds XML</td>
+</tr>
+
+<tr>
+<td class="org-left">"frase exacta"</td>
+<td class="org-left">"rss noticias"</td>
+<td class="org-left">Coincidencia exacta</td>
+</tr>
+
+<tr>
+<td class="org-left">-</td>
+<td class="org-left">rss -audio</td>
+<td class="org-left">Exclusión</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="org162b547"></a>Hacks combinados (muy útiles para IRS)<br />
+<div class="outline-text-5" id="text-org162b547">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Consulta ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">site:news "rss feed"</td>
+</tr>
+
+<tr>
+<td class="org-left">inurl:rss filetype:xml</td>
+</tr>
+
+<tr>
+<td class="org-left">site:.org intitle:rss</td>
+</tr>
+
+<tr>
+<td class="org-left">site:gov filetype:xml rss</td>
+</tr>
+
+<tr>
+<td class="org-left">"rss feed" "news"</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org7cbaf8d" class="outline-4">
+<h4 id="org7cbaf8d">Consultas de ejemplo para probar en el buscador</h4>
+<div class="outline-text-4" id="text-org7cbaf8d">
+<pre class="example" id="org76ac142">
+inurl:rss noticias tecnología
+inurl:feed blog educación
+"rss" "suscribirse" site:elpais.com
+filetype:xml rss
+inurl:atom feed
+</pre>
+
+<p>
+Desde el punto de vista del IRS, la <b>consulta</b> que se escribe en el buscador
+(p. ej. <code>inurl:rss noticias</code>) es la “consulta” del sistema de recuperación; los
+<b>resultados</b> que muestra Google (o DuckDuckGo, Bing) son la “interfaz de
+búsqueda”: un listado de documentos (páginas) que el modelo de recuperación del
+buscador consideró relevantes. Las URLs de feeds que el usuario anota pasan a
+ser la <b>colección</b> que alimentará el pequeño buscador sobre RSS.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org0a8d841" class="outline-3">
+<h3 id="org0a8d841">Extraer datos de un feed RSS y guardarlos</h3>
+<div class="outline-text-3" id="text-org0a8d841">
+<p>
+En un IRS la <b>colección</b> es el conjunto de documentos sobre el que el sistema
+responde a las consultas. Sin colección no hay recuperación. En nuestro caso,
+los “documentos” son los <b>ítems de un feed RSS</b>: cada entrada del feed (título,
+enlace, fecha, resumen) equivale a un documento indexable. Extraer esos ítems
+y representarlos en una estructura uniforme (p. ej. lista de diccionarios) es
+el primer paso para que el IRS pueda comparar después la consulta del usuario
+contra cada documento. Los feeds RSS son idóneos porque ya vienen estructurados
+(XML con <code>&lt;item&gt;</code> o entradas Atom), con campos de texto (título, descripción)
+que el IRS puede usar para búsqueda.
+</p>
+
+<ul class="org-ul">
+<li><b>IRS — Colección</b>: la lista de ítems extraídos del feed <b>es</b> la colección del
+sistema.</li>
+<li><b>RSS</b>: el feed es la fuente externa; cada <code>entry</code> o <code>&lt;item&gt;</code> es un documento.</li>
+<li><b>Código</b>: descargar el feed (HTTP), parsear el XML y mapear cada ítem a
+campos (título, link, fecha, resumen) construye esa colección en memoria.</li>
+</ul>
+
+<p>
+La función <code>fetch_rss(url, max_entries)</code> recibe la URL del feed y un límite de
+entradas. <code>feedparser.parse(url)</code> descarga y parsea el feed (RSS o Atom) y
+devuelve un objeto con <code>.entries</code>: lista de ítems. Para cada entrada se
+extraen <code>title</code>, <code>link</code>, <code>published</code> (o <code>updated</code>) y <code>summary</code> (o <code>description</code>).
+Esos campos son los que un IRS necesita para identificar el documento y para
+indexar texto (título y resumen). El resultado es una lista de diccionarios:
+cada uno representa <b>un documento de la colección</b>. Si hay error de red o XML
+inválido, se devuelve un ítem con <code>error</code> para no romper el flujo. Al final,
+<code>items</code> es la colección sobre la que más adelante se aplicará la consulta.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #fb4934;">import</span> feedparser
+<span style="color: #fb4934;">import</span> json
+
+<span style="color: #fb4934;">def</span> <span style="color: #b8bb26;">fetch_rss</span><span style="color: #fe8019;">(</span>url, max_entries=20<span style="color: #fe8019;">)</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="color: #dfd2b8;">"""Extrae &#237;tems de un feed RSS/Atom. Devuelve lista de diccionarios."""</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">try</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">feed</span> = feedparser.parse<span style="color: #fe8019;">(</span>url<span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">items</span> = <span style="color: #fe8019;">[]</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">for</span> e <span style="color: #fb4934;">in</span> feed.entries<span style="color: #fe8019;">[</span>:max_entries<span style="color: #fe8019;">]</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   items.append<span style="color: #fe8019;">(</span><span style="color: #b16286;">{</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #b8bb26;">"title"</span>: e.get<span style="color: #b8bb26;">(</span><span style="color: #b8bb26;">"title"</span>, <span style="color: #b8bb26;">""</span><span style="color: #b8bb26;">)</span>,
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #b8bb26;">"link"</span>: e.get<span style="color: #b8bb26;">(</span><span style="color: #b8bb26;">"link"</span>, <span style="color: #b8bb26;">""</span><span style="color: #b8bb26;">)</span>,
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #b8bb26;">"published"</span>: e.get<span style="color: #b8bb26;">(</span><span style="color: #b8bb26;">"published"</span>, e.get<span style="color: #83a598;">(</span><span style="color: #b8bb26;">"updated"</span>, <span style="color: #b8bb26;">""</span><span style="color: #83a598;">)</span><span style="color: #b8bb26;">)</span>,
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #b8bb26;">"summary"</span>: e.get<span style="color: #b8bb26;">(</span><span style="color: #b8bb26;">"summary"</span>, e.get<span style="color: #83a598;">(</span><span style="color: #b8bb26;">"description"</span>, <span style="color: #b8bb26;">""</span><span style="color: #83a598;">)</span><span style="color: #b8bb26;">)</span>,
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #b16286;">}</span><span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">return</span> items
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">except</span> <span style="color: #fabd2f;">Exception</span> <span style="color: #fb4934;">as</span> err:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">return</span> <span style="color: #fe8019;">[</span><span style="color: #b16286;">{</span><span style="color: #b8bb26;">"error"</span>: <span style="color: #fe8019;">str</span><span style="color: #b8bb26;">(</span>err<span style="color: #b8bb26;">)</span>, <span style="color: #b8bb26;">"url"</span>: url<span style="color: #b16286;">}</span><span style="color: #fe8019;">]</span>
+
+<span style="color: #83a598;">url</span> = <span style="color: #b8bb26;">"https://pyfound.blogspot.com/feeds/posts/default?alt=rss"</span>
+<span style="color: #83a598;">items</span> = fetch_rss<span style="color: #fe8019;">(</span>url, max_entries=15<span style="color: #fe8019;">)</span>
+<span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span>json.dumps<span style="color: #b16286;">(</span>items, indent=2, ensure_ascii=<span style="color: #d3869b;">False</span><span style="color: #b16286;">)</span><span style="color: #fe8019;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org90ee432" class="outline-3">
+<h3 id="org90ee432">Limpieza de texto (normalización para el IRS)</h3>
+<div class="outline-text-3" id="text-org90ee432">
+<p>
+Los feeds RSS suelen incluir en título y resumen <b>HTML</b> (etiquetas <code>&lt;p&gt;</code>, <code>&lt;a&gt;</code>,
+etc.), mayúsculas/minúsculas mezcladas y signos de puntuación. Si el IRS
+busca la palabra “python” en el texto crudo, no encontrará “Python” ni
+“&lt;em&gt;python&lt;/em&gt;”. La <b>normalización</b> (limpieza) hace que todos los documentos
+y la consulta compartan el mismo “alfabeto”: minúsculas, sin HTML, sin
+caracteres que no aporten para la búsqueda. Así la comparación consulta–documento
+es consistente y el <b>modelo booleano</b> (palabras exactas) y el <b>vectorial</b> (conteo
+de términos) pueden aplicarse sobre una representación uniforme del texto.
+</p>
+
+
+<ul class="org-ul">
+<li><b>IRS</b>: la normalización es una etapa típica de <b>indexación</b>; el índice se
+construye sobre el texto limpio, no sobre el raw.</li>
+<li><b>RSS</b>: los campos <code>title</code> y <code>summary~/~description</code> suelen venir en HTML;
+<code>text_clean</code> es la versión “indexable” de ese contenido.</li>
+<li><b>Código</b>: <code>clean_text</code> transforma una cadena en texto normalizado;
+<code>normalize_items</code> añade a cada documento de la colección el campo <code>text_clean</code>
+(título + resumen concatenados y limpios).</li>
+</ul>
+
+<p>
+clean<sub>text</sub>(text)~: (1) quita etiquetas HTML con <code>re.sub(r"&lt;[^&gt;]+&gt;", " ", text)</code>;
+(2) deja solo letras, números y espacios con <code>re.sub(r"[^\w\s]", " ", text,
+flags=re.UNICODE)</code>; (3) colapsa espacios y pasa a minúsculas con
+<code>.strip().lower()</code>. El resultado es una sola cadena en minúsculas, sin HTML ni
+puntuación, lista para comparar con la consulta. <code>normalize_items(items)</code>
+recorre cada ítem de la colección, concatena título y resumen limpios en
+<code>text_clean</code> y modifica el ítem in-place. A partir de aquí, la <b>recuperación</b>
+(booleana o rankeada) usará <code>text_clean</code>, no el título/resumen originales.
+Así se garantiza que la búsqueda “python” coincida con “Python” en el feed.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #fb4934;">import</span> re
+
+<span style="color: #fb4934;">def</span> <span style="color: #b8bb26;">clean_text</span><span style="color: #fe8019;">(</span>text<span style="color: #fe8019;">)</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="color: #dfd2b8;">"""Limpieza b&#225;sica: quitar tags HTML, solo letras y espacios, min&#250;sculas."""</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">if</span> <span style="color: #fb4934;">not</span> text:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">return</span> <span style="color: #b8bb26;">""</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">text</span> = re.sub<span style="color: #fe8019;">(</span>r<span style="color: #b8bb26;">"&lt;[^&gt;]+&gt;"</span>, <span style="color: #b8bb26;">" "</span>, text<span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">text</span> = re.sub<span style="color: #fe8019;">(</span>r<span style="color: #b8bb26;">"[^\w\s]"</span>, <span style="color: #b8bb26;">" "</span>, text, flags=re.UNICODE<span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">text</span> = re.sub<span style="color: #fe8019;">(</span>r<span style="color: #b8bb26;">"\s+"</span>, <span style="color: #b8bb26;">" "</span>, text<span style="color: #fe8019;">)</span>.strip<span style="color: #fe8019;">()</span>.lower<span style="color: #fe8019;">()</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">return</span> text
+
+<span style="color: #fb4934;">def</span> <span style="color: #b8bb26;">normalize_items</span><span style="color: #fe8019;">(</span>items<span style="color: #fe8019;">)</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="color: #dfd2b8;">"""A&#241;ade campo 'text_clean' a cada &#237;tem (t&#237;tulo + resumen limpios)."""</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">for</span> it <span style="color: #fb4934;">in</span> items:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">if</span> <span style="color: #b8bb26;">"error"</span> <span style="color: #fb4934;">in</span> it:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">continue</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">title</span> = it.get<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"title"</span>, <span style="color: #b8bb26;">""</span><span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">summary</span> = it.get<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"summary"</span>, <span style="color: #b8bb26;">""</span><span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">it</span><span style="color: #fe8019;">[</span><span style="color: #b8bb26;">"text_clean"</span><span style="color: #fe8019;">]</span> = clean_text<span style="color: #fe8019;">(</span>title<span style="color: #fe8019;">)</span> + <span style="color: #b8bb26;">" "</span> + clean_text<span style="color: #fe8019;">(</span>summary<span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">return</span> items
+
+<span style="color: #83a598;">items_norm</span> = normalize_items<span style="color: #fe8019;">(</span>items<span style="color: #fe8019;">)</span>
+<span style="color: #fb4934;">for</span> i, it <span style="color: #fb4934;">in</span> <span style="color: #fe8019;">enumerate</span><span style="color: #fe8019;">(</span>items_norm<span style="color: #b16286;">[</span>:3<span style="color: #b16286;">]</span><span style="color: #fe8019;">)</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">if</span> <span style="color: #b8bb26;">"error"</span> <span style="color: #fb4934;">not</span> <span style="color: #fb4934;">in</span> it:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"--- &#205;tem"</span>, i+1, <span style="color: #b8bb26;">"---"</span><span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"text_clean:"</span>, it.get<span style="color: #b16286;">(</span><span style="color: #b8bb26;">"text_clean"</span>, <span style="color: #b8bb26;">""</span><span style="color: #b16286;">)[</span>:200<span style="color: #b16286;">]</span>, <span style="color: #b8bb26;">"..."</span><span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fe8019;">print</span><span style="color: #fe8019;">()</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9e307be" class="outline-3">
+<h3 id="org9e307be">Modelo booleano: búsqueda por palabras clave</h3>
+<div class="outline-text-3" id="text-org9e307be">
+<p>
+En el <b>modelo booleano</b> de recuperación, cada documento es <b>relevante</b> o <b>no
+relevante</b> según cumpla o no una expresión lógica sobre los términos (AND, OR,
+NOT). No hay “más o menos relevante”: es un filtro. Es el modelo más directo
+para consultas del tipo “quiero ítems que contengan <b>todas</b> estas palabras”.
+Sobre la colección de ítems RSS normalizados (<code>text_clean</code>), una búsqueda AND
+equivale a: “devolver solo los documentos cuyo <code>text_clean</code> contiene cada
+palabra de la consulta”. Así el IRS aplica el <b>proceso de recuperación</b>:
+comparar la <b>consulta</b> (query) con cada <b>documento</b> de la colección y decidir
+sí/no según el criterio booleano.
+</p>
+
+<ul class="org-ul">
+<li><b>IRS — Proceso de recuperación</b>: la función que compara consulta y documentos
+implementa el <b>modelo booleano</b> (AND).</li>
+<li><b>Consulta</b>: la cadena que escribe el usuario (p. ej. “python software”) se
+normaliza igual que los documentos y se divide en palabras; cada palabra debe
+aparecer en <code>text_clean</code>.</li>
+<li><b>RSS</b>: cada ítem del feed es un documento; el campo <code>text_clean</code> (título +
+resumen limpios) es el texto sobre el que se hace la comparación.</li>
+</ul>
+
+<p>
+search<sub>boolean</sub><sub>and</sub>(items, query)~ recibe la colección (lista de ítems con
+<code>text_clean</code>) y la consulta en lenguaje natural. Primero se <b>normaliza la
+consulta</b> con <code>clean_text(query).split()</code>: mismas reglas que los documentos,
+para que “Python Software” y “python software” den las mismas palabras. Luego
+se recorre cada ítem: si <code>text_clean</code> contiene <b>todas</b> las palabras de la
+consulta (<code>all(w in text for w in words)</code>), el documento se considera relevante
+y se añade a <code>results</code>. La lista devuelta es el <b>conjunto recuperado</b>: documentos
+que pasan el filtro booleano. No hay orden de relevancia; si se quisiera
+ordenar, se usaría un modelo con score (p. ej. el ranking siguiente).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #fb4934;">def</span> <span style="color: #b8bb26;">search_boolean_and</span><span style="color: #fe8019;">(</span>items, query<span style="color: #fe8019;">)</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="color: #dfd2b8;">"""Recupera &#237;tems donde text_clean contiene TODAS las palabras de query."""</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">words</span> = clean_text<span style="color: #fe8019;">(</span>query<span style="color: #fe8019;">)</span>.split<span style="color: #fe8019;">()</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">results</span> = <span style="color: #fe8019;">[]</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">for</span> it <span style="color: #fb4934;">in</span> items:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">if</span> <span style="color: #b8bb26;">"error"</span> <span style="color: #fb4934;">in</span> it:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">continue</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">text</span> = it.get<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"text_clean"</span>, <span style="color: #b8bb26;">""</span><span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">if</span> <span style="color: #fe8019;">all</span><span style="color: #fe8019;">(</span>w <span style="color: #fb4934;">in</span> text <span style="color: #fb4934;">for</span> w <span style="color: #fb4934;">in</span> words<span style="color: #fe8019;">)</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   results.append<span style="color: #fe8019;">(</span>it<span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">return</span> results
+
+<span style="color: #83a598;">query</span> = <span style="color: #b8bb26;">"python software"</span>
+<span style="color: #83a598;">found</span> = search_boolean_and<span style="color: #fe8019;">(</span>items_norm, query<span style="color: #fe8019;">)</span>
+<span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"Consulta:"</span>, <span style="color: #fe8019;">repr</span><span style="color: #b16286;">(</span>query<span style="color: #b16286;">)</span><span style="color: #fe8019;">)</span>
+<span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"Resultados:"</span>, <span style="color: #fe8019;">len</span><span style="color: #b16286;">(</span>found<span style="color: #b16286;">)</span><span style="color: #fe8019;">)</span>
+<span style="color: #fb4934;">for</span> it <span style="color: #fb4934;">in</span> found<span style="color: #fe8019;">[</span>:5<span style="color: #fe8019;">]</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"-"</span>, it.get<span style="color: #b16286;">(</span><span style="color: #b8bb26;">"title"</span>, <span style="color: #b8bb26;">""</span><span style="color: #b16286;">)[</span>:60<span style="color: #b16286;">]</span><span style="color: #fe8019;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgabc0322" class="outline-3">
+<h3 id="orgabc0322">Ranking simple (modelo tipo vectorial)</h3>
+<div class="outline-text-3" id="text-orgabc0322">
+<p>
+El modelo booleano devuelve un conjunto sin orden: todos los documentos
+recuperados son “igual de relevantes”. En la práctica el usuario espera ver
+<b>primero</b> los más relevantes. El <b>modelo vectorial</b> (y variantes) asigna a
+cada documento un <b>score</b> de relevancia y ordena por ese score. Una
+simplificación muy usada es contar cuántas veces aparecen los términos de la
+consulta en el documento (<b>term frequency</b>, TF): más apariciones suelen indicar
+mayor relevancia. Así el IRS no solo filtra (sí/no) sino que <b>rankea</b> los
+resultados; la interfaz puede mostrar los <code>top_k</code> primeros. En feeds RSS, los
+ítems con más menciones de las palabras buscadas en título y resumen aparecen
+arriba.
+</p>
+
+<ul class="org-ul">
+<li><b>IRS — Modelo de recuperación</b>: aquí se implementa un <b>ranking</b> inspirado en
+el modelo vectorial (score por conteo de términos en <code>text_clean</code>).</li>
+<li><b>Consulta</b>: se normaliza y se divide en palabras; cada palabra contribuye al
+score del documento.</li>
+<li><b>RSS</b>: cada ítem tiene <code>text_clean</code>; el score es la suma de las frecuencias
+de los términos de la consulta en ese texto. Los ítems se ordenan por score
+descendente.</li>
+</ul>
+
+<p>
+search<sub>ranked</sub>(items, query, top<sub>k</sub>)~ recibe la colección normalizada, la
+consulta y cuántos resultados devolver. Para cada ítem se calcula <code>score</code> como
+<code>sum(text.split().count(w) for w in words)</code>: número total de apariciones de
+cualquier término de la consulta en <code>text_clean</code>. Solo se consideran documentos
+con score &gt; 0. Se ordena la lista <code>(score, ítem)</code> por score descendente
+(<code>key=lambda x: -x[0]</code>) y se devuelven los primeros <code>top_k</code> ítems. Así la
+salida es una <b>lista ordenada por relevancia</b>: el primer elemento es el que más
+coincide con la consulta. Es una versión simplificada de TF (sin IDF ni
+normalización por longitud); suficiente para ilustrar el concepto de ranking
+en un IRS sobre feeds RSS.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #fb4934;">def</span> <span style="color: #b8bb26;">search_ranked</span><span style="color: #fe8019;">(</span>items, query, top_k=10<span style="color: #fe8019;">)</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="color: #dfd2b8;">"""Recupera &#237;tems rankeados por n&#250;mero de apariciones de t&#233;rminos de la consulta."""</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">words</span> = clean_text<span style="color: #fe8019;">(</span>query<span style="color: #fe8019;">)</span>.split<span style="color: #fe8019;">()</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">if</span> <span style="color: #fb4934;">not</span> words:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">return</span> <span style="color: #fe8019;">[]</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">scored</span> = <span style="color: #fe8019;">[]</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">for</span> it <span style="color: #fb4934;">in</span> items:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">if</span> <span style="color: #b8bb26;">"error"</span> <span style="color: #fb4934;">in</span> it:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">continue</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">text</span> = it.get<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"text_clean"</span>, <span style="color: #b8bb26;">""</span><span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">score</span> = <span style="color: #fe8019;">sum</span><span style="color: #fe8019;">(</span>text.split<span style="color: #b16286;">()</span>.count<span style="color: #b16286;">(</span>w<span style="color: #b16286;">)</span> <span style="color: #fb4934;">for</span> w <span style="color: #fb4934;">in</span> words<span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">if</span> score &gt; 0:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   scored.append<span style="color: #fe8019;">(</span><span style="color: #b16286;">(</span>score, it<span style="color: #b16286;">)</span><span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   scored.sort<span style="color: #fe8019;">(</span>key=<span style="color: #fb4934;">lambda</span> x: -x<span style="color: #b16286;">[</span>0<span style="color: #b16286;">]</span><span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">return</span> <span style="color: #fe8019;">[</span>it <span style="color: #fb4934;">for</span> _, it <span style="color: #fb4934;">in</span> scored<span style="color: #b16286;">[</span>:top_k<span style="color: #b16286;">]</span><span style="color: #fe8019;">]</span>
+
+<span style="color: #83a598;">query2</span> = <span style="color: #b8bb26;">"python release"</span>
+<span style="color: #83a598;">ranked</span> = search_ranked<span style="color: #fe8019;">(</span>items_norm, query2, top_k=5<span style="color: #fe8019;">)</span>
+<span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"Consulta:"</span>, <span style="color: #fe8019;">repr</span><span style="color: #b16286;">(</span>query2<span style="color: #b16286;">)</span><span style="color: #fe8019;">)</span>
+<span style="color: #fb4934;">for</span> i, it <span style="color: #fb4934;">in</span> <span style="color: #fe8019;">enumerate</span><span style="color: #fe8019;">(</span>ranked, 1<span style="color: #fe8019;">)</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">title</span> = it.get<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"title"</span>, <span style="color: #b8bb26;">""</span><span style="color: #fe8019;">)[</span>:55<span style="color: #fe8019;">]</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span>i, <span style="color: #b8bb26;">"-"</span>, title<span style="color: #fe8019;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org77ffb20" class="outline-3">
+<h3 id="org77ffb20">Interfaz de resultados</h3>
+<div class="outline-text-3" id="text-org77ffb20">
+<p>
+En un IRS la <b>interfaz</b> es el medio por el que el usuario formula la consulta
+y <b>ve los resultados</b>. Sin una presentación clara de los documentos recuperados,
+el sistema no es usable. En un buscador web típico la interfaz muestra título,
+enlace, fecha y a veces un snippet. En nuestro flujo con feeds RSS y Org-mode,
+la “pantalla” de resultados puede ser una <b>tabla Org</b>: cada fila es un ítem
+recuperado (por búsqueda booleana o rankeada), con columnas como número de
+orden, título, URL y fecha. Así se cierra el ciclo IRS: colección → consulta →
+recuperación → <b>presentación</b> al usuario.
+</p>
+
+<ul class="org-ul">
+<li><b>IRS — Interfaz</b>: la tabla generada es la <b>vista de resultados</b> del sistema;
+el usuario ve qué documentos se recuperaron y puede acceder al enlace (RSS
+<code>link</code>) de cada ítem.</li>
+<li><b>RSS</b>: los campos mostrados (título, enlace, fecha) vienen directamente del
+feed; el orden de las filas viene del <b>modelo de recuperación</b> (ranking o
+filtro booleano).</li>
+<li><b>Código</b>: <code>results_to_org_table</code> transforma la lista de ítems (salida de
+<code>search_ranked</code> o <code>search_boolean_and</code>) en líneas de tabla Org.</li>
+</ul>
+
+<p>
+results<sub>to</sub><sub>org</sub><sub>table</sub>(items<sub>list</sub>)~ recibe la lista de ítems ya recuperados
+(ordenados por score si vienen de <code>search_ranked</code>). Construye la cabecera de
+la tabla Org (<code>| # | Título | Enlace | Fecha |</code>) y el separador (<code>|---+...</code>).
+Para cada ítem añade una fila: posición (<code>i</code>), título truncado a 50 caracteres,
+<code>link</code> (URL del ítem en el feed) y fecha truncada a 20 caracteres. El resultado
+es una cadena con las líneas de la tabla; en Org-mode se puede insertar en el
+buffer o exportar. Así el documento Org actúa como “pantalla” del IRS: el usuario
+ve el listado rankeado de ítems RSS con enlaces clicables.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #fb4934;">def</span> <span style="color: #b8bb26;">results_to_org_table</span><span style="color: #fe8019;">(</span>items_list<span style="color: #fe8019;">)</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="color: #dfd2b8;">"""Genera l&#237;neas de tabla Org (| col1 | col2 | col3 |)."""</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">lines</span> = <span style="color: #fe8019;">[</span><span style="color: #b8bb26;">"| # | T&#237;tulo | Enlace | Fecha |"</span>, <span style="color: #b8bb26;">"|---+--------+--------+-------|"</span><span style="color: #fe8019;">]</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">for</span> i, it <span style="color: #fb4934;">in</span> <span style="color: #fe8019;">enumerate</span><span style="color: #fe8019;">(</span>items_list, 1<span style="color: #fe8019;">)</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">if</span> <span style="color: #b8bb26;">"error"</span> <span style="color: #fb4934;">in</span> it:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">continue</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">title</span> = <span style="color: #fe8019;">(</span>it.get<span style="color: #b16286;">(</span><span style="color: #b8bb26;">"title"</span>, <span style="color: #b8bb26;">""</span><span style="color: #b16286;">)</span> <span style="color: #fb4934;">or</span> <span style="color: #b8bb26;">""</span><span style="color: #fe8019;">)[</span>:50<span style="color: #fe8019;">]</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">link</span> = it.get<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"link"</span>, <span style="color: #b8bb26;">""</span><span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">pub</span> = <span style="color: #fe8019;">(</span>it.get<span style="color: #b16286;">(</span><span style="color: #b8bb26;">"published"</span>, <span style="color: #b8bb26;">""</span><span style="color: #b16286;">)</span> <span style="color: #fb4934;">or</span> <span style="color: #b8bb26;">""</span><span style="color: #fe8019;">)[</span>:20<span style="color: #fe8019;">]</span>
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   lines.append<span style="color: #fe8019;">(</span>f<span style="color: #b8bb26;">"| </span>{i}<span style="color: #b8bb26;"> | </span>{title}<span style="color: #b8bb26;"> | </span>{link}<span style="color: #b8bb26;"> | </span>{pub}<span style="color: #b8bb26;"> |"</span><span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">return</span> <span style="color: #b8bb26;">"</span><span style="color: #d3869b;">\n</span><span style="color: #b8bb26;">"</span>.join<span style="color: #fe8019;">(</span>lines<span style="color: #fe8019;">)</span>
+
+<span style="color: #83a598;">org_table</span> = results_to_org_table<span style="color: #fe8019;">(</span>ranked<span style="color: #fe8019;">)</span>
+<span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span>org_table<span style="color: #fe8019;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org09caaed" class="outline-3">
+<h3 id="org09caaed">Pipeline completo del IRS con RSS</h3>
+<div class="outline-text-3" id="text-org09caaed">
+<p>
+Un IRS real encadena varias etapas: obtener la colección, indexar/normalizar,
+recibir la consulta, aplicar el modelo de recuperación y presentar los
+resultados. Integrar todo en un <b>pipeline</b> (una sola función o flujo) permite
+ver de un vistazo cómo se relacionan los componentes del IRS con los feeds RSS:
+URL del feed → colección; consulta del usuario → proceso de recuperación;
+lista rankeada → interfaz (tabla). Así se evidencia que el IRS no es solo
+“búsqueda”, sino <b>colección + consulta + modelo + interfaz</b>.
+</p>
+</div>
+<div id="outline-container-orgb9ba652" class="outline-4">
+<h4 id="orgb9ba652">Relación IRS ↔ feeds RSS en el pipeline</h4>
+<div class="outline-text-4" id="text-orgb9ba652">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Componente IRS</th>
+<th scope="col" class="org-left">En el pipeline con RSS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Colección</td>
+<td class="org-left"><code>fetch_rss(feed_url)</code> → ítems del feed</td>
+</tr>
+
+<tr>
+<td class="org-left">Normalización</td>
+<td class="org-left"><code>normalize_items(raw)</code> → <code>text_clean</code> por ítem</td>
+</tr>
+
+<tr>
+<td class="org-left">Consulta</td>
+<td class="org-left">Parámetro <code>query</code> (cadena del usuario)</td>
+</tr>
+
+<tr>
+<td class="org-left">Modelo recuperación</td>
+<td class="org-left"><code>search_ranked(normalized, query, top_k)</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Interfaz</td>
+<td class="org-left"><code>results_to_org_table(resultados)</code> → tabla Org</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org3147768" class="outline-4">
+<h4 id="org3147768">Explicación del código</h4>
+<div class="outline-text-4" id="text-org3147768">
+<p>
+<code>irs_pipeline(feed_url, query, max_entries, top_k)</code> encadena: (1) <code>fetch_rss</code>
+descarga y parsea el feed y devuelve la lista de ítems (colección en bruto);
+(2) si hay error, se devuelve el mensaje; (3) <code>normalize_items</code> añade
+<code>text_clean</code> a cada ítem; (4) <code>search_ranked</code> aplica el modelo de recuperación
+(ranking por conteo de términos) y devuelve los <code>top_k</code> ítems más relevantes;
+(5) opcionalmente se pasa esa lista a <code>results_to_org_table</code> para generar la
+vista. Una sola llamada con URL de feed y consulta produce la tabla de
+resultados que el usuario vería en la interfaz. Así queda explícito el flujo
+completo: feed RSS → colección → normalización → consulta → ranking →
+presentación.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #fb4934;">def</span> <span style="color: #b8bb26;">irs_pipeline</span><span style="color: #fe8019;">(</span>feed_url, query, max_entries=20, top_k=5<span style="color: #fe8019;">)</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="color: #dfd2b8;">"""Pipeline: fetch &#8594; normalizar &#8594; b&#250;squeda rankeada &#8594; resultados."""</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">raw</span> = fetch_rss<span style="color: #fe8019;">(</span>feed_url, max_entries=max_entries<span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">if</span> raw <span style="color: #fb4934;">and</span> <span style="color: #b8bb26;">"error"</span> <span style="color: #fb4934;">in</span> raw<span style="color: #fe8019;">[</span>0<span style="color: #fe8019;">]</span>:
+<span style="background-color: #3c3836;"> </span>   <span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">return</span> raw
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">normalized</span> = normalize_items<span style="color: #fe8019;">(</span>raw<span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">results</span> = search_ranked<span style="color: #fe8019;">(</span>normalized, query, top_k=top_k<span style="color: #fe8019;">)</span>
+<span style="background-color: #3c3836;"> </span>   <span style="color: #fb4934;">return</span> results
+
+<span style="color: #83a598;">url_ejemplo</span> = <span style="color: #b8bb26;">"https://pyfound.blogspot.com/feeds/posts/default?alt=rss"</span>
+<span style="color: #83a598;">consulta</span> = <span style="color: #b8bb26;">"python foundation"</span>
+<span style="color: #83a598;">resultados</span> = irs_pipeline<span style="color: #fe8019;">(</span>url_ejemplo, consulta, max_entries=15, top_k=5<span style="color: #fe8019;">)</span>
+<span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"Feed:"</span>, url_ejemplo<span style="color: #fe8019;">)</span>
+<span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"Consulta:"</span>, consulta<span style="color: #fe8019;">)</span>
+<span style="color: #fe8019;">print</span><span style="color: #fe8019;">(</span>results_to_org_table<span style="color: #b16286;">(</span>resultados<span style="color: #b16286;">)</span><span style="color: #fe8019;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Autor: Eduardo Alcaraz</p>
+<p class="date">Created: 2026-02-04 mié 07:31</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
