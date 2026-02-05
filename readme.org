@@ -943,12 +943,92 @@ def fetch_rss(url, max_entries=20):
     except Exception as err:
         return [{"error": str(err), "url": url}]
 
-url = "https://pyfound.blogspot.com/feeds/posts/default?alt=rss"
+url = "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/mexico/portada"
 items = fetch_rss(url, max_entries=15)
 print(json.dumps(items, indent=2, ensure_ascii=False))
 #+end_src
 
 #+RESULTS:
+
+Ejemplo con mas de una URL 
+
+#+begin_src python :session irs :results output :exports both
+import feedparser
+import json
+
+def fetch_rss(url, max_entries=20):
+    """Extrae ítems de un feed RSS/Atom."""
+    feed = feedparser.parse(url)
+    items = []
+    for e in feed.entries[:max_entries]:
+        items.append({
+            "title": e.get("title", ""),
+            "link": e.get("link", ""),
+            "published": e.get("published", e.get("updated", "")),
+            "summary": e.get("summary", e.get("description", "")),
+            "source": url
+        })
+    return items
+
+# 🔹 Lista de feeds
+urls = [
+    "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/mexico/portada",
+    "https://www.reddit.com/r/python/.rss",
+    "https://hnrss.org/frontpage"
+]
+
+all_items = []
+
+for url in urls:
+    try:
+        all_items.extend(fetch_rss(url, max_entries=10))
+    except Exception as err:
+        all_items.append({"error": str(err), "url": url})
+
+print(json.dumps(all_items, indent=2, ensure_ascii=False))
+#+end_src
+
+
+Ejemplo clasificando la salida
+
+#+begin_src python :session irs :results output :exports both
+import feedparser
+import json
+
+def fetch_rss(url, max_entries=20):
+    """Devuelve una lista de ítems de un feed RSS/Atom."""
+    feed = feedparser.parse(url)
+    items = []
+    for e in feed.entries[:max_entries]:
+        items.append({
+            "title": e.get("title", ""),
+            "link": e.get("link", ""),
+            "published": e.get("published", e.get("updated", "")),
+            "summary": e.get("summary", e.get("description", "")),
+        })
+    return items
+
+# 🔹 Lista de feeds RSS / Atom
+urls = [
+    "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/mexico/portada",
+    "https://www.reddit.com/r/python/.rss",
+    "https://hnrss.org/frontpage"
+]
+
+# 🔹 Diccionario: una clave por feed
+feeds_data = {}
+
+for url in urls:
+    try:
+        feeds_data[url] = fetch_rss(url, max_entries=10)
+    except Exception as err:
+        feeds_data[url] = [{"error": str(err)}]
+
+# 🔹 Salida legible en Org / consola
+print(json.dumps(feeds_data, indent=2, ensure_ascii=False))
+#+end_src
+
+
 
 ** Limpieza de texto (normalización para el IRS)
   
