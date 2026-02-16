@@ -1015,7 +1015,7 @@ urls = [
     "https://hnrss.org/frontpage"
 ]
 
-# 🔹 Diccionario: una clave por feed
+#  Diccionario: una clave por feed
 feeds_data = {}
 
 for url in urls:
@@ -1024,9 +1024,57 @@ for url in urls:
     except Exception as err:
         feeds_data[url] = [{"error": str(err)}]
 
-# 🔹 Salida legible en Org / consola
+#  Salida legible en Org / consola
 print(json.dumps(feeds_data, indent=2, ensure_ascii=False))
 #+end_src
+
+
+Guardar en json
+
+#+begin_src python :session irs :results output :exports both
+import feedparser
+import json
+
+def fetch_rss(url, max_entries=20):
+    """Devuelve una lista de ítems de un feed RSS/Atom."""
+    feed = feedparser.parse(url)
+    items = []
+    for e in feed.entries[:max_entries]:
+        items.append({
+            "title": e.get("title", ""),
+            "link": e.get("link", ""),
+            "published": e.get("published", e.get("updated", "")),
+            "summary": e.get("summary", e.get("description", "")),
+        })
+    return items
+
+# 🔹 Lista de feeds RSS / Atom
+urls = [
+    "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/mexico/portada",
+    "https://www.reddit.com/r/python/.rss",
+    "https://hnrss.org/frontpage"
+]
+
+#  Diccionario: una clave por feed
+feeds_data = {}
+
+for url in urls:
+    try:
+        feeds_data[url] = fetch_rss(url, max_entries=10)
+    except Exception as err:
+        feeds_data[url] = [{"error": str(err)}]
+
+        
+with open("data.json", "w", encoding="utf-8") as f:
+    json.dump(feeds_data, f, indent=2, ensure_ascii=False)
+        
+        
+#  Salida legible en Org / consola
+print("Salida del JSON")
+#+end_src
+
+#+RESULTS:
+: Salida del JSON
 
 
 
@@ -1296,4 +1344,1293 @@ print(results_to_org_table(resultados))
 
 
 
+* Introducción a XPath
 
+*XPath* (XML Path Language) es un lenguaje para localizar nodos y extraer valores en
+documentos XML y HTML. Se usa en transformaciones XSLT, scraping web, APIs y consultas
+a documentos estructurados.
+
+** ¿Para qué sirve?
+- Navegar por la estructura de un árbol XML/HTML.
+- Seleccionar elementos por etiqueta, atributo, posición o relación jerárquica.
+- Extraer texto, atributos o fragmentos concretos.
+- Usarse desde Python (=lxml=, =BeautifulSoup=), JavaScript (=document.evaluate=), etc.
+
+** Documento de ejemplo
+
+En esta parte usaremos este XML ficticio como referencia:
+
+#+BEGIN_SRC xml
+<?xml version="1.0" encoding="UTF-8"?>
+<catalogo>
+  <libro id="1" categoria="ficcion">
+    <titulo>Don Quijote</titulo>
+    <autor>Cervantes</autor>
+    <precio moneda="EUR">12.50</precio>
+    <anio>1605</anio>
+  </libro>
+  <libro id="2" categoria="tecnica">
+    <titulo>Introducción a XPath</titulo>
+    <autor>Ana García</autor>
+    <precio moneda="USD">25.00</precio>
+    <anio>2023</anio>
+  </libro>
+  <libro id="3" categoria="ficcion">
+    <titulo>Cien años de soledad</titulo>
+    <autor>García Márquez</autor>
+    <precio moneda="EUR">14.00</precio>
+    <anio>1967</anio>
+  </libro>
+</catalogo>
+#+END_SRC
+
+** Sintaxis básica
+
+*** Rutas absolutas y relativas
+
+**** Ruta absoluta
+Empieza en la raíz del documento con =/=:
+
+#+BEGIN_EXAMPLE
+/catalogo/libro
+#+END_EXAMPLE
+
+Selecciona todos los elementos =<libro>= que son hijos directos de =<catalogo>=.
+
+**** Ruta relativa
+Se evalúa desde el nodo actual (contexto):
+
+#+BEGIN_EXAMPLE
+libro/titulo
+#+END_EXAMPLE
+
+Desde el contexto actual, selecciona =<titulo>= dentro de =<libro>=.
+
+*** Seleccionar por etiqueta
+
+| XPath           | Descripción                        |
+|-----------------+------------------------------------|
+| =/catalogo=       | Elemento raíz =catalogo=             |
+| =/catalogo/libro= | Todos los =libro= hijos de =catalogo=  |
+| =//libro=         | Todos los =libro= en cualquier nivel |
+| =//titulo=        | Todos los =titulo= en el documento   |
+
+**** Diferencia entre =/= y =//=
+- =/= :: Solo hijos *directos* (un nivel).
+- =//= :: Descendientes en *cualquier nivel*.
+
+#+BEGIN_EXAMPLE
+/catalogo/libro/titulo   → titulos que son nietos de catalogo (1 nivel)
+//titulo                 → todos los titulos del documento
+#+END_EXAMPLE
+
+** Predicados
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+Los *predicados* =[...]= filtran nodos según una condición.
+
+*** Por posición
+
+| XPath                    | Descripción                    |
+|--------------------------+--------------------------------|
+| =/catalogo/libro[1]=     | Primer =libro= (índice desde 1) |
+| =/catalogo/libro[last()]=| Último =libro=                 |
+| =/catalogo/libro[position()<=2]= | Los dos primeros       |
+
+**** Nota sobre índices
+En XPath, los índices empiezan en *1*, no en 0.
+
+*** Por atributo
+
+| XPath                           | Descripción                          |
+|---------------------------------+--------------------------------------|
+| =//libro[@id]=                  | Libros que tienen atributo =id=      |
+| =//libro[@id="2"]=              | Libro con =id="2"=                   |
+| =//libro[@categoria="ficcion"]= | Libros de categoría ficción          |
+| =//precio[@moneda="EUR"]=       | Precios en euros                     |
+| =//libro[@id>1]=                | Libros con id numérico mayor que 1   |
+
+*** Por contenido de texto
+
+| XPath                           | Descripción                          |
+|---------------------------------+--------------------------------------|
+| =//titulo[text()="Don Quijote"]= | Título con ese texto exacto         |
+| =//titulo[contains(., "años")]=  | Títulos que contienen "años"        |
+| =//autor[starts-with(., "Gar")]= | Autores que empiezan por "Gar"      |
+| =//libro[precio>13]=             | Libros cuyo precio es mayor que 13  |
+
+El punto =.= representa el nodo actual (el texto del elemento en muchos contextos).
+
+** Ejes
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+Los *ejes* definen la relación entre nodos. Sintaxis: =eje::paso=.
+
+*** Ejes más usados
+
+| Eje                 | Abreviatura   | Descripción                     |
+|---------------------+---------------+---------------------------------|
+| =child::=             | (por defecto) | Hijos directos                  |
+| =descendant::=        | =//=            | Descendientes (cualquier nivel) |
+| =parent::=            | =../=           | Padre                           |
+| =ancestor::=          |               | Antepasados                     |
+| =following-sibling::= |               | Hermanos siguientes             |
+| =preceding-sibling::= |               | Hermanos anteriores             |
+| =attribute::=         | =@=             | Atributos                       |
+
+*** Ejemplos con ejes
+
+#+BEGIN_EXAMPLE
+/catalogo/child::libro          → igual que /catalogo/libro
+//titulo/parent::libro          → libros que contienen un titulo
+//libro[1]/following-sibling::libro  → hermanos siguientes del primer libro
+//libro/@id                     → atributo id de cada libro
+#+END_EXAMPLE
+
+** Funciones útiles
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Funciones de texto
+
+| Función              | Uso                      | Ejemplo                              |
+|----------------------+--------------------------+--------------------------------------|
+| =text()=             | Texto del nodo           | =//titulo/text()=                    |
+| =normalize-space(s)= | Quita espacios extra     | =normalize-space(//titulo[1])=       |
+| =contains(s, sub)=   | ¿s contiene sub?         | =//titulo[contains(., "Quijote")]=   |
+| =starts-with(s, pre)=| ¿s empieza por pre?      | =//autor[starts-with(., "C")]=       |
+| =substring(s, i, n)= | Subcadena desde i, n chars | =substring(//titulo[1], 1, 3)=    |
+| =concat(s1, s2)=     | Concatenar strings       | =concat(//titulo[1], " - ", //autor[1])= |
+
+*** Funciones numéricas
+
+| Función        | Uso                    |
+|----------------+------------------------|
+| =count(nodeset)= | Número de nodos      |
+| =sum(nodeset)=   | Suma de valores      |
+| =position()=     | Posición en el contexto |
+| =last()=         | Última posición      |
+
+#+BEGIN_EXAMPLE
+count(//libro)           → 3
+sum(//precio)            → 51.50 (si los precios son números)
+//libro[position()=last()]
+#+END_EXAMPLE
+
+*** Funciones de tipo
+
+| Función      | Uso                         |
+|--------------+-----------------------------|
+| =name()=     | Nombre de la etiqueta       |
+| =local-name()= | Nombre local (sin prefijo) |
+| =string-length(s)= | Longitud de la cadena   |
+
+** Operadores y combinaciones
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Operadores lógicos
+
+#+BEGIN_EXAMPLE
+//libro[@categoria="ficcion" and precio>12]
+//libro[@categoria="ficcion" or @categoria="tecnica"]
+//titulo[not(contains(., "años"))]
+#+END_EXAMPLE
+
+*** Unión de conjuntos (|)
+
+#+BEGIN_EXAMPLE
+//titulo | //autor
+#+END_EXAMPLE
+
+Devuelve todos los elementos =titulo= y =autor=.
+
+*** Operadores de comparación
+
+= = =, =!= =, =< =, =<= =, => =, =>= =
+
+** XPath en HTML (scraping)
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+HTML no siempre es XML bien formado. Herramientas como =lxml= en Python pueden parsear
+HTML y aplicar XPath. Ejemplo:
+
+#+BEGIN_SRC python
+from lxml import etree
+
+html = """
+<html>
+  <body>
+    <div class="articulo">
+      <h1>Título del artículo</h1>
+      <p>Párrafo uno.</p>
+      <p>Párrafo dos con <a href="/enlace">enlace</a>.</p>
+    </div>
+    <div class="articulo">
+      <h1>Otro artículo</h1>
+      <p>Contenido.</p>
+    </div>
+  </body>
+</html>
+"""
+
+tree = etree.HTML(html)
+
+# Todos los h1
+titulos = tree.xpath("//h1/text()")
+print(titulos)  # ['Título del artículo', 'Otro artículo']
+
+# h1 dentro de div con clase "articulo"
+titulos_articulo = tree.xpath("//div[@class='articulo']/h1/text()")
+
+# Atributo href de enlaces
+enlaces = tree.xpath("//a/@href")
+print(enlaces)  # ['/enlace']
+
+# Segundo párrafo del primer articulo
+segundo_p = tree.xpath("//div[@class='articulo'][1]/p[2]/text()")
+#+END_SRC
+
+*** XPath útiles para HTML común
+
+#+BEGIN_EXAMPLE
+//a/@href                    → todos los enlaces (URL)
+//img/@src                   → todas las imágenes
+//div[@class='contenido']    → divs con esa clase
+//table//tr                  → filas de tablas
+//input[@name='email']       → input por nombre
+//*[@id='principal']         → elemento con id
+#+END_EXAMPLE
+
+** XPath en Python (lxml)
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Cargar XML desde archivo
+
+#+BEGIN_SRC python
+from lxml import etree
+
+tree = etree.parse("catalogo.xml")
+root = tree.getroot()
+
+# O desde string
+xml_string = "<catalogo><libro><titulo>X</titulo></libro></catalogo>"
+root = etree.fromstring(xml_string.encode("utf-8"))
+#+END_SRC
+
+*** Ejecutar XPath
+
+#+BEGIN_SRC python
+# .xpath() devuelve lista de nodos o valores según la expresión
+libros = root.xpath("//libro")
+titulos = root.xpath("//titulo/text()")
+precio_eur = root.xpath("//precio[@moneda='EUR']/text()")
+primer_autor = root.xpath("//autor[1]/text()")[0]
+#+END_SRC
+
+*** Namespaces (XML con prefijos)
+
+Si el XML usa namespaces (p. ej. =xmlns=), hay que registrarlos:
+
+#+BEGIN_SRC python
+ns = {"rss": "http://purl.org/rss/1.0/"}
+items = root.xpath("//rss:item/title/text()", namespaces=ns)
+#+END_SRC
+
+** Ejercicios prácticos
+
+Con el XML de ejemplo del catálogo, escribe el XPath que:
+
+**** Ejercicio 1
+Obtenga el título del segundo libro.
+#+BEGIN_EXAMPLE
+# Respuesta: /catalogo/libro[2]/titulo/text()
+#+END_EXAMPLE
+
+**** Ejercicio 2
+Obtenga todos los precios en euros.
+#+BEGIN_EXAMPLE
+# Respuesta: //precio[@moneda='EUR']/text()
+#+END_EXAMPLE
+
+**** Ejercicio 3
+Obtenga los títulos de los libros de ficción.
+#+BEGIN_EXAMPLE
+# Respuesta: //libro[@categoria='ficcion']/titulo/text()
+#+END_EXAMPLE
+
+**** Ejercicio 4
+Obtenga el autor del libro cuyo título contiene "años".
+#+BEGIN_EXAMPLE
+# Respuesta: //libro[titulo[contains(., 'años')]]/autor/text()
+#+END_EXAMPLE
+
+**** Ejercicio 5
+Cuente cuántos libros hay en el catálogo.
+#+BEGIN_EXAMPLE
+# Respuesta: count(//libro)
+#+END_EXAMPLE
+
+** Referencia rápida
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+| Símbolo / sintaxis | Significado              |
+|--------------------+--------------------------|
+| =/=                | Hijo directo / raíz      |
+| =//=               | Descendiente (cualquier nivel) |
+| =.=                | Nodo actual              |
+| =..=               | Padre                    |
+| =@=                | Atributo                 |
+| =[]=               | Predicado (filtro)       |
+| =|=                | Unión de conjuntos       |
+| =text()=           | Contenido de texto       |
+| =*=                | Cualquier elemento       |
+| =@*=               | Cualquier atributo       |
+
+** Dependencias
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+#+BEGIN_EXAMPLE
+pip install lxml
+#+END_EXAMPLE
+
+Para HTML "suelto": =lxml= con =etree.HTML()= o =BeautifulSoup= con soporte =lxml=.
+
+
+
+
+
+
+
+
+*  Ruta Crítica del Web Scraping y Aspectos de Seguridad
+
+
+
+
+** Introducción
+
+Este tutorial describe la *ruta crítica* para realizar web scraping: los pasos imprescindibles,
+orden lógico y las consideraciones de *seguridad* (tuyas y del sitio objetivo) que conlleva.
+
+** La ruta crítica: fases del proyecto de scraping
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+La ruta crítica es la secuencia de actividades que deben completarse en orden y cuyas
+demoras afectan directamente el tiempo total del proyecto.
+
+*** Diagrama de flujo general
+
+#+BEGIN_EXAMPLE
+┌─────────────────┐
+│ 1. LEGALIDAD    │ ¿Puedo hacerlo?
+│ y ÉTICA         │
+└────────┬────────┘
+         │ Sí
+         ▼
+┌─────────────────┐
+│ 2. ALTERNATIVAS │ ¿Existe API o descarga oficial?
+│ (evitar scrape) │
+└────────┬────────┘
+         │ No hay alternativa adecuada
+         ▼
+┌─────────────────┐
+│ 3. PLANIFICACIÓN│ ¿Qué datos? ¿Qué páginas? ¿Frecuencia?
+│                 │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ 4. ANÁLISIS     │ Inspeccionar HTML, estructura, paginación
+│ TÉCNICO         │ ¿Contenido estático o dinámico?
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ 5. DESARROLLO   │ Código: requests/lxml/selenium, etc.
+│                 │ Manejo de errores, reintentos
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ 6. SEGURIDAD    │ Headers, rate limiting, proxies (si aplica)
+│ Y ROBUSTEZ      │ Validación de datos, sanitización
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ 7. EJECUCIÓN    │ Monitoreo, logs, alertas
+│ Y MANTENIMIENTO │ Adaptación a cambios del sitio
+└─────────────────┘
+#+END_EXAMPLE
+
+** Fase 1: Legalidad y ética (puerta de entrada)
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Antes de escribir código
+
+| Verificación | Pregunta | Acción si falla |
+|--------------+----------+-----------------|
+| Términos de uso | ¿El sitio prohíbe explícitamente el scraping? | No proceder |
+| robots.txt | ¿Hay directivas que bloqueen tu user-agent o rutas? | Respetar o no proceder |
+| Propiedad intelectual | ¿El contenido está protegido por derechos de autor? | Evaluar uso justo / licencia |
+| Datos personales | ¿Vas a extraer datos que identifiquen personas? | Cumplir RGPD/LFPDPPP y normativa local |
+| robots.txt location | ¿Dónde está? | Revisar =https://dominio.com/robots.txt= |
+
+*** Ejemplo de robots.txt
+
+#+BEGIN_EXAMPLE
+User-agent: *
+Disallow: /admin/
+Disallow: /api/  # Puede indicar que hay API disponible
+Allow: /public/
+
+User-agent: BadBot
+Disallow: /
+#+END_EXAMPLE
+
+*** Consecuencias de omitir esta fase
+
+- Demandas por violación de términos de servicio.
+- Bloqueo de IP o cuenta.
+- Responsabilidad por tratamiento indebido de datos personales.
+- Reputación y costes legales.
+
+** Fase 2: Buscar alternativas al scraping
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Jerarquía de preferencia (orden recomendado)
+
+1. *API oficial* (Twitter, INEGI, Amazon Product Advertising API, etc.)
+2. *RSS / feed XML*
+3. *JSON oculto en Network* (pestaña Network del navegador: peticiones XHR/Fetch que devuelven JSON)
+4. *HTML estático* (=requests= + lxml)
+5. *Contenido dinámico* (Selenium, Playwright)
+
+Nunca empezar con Selenium si no es necesario: es más lento y pesado. Ejemplos: Twitter/X
+→ API oficial (plan básico limitado); Amazon → Product Advertising API para afiliados.
+
+*** Antes de scrapear, preguntar
+
+1. ¿Existe una *API oficial*? (Google, Twitter, INEGI, etc.)
+2. ¿Hay *datos abiertos* o descarga masiva? (datos.gob.mx, Kaggle)
+3. ¿Ofrecen *exportación* o *feed RSS/XML*?
+4. ¿El sitio carga datos por JSON interno? (revisar pestaña Network)
+5. ¿Se puede *contactar* al propietario para solicitar acceso formal?
+
+*** Motivos para preferir alternativas
+
+- Legalidad más clara.
+- Menor riesgo de bloqueo.
+- Datos más estructurados y estables.
+- Menos mantenimiento ante cambios del sitio.
+
+** Fase 3: Planificación
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Definir alcance
+
+| Aspecto | Preguntas |
+|---------+-----------|
+| Objetivo | ¿Qué datos exactos necesito? |
+| Volumen | ¿Cuántas páginas/registros? |
+| Frecuencia | ¿Una vez, diario, en tiempo real? |
+| Formato salida | CSV, JSON, base de datos |
+| Tiempo estimado | ¿Cuánto tardará una ejecución completa? |
+
+*** Estimar carga al servidor
+
+\[
+\text{peticiones/hora} \approx \frac{\text{páginas totales}}{\text{tiempo deseado (h)}} \times (1 + \text{margen reintentos})
+\]
+
+Mantener un ritmo *razonable* evita saturar el servidor y ser detectado como bot.
+
+** Fase 4: Análisis técnico
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Inspeccionar el sitio
+
+- Herramientas de desarrollador (F12): estructura HTML, clases, IDs.
+- Network tab: ver peticiones XHR/Fetch (contenido dinámico).
+- Probar si =requests= + =lxml= devuelven el contenido visible en el navegador.
+
+*** Contenido estático vs. dinámico
+
+| Tipo | Cómo identificarlo | Herramienta típica |
+|------+--------------------+---------------------|
+| Estático | HTML completo en la respuesta GET | =requests= + =lxml= |
+| Dinámico | Contenido cargado por JavaScript | Selenium, Playwright |
+
+*** Mapear la estructura
+
+- URLs base y patrones de paginación.
+- Selectores XPath o CSS estables.
+- Formularios, cookies o cabeceras requeridas.
+
+*** Detectando JSON oculto (Network)
+
+Muchos sitios (incl. Amazon, tiendas, portales) cargan datos por peticiones internas a APIs
+que devuelven JSON. En lugar de parsear HTML:
+
+1. Abrir herramientas de desarrollador (F12) → pestaña *Network*.
+2. Filtrar por XHR o Fetch.
+3. Recargar la página y observar qué peticiones devuelven datos útiles.
+4. Copiar la URL de la petición y sus parámetros; replicar con =requests=.
+
+Ventaja: JSON estructurado, más fácil de parsear y más estable que el HTML.
+
+** Fase 5: Desarrollo
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Estructura recomendada del código
+
+#+BEGIN_EXAMPLE
+scraper/
+├── config.py        # URLs, timeouts, headers
+├── fetch.py         # Lógica de peticiones HTTP
+├── parse.py         # Extracción con XPath/CSS
+├── storage.py       # Guardar datos (CSV, DB)
+├── main.py          # Orquestación
+└── logs/            # Registro de ejecuciones
+#+END_EXAMPLE
+
+*** Manejo de errores
+
+#+BEGIN_SRC python
+import time
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
+def session_con_reintentos():
+    session = requests.Session()
+    retries = Retry(total=3, backoff_factor=1, status_forcelist=[500, 502, 503])
+    session.mount("https://", HTTPAdapter(max_retries=retries))
+    return session
+
+def fetch_con_pausa(url, session, delay=1):
+    try:
+        r = session.get(url, timeout=30)
+        r.raise_for_status()
+        time.sleep(delay)  # Rate limiting
+        return r.content
+    except requests.RequestException as e:
+        # Registrar en log, no solo print
+        raise
+#+END_SRC
+
+** Fase 6: Seguridad y robustez
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Seguridad de las peticiones
+
+**** User-Agent e identificación
+
+- Identificarse de forma clara (no hacerse pasar por Googlebot si no lo eres).
+- Incluir un correo de contacto si el sitio lo sugiere.
+- Evitar user-agents de navegadores muy antiguos (suelen ser bloqueados).
+
+#+BEGIN_SRC python
+HEADERS = {
+    "User-Agent": "MiProyecto/1.0 (estudio académico; +mail@ejemplo.com)",
+    "Accept": "text/html,application/xhtml+xml",
+    "Accept-Language": "es-ES,es;q=0.9",
+}
+#+END_SRC
+
+**** No exponer credenciales
+
+- Nunca hardcodear API keys, contraseñas o tokens.
+- Usar variables de entorno o archivos de configuración excluidos de control de versiones.
+
+#+BEGIN_SRC python
+import os
+API_KEY = os.environ.get("SCRAPER_API_KEY")
+if not API_KEY:
+    raise ValueError("Configurar SCRAPER_API_KEY")
+#+END_SRC
+
+**** Validar y sanitizar datos de entrada
+
+- URLs, parámetros y consultas pueden venir de fuentes externas.
+- Evitar inyección o URLs maliciosas (redirecciones a dominios desconocidos).
+
+#+BEGIN_SRC python
+from urllib.parse import urlparse
+
+def url_permitida(url, dominios_permitidos):
+    parsed = urlparse(url)
+    return parsed.netloc in dominios_permitidos
+#+END_SRC
+
+*** Seguridad de los datos extraídos
+
+**** Sanitización de salida
+
+- Limpiar HTML antes de guardar (evitar XSS si luego se muestran en una web).
+- Validar tipos y formatos (fechas, números, textos).
+
+#+BEGIN_SRC python
+import re
+def limpiar_texto(texto):
+    if not isinstance(texto, str):
+        return ""
+    return re.sub(r"<[^>]+>", "", texto).strip()
+#+END_SRC
+
+**** Almacenamiento
+
+- No guardar datos personales innecesarios.
+- Cifrar almacenamiento si hay datos sensibles.
+- Respaldar solo lo necesario y cumplir normativa de retención.
+
+*** Protección del sitio objetivo (ética técnica)
+
+| Práctica | Objetivo |
+|----------|----------|
+| Rate limiting | No saturar el servidor; pausas entre peticiones |
+| Horarios valle | Ejecutar en horas de menor tráfico si es posible |
+| Cache | Evitar repetir peticiones innecesarias |
+| Respetar 429/503 | Detener o ralentizar si el servidor pide esperar |
+| No evadir bloqueos | Si te bloquean, revisar si tu uso es adecuado |
+
+*** Proxies y escalado (consideraciones)
+
+- Proxies rotativos: mayor complejidad y coste; puede violar términos de uso.
+- Antes de usarlos: confirmar legalidad y política del sitio.
+- Preferir optimizar el ritmo antes que multiplicar IPs.
+
+** Fase 7: Ejecución y mantenimiento
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Logging
+
+#+BEGIN_SRC python
+import logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger(__name__)
+logger.info("Iniciando scraping de %s", url)
+logger.warning("Reintento %d para %s", intento, url)
+logger.error("Error en %s: %s", url, str(e))
+#+END_SRC
+
+*** Monitoreo básico
+
+- Tasa de éxito vs. errores.
+- Tiempo de respuesta y códigos HTTP.
+- Cambios en la estructura (parsers que dejan de funcionar).
+
+*** Adaptación a cambios
+
+- Los sitios modifican HTML, clases y rutas.
+- Diseñar selectores robustos (evitar dependencias frágiles).
+- Revisar periódicamente que el scraper sigue funcionando.
+
+** Checklist de seguridad resumido
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+| # | Verificación | Estado |
+|---|--------------+--------|
+| 1 | Términos de uso y robots.txt revisados | ☐ |
+| 2 | Sin API/alternativa viable | ☐ |
+| 3 | Credenciales en variables de entorno | ☐ |
+| 4 | User-Agent identificable | ☐ |
+| 5 | Rate limiting / pausas implementados | ☐ |
+| 6 | Manejo de errores y reintentos | ☐ |
+| 7 | Validación de URLs y dominios permitidos | ☐ |
+| 8 | Sanitización de datos extraídos | ☐ |
+| 9 | Sin almacenar datos personales innecesarios | ☐ |
+| 10 | Logging y monitoreo básico | ☐ |
+
+** Riesgos y mitigaciones
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+| Riesgo | Mitigación |
+|--------+------------|
+| Bloqueo de IP | Rate limiting, horarios valle, User-Agent adecuado |
+| Cambio de estructura HTML | Selectores resilientes, pruebas periódicas |
+| Exposición de credenciales | Variables de entorno, .gitignore |
+| Datos personales | Minimización, anonimización, cumplimiento legal |
+| Caída del servidor objetivo | Reintentos con backoff, detección de 429/503 |
+| Malware en respuestas | Validar tipos MIME, no ejecutar código descargado |
+| Sanciones legales | Cumplir ToS, robots.txt y normativa aplicable |
+
+** Referencias
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+- ~Tutorial_Webscraping_XPath_Blogs.org~: Técnicas de scraping con XPath, ejemplo likcos.
+- ~Fuentes_Datos_Gobierno_Abierto.org~: INEGI, datos.gob.mx, clima, alternativas legales.
+- ~Tutorial_XPath.org~: Sintaxis XPath y comparación XPath vs CSS.
+- robots.txt: =https://dominio.com/robots.txt=
+- RGPD / LFPDPPP: normativa aplicable a datos personales según jurisdicción.
+
+* Web Scraping con XPath para Blogs Estáticos
+
+** Introducción
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+Este apartado explica cómo hacer *web scraping* con XPath sobre *blogs estáticos* (HTML
+pre-renderizado en el servidor), qué consideraciones técnicas y éticas tener, y por qué
+*sitios como Amazon* no son adecuados para este enfoque.
+
+*** Prerrequisitos
+
+- Python 3 con =requests=, =lxml= (o =BeautifulSoup= con parser lxml).
+- Conocimientos básicos de XPath (ver ~Tutorial_XPath.org~).
+- Comprensión de la estructura HTML (etiquetas, clases, ids).
+
+** Blogs estáticos vs. sitios dinámicos
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** ¿Qué es un blog estático?
+
+Un blog estático sirve HTML ya generado por el servidor. Al hacer una petición GET,
+recibes el contenido completo en la respuesta. No necesitas ejecutar JavaScript para
+ver los artículos.
+
+**** Características típicas
+- HTML con estructura predecible (artículos en =<article>=, =<div class="post">=, etc.).
+- Paginación mediante URLs distintas (=/page/2/=, =?p=2=).
+- Contenido público y pensado para ser indexado por buscadores.
+- Sin capchas agresivos ni medidas anti-bot fuertes (en muchos casos).
+
+*** ¿Por qué son adecuados para scraping?
+
+| Aspecto        | Blogs estáticos                    |
+|----------------+------------------------------------|
+| Contenido      | HTML completo en la respuesta      |
+| Herramientas   | =requests= + =lxml= suficientes    |
+| Estructura     | Generalmente clara y consistente   |
+| Legalidad      | Más predecible si es uso personal  |
+| robots.txt     | Suele permitir acceso a contenido  |
+
+** Técnicas de scraping para blogs con XPath
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Paso 1: Inspeccionar la estructura HTML
+
+Antes de escribir XPath, abre el blog en el navegador y usa las herramientas de
+desarrollador (F12) para ver:
+
+- Contenedor de artículos: =<article>=, =<div class="post">=, =<div class="entry">=.
+- Título: =<h1>=, =<h2>=, =<a class="title">=.
+- Autor, fecha, categorías.
+- Enlace al artículo completo: =<a href="...">=.
+- Snippet o extracto: =<p class="excerpt">=, =<div class="summary">=.
+
+*** Paso 2: Obtener el HTML
+
+#+BEGIN_SRC python
+import requests
+from lxml import etree
+
+url = "https://ejemplo-blog.com/"
+headers = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+}
+response = requests.get(url, headers=headers)
+response.raise_for_status()
+html = response.content
+#+END_SRC
+
+*** Paso 3: Parsear y aplicar XPath
+
+#+BEGIN_SRC python
+tree = etree.HTML(html)
+
+# Ejemplos típicos para blogs (ajustar selectores según el sitio):
+# Todos los artículos
+articulos = tree.xpath("//article")
+# o
+articulos = tree.xpath("//div[contains(@class, 'post')]")
+
+# Título del primer artículo
+titulo = tree.xpath("//article[1]//h2/a/text()")[0].strip()
+
+# Enlace al artículo
+enlace = tree.xpath("//article[1]//h2/a/@href")[0]
+
+# Fecha (si está en un elemento con clase 'date')
+fecha = tree.xpath("//article[1]//time/@datetime")
+fecha = fecha[0] if fecha else tree.xpath("//article[1]//*[contains(@class,'date')]/text()")
+
+# Extracto o resumen
+extracto = tree.xpath("//article[1]//div[contains(@class,'excerpt')]//text()")
+extracto = " ".join(t.strip() for t in extracto if t.strip())
+#+END_SRC
+
+*** Paso 4: Extraer todos los artículos de una página
+
+#+BEGIN_SRC python
+def extraer_articulos_pagina(html):
+    tree = etree.HTML(html)
+    articulos = tree.xpath("//article")
+    resultado = []
+    for art in articulos:
+        titulo = art.xpath(".//h2/a/text() | .//h1/a/text() | .//.//a[contains(@class,'title')]/text()")
+        enlace = art.xpath(".//h2/a/@href | .//h1/a/@href | .//a[contains(@class,'title')]/@href")
+        extracto = art.xpath(".//div[contains(@class,'excerpt')]//text() | .//p[contains(@class,'summary')]//text()")
+        resultado.append({
+            "titulo": titulo[0].strip() if titulo else "",
+            "enlace": enlace[0] if enlace else "",
+            "extracto": " ".join(t.strip() for t in extracto if t.strip())[:200]
+        })
+    return resultado
+#+END_SRC
+
+*** Paso 5: Paginación
+
+Muchos blogs usan URLs como =/page/2/=, =/?paged=2=, =/blog?page=2=:
+
+#+BEGIN_SRC python
+import time
+
+base_url = "https://ejemplo-blog.com/page/{}/"
+for pagina in range(1, 6):  # páginas 1 a 5
+    url = base_url.format(pagina)
+    response = requests.get(url, headers=headers)
+    articulos = extraer_articulos_pagina(response.content)
+    for a in articulos:
+        print(a["titulo"], a["enlace"])
+    time.sleep(1)  # respetar el servidor: pausa entre peticiones
+#+END_SRC
+
+*** XPath útiles para blogs (resumen)
+
+| Objetivo          | XPath típico                                           |
+|-------------------+--------------------------------------------------------|
+| Contenedor posts  | =//article=, =//div[contains(@class,'post')]=          |
+| Título            | =.//h1/a/text()=, =.//h2/a/text()=                     |
+| Enlace            | =.//h1/a/@href=, =.//a[contains(@class,'entry-link')]/@href= |
+| Fecha             | =.//time/@datetime=, =.//*[contains(@class,'date')]/text()= |
+| Autor             | =.//*[contains(@class,'author')]/text()=               |
+| Categorías        | =.//a[contains(@class,'category')]/text()=             |
+| Extracto          | =.//div[contains(@class,'excerpt')]//text()=           |
+
+** Consideraciones éticas y legales
+
+*** Buenas prácticas
+
+1. *robots.txt*: Revisar si el sitio prohíbe o limita el scraping.
+2. *User-Agent*: Identificarse de forma razonable (no hacerse pasar por bot de Google).
+3. *Rate limiting*: Hacer pausas entre peticiones (=time.sleep(1)= o más).
+4. *Uso razonable*: Evitar sobrecargar el servidor; respetar términos de uso.
+5. *Atribución*: Si redistribuyes contenido, cita la fuente.
+
+*** Cuándo es más aceptable
+
+- Blogs personales o pequeños con contenido público.
+- Uso educativo o de investigación.
+- Agregadores de noticias que respetan robots.txt y términos de uso.
+- Contenido bajo licencias abiertas (CC, etc.).
+
+** Por qué NO es adecuado hacer scraping en Amazon (y similares)
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** 1. Términos de uso y condiciones
+
+Amazon (y la mayoría de grandes plataformas) *prohíben explícitamente* el scraping en
+sus condiciones de servicio. Hacerlo puede suponer:
+
+- Suspensión o cierre de cuenta.
+- Acciones legales.
+- Bloqueo de IP.
+
+No es una limitación técnica, sino contractual y legal.
+
+*** 2. Contenido dinámico (JavaScript)
+
+Amazon carga gran parte del contenido mediante JavaScript:
+
+- Listados de productos se actualizan con peticiones AJAX.
+- Precios, disponibilidad y valoraciones se insertan después del HTML inicial.
+- Una petición con =requests= devuelve HTML casi vacío respecto a lo que ves en el navegador.
+
+Para scraping efectivo haría falta un navegador headless (Selenium, Playwright), lo que:
+
+- Es más complejo y pesado.
+- Genera más carga para el servidor.
+- Suele detectarse más fácilmente como bot.
+
+*** 3. Medidas anti-bot
+
+| Medida          | Descripción                                  |
+|-----------------+----------------------------------------------|
+| Rate limiting   | Bloqueo temporal tras muchas peticiones      |
+| CAPTCHAs        | Verificaciones que rompen automatización     |
+| Fingerprinting  | Detección de patrones de navegación          |
+| IP blocking     | Bloqueo de IPs sospechosas                   |
+| Contenido ofuscado | Clases/ids aleatorios que cambian           |
+
+*** 4. Estructura cambiante
+
+- El HTML de Amazon cambia con frecuencia (A/B tests, rediseños).
+- Selectores XPath que funcionan hoy pueden dejar de hacerlo en semanas.
+- Mantener un scraper estable es costoso y frágil.
+
+*** 5. Alternativas legales y recomendadas
+
+- *Amazon Product Advertising API*: Para afiliados y partners autorizados.
+- *Otros APIs oficiales*: Muchas tiendas ofrecen APIs para precios, inventario, etc.
+- *Bases de datos de terceros*: Datasets académicos o comerciales de productos.
+
+*** Resumen: Amazon vs. blog estático
+
+| Aspecto         | Blog estático              | Amazon (y similares)     |
+|-----------------+----------------------------+---------------------------|
+| Términos de uso | Suele ser tolerable        | Prohibido explícitamente  |
+| Contenido       | HTML estático completo     | Mucho contenido dinámico  |
+| Anti-bot        | Escaso o inexistente       | Muy presente              |
+| Estructura      | Estable y predecible       | Cambia con frecuencia     |
+| Alternativas    | Scraping razonable         | Usar API oficial          |
+
+** Ejemplo completo: scraper para un blog estático
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+#+BEGIN_SRC python
+import requests
+from lxml import etree
+import time
+import csv
+
+def scrape_blog(base_url, num_paginas=3):
+    """Extrae artículos de un blog estático con paginación /page/N/."""
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; BlogStudyBot/1.0)"}
+    articulos = []
+    for p in range(1, num_paginas + 1):
+        url = f"{base_url.rstrip('/')}/page/{p}/" if p > 1 else base_url
+        try:
+            r = requests.get(url, headers=headers, timeout=10)
+            r.raise_for_status()
+            tree = etree.HTML(r.content)
+            for art in tree.xpath("//article"):
+                tit = art.xpath(".//h2/a/text() | .//h1/a/text()")
+                lnk = art.xpath(".//h2/a/@href | .//h1/a/@href")
+                ext = art.xpath(".//div[contains(@class,'excerpt')]//text()")
+                articulos.append({
+                    "titulo": tit[0].strip() if tit else "",
+                    "enlace": lnk[0] if lnk else "",
+                    "extracto": " ".join(t.strip() for t in ext if t.strip())[:300]
+                })
+        except Exception as e:
+            print(f"Error en {url}: {e}")
+        time.sleep(1)
+    return articulos
+
+# Uso (sustituir por un blog real que permita scraping):
+# datos = scrape_blog("https://ejemplo-blog.com/", num_paginas=3)
+# for a in datos:
+#     print(a["titulo"], "->", a["enlace"])
+#+END_SRC
+
+** Dependencias
+
+#+BEGIN_EXAMPLE
+pip install requests lxml
+#+END_EXAMPLE
+
+** Referencias
+
+- ~Tutorial_XPath.org~: Sintaxis y ejemplos de XPath.
+- =robots.txt=: Revisar =https://dominio.com/robots.txt= antes de scrapear.
+- APIs: Buscar si el sitio ofrece una API oficial antes de automatizar.
+
+
+
+
+*  Fuentes de Datos Gubernamentales y Abiertos: INEGI, datos.gob.mx y más
+
+** Introducción
+
+Instituciones gubernamentales publican *datos abiertos* bajo marcos legales que permiten
+su reutilización. Es preferible usar *APIs oficiales* o *descargas directas* en lugar de
+scraping cuando están disponibles: son legales, estables y eficientes.
+
+Este apartado recopila fuentes como *INEGI*, *datos.gob.mx* y otras donde sí podemos
+obtener información de forma adecuada.
+
+** INEGI (México)
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Qué es INEGI
+
+El *Instituto Nacional de Estadística y Geografía* (INEGI) produce estadísticas y
+geografía de México. Ofrece varias formas de acceso programático a sus datos.
+
+*** API del Banco de Indicadores
+
+**** Registro y token
+
+- URL: ~https://www.inegi.org.mx/servicios/api_indicadores.html~
+- Requiere *registro* para obtener un *token*.
+- Registro: ~https://www.inegi.org.mx/app/desarrolladores/registro/default.html~
+
+**** Parámetros típicos
+
+| Parámetro         | Descripción                            | Ejemplo                      |
+|-------------------+----------------------------------------+------------------------------|
+| IdIndicador       | Clave del indicador                    | 1002000001 (Población total) |
+| Idioma            | es / en                                | es                           |
+| Área geográfica   | 00=nacional, 99=entidad, 999=municipio | 00                           |
+| Dato más reciente | true / false                           | false (serie histórica)      |
+| Fuente            | BISE, etc.                             | BISE                         |
+| Token             | Token de registro                      | [tu token]                   |
+| Formato           | json, jsonp, xml                       | json                         |
+
+**** Ejemplo en Python (API Indicadores)
+
+#+BEGIN_SRC python
+import requests
+
+TOKEN = "TU_TOKEN_AQUI"  # Obtener en inegi.org.mx/app/desarrolladores/registro
+# Indicador 1002000001 = Población total
+url = (
+    f"https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml/"
+    f"INDICATOR/1002000001/es/00/false/BISE/2.0/{TOKEN}?type=json"
+)
+response = requests.get(url)
+data = response.json()
+# Estructura: data["Series"][0]["OBSERVATIONS"]
+for obs in data.get("Series", [{}])[0].get("OBSERVATIONS", []):
+    print(obs["TIME_PERIOD"], obs["OBS_VALUE"])
+#+END_SRC
+
+*** API DENUE (Directorio Estadístico Nacional de Unidades Económicas)
+
+- URL: ~https://www.inegi.org.mx/servicios/api_denue.html~
+- Busca establecimientos por palabra, actividad económica, ubicación, etc.
+- Requiere token.
+- Devuelve JSON con unidades económicas.
+
+**** Ejemplo de consulta DENUE
+
+#+BEGIN_SRC python
+TOKEN = "TU_TOKEN"
+busqueda = "restaurante"
+entidad = "19"  # Nuevo León
+url = f"https://www.inegi.org.mx/app/api/denue/v1/consulta/buscar/{busqueda}/{entidad}/{TOKEN}"
+response = requests.get(url)
+establecimientos = response.json()
+#+END_SRC
+
+*** Datos Abiertos INEGI
+
+- URL: ~https://www.inegi.org.mx/datosabiertos/~
+- Archivos en formatos estándar (CSV, Excel, etc.).
+- Descarga directa sin API; suele usarse para conjuntos grandes.
+
+*** Descarga Masiva INEGI
+
+- URL: ~https://www.inegi.org.mx/app/descarga/~
+- Permite seleccionar DENUE, Banco de Indicadores, Inventario Nacional de Viviendas,
+  microdatos y tabulados por área geográfica, tema, período y formato.
+
+*** Librería inegipy (Python)
+
+#+BEGIN_EXAMPLE
+pip install inegipy
+#+END_EXAMPLE
+
+Facilita el acceso al Banco de Indicadores, DENUE y Marco Geoestadístico.
+Documentación: ~https://pypi.org/project/inegipy/~
+
+** datos.gob.mx (Plataforma Nacional de Datos Abiertos)
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+*** Qué es datos.gob.mx
+
+Plataforma centralizada de *datos abiertos* del Gobierno de México. Incluye miles de
+bases de datos de dependencias federales, estatales y organismos autónomos.
+
+- URL: ~https://datos.gob.mx/~
+- Más de 5 000 bases de datos.
+- Categorías: Economía, Educación, Salud, Cultura, Ciencia y Tecnología, etc.
+
+*** API CKAN
+
+La plataforma usa *CKAN*. Su API permite listar conjuntos, buscar y obtener URLs de
+descarga de recursos (CSV, Excel, etc.).
+
+**** Endpoints útiles
+
+| Acción | URL | Descripción |
+|--------+-----+-------------|
+| Listar datasets | =/api/3/action/package_list= | IDs de todos los conjuntos |
+| Ver dataset | =/api/3/action/package_show?id=ID= | Metadatos y recursos |
+| Buscar | =/api/3/action/package_search?q=TERMINO= | Búsqueda por término |
+| Ver recurso | =/api/3/action/resource_show?id=ID= | Detalles de un recurso |
+
+**** Ejemplo: listar y buscar conjuntos de datos
+
+#+BEGIN_SRC python
+import requests
+
+BASE = "https://datos.gob.mx/api/3/action"
+
+# Listar todos los IDs de conjuntos
+r = requests.get(f"{BASE}/package_list")
+datasets = r.json().get("result", [])
+
+# Buscar por término
+r = requests.get(f"{BASE}/package_search", params={"q": "educación"})
+resultados = r.json().get("result", {}).get("results", [])
+for d in resultados[:5]:
+    print(d["title"], "-", d.get("organization", {}).get("title"))
+#+END_SRC
+
+**** Ejemplo: obtener URL de descarga de un recurso
+
+#+BEGIN_SRC python
+# Supongamos que tenemos el id del dataset (ej. "catalogo-escuelas")
+dataset_id = "catalogo-escuelas"
+r = requests.get(f"{BASE}/package_show", params={"id": dataset_id})
+pkg = r.json().get("result", {})
+for res in pkg.get("resources", []):
+    if res.get("format", "").upper() == "CSV":
+        url_descarga = res["url"]
+        print("Descargar CSV:", url_descarga)
+        # response = requests.get(url_descarga)
+        # with open("datos.csv", "wb") as f:
+        #     f.write(response.content)
+        break
+#+END_SRC
+
+*** Descarga directa de archivos
+
+En la web de datos.gob.mx cada dataset tiene recursos con enlaces de descarga directa.
+Se puede usar la API para obtener esas URLs y luego =requests.get()= para descargar.
+
+** Otras fuentes gubernamentales de datos abiertos
+
+*** México
+
+| Fuente             | URL            | Descripción                                  |
+|--------------------+----------------+----------------------------------------------|
+| INEGI              | inegi.org.mx   | Estadísticas, indicadores, DENUE, geografía  |
+| datos.gob.mx       | datos.gob.mx   | Catálogo nacional de datos abiertos          |
+| SAT datos abiertos | gob.mx/sat     | Información fiscal y aduanal                 |
+| SEPOMEX            | sepomex.gob.mx | Códigos postales (consultar términos de uso) |
+
+*** España
+
+| Fuente       | URL          | Descripción                        |
+|--------------+--------------+------------------------------------|
+| datos.gob.es | datos.gob.es | Portal de datos abiertos de España |
+
+*** Internacional
+
+| Fuente               | URL                   | Descripción                     |
+|----------------------+-----------------------+---------------------------------|
+| World Bank Open Data | data.worldbank.org    | Indicadores mundiales           |
+| UN Data              | data.un.org           | Estadísticas de Naciones Unidas |
+| Eurostat             | ec.europa.eu/eurostat | Estadísticas europeas           |
+
+** Cuándo usar cada método
+
+| Método           | Cuándo usarlo                                        | Ejemplo                                   |
+|------------------+------------------------------------------------------+-------------------------------------------|
+| API oficial      | Existe y cubre tus necesidades                       | INEGI Indicadores, DENUE                  |
+| Descarga directa | Archivos CSV/Excel en el portal                      | datos.gob.mx, INEGI Datos Abiertos        |
+| API CKAN         | Listar, buscar, obtener URLs de recursos             | datos.gob.mx                              |
+| Scraping         | Solo si no hay API ni descarga y el sitio lo permite | Evitar en gobierno; preferir alternativas |
+
+** Buenas prácticas
+
+1. *Priorizar API y descargas oficiales*: Son legales, estables y están pensadas para uso programático.
+2. *Revisar términos de uso y licencias*: Aunque sean datos abiertos, pueden haber condiciones.
+3. *Identificarse*: Usar un User-Agent razonable si haces peticiones HTTP.
+4. *No saturar servidores*: Respetar rate limits; hacer pausas entre peticiones masivas.
+5. *Atribuir la fuente*: Citar INEGI, datos.gob.mx, etc., al publicar o reutilizar datos.
+6. *Protección de datos*: Evitar extraer o combinar datos que permitan identificar personas sin base legal.
+
+** Ejemplo completo: indicador INEGI + guardar CSV
+
+#+BEGIN_SRC python
+import requests
+import csv
+
+TOKEN = "TU_TOKEN"
+# INPC - Índice Nacional de Precios al Consumidor (ejemplo)
+indicador = "628193"  # Ajustar al indicador deseado
+url = (
+    f"https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml/"
+    f"INDICATOR/{indicador}/es/00/false/BISE/2.0/{TOKEN}?type=json"
+)
+r = requests.get(url)
+data = r.json()
+
+observaciones = data.get("Series", [{}])[0].get("OBSERVATIONS", [])
+with open("indicador_inegi.csv", "w", newline="", encoding="utf-8") as f:
+    w = csv.writer(f)
+    w.writerow(["periodo", "valor"])
+    for obs in observaciones:
+        w.writerow([obs["TIME_PERIOD"], obs["OBS_VALUE"]])
+print(f"Guardados {len(observaciones)} registros")
+#+END_SRC
+
+** Resumen de enlaces
+
+- INEGI API Indicadores: ~https://www.inegi.org.mx/servicios/api_indicadores.html~
+- INEGI API DENUE: ~https://www.inegi.org.mx/servicios/api_denue.html~
+- INEGI Datos Abiertos: ~https://www.inegi.org.mx/datosabiertos/~
+- INEGI Descarga Masiva: ~https://www.inegi.org.mx/app/descarga/~
+- Registro token INEGI: ~https://www.inegi.org.mx/app/desarrolladores/registro/default.html~
+- datos.gob.mx: ~https://datos.gob.mx/~
+- Constructor de Consultas INEGI: ~https://www.inegi.org.mx/app/querybuilder/~
+
+** Dependencias
+
+#+BEGIN_EXAMPLE
+pip install requests inegipy
+#+END_EXAMPLE
