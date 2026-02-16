@@ -1724,7 +1724,7 @@ Para HTML "suelto": =lxml= con =etree.HTML()= o =BeautifulSoup= con soporte =lxm
 
 ** Introducción
 
-Este tutorial describe la *ruta crítica* para realizar web scraping: los pasos imprescindibles,
+Este apartado describe la *ruta crítica* para realizar web scraping: los pasos imprescindibles,
 orden lógico y las consideraciones de *seguridad* (tuyas y del sitio objetivo) que conlleva.
 
 ** La ruta crítica: fases del proyecto de scraping
