@@ -1343,7 +1343,6 @@ print(results_to_org_table(resultados))
 #+end_src
 
 
-
 * Introducción a XPath
 
 *XPath* (XML Path Language) es un lenguaje para localizar nodos y extraer valores en
@@ -1709,7 +1708,6 @@ pip install lxml
 #+END_EXAMPLE
 
 Para HTML "suelto": =lxml= con =etree.HTML()= o =BeautifulSoup= con soporte =lxml=.
-
 
 
 
@@ -2384,7 +2382,6 @@ pip install requests lxml
 
 
 
-
 *  Fuentes de Datos Gubernamentales y Abiertos: INEGI, datos.gob.mx y más
 
 ** Introducción
@@ -2634,3 +2631,224 @@ print(f"Guardados {len(observaciones)} registros")
 #+BEGIN_EXAMPLE
 pip install requests inegipy
 #+END_EXAMPLE
+
+
+*  Actividades Introductorias - Recuperación de la Información
+
+** Introducción
+
+Este conjunto de actividades tiene como objetivo desarrollar en el estudiante
+las habilidades básicas de recuperación de información:
+
+- Formulación de consultas
+- Identificación de relevancia
+- Detección de ruido
+- Evaluación de fuentes
+- Análisis crítico de resultados
+
+No se requiere programación. El enfoque es conceptual y práctico.
+
+------------------------------------------------------------
+
+** 1. Inteligencia Artificial en la vida diaria
+
+*** 1.1 Uso de la IA en la educación y el aprendizaje
+
+**** Objetivo
+Analizar cómo cambia la recuperación de información según la formulación de la consulta.
+
+**** Actividad
+1. Formular tres consultas:
+   - General
+   - Específica
+   - Académica (Google Scholar)
+2. Recuperar al menos 8 resultados por consulta.
+3. Clasificar cada resultado:
+   - Evidencia científica
+   - Opinión
+   - Publicidad
+   - Experiencia personal
+
+**** Producto
+Tabla comparativa de calidad de resultados por tipo de consulta.
+
+**** Reflexión
+- ¿Qué consulta tuvo mayor precisión?
+- ¿Cuál generó más ruido?
+
+
+*** 1.2 IA generativa y creación de contenido
+
+**** Objetivo
+nComparar sistemas generativos y sistemas de recuperación tradicionales.
+
+**** Actividad
+1. Buscar información sobre "IA generativa".
+2. Formular la misma pregunta a ChatGPT.
+3. Comparar:
+   - Fuentes citadas
+   - Profundidad
+   - Posibles omisiones
+
+**** Producto
+Reporte comparativo de 1 cuartilla.
+
+**** Conceptos clave
+Relevancia, ranking, síntesis vs recuperación.
+
+
+*** 1.3 Impacto de la IA en el empleo joven
+
+**** Actividad
+1. Recuperar:
+   - 3 noticias alarmistas
+   - 2 estudios académicos
+   - 2 fuentes estadísticas
+2. Clasificar el tipo de evidencia.
+
+**** Reflexión
+¿Predomina el sensacionalismo o la evidencia?
+
+
+*** 1.4 Ética, privacidad y regulación
+
+**** Actividad
+Realizar búsqueda usando:
+site:.gob
+site:.edu
+site:.org
+
+Comparar resultados con blogs o medios comerciales.
+
+**** Producto
+Mapa conceptual de fuentes oficiales vs no oficiales.
+
+
+*** 1.5 Herramientas de IA cotidianas
+
+**** Actividad
+1. Identificar 5 herramientas de IA.
+2. Recuperar información sobre:
+   - Uso de datos personales
+   - Políticas de privacidad
+3. Clasificar riesgos.
+
+
+** 2. Salud mental y bienestar en jóvenes
+
+*** 2.1 Ansiedad y estrés académico
+
+**** Actividad
+Comparar resultados de:
+- "estrés estudiantes"
+- "estrés académico universitario estudio"
+- "academic stress prevalence Mexico"
+
+**** Reflexión
+¿Cómo cambia la calidad de los resultados?
+
+
+*** 2.2 Influencia de redes sociales
+
+**** Actividad
+Buscar:
+- Impacto negativo de redes sociales
+- Impacto positivo de redes sociales
+
+Comparar narrativas y diversidad de fuentes.
+
+
+*** 2.3 Estrategias de autocuidado
+
+**** Actividad
+Clasificar resultados en:
+- Científico
+- Comercial
+- Influencer
+- Pseudociencia
+
+
+*** 2.4 Salud mental universitaria
+
+**** Actividad
+Recuperar programas de apoyo psicológico en universidades mexicanas.
+
+Analizar:
+- Visibilidad
+- Claridad de información
+- Accesibilidad
+
+
+*** 2.5 Programas y políticas públicas
+
+**** Actividad
+Buscar:
+site:.gob.mx "salud mental jovenes"
+
+Evaluar cobertura y actualidad.
+
+
+** 3. Algoritmos, poder y sociedad digital
+
+*** 3.1 Algoritmos de recomendación
+
+**** Actividad
+Diferentes perfiles de búsqueda:
+- Noticias políticas A
+- Noticias políticas B
+
+Comparar resultados obtenidos.
+
+
+*** 3.2 Economía de la atención
+
+**** Actividad
+Seleccionar un tema polémico.
+Comparar:
+- Título
+- Contenido
+- Palabras clave predominantes
+
+
+*** 3.3 Vigilancia y privacidad
+
+**** Actividad
+Comparar búsquedas:
+- "vigilancia digital"
+- "surveillance capitalism"
+
+Analizar profundidad de resultados.
+
+
+*** 3.4 Plataformas digitales y control de la información
+
+**** Actividad
+Buscar el mismo tema en:
+- Google
+- Bing
+- DuckDuckGo
+
+Comparar ranking y diversidad de fuentes.
+
+
+*** 3.5 Desinformación y fake news
+
+**** Actividad principal: Detectives de información
+
+1. Se proporciona una noticia potencialmente dudosa.
+2. El estudiante debe:
+   - Formular consultas alternativas
+   - Recuperar evidencia
+   - Verificar fecha y fuente original
+3. Clasificar evidencia como:
+   - Confirmada
+   - Engañosa
+   - Falsa
+   - Desactualizada
+
+**** Producto final
+Informe argumentado con evidencia recuperada.
+
+
+
+
