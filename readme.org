@@ -2851,4 +2851,141 @@ Informe argumentado con evidencia recuperada.
 
 
 
+* La Ventana de Overton
 
+La Ventana de Overton es una teoría política que describe el rango de
+ideas que el público está dispuesto a aceptar en un momento dado. Las
+ideas fuera de la ventana se consideran "radicales" o "impensables".
+
+El objetivo de la desinformación suele ser "empujar" la ventana para
+que algo que hoy nos parece una locura, mañana nos parezca normal.
+
+**  Caso de Estudio: "La legalización de la carne humana"
+
+Este es uno de los ejemplos más perturbadores y efectivos para
+analizar cómo se manipula la opinión pública mediante noticias falsas
+y debates provocados.
+
+1. La Noticia (El anzuelo)
+
+En varios portales de noticias "alternativas" y redes sociales,
+empezaron a circular artículos afirmando que "Científicos y éticos
+sugieren que comer carne humana producida en laboratorio es la
+solución al cambio climático".
+
+2. El proceso de búsqueda y recuperación para los alumnos:
+
+Paso 1: De lo Impensable a lo Radical. Aparecen noticias sobre una
+empresa ficticia o un artista que "sirve carne humana" en una cena
+privada. (Es falso, pero introduce la idea en el buscador de Google).
+
+Paso 2: De lo Radical a lo Aceptable. Aparecen artículos de opinión
+(muchas veces financiados por bots) que dicen: "No es que queramos
+comer humanos, pero ¿no es peor que se muera el planeta?". Aquí el
+alumno debe buscar quién firma esos artículos.
+
+Paso 3: De lo Aceptable a lo Sensato. Se recuperan noticias sobre
+"carne cultivada en laboratorio" (que es real) y se mezclan
+malintencionadamente con el tema del canibalismo para confundir al
+usuario.
+
+3. La Realidad (El Fact-Check)
+
+No hay ninguna legislación ni movimiento científico serio promoviendo
+el canibalismo. Sin embargo, la noticia falsa se utiliza para:
+
+Desacreditar la lucha contra el cambio climático (haciendo que parezca
+que los ecologistas son caníbales).
+
+Generar clics por puro impacto visual y emocional.
+
+
+
+
+* Ejercicios: La Ventana de Overton
+
+** Introducción al Análisis de Desplazamiento de Opinión
+Este documento contiene 10 casos de estudio sobre temas que están
+moviendo la "Ventana de Overton" en la esfera pública global. El
+objetivo es recuperar las fuentes originales y determinar
+la veracidad o manipulación de los datos presentados.
+
+** Casos de Estudio para Investigación Forense Digital
+
+*** 1. Implementación de Ciudades de 15 Minutos y Restricción de Movimiento
+- *Premisa:* Gobiernos europeos han comenzado a instalar vallas
+  biométricas para impedir que los ciudadanos salgan de su radio de 15
+  minutos sin permiso digital previo.
+- *Punto de búsqueda:* Investigar regulaciones urbanísticas en Oxford y
+  París (2023-2024).
+
+*** 2. El Crédito Social Obligatorio para Acceso a Internet
+- *Premisa:* La nueva Ley de Servicios Digitales incluye un sistema de
+  puntos donde comentarios "negativos" bloquean el acceso al home
+  banking del usuario de forma automática.
+- *Punto de búsqueda:* Analizar el texto de la Digital Services Act
+  (DSA) de la Unión Europea.
+
+*** 3. Sustitución de Proteína Animal por Invertebrados en Comedores Escolares
+- *Premisa:* La normativa de la FAO para 2025 exige que el 30% de la
+  harina en escuelas sea de origen insectoide para combatir el metano
+  bovino.
+- *Punto de búsqueda:* Rastrear comunicados oficiales de la FAO y el Codex Alimentarius.
+
+*** 4. Identidad Digital de Recién Nacidos mediante Escaneo de Iris
+- *Premisa:* Un programa piloto en hospitales de Indonesia vincula la
+  partida de nacimiento a una billetera digital biométrica desde el
+  primer minuto de vida.
+- *Punto de búsqueda:* Investigar proyectos de ID2020 y alianzas
+  tecnológicas en el sudeste asiático.
+
+*** 5. Impuesto Global al Carbono Individual (Monedero de CO2)
+- *Premisa:* Bancos centrales están probando tarjetas de crédito que se
+  bloquean si el usuario supera su cuota mensual de emisiones de
+  carbono al comprar carne o combustible.
+- *Punto de búsqueda:* Revisar las propuestas del Foro Económico Mundial
+  sobre "Personal Carbon Allowances".
+
+*** 6. Legalización de la "Eutanasia por Cansancio Vital" en Menores
+- *Premisa:* Países Bajos y Canadá han extendido sus protocolos médicos
+  para permitir el procedimiento en adolescentes con cuadros de
+  eco-ansiedad severa sin consentimiento parental.
+- *Punto de búsqueda:* Recuperar las leyes MAiD (Canadá) y el Protocolo de Groningen.
+
+*** 7. Sensores de "Ruido Social" en Hogares Inteligentes
+- *Premisa:* Las nuevas normativas de Smart Homes exigen que los
+  asistentes de voz reporten palabras clave de "discurso de odio"
+  directamente a las autoridades locales.
+- *Punto de búsqueda:* Analizar términos y condiciones de dispositivos
+  IoT y patentes recientes de procesamiento de lenguaje natural.
+
+*** 8. La Prohibición de la Propiedad Privada de Vehículos para 2030
+- *Premisa:* Un acuerdo firmado en la COP28 establece que la fabricación
+  de coches particulares cesará en 2028, permitiendo solo el modelo de
+  "suscripción por uso" estatal.
+- *Punto de búsqueda:* Consultar las resoluciones finales de la COP28 y el plan "Fit for 55".
+
+*** 9. Uso de IA para la Reescritura de Textos Históricos en Tiempo Real
+- *Premisa:* Bibliotecas digitales están utilizando algoritmos para
+  "adaptar" el lenguaje de clásicos literarios a estándares de
+  sensibilidad modernos sin dejar rastro del original.
+- *Punto de búsqueda:* Investigar casos de edición en obras de Roald Dahl y Agatha Christie (2023).
+
+*** 10. Geoingeniería: El Bloqueo Solar mediante Aerosoles de Azufre
+- *Premisa:* Un proyecto financiado por magnates tecnológicos ha
+  comenzado a liberar partículas en la estratósfera para oscurecer el
+  sol y bajar 1.5°C la temperatura global este verano.
+- *Punto de búsqueda:* Rastrear el proyecto SCoPEx de Harvard y su estado de ejecución actual.
+
+** Guía de Recuperación para el Alumno
+1. Localizar la *fuente primaria* (documento legal, paper científico o
+   comunicado oficial).
+2. Identificar si el contenido recuperado coincide con la *premisa* o si
+   hay una distorsión semántica.
+3. Evaluar en qué fase de la Ventana de Overton se encuentra el tema:
+   - [ ] Impensablen
+   - [ ] Radical
+   - [ ] Aceptable
+   - [ ] Sensato
+   - [ ] Popular
+   - [ ] Política Pública

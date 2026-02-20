@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2026-02-18 mié 08:13 -->
+<!-- 2026-02-20 vie 08:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Apuntes de Recuperación de Información Web</title>
@@ -241,362 +241,387 @@
 <h2>&Iacute;ndice</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgd98f975">Instalación de requerimientos</a>
+<li><a href="#org18bed0c">Instalación de requerimientos</a>
 <ul>
-<li><a href="#org7c17bde">Verificación de Python</a></li>
-<li><a href="#org3e39147">Creación del entorno virtual</a></li>
-<li><a href="#org1a7f967">Activación del entorno virtual</a>
+<li><a href="#org3be5a88">Verificación de Python</a></li>
+<li><a href="#orga314c58">Creación del entorno virtual</a></li>
+<li><a href="#org4b354d6">Activación del entorno virtual</a>
 <ul>
-<li><a href="#orgc3e4dd7">GNU/Linux y macOS</a></li>
-<li><a href="#orga174cd5">Windows – Símbolo del sistema (CMD)</a></li>
-<li><a href="#orgad6bf2e">Windows – PowerShell</a></li>
-<li><a href="#orgd2ea684">Windows – Git Bash</a></li>
+<li><a href="#orge829d10">GNU/Linux y macOS</a></li>
+<li><a href="#orgebf04b3">Windows – Símbolo del sistema (CMD)</a></li>
+<li><a href="#org5f6ca6f">Windows – PowerShell</a></li>
+<li><a href="#orgaef3e58">Windows – Git Bash</a></li>
 </ul>
 </li>
-<li><a href="#org8285cbc">Actualización del gestor de paquetes</a></li>
-<li><a href="#orge40cd04">Instalación de dependencias</a></li>
-<li><a href="#orgdd7a7e3">Verificación de la instalación</a></li>
-<li><a href="#org37a33e9">Desactivación del entorno virtual</a></li>
+<li><a href="#org9a7320d">Actualización del gestor de paquetes</a></li>
+<li><a href="#orga8c1cdb">Instalación de dependencias</a></li>
+<li><a href="#org7a1a004">Verificación de la instalación</a></li>
+<li><a href="#org3df5de3">Desactivación del entorno virtual</a></li>
 </ul>
 </li>
-<li><a href="#org49bd97b">Manual de Entornos Virtuales en Python</a>
+<li><a href="#org58ac51c">Manual de Entornos Virtuales en Python</a>
 <ul>
-<li><a href="#org0c77542">Introducción</a></li>
-<li><a href="#orgda08574">Flujo de Trabajo Básico</a>
+<li><a href="#org553a8da">Introducción</a></li>
+<li><a href="#org01f6cc2">Flujo de Trabajo Básico</a>
 <ul>
-<li><a href="#orgc2217bf">1. Creación del entorno</a></li>
-<li><a href="#org737a263">2. Activación</a></li>
+<li><a href="#orgfae53a5">1. Creación del entorno</a></li>
+<li><a href="#orga66b974">2. Activación</a></li>
 </ul>
 </li>
-<li><a href="#org18cc5b6">Gestión de paquetes</a></li>
-<li><a href="#org36790fa">El archivo de Requerimientos</a></li>
-<li><a href="#orgd6b7eca">Exportar dependencias</a></li>
-<li><a href="#org8c25e78">Instalar desde el archivo</a></li>
-<li><a href="#org8ee5fea">Tips de Limpieza</a></li>
-<li><a href="#org5919f93">Entornos Virtuales Python (Edición Windows)</a></li>
-<li><a href="#org348fc73">Requisitos Previos</a></li>
-<li><a href="#org3385d39">Flujo de Trabajo en Windows</a>
+<li><a href="#orgb89cd8d">Gestión de paquetes</a></li>
+<li><a href="#org200b39e">El archivo de Requerimientos</a></li>
+<li><a href="#orgf4d29a7">Exportar dependencias</a></li>
+<li><a href="#orge1b44b9">Instalar desde el archivo</a></li>
+<li><a href="#orgdbafcfc">Tips de Limpieza</a></li>
+<li><a href="#org690a369">Entornos Virtuales Python (Edición Windows)</a></li>
+<li><a href="#org521d4f2">Requisitos Previos</a></li>
+<li><a href="#org00b33d6">Flujo de Trabajo en Windows</a>
 <ul>
-<li><a href="#orgd105f23">1. Crear el Entorno Virtual</a></li>
-<li><a href="#orgab98ad0">2. El Paso Crítico: La Activación</a></li>
-<li><a href="#orga7e45b9">3. Confirmación</a></li>
+<li><a href="#orgf482ad1">1. Crear el Entorno Virtual</a></li>
+<li><a href="#orge47758e">2. El Paso Crítico: La Activación</a></li>
+<li><a href="#org9703fbd">3. Confirmación</a></li>
 </ul>
 </li>
-<li><a href="#org2136eda">Gestión de Librerías con PIP</a>
+<li><a href="#orgedfef68">Gestión de Librerías con PIP</a>
 <ul>
-<li><a href="#orgaeee9f5">Instalación de paquetes</a></li>
-<li><a href="#org52e727c">Congelar dependencias (Compartir proyecto)</a></li>
-<li><a href="#org419a739">Instalar desde un archivo recibido</a></li>
+<li><a href="#org0cb8bcd">Instalación de paquetes</a></li>
+<li><a href="#orgdfebcf3">Congelar dependencias (Compartir proyecto)</a></li>
+<li><a href="#org3542cd1">Instalar desde un archivo recibido</a></li>
 </ul>
 </li>
-<li><a href="#org558b0b0">Uso de Entornos en Emacs (Windows)</a>
+<li><a href="#orgd283ef1">Uso de Entornos en Emacs (Windows)</a>
 <ul>
-<li><a href="#org4959136">Instalación del paquete pyvenv</a></li>
-<li><a href="#org09be679">Cómo activarlo dentro de Emacs</a></li>
+<li><a href="#org8c7e2fb">Instalación del paquete pyvenv</a></li>
+<li><a href="#orgce1f1ac">Cómo activarlo dentro de Emacs</a></li>
 </ul>
 </li>
-<li><a href="#orgbf51765">Solución de Problemas Comunes en Windows</a></li>
-<li><a href="#org7be2ce1">Desactivación y Limpieza</a></li>
-<li><a href="#org6a48d13">Agregar a jupyter notebook</a></li>
+<li><a href="#org4995cb6">Solución de Problemas Comunes en Windows</a></li>
+<li><a href="#org0f6b402">Desactivación y Limpieza</a></li>
+<li><a href="#orgc68cdaf">Agregar a jupyter notebook</a></li>
 </ul>
 </li>
-<li><a href="#org31adb4e">Sistemas de recuperación de información</a>
+<li><a href="#orgcb5ebd1">Sistemas de recuperación de información</a>
 <ul>
-<li><a href="#orgcb8abe1">Introducción a los sistemas de recuperación de información (IRS)</a>
+<li><a href="#org5d7ffb9">Introducción a los sistemas de recuperación de información (IRS)</a>
 <ul>
-<li><a href="#orgf22db99">Definición y alcance</a></li>
-<li><a href="#org96cf0ce">Objetivo fundamental</a></li>
-<li><a href="#orga16b68b">Componentes típicos de un IRS</a></li>
-<li><a href="#orgf5e09ef">Aplicaciones</a></li>
-<li><a href="#org2c8a821">Ejemplo de flujo completo en un IRS</a></li>
+<li><a href="#org4c9147b">Definición y alcance</a></li>
+<li><a href="#orgef72d68">Objetivo fundamental</a></li>
+<li><a href="#orgb8334df">Componentes típicos de un IRS</a></li>
+<li><a href="#org4eedb0b">Aplicaciones</a></li>
+<li><a href="#org7b3d434">Ejemplo de flujo completo en un IRS</a></li>
 </ul>
 </li>
-<li><a href="#orgc18ecf2">Interfaces de usuario para búsqueda</a>
+<li><a href="#org4586182">Interfaces de usuario para búsqueda</a>
 <ul>
-<li><a href="#org2c8f6c7">Funciones de la interfaz</a></li>
-<li><a href="#org3d6ed1d">Tipos de interfaces</a></li>
-<li><a href="#org03de215">Elementos de presentación de resultados</a></li>
-<li><a href="#org23a7076">Usabilidad y experiencia de usuario</a></li>
+<li><a href="#org899bbc9">Funciones de la interfaz</a></li>
+<li><a href="#orgd2f202e">Tipos de interfaces</a></li>
+<li><a href="#org6638238">Elementos de presentación de resultados</a></li>
+<li><a href="#orga75001e">Usabilidad y experiencia de usuario</a></li>
 </ul>
 </li>
-<li><a href="#org1782b12">Modelos de recuperación de información</a>
+<li><a href="#org4ff821e">Modelos de recuperación de información</a>
 <ul>
-<li><a href="#orgd7f9002">Modelo booleano</a></li>
-<li><a href="#orgc278416">Modelo vectorial</a></li>
-<li><a href="#orgbe061d6">TF-IDF (Term Frequency - Inverse Document Frequency)</a></li>
-<li><a href="#orgfe14802">Modelo probabilístico (BM25, etc.)</a></li>
-<li><a href="#org9ef8f11">Modelos basados en lenguaje (Language Models)</a></li>
-<li><a href="#orgbffe2b1">Resumen comparativo</a></li>
+<li><a href="#org6641484">Modelo booleano</a></li>
+<li><a href="#org4058f8d">Modelo vectorial</a></li>
+<li><a href="#org123be9e">TF-IDF (Term Frequency - Inverse Document Frequency)</a></li>
+<li><a href="#org47b36c7">Modelo probabilístico (BM25, etc.)</a></li>
+<li><a href="#orgd8d85c3">Modelos basados en lenguaje (Language Models)</a></li>
+<li><a href="#org4f11637">Resumen comparativo</a></li>
 </ul>
 </li>
-<li><a href="#org82c0e3c">Evaluación de la recuperación</a>
+<li><a href="#org7b81701">Evaluación de la recuperación</a>
 <ul>
-<li><a href="#org337b9ab">Conjuntos de prueba (test collections)</a></li>
-<li><a href="#org3dc672c">Métricas principales</a></li>
-<li><a href="#org1edaf19">Evaluación con usuarios</a></li>
-<li><a href="#org40496e3">Trade-off precisión vs. recall</a></li>
+<li><a href="#org9f27a70">Conjuntos de prueba (test collections)</a></li>
+<li><a href="#orgba97e52">Métricas principales</a></li>
+<li><a href="#org5bd67c7">Evaluación con usuarios</a></li>
+<li><a href="#orgc855024">Trade-off precisión vs. recall</a></li>
 </ul>
 </li>
-<li><a href="#orgcdb1f40">Referencias</a></li>
+<li><a href="#org396a5b4">Referencias</a></li>
 </ul>
 </li>
-<li><a href="#orga51d52c">Ejemplos IRS — Recuperación de información con feeds RSS</a>
+<li><a href="#org9a95149">Ejemplos IRS — Recuperación de información con feeds RSS</a>
 <ul>
-<li><a href="#org31c629e">Un buscador introductorio con feeds RSS</a>
+<li><a href="#org64c3b92">Un buscador introductorio con feeds RSS</a>
 <ul>
-<li><a href="#orga842a7b">Hacks de búsqueda: encontrar páginas y URLs de feeds RSS</a></li>
-<li><a href="#org19a184b">Consultas de ejemplo para probar en el buscador</a></li>
+<li><a href="#org695b3d1">Hacks de búsqueda: encontrar páginas y URLs de feeds RSS</a></li>
+<li><a href="#orgdf7a0a6">Consultas de ejemplo para probar en el buscador</a></li>
 </ul>
 </li>
-<li><a href="#orgc018068">Extraer datos de un feed RSS y guardarlos</a></li>
-<li><a href="#orgf08747d">Limpieza de texto (normalización para el IRS)</a></li>
-<li><a href="#org14469ae">Modelo booleano: búsqueda por palabras clave</a></li>
-<li><a href="#org2e15ce6">Ranking simple (modelo tipo vectorial)</a></li>
-<li><a href="#org776a468">Interfaz de resultados</a></li>
-<li><a href="#org478ff7d">Pipeline completo del IRS con RSS</a>
+<li><a href="#org8ad62a1">Extraer datos de un feed RSS y guardarlos</a></li>
+<li><a href="#orgb8cc1c7">Limpieza de texto (normalización para el IRS)</a></li>
+<li><a href="#orgdf0901a">Modelo booleano: búsqueda por palabras clave</a></li>
+<li><a href="#org83c86e5">Ranking simple (modelo tipo vectorial)</a></li>
+<li><a href="#orgb115641">Interfaz de resultados</a></li>
+<li><a href="#org2917c9c">Pipeline completo del IRS con RSS</a>
 <ul>
-<li><a href="#org6380497">Relación IRS ↔ feeds RSS en el pipeline</a></li>
-<li><a href="#org7daf436">Explicación del código</a></li>
+<li><a href="#org52958b7">Relación IRS ↔ feeds RSS en el pipeline</a></li>
+<li><a href="#orgc0bc434">Explicación del código</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org50c334c">Introducción a XPath</a>
+<li><a href="#org9d74941">Introducción a XPath</a>
 <ul>
-<li><a href="#org556a8c4">¿Para qué sirve?</a></li>
-<li><a href="#org0849510">Documento de ejemplo</a></li>
-<li><a href="#org62f7449">Sintaxis básica</a>
+<li><a href="#org87b83a1">¿Para qué sirve?</a></li>
+<li><a href="#org86cc5c7">Documento de ejemplo</a></li>
+<li><a href="#orgf1f9c3b">Sintaxis básica</a>
 <ul>
-<li><a href="#org8319f09">Rutas absolutas y relativas</a></li>
-<li><a href="#org32d21fd">Seleccionar por etiqueta</a></li>
+<li><a href="#org7d2a592">Rutas absolutas y relativas</a></li>
+<li><a href="#org8904639">Seleccionar por etiqueta</a></li>
 </ul>
 </li>
-<li><a href="#orgb08f25c">Predicados</a>
+<li><a href="#org16d8427">Predicados</a>
 <ul>
-<li><a href="#org6f66c25">Por posición</a></li>
-<li><a href="#org26272df">Por atributo</a></li>
-<li><a href="#orgcc71b25">Por contenido de texto</a></li>
+<li><a href="#orgb4a262e">Por posición</a></li>
+<li><a href="#org36a9ca3">Por atributo</a></li>
+<li><a href="#org02ee6ee">Por contenido de texto</a></li>
 </ul>
 </li>
-<li><a href="#org7eea3dc">Ejes</a>
+<li><a href="#orgb9eee09">Ejes</a>
 <ul>
-<li><a href="#org9138ec9">Ejes más usados</a></li>
-<li><a href="#org4a7e719">Ejemplos con ejes</a></li>
+<li><a href="#orge2f4304">Ejes más usados</a></li>
+<li><a href="#org4050fca">Ejemplos con ejes</a></li>
 </ul>
 </li>
-<li><a href="#orgf5a0eb9">Funciones útiles</a>
+<li><a href="#orgceaf126">Funciones útiles</a>
 <ul>
-<li><a href="#orgbd83a7c">Funciones de texto</a></li>
-<li><a href="#org733d1ab">Funciones numéricas</a></li>
-<li><a href="#orga6bf4dc">Funciones de tipo</a></li>
+<li><a href="#org681a29e">Funciones de texto</a></li>
+<li><a href="#org1b3f9bf">Funciones numéricas</a></li>
+<li><a href="#orga88760b">Funciones de tipo</a></li>
 </ul>
 </li>
-<li><a href="#orge2270c6">Operadores y combinaciones</a>
+<li><a href="#orgea77142">Operadores y combinaciones</a>
 <ul>
-<li><a href="#org12e7d1d">Operadores lógicos</a></li>
-<li><a href="#org06263f8">Unión de conjuntos (|)</a></li>
-<li><a href="#orge70122b">Operadores de comparación</a></li>
+<li><a href="#org1c0a354">Operadores lógicos</a></li>
+<li><a href="#org74f7a3f">Unión de conjuntos (|)</a></li>
+<li><a href="#org4dbad9c">Operadores de comparación</a></li>
 </ul>
 </li>
-<li><a href="#org33bc68c">XPath en HTML (scraping)</a>
+<li><a href="#org7c30169">XPath en HTML (scraping)</a>
 <ul>
-<li><a href="#org4ea38ba">XPath útiles para HTML común</a></li>
+<li><a href="#org4542aee">XPath útiles para HTML común</a></li>
 </ul>
 </li>
-<li><a href="#org31d5c2e">XPath en Python (lxml)</a>
+<li><a href="#org9ef807c">XPath en Python (lxml)</a>
 <ul>
-<li><a href="#org600c8c1">Cargar XML desde archivo</a></li>
-<li><a href="#org70ee7a5">Ejecutar XPath</a></li>
-<li><a href="#org3dc961e">Namespaces (XML con prefijos)</a></li>
+<li><a href="#orgf24909c">Cargar XML desde archivo</a></li>
+<li><a href="#org54444e8">Ejecutar XPath</a></li>
+<li><a href="#org88fcd10">Namespaces (XML con prefijos)</a></li>
 </ul>
 </li>
-<li><a href="#orga43f3d6">Ejercicios prácticos</a></li>
-<li><a href="#orgf493878">Referencia rápida</a></li>
-<li><a href="#org72f0d15">Dependencias</a></li>
+<li><a href="#org7566632">Ejercicios prácticos</a></li>
+<li><a href="#org017d441">Referencia rápida</a></li>
+<li><a href="#orgc37b192">Dependencias</a></li>
 </ul>
 </li>
-<li><a href="#orgca8c948">Ruta Crítica del Web Scraping y Aspectos de Seguridad</a>
+<li><a href="#org2047574">Ruta Crítica del Web Scraping y Aspectos de Seguridad</a>
 <ul>
-<li><a href="#orgcfbc1e5">Introducción</a></li>
-<li><a href="#orge3b71d0">La ruta crítica: fases del proyecto de scraping</a>
+<li><a href="#org3e803ba">Introducción</a></li>
+<li><a href="#org32b31f3">La ruta crítica: fases del proyecto de scraping</a>
 <ul>
-<li><a href="#orgc61459a">Diagrama de flujo general</a></li>
+<li><a href="#org3686ecf">Diagrama de flujo general</a></li>
 </ul>
 </li>
-<li><a href="#orga40c2ca">Fase 1: Legalidad y ética (puerta de entrada)</a>
+<li><a href="#org7e661d1">Fase 1: Legalidad y ética (puerta de entrada)</a>
 <ul>
-<li><a href="#orgb3a2f97">Antes de escribir código</a></li>
-<li><a href="#org974b0a2">Ejemplo de robots.txt</a></li>
-<li><a href="#org0a141ad">Consecuencias de omitir esta fase</a></li>
+<li><a href="#org3c4b190">Antes de escribir código</a></li>
+<li><a href="#org17d9bab">Ejemplo de robots.txt</a></li>
+<li><a href="#orgda658c2">Consecuencias de omitir esta fase</a></li>
 </ul>
 </li>
-<li><a href="#orgd6e6d10">Fase 2: Buscar alternativas al scraping</a>
+<li><a href="#orgbb672ba">Fase 2: Buscar alternativas al scraping</a>
 <ul>
-<li><a href="#orgb5f54ca">Jerarquía de preferencia (orden recomendado)</a></li>
-<li><a href="#org0918b13">Antes de scrapear, preguntar</a></li>
-<li><a href="#org1195196">Motivos para preferir alternativas</a></li>
+<li><a href="#orgeb18e3a">Jerarquía de preferencia (orden recomendado)</a></li>
+<li><a href="#orgb1a6bf4">Antes de scrapear, preguntar</a></li>
+<li><a href="#org44f6a2a">Motivos para preferir alternativas</a></li>
 </ul>
 </li>
-<li><a href="#orgbdd830b">Fase 3: Planificación</a>
+<li><a href="#orgacbd652">Fase 3: Planificación</a>
 <ul>
-<li><a href="#org463fbe8">Definir alcance</a></li>
-<li><a href="#org5d80979">Estimar carga al servidor</a></li>
+<li><a href="#orgbcdb8ee">Definir alcance</a></li>
+<li><a href="#orgaf3b44b">Estimar carga al servidor</a></li>
 </ul>
 </li>
-<li><a href="#org63f6372">Fase 4: Análisis técnico</a>
+<li><a href="#orgb4ee829">Fase 4: Análisis técnico</a>
 <ul>
-<li><a href="#org9a83d73">Inspeccionar el sitio</a></li>
-<li><a href="#org870ea4a">Contenido estático vs. dinámico</a></li>
-<li><a href="#org3ffb464">Mapear la estructura</a></li>
-<li><a href="#org8fd6169">Detectando JSON oculto (Network)</a></li>
+<li><a href="#org5f328d2">Inspeccionar el sitio</a></li>
+<li><a href="#org8ce9115">Contenido estático vs. dinámico</a></li>
+<li><a href="#org010232d">Mapear la estructura</a></li>
+<li><a href="#org6c5ad19">Detectando JSON oculto (Network)</a></li>
 </ul>
 </li>
-<li><a href="#org8e018ad">Fase 5: Desarrollo</a>
+<li><a href="#org9e97efa">Fase 5: Desarrollo</a>
 <ul>
-<li><a href="#org9f36ca3">Estructura recomendada del código</a></li>
-<li><a href="#org2fc511f">Manejo de errores</a></li>
+<li><a href="#org4c16e9a">Estructura recomendada del código</a></li>
+<li><a href="#org2025c07">Manejo de errores</a></li>
 </ul>
 </li>
-<li><a href="#orgdd7959f">Fase 6: Seguridad y robustez</a>
+<li><a href="#orge1e7c82">Fase 6: Seguridad y robustez</a>
 <ul>
-<li><a href="#org2d1600d">Seguridad de las peticiones</a></li>
-<li><a href="#orgff54964">Seguridad de los datos extraídos</a></li>
-<li><a href="#org77cfdbd">Protección del sitio objetivo (ética técnica)</a></li>
-<li><a href="#orgde37417">Proxies y escalado (consideraciones)</a></li>
+<li><a href="#org4197eb7">Seguridad de las peticiones</a></li>
+<li><a href="#org1df6f3c">Seguridad de los datos extraídos</a></li>
+<li><a href="#org85f7985">Protección del sitio objetivo (ética técnica)</a></li>
+<li><a href="#org60bba39">Proxies y escalado (consideraciones)</a></li>
 </ul>
 </li>
-<li><a href="#org130efac">Fase 7: Ejecución y mantenimiento</a>
+<li><a href="#org22218d6">Fase 7: Ejecución y mantenimiento</a>
 <ul>
-<li><a href="#orgb468bc6">Logging</a></li>
-<li><a href="#org124b620">Monitoreo básico</a></li>
-<li><a href="#orgff450b9">Adaptación a cambios</a></li>
+<li><a href="#org3b8bee6">Logging</a></li>
+<li><a href="#org52e17af">Monitoreo básico</a></li>
+<li><a href="#org1d2ef51">Adaptación a cambios</a></li>
 </ul>
 </li>
-<li><a href="#org2f6fddd">Checklist de seguridad resumido</a></li>
-<li><a href="#orge6e4b70">Riesgos y mitigaciones</a></li>
-<li><a href="#orgb243299">Referencias</a></li>
+<li><a href="#orgd499036">Checklist de seguridad resumido</a></li>
+<li><a href="#org569f584">Riesgos y mitigaciones</a></li>
+<li><a href="#orge313b48">Referencias</a></li>
 </ul>
 </li>
-<li><a href="#orgbc94b32">Web Scraping con XPath para Blogs Estáticos</a>
+<li><a href="#org54c1a83">Web Scraping con XPath para Blogs Estáticos</a>
 <ul>
-<li><a href="#orgfd5aa9f">Introducción</a>
+<li><a href="#org36e6a9d">Introducción</a>
 <ul>
-<li><a href="#org972c62a">Prerrequisitos</a></li>
+<li><a href="#orgaa478ca">Prerrequisitos</a></li>
 </ul>
 </li>
-<li><a href="#org36f2b8d">Blogs estáticos vs. sitios dinámicos</a>
+<li><a href="#org8c03b01">Blogs estáticos vs. sitios dinámicos</a>
 <ul>
-<li><a href="#org0fc3ed6">¿Qué es un blog estático?</a></li>
-<li><a href="#orge0908c5">¿Por qué son adecuados para scraping?</a></li>
+<li><a href="#org2692043">¿Qué es un blog estático?</a></li>
+<li><a href="#org7d45856">¿Por qué son adecuados para scraping?</a></li>
 </ul>
 </li>
-<li><a href="#org698e719">Técnicas de scraping para blogs con XPath</a>
+<li><a href="#org874abf4">Técnicas de scraping para blogs con XPath</a>
 <ul>
-<li><a href="#orgc7be201">Paso 1: Inspeccionar la estructura HTML</a></li>
-<li><a href="#org49afb97">Paso 2: Obtener el HTML</a></li>
-<li><a href="#org3a445aa">Paso 3: Parsear y aplicar XPath</a></li>
-<li><a href="#org4ba3222">Paso 4: Extraer todos los artículos de una página</a></li>
-<li><a href="#org642e91a">Paso 5: Paginación</a></li>
-<li><a href="#orgd42e0db">XPath útiles para blogs (resumen)</a></li>
+<li><a href="#orge968872">Paso 1: Inspeccionar la estructura HTML</a></li>
+<li><a href="#org44b31dd">Paso 2: Obtener el HTML</a></li>
+<li><a href="#orgd950b11">Paso 3: Parsear y aplicar XPath</a></li>
+<li><a href="#org5a62645">Paso 4: Extraer todos los artículos de una página</a></li>
+<li><a href="#org1af6977">Paso 5: Paginación</a></li>
+<li><a href="#orgd1b64c8">XPath útiles para blogs (resumen)</a></li>
 </ul>
 </li>
-<li><a href="#orgd56e212">Consideraciones éticas y legales</a>
+<li><a href="#org16ee173">Consideraciones éticas y legales</a>
 <ul>
-<li><a href="#org971951e">Buenas prácticas</a></li>
-<li><a href="#org7a498a1">Cuándo es más aceptable</a></li>
+<li><a href="#org56ad4de">Buenas prácticas</a></li>
+<li><a href="#org134f9fd">Cuándo es más aceptable</a></li>
 </ul>
 </li>
-<li><a href="#org5df8f41">Por qué NO es adecuado hacer scraping en Amazon (y similares)</a>
+<li><a href="#org841a75f">Por qué NO es adecuado hacer scraping en Amazon (y similares)</a>
 <ul>
-<li><a href="#orgefaeb00">1. Términos de uso y condiciones</a></li>
-<li><a href="#orga0f6558">2. Contenido dinámico (JavaScript)</a></li>
-<li><a href="#orgcbc5580">3. Medidas anti-bot</a></li>
-<li><a href="#orgfd4b62a">4. Estructura cambiante</a></li>
-<li><a href="#org58866b5">5. Alternativas legales y recomendadas</a></li>
-<li><a href="#org4f2f6ab">Resumen: Amazon vs. blog estático</a></li>
+<li><a href="#org05161bf">1. Términos de uso y condiciones</a></li>
+<li><a href="#org82deef4">2. Contenido dinámico (JavaScript)</a></li>
+<li><a href="#orgb51135a">3. Medidas anti-bot</a></li>
+<li><a href="#org1376232">4. Estructura cambiante</a></li>
+<li><a href="#orgd9d23e3">5. Alternativas legales y recomendadas</a></li>
+<li><a href="#org51ae24a">Resumen: Amazon vs. blog estático</a></li>
 </ul>
 </li>
-<li><a href="#orgced5300">Ejemplo completo: scraper para un blog estático</a></li>
-<li><a href="#org0695664">Dependencias</a></li>
-<li><a href="#org05642ba">Referencias</a></li>
+<li><a href="#org46bcc52">Ejemplo completo: scraper para un blog estático</a></li>
+<li><a href="#org447b62c">Dependencias</a></li>
+<li><a href="#orgd947e3e">Referencias</a></li>
 </ul>
 </li>
-<li><a href="#org3cd9d59">Fuentes de Datos Gubernamentales y Abiertos: INEGI, datos.gob.mx y más</a>
+<li><a href="#org7c7be3d">Fuentes de Datos Gubernamentales y Abiertos: INEGI, datos.gob.mx y más</a>
 <ul>
-<li><a href="#org48dfd41">Introducción</a></li>
-<li><a href="#org25685da">INEGI (México)</a>
+<li><a href="#orgaa69cd2">Introducción</a></li>
+<li><a href="#orgb504025">INEGI (México)</a>
 <ul>
-<li><a href="#org34a7202">Qué es INEGI</a></li>
-<li><a href="#org7140131">API del Banco de Indicadores</a></li>
-<li><a href="#org7923902">API DENUE (Directorio Estadístico Nacional de Unidades Económicas)</a></li>
-<li><a href="#orgca66664">Datos Abiertos INEGI</a></li>
-<li><a href="#orga039767">Descarga Masiva INEGI</a></li>
-<li><a href="#orgf4a56b8">Librería inegipy (Python)</a></li>
+<li><a href="#orgb81b68f">Qué es INEGI</a></li>
+<li><a href="#orgb6b8d60">API del Banco de Indicadores</a></li>
+<li><a href="#org443ea95">API DENUE (Directorio Estadístico Nacional de Unidades Económicas)</a></li>
+<li><a href="#org4f9a7b9">Datos Abiertos INEGI</a></li>
+<li><a href="#org6b423ae">Descarga Masiva INEGI</a></li>
+<li><a href="#org917c740">Librería inegipy (Python)</a></li>
 </ul>
 </li>
-<li><a href="#orgbf2e238">datos.gob.mx (Plataforma Nacional de Datos Abiertos)</a>
+<li><a href="#org2e6556b">datos.gob.mx (Plataforma Nacional de Datos Abiertos)</a>
 <ul>
-<li><a href="#orgb26de4c">Qué es datos.gob.mx</a></li>
-<li><a href="#orgf5ce436">API CKAN</a></li>
-<li><a href="#org49830df">Descarga directa de archivos</a></li>
+<li><a href="#org02828ec">Qué es datos.gob.mx</a></li>
+<li><a href="#org3fc1fce">API CKAN</a></li>
+<li><a href="#orge2c9c3c">Descarga directa de archivos</a></li>
 </ul>
 </li>
-<li><a href="#org38149e0">Otras fuentes gubernamentales de datos abiertos</a>
+<li><a href="#org2559e2b">Otras fuentes gubernamentales de datos abiertos</a>
 <ul>
-<li><a href="#orgf8eb835">México</a></li>
-<li><a href="#org7b968f7">España</a></li>
-<li><a href="#org812ba03">Internacional</a></li>
+<li><a href="#org7ba8bf8">México</a></li>
+<li><a href="#org98ac4e0">España</a></li>
+<li><a href="#org7df8b8b">Internacional</a></li>
 </ul>
 </li>
-<li><a href="#org061a7c7">Cuándo usar cada método</a></li>
-<li><a href="#orgae705e1">Buenas prácticas</a></li>
-<li><a href="#org46e7ffd">Ejemplo completo: indicador INEGI + guardar CSV</a></li>
-<li><a href="#org8c70ec7">Resumen de enlaces</a></li>
-<li><a href="#orge081545">Dependencias</a></li>
+<li><a href="#org9aaca26">Cuándo usar cada método</a></li>
+<li><a href="#orgfb4cda7">Buenas prácticas</a></li>
+<li><a href="#org8dee3dc">Ejemplo completo: indicador INEGI + guardar CSV</a></li>
+<li><a href="#org9814a20">Resumen de enlaces</a></li>
+<li><a href="#orgb74e2d6">Dependencias</a></li>
 </ul>
 </li>
-<li><a href="#org7b94ddf">Actividades Introductorias - Recuperación de la Información</a>
+<li><a href="#org2fbf115">Actividades Introductorias - Recuperación de la Información</a>
 <ul>
-<li><a href="#org5e1c5fe">Introducción</a></li>
-<li><a href="#org7f03579">1. Inteligencia Artificial en la vida diaria</a>
+<li><a href="#orgcb4d3e1">Introducción</a></li>
+<li><a href="#orga5c078e">1. Inteligencia Artificial en la vida diaria</a>
 <ul>
-<li><a href="#org2e12c02">1.1 Uso de la IA en la educación y el aprendizaje</a></li>
-<li><a href="#orgae3c8a6">1.2 IA generativa y creación de contenido</a></li>
-<li><a href="#org5121c53">1.3 Impacto de la IA en el empleo joven</a></li>
-<li><a href="#org81123fe">1.4 Ética, privacidad y regulación</a></li>
-<li><a href="#org94989ef">1.5 Herramientas de IA cotidianas</a></li>
+<li><a href="#org43054df">1.1 Uso de la IA en la educación y el aprendizaje</a></li>
+<li><a href="#orgbeb5152">1.2 IA generativa y creación de contenido</a></li>
+<li><a href="#orgcbab556">1.3 Impacto de la IA en el empleo joven</a></li>
+<li><a href="#orgf36edcc">1.4 Ética, privacidad y regulación</a></li>
+<li><a href="#org8fcf1f3">1.5 Herramientas de IA cotidianas</a></li>
 </ul>
 </li>
-<li><a href="#org588e299">2. Salud mental y bienestar en jóvenes</a>
+<li><a href="#org0638375">2. Salud mental y bienestar en jóvenes</a>
 <ul>
-<li><a href="#org6dac842">2.1 Ansiedad y estrés académico</a></li>
-<li><a href="#org85339c1">2.2 Influencia de redes sociales</a></li>
-<li><a href="#orgf765e19">2.3 Estrategias de autocuidado</a></li>
-<li><a href="#org7cfabda">2.4 Salud mental universitaria</a></li>
-<li><a href="#orgdb61b80">2.5 Programas y políticas públicas</a></li>
+<li><a href="#org8387848">2.1 Ansiedad y estrés académico</a></li>
+<li><a href="#orgec2dd5a">2.2 Influencia de redes sociales</a></li>
+<li><a href="#org3cdb50c">2.3 Estrategias de autocuidado</a></li>
+<li><a href="#org442e2cf">2.4 Salud mental universitaria</a></li>
+<li><a href="#orgc0d2692">2.5 Programas y políticas públicas</a></li>
 </ul>
 </li>
-<li><a href="#orgc0e316f">3. Algoritmos, poder y sociedad digital</a>
+<li><a href="#org868b5bc">3. Algoritmos, poder y sociedad digital</a>
 <ul>
-<li><a href="#orgdf36dbd">3.1 Algoritmos de recomendación</a></li>
-<li><a href="#org7a86cfe">3.2 Economía de la atención</a></li>
-<li><a href="#org6c1dceb">3.3 Vigilancia y privacidad</a></li>
-<li><a href="#org6a92d06">3.4 Plataformas digitales y control de la información</a></li>
-<li><a href="#org0b1a669">3.5 Desinformación y fake news</a></li>
+<li><a href="#org7785879">3.1 Algoritmos de recomendación</a></li>
+<li><a href="#org631f6a5">3.2 Economía de la atención</a></li>
+<li><a href="#org572cd69">3.3 Vigilancia y privacidad</a></li>
+<li><a href="#orgc8e44b8">3.4 Plataformas digitales y control de la información</a></li>
+<li><a href="#org51ffd1a">3.5 Desinformación y fake news</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#org690d568">La Ventana de Overton</a>
+<ul>
+<li><a href="#org1d289b6">Caso de Estudio: "La legalización de la carne humana"</a></li>
+</ul>
+</li>
+<li><a href="#org7dfa711">Ejercicios: La Ventana de Overton</a>
+<ul>
+<li><a href="#org58d79e7">Introducción al Análisis de Desplazamiento de Opinión</a></li>
+<li><a href="#org95ae280">Casos de Estudio para Investigación Forense Digital</a>
+<ul>
+<li><a href="#org7379fc7">1. Implementación de Ciudades de 15 Minutos y Restricción de Movimiento</a></li>
+<li><a href="#org6a4e6dc">2. El Crédito Social Obligatorio para Acceso a Internet</a></li>
+<li><a href="#orgb90a243">3. Sustitución de Proteína Animal por Invertebrados en Comedores Escolares</a></li>
+<li><a href="#orgd457fdc">4. Identidad Digital de Recién Nacidos mediante Escaneo de Iris</a></li>
+<li><a href="#org2b1cbaf">5. Impuesto Global al Carbono Individual (Monedero de CO2)</a></li>
+<li><a href="#org8782740">6. Legalización de la "Eutanasia por Cansancio Vital" en Menores</a></li>
+<li><a href="#orge557c23">7. Sensores de "Ruido Social" en Hogares Inteligentes</a></li>
+<li><a href="#orgf572616">8. La Prohibición de la Propiedad Privada de Vehículos para 2030</a></li>
+<li><a href="#org935191a">9. Uso de IA para la Reescritura de Textos Históricos en Tiempo Real</a></li>
+<li><a href="#org2717e0e">10. Geoingeniería: El Bloqueo Solar mediante Aerosoles de Azufre</a></li>
+</ul>
+</li>
+<li><a href="#org5a7c155">Guía de Recuperación para el Alumno</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd98f975" class="outline-2">
-<h2 id="orgd98f975">Instalación de requerimientos</h2>
-<div class="outline-text-2" id="text-orgd98f975">
+<div id="outline-container-org18bed0c" class="outline-2">
+<h2 id="org18bed0c">Instalación de requerimientos</h2>
+<div class="outline-text-2" id="text-org18bed0c">
 </div>
-<div id="outline-container-org7c17bde" class="outline-3">
-<h3 id="org7c17bde">Verificación de Python</h3>
-<div class="outline-text-3" id="text-org7c17bde">
+<div id="outline-container-org3be5a88" class="outline-3">
+<h3 id="org3be5a88">Verificación de Python</h3>
+<div class="outline-text-3" id="text-org3be5a88">
 <p>
 Antes de instalar las dependencias, verifique que el sistema cuente con Python
 versión 3.9 o superior.
@@ -617,9 +642,9 @@ En caso de que el comando anterior no esté disponible, intente:
 </div>
 </div>
 </div>
-<div id="outline-container-org3e39147" class="outline-3">
-<h3 id="org3e39147">Creación del entorno virtual</h3>
-<div class="outline-text-3" id="text-org3e39147">
+<div id="outline-container-orga314c58" class="outline-3">
+<h3 id="orga314c58">Creación del entorno virtual</h3>
+<div class="outline-text-3" id="text-orga314c58">
 <p>
 Se recomienda crear un entorno virtual para aislar las dependencias del proyecto
 y evitar conflictos entre versiones de librerías.
@@ -631,26 +656,26 @@ y evitar conflictos entre versiones de librerías.
 </div>
 </div>
 </div>
-<div id="outline-container-org1a7f967" class="outline-3">
-<h3 id="org1a7f967">Activación del entorno virtual</h3>
-<div class="outline-text-3" id="text-org1a7f967">
+<div id="outline-container-org4b354d6" class="outline-3">
+<h3 id="org4b354d6">Activación del entorno virtual</h3>
+<div class="outline-text-3" id="text-org4b354d6">
 <p>
 La activación del entorno virtual depende del sistema operativo y del intérprete
 de comandos utilizado.
 </p>
 </div>
-<div id="outline-container-orgc3e4dd7" class="outline-4">
-<h4 id="orgc3e4dd7">GNU/Linux y macOS</h4>
-<div class="outline-text-4" id="text-orgc3e4dd7">
+<div id="outline-container-orge829d10" class="outline-4">
+<h4 id="orge829d10">GNU/Linux y macOS</h4>
+<div class="outline-text-4" id="text-orge829d10">
 <div class="org-src-container">
 <pre class="src src-bash"><span style="color: #fe8019;">source</span> mlp_env/bin/activate
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga174cd5" class="outline-4">
-<h4 id="orga174cd5">Windows – Símbolo del sistema (CMD)</h4>
-<div class="outline-text-4" id="text-orga174cd5">
+<div id="outline-container-orgebf04b3" class="outline-4">
+<h4 id="orgebf04b3">Windows – Símbolo del sistema (CMD)</h4>
+<div class="outline-text-4" id="text-orgebf04b3">
 <p>
 Si se utiliza el <b>Símbolo del sistema</b> (cmd.exe), ejecute:
 </p>
@@ -661,9 +686,9 @@ Si se utiliza el <b>Símbolo del sistema</b> (cmd.exe), ejecute:
 </div>
 </div>
 </div>
-<div id="outline-container-orgad6bf2e" class="outline-4">
-<h4 id="orgad6bf2e">Windows – PowerShell</h4>
-<div class="outline-text-4" id="text-orgad6bf2e">
+<div id="outline-container-org5f6ca6f" class="outline-4">
+<h4 id="org5f6ca6f">Windows – PowerShell</h4>
+<div class="outline-text-4" id="text-org5f6ca6f">
 <p>
 Si se utiliza <b>Windows PowerShell</b>, ejecute:
 </p>
@@ -688,9 +713,9 @@ Posteriormente, vuelva a ejecutar el comando de activación.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd2ea684" class="outline-4">
-<h4 id="orgd2ea684">Windows – Git Bash</h4>
-<div class="outline-text-4" id="text-orgd2ea684">
+<div id="outline-container-orgaef3e58" class="outline-4">
+<h4 id="orgaef3e58">Windows – Git Bash</h4>
+<div class="outline-text-4" id="text-orgaef3e58">
 <p>
 Si se utiliza <b>Git Bash</b>, ejecute:
 </p>
@@ -707,9 +732,9 @@ paréntesis al inicio de la línea de comandos.
 </div>
 </div>
 </div>
-<div id="outline-container-org8285cbc" class="outline-3">
-<h3 id="org8285cbc">Actualización del gestor de paquetes</h3>
-<div class="outline-text-3" id="text-org8285cbc">
+<div id="outline-container-org9a7320d" class="outline-3">
+<h3 id="org9a7320d">Actualización del gestor de paquetes</h3>
+<div class="outline-text-3" id="text-org9a7320d">
 <p>
 Antes de instalar las librerías, se recomienda actualizar el gestor de paquetes
 <code>pip</code>.
@@ -721,9 +746,9 @@ Antes de instalar las librerías, se recomienda actualizar el gestor de paquetes
 </div>
 </div>
 </div>
-<div id="outline-container-orge40cd04" class="outline-3">
-<h3 id="orge40cd04">Instalación de dependencias</h3>
-<div class="outline-text-3" id="text-orge40cd04">
+<div id="outline-container-orga8c1cdb" class="outline-3">
+<h3 id="orga8c1cdb">Instalación de dependencias</h3>
+<div class="outline-text-3" id="text-orga8c1cdb">
 <p>
 Ejecute el siguiente comando para instalar los requerimientos del módulo
 Perceptrón Multicapa <b>feedforward</b>.
@@ -735,9 +760,9 @@ Perceptrón Multicapa <b>feedforward</b>.
 </div>
 </div>
 </div>
-<div id="outline-container-orgdd7a7e3" class="outline-3">
-<h3 id="orgdd7a7e3">Verificación de la instalación</h3>
-<div class="outline-text-3" id="text-orgdd7a7e3">
+<div id="outline-container-org7a1a004" class="outline-3">
+<h3 id="org7a1a004">Verificación de la instalación</h3>
+<div class="outline-text-3" id="text-org7a1a004">
 <p>
 Para verificar que las dependencias se instalaron correctamente, ejecute Python
 en modo interactivo:
@@ -762,9 +787,9 @@ Posteriormente, importe las librerías:
 </div>
 </div>
 </div>
-<div id="outline-container-org37a33e9" class="outline-3">
-<h3 id="org37a33e9">Desactivación del entorno virtual</h3>
-<div class="outline-text-3" id="text-org37a33e9">
+<div id="outline-container-org3df5de3" class="outline-3">
+<h3 id="org3df5de3">Desactivación del entorno virtual</h3>
+<div class="outline-text-3" id="text-org3df5de3">
 <p>
 Una vez finalizado el trabajo, el entorno virtual puede desactivarse con el
 siguiente comando:
@@ -777,13 +802,13 @@ siguiente comando:
 </div>
 </div>
 </div>
-<div id="outline-container-org49bd97b" class="outline-2">
-<h2 id="org49bd97b">Manual de Entornos Virtuales en Python</h2>
-<div class="outline-text-2" id="text-org49bd97b">
+<div id="outline-container-org58ac51c" class="outline-2">
+<h2 id="org58ac51c">Manual de Entornos Virtuales en Python</h2>
+<div class="outline-text-2" id="text-org58ac51c">
 </div>
-<div id="outline-container-org0c77542" class="outline-3">
-<h3 id="org0c77542">Introducción</h3>
-<div class="outline-text-3" id="text-org0c77542">
+<div id="outline-container-org553a8da" class="outline-3">
+<h3 id="org553a8da">Introducción</h3>
+<div class="outline-text-3" id="text-org553a8da">
 <p>
 El uso de entornos virtuales es esencial para mantener las
 dependencias de tus proyectos aisladas. En este manual aprenderás a
@@ -791,13 +816,13 @@ gestionarlos usando el módulo estándar <code>venv</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgda08574" class="outline-3">
-<h3 id="orgda08574">Flujo de Trabajo Básico</h3>
-<div class="outline-text-3" id="text-orgda08574">
+<div id="outline-container-org01f6cc2" class="outline-3">
+<h3 id="org01f6cc2">Flujo de Trabajo Básico</h3>
+<div class="outline-text-3" id="text-org01f6cc2">
 </div>
-<div id="outline-container-orgc2217bf" class="outline-4">
-<h4 id="orgc2217bf">1. Creación del entorno</h4>
-<div class="outline-text-4" id="text-orgc2217bf">
+<div id="outline-container-orgfae53a5" class="outline-4">
+<h4 id="orgfae53a5">1. Creación del entorno</h4>
+<div class="outline-text-4" id="text-orgfae53a5">
 <p>
 Para crear un entorno virtual, navega a la raíz de tu proyecto en la terminal (o dentro de un buffer de Emacs con <code>M-x shell</code>) y ejecuta:
 </p>
@@ -812,24 +837,24 @@ Para crear un entorno virtual, navega a la raíz de tu proyecto en la terminal (
 </p>
 </div>
 </div>
-<div id="outline-container-org737a263" class="outline-4">
-<h4 id="org737a263">2. Activación</h4>
-<div class="outline-text-4" id="text-org737a263">
+<div id="outline-container-orga66b974" class="outline-4">
+<h4 id="orga66b974">2. Activación</h4>
+<div class="outline-text-4" id="text-orga66b974">
 <p>
 La activación depende de tu sistema operativo:
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="org4a58f5b"></a>En Windows (PowerShell)<br />
-<div class="outline-text-5" id="text-org4a58f5b">
+<li><a id="orgba95da6"></a>En Windows (PowerShell)<br />
+<div class="outline-text-5" id="text-orgba95da6">
 <div class="org-src-container">
 <pre class="src src-powershell">.\.venv\Scripts\Activate.ps1
 </pre>
 </div>
 </div>
 </li>
-<li><a id="orge585742"></a>En macOS / Linux<br />
-<div class="outline-text-5" id="text-orge585742">
+<li><a id="org3251681"></a>En macOS / Linux<br />
+<div class="outline-text-5" id="text-org3251681">
 <div class="org-src-container">
 <pre class="src src-bash"><span style="color: #fe8019;">source</span> .venv/bin/activate
 </pre>
@@ -839,9 +864,9 @@ La activación depende de tu sistema operativo:
 </ul>
 </div>
 </div>
-<div id="outline-container-org18cc5b6" class="outline-3">
-<h3 id="org18cc5b6">Gestión de paquetes</h3>
-<div class="outline-text-3" id="text-org18cc5b6">
+<div id="outline-container-orgb89cd8d" class="outline-3">
+<h3 id="orgb89cd8d">Gestión de paquetes</h3>
+<div class="outline-text-3" id="text-orgb89cd8d">
 <p>
 Una vez activado (verás el prefijo <code>(.venv)</code> en tu prompt), puedes instalar librerías:
 </p>
@@ -852,35 +877,35 @@ Una vez activado (verás el prefijo <code>(.venv)</code> en tu prompt), puedes i
 </div>
 </div>
 </div>
-<div id="outline-container-org36790fa" class="outline-3">
-<h3 id="org36790fa">El archivo de Requerimientos</h3>
-<div class="outline-text-3" id="text-org36790fa">
+<div id="outline-container-org200b39e" class="outline-3">
+<h3 id="org200b39e">El archivo de Requerimientos</h3>
+<div class="outline-text-3" id="text-org200b39e">
 <p>
 Es fundamental para la reproducibilidad del proyecto.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd6b7eca" class="outline-3">
-<h3 id="orgd6b7eca">Exportar dependencias</h3>
-<div class="outline-text-3" id="text-orgd6b7eca">
+<div id="outline-container-orgf4d29a7" class="outline-3">
+<h3 id="orgf4d29a7">Exportar dependencias</h3>
+<div class="outline-text-3" id="text-orgf4d29a7">
 <div class="org-src-container">
 <pre class="src src-bash">pip freeze &gt; requirements.txt
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8c25e78" class="outline-3">
-<h3 id="org8c25e78">Instalar desde el archivo</h3>
-<div class="outline-text-3" id="text-org8c25e78">
+<div id="outline-container-orge1b44b9" class="outline-3">
+<h3 id="orge1b44b9">Instalar desde el archivo</h3>
+<div class="outline-text-3" id="text-orge1b44b9">
 <div class="org-src-container">
 <pre class="src src-bash">pip install -r requirements.txt
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8ee5fea" class="outline-3">
-<h3 id="org8ee5fea">Tips de Limpieza</h3>
-<div class="outline-text-3" id="text-org8ee5fea">
+<div id="outline-container-orgdbafcfc" class="outline-3">
+<h3 id="orgdbafcfc">Tips de Limpieza</h3>
+<div class="outline-text-3" id="text-orgdbafcfc">
 <p>
 Para salir del entorno virtual:
 </p>
@@ -908,26 +933,26 @@ Para borrar el entorno, simplemente elimina la carpeta:
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org5919f93" class="outline-3">
-<h3 id="org5919f93">Entornos Virtuales Python (Edición Windows)</h3>
+<div id="outline-container-org690a369" class="outline-3">
+<h3 id="org690a369">Entornos Virtuales Python (Edición Windows)</h3>
 </div>
 
-<div id="outline-container-org348fc73" class="outline-3">
-<h3 id="org348fc73">Requisitos Previos</h3>
-<div class="outline-text-3" id="text-org348fc73">
+<div id="outline-container-org521d4f2" class="outline-3">
+<h3 id="org521d4f2">Requisitos Previos</h3>
+<div class="outline-text-3" id="text-org521d4f2">
 <ol class="org-ol">
 <li>Tener instalado Python (descargado de <a href="https://www.python.org/">python.org</a> o la Microsoft Store).</li>
 <li>Durante la instalación, asegúrate de marcar la casilla: <b><b>"Add Python to PATH"</b></b>.</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org3385d39" class="outline-3">
-<h3 id="org3385d39">Flujo de Trabajo en Windows</h3>
-<div class="outline-text-3" id="text-org3385d39">
+<div id="outline-container-org00b33d6" class="outline-3">
+<h3 id="org00b33d6">Flujo de Trabajo en Windows</h3>
+<div class="outline-text-3" id="text-org00b33d6">
 </div>
-<div id="outline-container-orgd105f23" class="outline-4">
-<h4 id="orgd105f23">1. Crear el Entorno Virtual</h4>
-<div class="outline-text-4" id="text-orgd105f23">
+<div id="outline-container-orgf482ad1" class="outline-4">
+<h4 id="orgf482ad1">1. Crear el Entorno Virtual</h4>
+<div class="outline-text-4" id="text-orgf482ad1">
 <p>
 Abre tu terminal (PowerShell o CMD) en la carpeta de tu proyecto. El comando es el mismo para ambos:
 </p>
@@ -938,16 +963,16 @@ Abre tu terminal (PowerShell o CMD) en la carpeta de tu proyecto. El comando es 
 </div>
 </div>
 </div>
-<div id="outline-container-orgab98ad0" class="outline-4">
-<h4 id="orgab98ad0">2. El Paso Crítico: La Activación</h4>
-<div class="outline-text-4" id="text-orgab98ad0">
+<div id="outline-container-orge47758e" class="outline-4">
+<h4 id="orge47758e">2. El Paso Crítico: La Activación</h4>
+<div class="outline-text-4" id="text-orge47758e">
 <p>
 En Windows, la activación depende de qué terminal estés usando.
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="org934df77"></a>Opción A: PowerShell (Recomendado)<br />
-<div class="outline-text-5" id="text-org934df77">
+<li><a id="orgdea66aa"></a>Opción A: PowerShell (Recomendado)<br />
+<div class="outline-text-5" id="text-orgdea66aa">
 <p>
 Si es la primera vez que usas scripts en Windows, podrías recibir un error de seguridad. Primero, ejecuta esto como administrador (solo una vez):
 </p>
@@ -965,8 +990,8 @@ Luego, para activar el entorno:
 </div>
 </div>
 </li>
-<li><a id="orgd0f2dc3"></a>Opción B: Símbolo del Sistema (CMD)<br />
-<div class="outline-text-5" id="text-orgd0f2dc3">
+<li><a id="org2db7476"></a>Opción B: Símbolo del Sistema (CMD)<br />
+<div class="outline-text-5" id="text-org2db7476">
 <div class="org-src-container">
 <pre class="src src-cmd">.\venv\Scripts\activate.bat
 </pre>
@@ -975,9 +1000,9 @@ Luego, para activar el entorno:
 </li>
 </ul>
 </div>
-<div id="outline-container-orga7e45b9" class="outline-4">
-<h4 id="orga7e45b9">3. Confirmación</h4>
-<div class="outline-text-4" id="text-orga7e45b9">
+<div id="outline-container-org9703fbd" class="outline-4">
+<h4 id="org9703fbd">3. Confirmación</h4>
+<div class="outline-text-4" id="text-org9703fbd">
 <p>
 Sabrás que el entorno está activo porque el nombre <code>(venv)</code> aparecerá a la izquierda de la ruta en tu terminal:
 #+example
@@ -987,13 +1012,13 @@ Sabrás que el entorno está activo porque el nombre <code>(venv)</code> aparece
 </div>
 </div>
 </div>
-<div id="outline-container-org2136eda" class="outline-3">
-<h3 id="org2136eda">Gestión de Librerías con PIP</h3>
-<div class="outline-text-3" id="text-org2136eda">
+<div id="outline-container-orgedfef68" class="outline-3">
+<h3 id="orgedfef68">Gestión de Librerías con PIP</h3>
+<div class="outline-text-3" id="text-orgedfef68">
 </div>
-<div id="outline-container-orgaeee9f5" class="outline-4">
-<h4 id="orgaeee9f5">Instalación de paquetes</h4>
-<div class="outline-text-4" id="text-orgaeee9f5">
+<div id="outline-container-org0cb8bcd" class="outline-4">
+<h4 id="org0cb8bcd">Instalación de paquetes</h4>
+<div class="outline-text-4" id="text-org0cb8bcd">
 <p>
 Una vez activo el entorno, instala lo que necesites:
 </p>
@@ -1003,9 +1028,9 @@ Una vez activo el entorno, instala lo que necesites:
 </div>
 </div>
 </div>
-<div id="outline-container-org52e727c" class="outline-4">
-<h4 id="org52e727c">Congelar dependencias (Compartir proyecto)</h4>
-<div class="outline-text-4" id="text-org52e727c">
+<div id="outline-container-orgdfebcf3" class="outline-4">
+<h4 id="orgdfebcf3">Congelar dependencias (Compartir proyecto)</h4>
+<div class="outline-text-4" id="text-orgdfebcf3">
 <p>
 Para que otros participantes tengan exactamente lo mismo que tú:
 </p>
@@ -1015,9 +1040,9 @@ Para que otros participantes tengan exactamente lo mismo que tú:
 </div>
 </div>
 </div>
-<div id="outline-container-org419a739" class="outline-4">
-<h4 id="org419a739">Instalar desde un archivo recibido</h4>
-<div class="outline-text-4" id="text-org419a739">
+<div id="outline-container-org3542cd1" class="outline-4">
+<h4 id="org3542cd1">Instalar desde un archivo recibido</h4>
+<div class="outline-text-4" id="text-org3542cd1">
 <p>
 Si un compañero te pasa su <code>requirements.txt</code>:
 </p>
@@ -1028,16 +1053,16 @@ Si un compañero te pasa su <code>requirements.txt</code>:
 </div>
 </div>
 </div>
-<div id="outline-container-org558b0b0" class="outline-3">
-<h3 id="org558b0b0">Uso de Entornos en Emacs (Windows)</h3>
-<div class="outline-text-3" id="text-org558b0b0">
+<div id="outline-container-orgd283ef1" class="outline-3">
+<h3 id="orgd283ef1">Uso de Entornos en Emacs (Windows)</h3>
+<div class="outline-text-3" id="text-orgd283ef1">
 <p>
 Para que Emacs en Windows gestione bien el entorno, añade esto a tu archivo de configuración (<code>init.el</code> o <code>.emacs</code>):
 </p>
 </div>
-<div id="outline-container-org4959136" class="outline-4">
-<h4 id="org4959136">Instalación del paquete pyvenv</h4>
-<div class="outline-text-4" id="text-org4959136">
+<div id="outline-container-org8c7e2fb" class="outline-4">
+<h4 id="org8c7e2fb">Instalación del paquete pyvenv</h4>
+<div class="outline-text-4" id="text-org8c7e2fb">
 <div class="org-src-container">
 <pre class="src src-elisp"><span style="color: #fe8019;">(</span><span style="color: #fb4934;">use-package</span> pyvenv
   <span style="color: #fe8019;">:ensure</span> t
@@ -1047,9 +1072,9 @@ Para que Emacs en Windows gestione bien el entorno, añade esto a tu archivo de 
 </div>
 </div>
 </div>
-<div id="outline-container-org09be679" class="outline-4">
-<h4 id="org09be679">Cómo activarlo dentro de Emacs</h4>
-<div class="outline-text-4" id="text-org09be679">
+<div id="outline-container-orgce1f1ac" class="outline-4">
+<h4 id="orgce1f1ac">Cómo activarlo dentro de Emacs</h4>
+<div class="outline-text-4" id="text-orgce1f1ac">
 <ol class="org-ol">
 <li>Presiona <code>M-x pyvenv-activate</code>.</li>
 <li>Emacs te pedirá la ruta. Navega hasta la carpeta <code>venv</code> de tu proyecto.</li>
@@ -1058,9 +1083,9 @@ Para que Emacs en Windows gestione bien el entorno, añade esto a tu archivo de 
 </div>
 </div>
 </div>
-<div id="outline-container-orgbf51765" class="outline-3">
-<h3 id="orgbf51765">Solución de Problemas Comunes en Windows</h3>
-<div class="outline-text-3" id="text-orgbf51765">
+<div id="outline-container-org4995cb6" class="outline-3">
+<h3 id="org4995cb6">Solución de Problemas Comunes en Windows</h3>
+<div class="outline-text-3" id="text-org4995cb6">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1098,9 +1123,9 @@ Para que Emacs en Windows gestione bien el entorno, añade esto a tu archivo de 
 </table>
 </div>
 </div>
-<div id="outline-container-org7be2ce1" class="outline-3">
-<h3 id="org7be2ce1">Desactivación y Limpieza</h3>
-<div class="outline-text-3" id="text-org7be2ce1">
+<div id="outline-container-org0f6b402" class="outline-3">
+<h3 id="org0f6b402">Desactivación y Limpieza</h3>
+<div class="outline-text-3" id="text-org0f6b402">
 <p>
 Para salir del entorno:
 </p>
@@ -1120,7 +1145,7 @@ Si quieres borrar el entorno por completo (para empezar de cero):
 <p>
 &#x2014;
 </p>
-<div class="IMPORTANT" id="orgac1ef04">
+<div class="IMPORTANT" id="orga0768c2">
 <p>
 <b>Recordatorio:</b> Nunca incluyas la carpeta <code>venv</code> en tus archivos compartidos o en tu repositorio de Git. Solo comparte el código y el archivo <code>requirements.txt</code>.
 </p>
@@ -1128,9 +1153,9 @@ Si quieres borrar el entorno por completo (para empezar de cero):
 </div>
 </div>
 </div>
-<div id="outline-container-org6a48d13" class="outline-3">
-<h3 id="org6a48d13">Agregar a jupyter notebook</h3>
-<div class="outline-text-3" id="text-org6a48d13">
+<div id="outline-container-orgc68cdaf" class="outline-3">
+<h3 id="orgc68cdaf">Agregar a jupyter notebook</h3>
+<div class="outline-text-3" id="text-orgc68cdaf">
 <div class="org-src-container">
 <pre class="src src-shell">pip install ipykernel
 python -m ipykernel install --user --name=redes --display-name=<span style="color: #b8bb26;">"redes"</span>
@@ -1139,17 +1164,17 @@ python -m ipykernel install --user --name=redes --display-name=<span style="colo
 </div>
 </div>
 </div>
-<div id="outline-container-org31adb4e" class="outline-2">
-<h2 id="org31adb4e">Sistemas de recuperación de información</h2>
-<div class="outline-text-2" id="text-org31adb4e">
+<div id="outline-container-orgcb5ebd1" class="outline-2">
+<h2 id="orgcb5ebd1">Sistemas de recuperación de información</h2>
+<div class="outline-text-2" id="text-orgcb5ebd1">
 </div>
-<div id="outline-container-orgcb8abe1" class="outline-3">
-<h3 id="orgcb8abe1">Introducción a los sistemas de recuperación de información (IRS)</h3>
-<div class="outline-text-3" id="text-orgcb8abe1">
+<div id="outline-container-org5d7ffb9" class="outline-3">
+<h3 id="org5d7ffb9">Introducción a los sistemas de recuperación de información (IRS)</h3>
+<div class="outline-text-3" id="text-org5d7ffb9">
 </div>
-<div id="outline-container-orgf22db99" class="outline-4">
-<h4 id="orgf22db99">Definición y alcance</h4>
-<div class="outline-text-4" id="text-orgf22db99">
+<div id="outline-container-org4c9147b" class="outline-4">
+<h4 id="org4c9147b">Definición y alcance</h4>
+<div class="outline-text-4" id="text-org4c9147b">
 <p>
 Un <b>Sistema de Recuperación de Información</b> (IRS, por sus siglas en inglés
 <b>Information Retrieval System</b>) es un sistema software diseñado para almacenar,
@@ -1157,8 +1182,8 @@ representar y recuperar información relevante ante consultas de usuarios.
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="org5f55a9b"></a>Características principales<br />
-<div class="outline-text-5" id="text-org5f55a9b">
+<li><a id="orgb3493e4"></a>Características principales<br />
+<div class="outline-text-5" id="text-orgb3493e4">
 <ul class="org-ul">
 <li>Almacena grandes volúmenes de documentos (texto, multimedia, metadatos).</li>
 <li>Permite consultas en lenguaje natural o estructurado.</li>
@@ -1167,9 +1192,9 @@ representar y recuperar información relevante ante consultas de usuarios.
 </ul>
 </div>
 </li>
-<li><a id="org8f6a137"></a>Ejemplo de necesidad de información<br />
-<div class="outline-text-5" id="text-org8f6a137">
-<pre class="example" id="orgb03f68e">
+<li><a id="orgb033703"></a>Ejemplo de necesidad de información<br />
+<div class="outline-text-5" id="text-orgb033703">
+<pre class="example" id="orged02861">
 Usuario: "Necesito saber cómo se calcula la precisión en un sistema de búsqueda
 para poder comparar dos motores que estamos evaluando en mi empresa."
 
@@ -1181,9 +1206,9 @@ según qué tan bien satisfacen esa necesidad.
 </li>
 </ul>
 </div>
-<div id="outline-container-org96cf0ce" class="outline-4">
-<h4 id="org96cf0ce">Objetivo fundamental</h4>
-<div class="outline-text-4" id="text-org96cf0ce">
+<div id="outline-container-orgef72d68" class="outline-4">
+<h4 id="orgef72d68">Objetivo fundamental</h4>
+<div class="outline-text-4" id="text-orgef72d68">
 <p>
 El objetivo no es devolver <b>todos</b> los documentos que coincidan literalmente con
 la consulta, sino aquellos que el usuario consideraría <b>útiles</b> o <b>relevantes</b>
@@ -1191,8 +1216,8 @@ para satisfacer su necesidad de información.
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="org28faba6"></a>Diferencia con bases de datos<br />
-<div class="outline-text-5" id="text-org28faba6">
+<li><a id="orgfb05fca"></a>Diferencia con bases de datos<br />
+<div class="outline-text-5" id="text-orgfb05fca">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1233,9 +1258,9 @@ para satisfacer su necesidad de información.
 </li>
 </ul>
 </div>
-<div id="outline-container-orga16b68b" class="outline-4">
-<h4 id="orga16b68b">Componentes típicos de un IRS</h4>
-<div class="outline-text-4" id="text-orga16b68b">
+<div id="outline-container-orgb8334df" class="outline-4">
+<h4 id="orgb8334df">Componentes típicos de un IRS</h4>
+<div class="outline-text-4" id="text-orgb8334df">
 <ol class="org-ol">
 <li><b>Índice</b> :: Estructura que permite localizar documentos sin escanear todo el corpus.</li>
 <li><b>Motor de búsqueda</b> :: Algoritmos que comparan consulta vs. documentos.</li>
@@ -1245,9 +1270,9 @@ para satisfacer su necesidad de información.
 </ol>
 </div>
 </div>
-<div id="outline-container-orgf5e09ef" class="outline-4">
-<h4 id="orgf5e09ef">Aplicaciones</h4>
-<div class="outline-text-4" id="text-orgf5e09ef">
+<div id="outline-container-org4eedb0b" class="outline-4">
+<h4 id="org4eedb0b">Aplicaciones</h4>
+<div class="outline-text-4" id="text-org4eedb0b">
 <ul class="org-ul">
 <li>Motores de búsqueda web (Google, Bing).</li>
 <li>Búsqueda en bibliotecas digitales y repositorios.</li>
@@ -1256,13 +1281,13 @@ para satisfacer su necesidad de información.
 </ul>
 </div>
 </div>
-<div id="outline-container-org2c8a821" class="outline-4">
-<h4 id="org2c8a821">Ejemplo de flujo completo en un IRS</h4>
-<div class="outline-text-4" id="text-org2c8a821">
+<div id="outline-container-org7b3d434" class="outline-4">
+<h4 id="org7b3d434">Ejemplo de flujo completo en un IRS</h4>
+<div class="outline-text-4" id="text-org7b3d434">
 </div>
 <ul class="org-ul">
-<li><a id="org962a62f"></a>Corpus mínimo de ejemplo<br />
-<div class="outline-text-5" id="text-org962a62f">
+<li><a id="orgc3af33b"></a>Corpus mínimo de ejemplo<br />
+<div class="outline-text-5" id="text-orgc3af33b">
 <p>
 Se tienen 3 documentos (para ilustrar; en la realidad son millones):
 </p>
@@ -1300,8 +1325,8 @@ Se tienen 3 documentos (para ilustrar; en la realidad son millones):
 </table>
 </div>
 </li>
-<li><a id="orgcbfac76"></a>Paso 1: Indexación<br />
-<div class="outline-text-5" id="text-orgcbfac76">
+<li><a id="orgeee9881"></a>Paso 1: Indexación<br />
+<div class="outline-text-5" id="text-orgeee9881">
 <ul class="org-ul">
 <li>Se extraen términos (tras eliminar stopwords y aplicar stemming): <code>recuperación</code>, <code>información</code>, <code>índices</code>, <code>documentos</code>, <code>modelos</code>, <code>vectoriales</code>, <code>similitud</code>, <code>consulta</code>, <code>evaluación</code>, <code>precisión</code>, <code>recall</code>, <code>búsqueda</code>.</li>
 <li>Se construye un <b>índice invertido</b>: para cada término, lista de documentos que lo contienen.</li>
@@ -1309,23 +1334,23 @@ Se tienen 3 documentos (para ilustrar; en la realidad son millones):
 </ul>
 </div>
 </li>
-<li><a id="org7ad676d"></a>Paso 2: Consulta<br />
-<div class="outline-text-5" id="text-org7ad676d">
+<li><a id="orgf8b2b0f"></a>Paso 2: Consulta<br />
+<div class="outline-text-5" id="text-orgf8b2b0f">
 <ul class="org-ul">
 <li>Usuario escribe: "evaluación precisión búsqueda".</li>
 </ul>
 </div>
 </li>
-<li><a id="org0ee7d09"></a>Paso 3: Recuperación y ranking<br />
-<div class="outline-text-5" id="text-org0ee7d09">
+<li><a id="org120bbb2"></a>Paso 3: Recuperación y ranking<br />
+<div class="outline-text-5" id="text-org120bbb2">
 <ul class="org-ul">
 <li>El motor obtiene candidatos del índice (p. ej. d3 contiene los tres términos) y aplica el modelo (TF-IDF o BM25) para puntuar cada documento.</li>
 <li>Resultado ordenado: d3 (mayor puntuación), y posiblemente d1, d2 si comparten términos.</li>
 </ul>
 </div>
 </li>
-<li><a id="org47a782f"></a>Paso 4: Presentación<br />
-<div class="outline-text-5" id="text-org47a782f">
+<li><a id="org3d8ac8f"></a>Paso 4: Presentación<br />
+<div class="outline-text-5" id="text-org3d8ac8f">
 <ul class="org-ul">
 <li>Se muestra al usuario: título/snippet de d3 primero, luego los demás, para que pueda elegir el documento que le resulta relevante.</li>
 </ul>
@@ -1334,13 +1359,13 @@ Se tienen 3 documentos (para ilustrar; en la realidad son millones):
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc18ecf2" class="outline-3">
-<h3 id="orgc18ecf2">Interfaces de usuario para búsqueda</h3>
-<div class="outline-text-3" id="text-orgc18ecf2">
+<div id="outline-container-org4586182" class="outline-3">
+<h3 id="org4586182">Interfaces de usuario para búsqueda</h3>
+<div class="outline-text-3" id="text-org4586182">
 </div>
-<div id="outline-container-org2c8f6c7" class="outline-4">
-<h4 id="org2c8f6c7">Funciones de la interfaz</h4>
-<div class="outline-text-4" id="text-org2c8f6c7">
+<div id="outline-container-org899bbc9" class="outline-4">
+<h4 id="org899bbc9">Funciones de la interfaz</h4>
+<div class="outline-text-4" id="text-org899bbc9">
 <p>
 La interfaz de usuario en un IRS debe permitir:
 </p>
@@ -1353,13 +1378,13 @@ La interfaz de usuario en un IRS debe permitir:
 </ol>
 </div>
 </div>
-<div id="outline-container-org3d6ed1d" class="outline-4">
-<h4 id="org3d6ed1d">Tipos de interfaces</h4>
-<div class="outline-text-4" id="text-org3d6ed1d">
+<div id="outline-container-orgd2f202e" class="outline-4">
+<h4 id="orgd2f202e">Tipos de interfaces</h4>
+<div class="outline-text-4" id="text-orgd2f202e">
 </div>
 <ul class="org-ul">
-<li><a id="org9adef09"></a>Interfaz de consulta por palabras clave<br />
-<div class="outline-text-5" id="text-org9adef09">
+<li><a id="org362208b"></a>Interfaz de consulta por palabras clave<br />
+<div class="outline-text-5" id="text-org362208b">
 <ul class="org-ul">
 <li>El usuario escribe términos (palabras clave).</li>
 <li>Puede usar operadores: AND, OR, NOT, comillas para frases.</li>
@@ -1367,8 +1392,8 @@ La interfaz de usuario en un IRS debe permitir:
 </ul>
 </div>
 <ul class="org-ul">
-<li><a id="org63c4d74"></a>Ejemplos de consultas booleanas<br />
-<div class="outline-text-6" id="text-org63c4d74">
+<li><a id="org45310b8"></a>Ejemplos de consultas booleanas<br />
+<div class="outline-text-6" id="text-org45310b8">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1414,8 +1439,8 @@ La interfaz de usuario en un IRS debe permitir:
 </li>
 </ul>
 </li>
-<li><a id="orgaf2e8ce"></a>Interfaz de lenguaje natural<br />
-<div class="outline-text-5" id="text-orgaf2e8ce">
+<li><a id="org7e83dc3"></a>Interfaz de lenguaje natural<br />
+<div class="outline-text-5" id="text-org7e83dc3">
 <ul class="org-ul">
 <li>Consultas en forma de pregunta o frase.</li>
 <li>El sistema interpreta la intención (a veces con NLP).</li>
@@ -1423,9 +1448,9 @@ La interfaz de usuario en un IRS debe permitir:
 </ul>
 </div>
 <ul class="org-ul">
-<li><a id="orgcfcf7e2"></a>Ejemplo<br />
-<div class="outline-text-6" id="text-orgcfcf7e2">
-<pre class="example" id="orgc2e7e9c">
+<li><a id="org358c5a4"></a>Ejemplo<br />
+<div class="outline-text-6" id="text-org358c5a4">
+<pre class="example" id="org522fdae">
 Usuario escribe: "recetas de pastel de chocolate sin gluten"
 
 El sistema puede extraer: términos clave (recetas, pastel, chocolate, gluten),
@@ -1437,8 +1462,8 @@ la frase exacta.
 </li>
 </ul>
 </li>
-<li><a id="org0ca4f70"></a>Interfaz con filtros y facetas<br />
-<div class="outline-text-5" id="text-org0ca4f70">
+<li><a id="org6ac161a"></a>Interfaz con filtros y facetas<br />
+<div class="outline-text-5" id="text-org6ac161a">
 <ul class="org-ul">
 <li>Filtros por fecha, autor, tipo de documento, idioma.</li>
 <li>Facetas: categorías o atributos para restringir resultados.</li>
@@ -1446,9 +1471,9 @@ la frase exacta.
 </ul>
 </div>
 <ul class="org-ul">
-<li><a id="orga8fcd91"></a>Ejemplo (biblioteca digital)<br />
-<div class="outline-text-6" id="text-orga8fcd91">
-<pre class="example" id="orgf351f5e">
+<li><a id="orgf33c9f7"></a>Ejemplo (biblioteca digital)<br />
+<div class="outline-text-6" id="text-orgf33c9f7">
+<pre class="example" id="org7090ac6">
 Búsqueda: "recuperación de información"
 Facetas mostradas al lado:
   Tipo de documento: Libro (120), Artículo (85), Tesis (12)
@@ -1462,17 +1487,17 @@ restringe a artículos de esos años, sin cambiar la consulta textual.
 </li>
 </ul>
 </li>
-<li><a id="orga97c9bb"></a>Interfaz de búsqueda por ejemplo (Query by Example)<br />
-<div class="outline-text-5" id="text-orga97c9bb">
+<li><a id="orgca2b76e"></a>Interfaz de búsqueda por ejemplo (Query by Example)<br />
+<div class="outline-text-5" id="text-orgca2b76e">
 <ul class="org-ul">
 <li>El usuario proporciona un documento o fragmento como "ejemplo" de lo que busca.</li>
 <li>El sistema busca documentos similares (búsqueda por similitud).</li>
 </ul>
 </div>
 <ul class="org-ul">
-<li><a id="org7ca81fc"></a>Ejemplo<br />
-<div class="outline-text-6" id="text-org7ca81fc">
-<pre class="example" id="org0787cc3">
+<li><a id="orgeae355d"></a>Ejemplo<br />
+<div class="outline-text-6" id="text-orgeae355d">
+<pre class="example" id="orgaa495f5">
 Usuario pega un párrafo de un artículo que le gustó:
 "El modelo vectorial representa documentos como vectores en un espacio de términos.
 La similitud coseno mide el ángulo entre el vector de la consulta y el del documento."
@@ -1487,13 +1512,13 @@ devolviendo por ejemplo artículos sobre modelos vectoriales, TF-IDF y similitud
 </li>
 </ul>
 </div>
-<div id="outline-container-org03de215" class="outline-4">
-<h4 id="org03de215">Elementos de presentación de resultados</h4>
-<div class="outline-text-4" id="text-org03de215">
+<div id="outline-container-org6638238" class="outline-4">
+<h4 id="org6638238">Elementos de presentación de resultados</h4>
+<div class="outline-text-4" id="text-org6638238">
 </div>
 <ul class="org-ul">
-<li><a id="org53a5ffe"></a>Lista de resultados (SERP)<br />
-<div class="outline-text-5" id="text-org53a5ffe">
+<li><a id="org937f7d6"></a>Lista de resultados (SERP)<br />
+<div class="outline-text-5" id="text-org937f7d6">
 <ul class="org-ul">
 <li>Título, URL, snippet o fragmento del documento.</li>
 <li>Destacados (bold) de los términos de la consulta.</li>
@@ -1501,25 +1526,25 @@ devolviendo por ejemplo artículos sobre modelos vectoriales, TF-IDF y similitud
 </ul>
 </div>
 </li>
-<li><a id="orgae0e882"></a>Snippets<br />
-<div class="outline-text-5" id="text-orgae0e882">
+<li><a id="orgc457fa4"></a>Snippets<br />
+<div class="outline-text-5" id="text-orgc457fa4">
 <ul class="org-ul">
 <li>Fragmentos cortos del documento donde aparecen los términos.</li>
 <li>Ayudan al usuario a juzgar relevancia sin abrir el documento.</li>
 </ul>
 </div>
 </li>
-<li><a id="orgc690ecc"></a>Agrupación y clustering<br />
-<div class="outline-text-5" id="text-orgc690ecc">
+<li><a id="orgf0cb1d1"></a>Agrupación y clustering<br />
+<div class="outline-text-5" id="text-orgf0cb1d1">
 <ul class="org-ul">
 <li>Resultados agrupados por sitio, fecha o tema.</li>
 <li>Reduce redundancia y facilita la exploración.</li>
 </ul>
 </div>
 </li>
-<li><a id="org6a62f41"></a>Ejemplo de SERP (página de resultados)<br />
-<div class="outline-text-5" id="text-org6a62f41">
-<pre class="example" id="org584e9fb">
+<li><a id="org136d50f"></a>Ejemplo de SERP (página de resultados)<br />
+<div class="outline-text-5" id="text-org136d50f">
+<pre class="example" id="org9f23ee6">
 Consulta: "evaluación recuperación información"
 
 --- Resultado 1 ---
@@ -1546,9 +1571,9 @@ en negrita en título y snippet para que el usuario juzgue la relevancia de un v
 </li>
 </ul>
 </div>
-<div id="outline-container-org23a7076" class="outline-4">
-<h4 id="org23a7076">Usabilidad y experiencia de usuario</h4>
-<div class="outline-text-4" id="text-org23a7076">
+<div id="outline-container-orga75001e" class="outline-4">
+<h4 id="orga75001e">Usabilidad y experiencia de usuario</h4>
+<div class="outline-text-4" id="text-orga75001e">
 <ul class="org-ul">
 <li><b>Tiempo de respuesta</b>: resultados en milisegundos.</li>
 <li><b>Claridad</b>: que el usuario entienda por qué aparece cada resultado.</li>
@@ -1558,21 +1583,21 @@ en negrita en título y snippet para que el usuario juzgue la relevancia de un v
 </div>
 </div>
 </div>
-<div id="outline-container-org1782b12" class="outline-3">
-<h3 id="org1782b12">Modelos de recuperación de información</h3>
-<div class="outline-text-3" id="text-org1782b12">
+<div id="outline-container-org4ff821e" class="outline-3">
+<h3 id="org4ff821e">Modelos de recuperación de información</h3>
+<div class="outline-text-3" id="text-org4ff821e">
 <p>
 Un <b>modelo de recuperación</b> define cómo se representan documentos y consultas, y
 cómo se calcula la relevancia o similitud entre ellos.
 </p>
 </div>
-<div id="outline-container-orgd7f9002" class="outline-4">
-<h4 id="orgd7f9002">Modelo booleano</h4>
-<div class="outline-text-4" id="text-orgd7f9002">
+<div id="outline-container-org6641484" class="outline-4">
+<h4 id="org6641484">Modelo booleano</h4>
+<div class="outline-text-4" id="text-org6641484">
 </div>
 <ul class="org-ul">
-<li><a id="orgfd874e3"></a>Idea<br />
-<div class="outline-text-5" id="text-orgfd874e3">
+<li><a id="orgbcde6a2"></a>Idea<br />
+<div class="outline-text-5" id="text-orgbcde6a2">
 <ul class="org-ul">
 <li>Documentos y consultas como conjuntos de términos.</li>
 <li>La consulta es una expresión booleana (AND, OR, NOT).</li>
@@ -1580,8 +1605,8 @@ cómo se calcula la relevancia o similitud entre ellos.
 </ul>
 </div>
 </li>
-<li><a id="org794f56b"></a>Limitaciones<br />
-<div class="outline-text-5" id="text-org794f56b">
+<li><a id="org9c200bd"></a>Limitaciones<br />
+<div class="outline-text-5" id="text-org9c200bd">
 <ul class="org-ul">
 <li>No hay ranking: todos los documentos que coinciden son iguales.</li>
 <li>No captura importancia de términos (frecuencia, rareza).</li>
@@ -1589,8 +1614,8 @@ cómo se calcula la relevancia o similitud entre ellos.
 </ul>
 </div>
 </li>
-<li><a id="org84869df"></a>Ejemplo numérico (modelo booleano)<br />
-<div class="outline-text-5" id="text-org84869df">
+<li><a id="org140e418"></a>Ejemplo numérico (modelo booleano)<br />
+<div class="outline-text-5" id="text-org140e418">
 <p>
 Corpus de 4 documentos (términos tras stemming):
 </p>
@@ -1648,13 +1673,13 @@ Todos los documentos devueltos se consideran "iguales"; no hay orden de preferen
 </li>
 </ul>
 </div>
-<div id="outline-container-orgc278416" class="outline-4">
-<h4 id="orgc278416">Modelo vectorial</h4>
-<div class="outline-text-4" id="text-orgc278416">
+<div id="outline-container-org4058f8d" class="outline-4">
+<h4 id="org4058f8d">Modelo vectorial</h4>
+<div class="outline-text-4" id="text-org4058f8d">
 </div>
 <ul class="org-ul">
-<li><a id="org8f21d0d"></a>Idea<br />
-<div class="outline-text-5" id="text-org8f21d0d">
+<li><a id="orgc73a261"></a>Idea<br />
+<div class="outline-text-5" id="text-orgc73a261">
 <ul class="org-ul">
 <li>Documentos y consultas como vectores en un espacio donde cada dimensión es un término.</li>
 <li>Cada componente del vector es un peso (p. ej. TF-IDF).</li>
@@ -1662,8 +1687,8 @@ Todos los documentos devueltos se consideran "iguales"; no hay orden de preferen
 </ul>
 </div>
 </li>
-<li><a id="org31eeec2"></a>Fórmula de similitud coseno<br />
-<div class="outline-text-5" id="text-org31eeec2">
+<li><a id="orgbf7aa53"></a>Fórmula de similitud coseno<br />
+<div class="outline-text-5" id="text-orgbf7aa53">
 <p>
 \[
 \text{sim}(q, d) = \frac{\vec{q} \cdot \vec{d}}{|\vec{q}| \, |\vec{d}|}
@@ -1671,8 +1696,8 @@ Todos los documentos devueltos se consideran "iguales"; no hay orden de preferen
 </p>
 </div>
 </li>
-<li><a id="orgcc199ab"></a>Ventajas<br />
-<div class="outline-text-5" id="text-orgcc199ab">
+<li><a id="orge77a63e"></a>Ventajas<br />
+<div class="outline-text-5" id="text-orge77a63e">
 <ul class="org-ul">
 <li>Permite ranking (ordenar por similitud).</li>
 <li>Simple y eficiente.</li>
@@ -1680,8 +1705,8 @@ Todos los documentos devueltos se consideran "iguales"; no hay orden de preferen
 </ul>
 </div>
 </li>
-<li><a id="orge961409"></a>Ejemplo: espacio de términos<br />
-<div class="outline-text-5" id="text-orge961409">
+<li><a id="org18d5b04"></a>Ejemplo: espacio de términos<br />
+<div class="outline-text-5" id="text-org18d5b04">
 <p>
 Supongamos vocabulario = {recuperación, información, evaluación}. Cada documento
 y la consulta se representan como vectores de 3 dimensiones (pesos TF-IDF):
@@ -1709,29 +1734,29 @@ que es lo esperado porque \(d_1\) comparte ambos términos de la consulta.
 </li>
 </ul>
 </div>
-<div id="outline-container-orgbe061d6" class="outline-4">
-<h4 id="orgbe061d6">TF-IDF (Term Frequency - Inverse Document Frequency)</h4>
-<div class="outline-text-4" id="text-orgbe061d6">
+<div id="outline-container-org123be9e" class="outline-4">
+<h4 id="org123be9e">TF-IDF (Term Frequency - Inverse Document Frequency)</h4>
+<div class="outline-text-4" id="text-org123be9e">
 </div>
 <ul class="org-ul">
-<li><a id="orgd317f10"></a>Frecuencia de término (TF)<br />
-<div class="outline-text-5" id="text-orgd317f10">
+<li><a id="org25f6d16"></a>Frecuencia de término (TF)<br />
+<div class="outline-text-5" id="text-org25f6d16">
 <ul class="org-ul">
 <li>Cuántas veces aparece el término en el documento.</li>
 <li>Variantes: TF bruto, TF logarítmico (suavizado).</li>
 </ul>
 </div>
 </li>
-<li><a id="org7708399"></a>Frecuencia inversa de documento (IDF)<br />
-<div class="outline-text-5" id="text-org7708399">
+<li><a id="orgd00bdd0"></a>Frecuencia inversa de documento (IDF)<br />
+<div class="outline-text-5" id="text-orgd00bdd0">
 <ul class="org-ul">
 <li>\(\text{IDF}(t) = \log \frac{N}{n_t}\), donde \(N\) = número de documentos, \(n_t\) = documentos que contienen \(t\).</li>
 <li>Términos raros (en pocos documentos) tienen mayor IDF.</li>
 </ul>
 </div>
 </li>
-<li><a id="orge11d401"></a>Peso TF-IDF<br />
-<div class="outline-text-5" id="text-orge11d401">
+<li><a id="org0509d66"></a>Peso TF-IDF<br />
+<div class="outline-text-5" id="text-org0509d66">
 <p>
 \[
 w_{t,d} = \text{TF}(t,d) \times \text{IDF}(t)
@@ -1739,8 +1764,8 @@ w_{t,d} = \text{TF}(t,d) \times \text{IDF}(t)
 </p>
 </div>
 </li>
-<li><a id="org703d852"></a>Ejemplo numérico TF-IDF<br />
-<div class="outline-text-5" id="text-org703d852">
+<li><a id="orgabd03ef"></a>Ejemplo numérico TF-IDF<br />
+<div class="outline-text-5" id="text-orgabd03ef">
 <p>
 Corpus: 3 documentos. Término "recuperación":
 </p>
@@ -1763,21 +1788,21 @@ en d1; y aporta más que un término que aparezca en los 3 documentos (IDF menor
 </li>
 </ul>
 </div>
-<div id="outline-container-orgfe14802" class="outline-4">
-<h4 id="orgfe14802">Modelo probabilístico (BM25, etc.)</h4>
-<div class="outline-text-4" id="text-orgfe14802">
+<div id="outline-container-org47b36c7" class="outline-4">
+<h4 id="org47b36c7">Modelo probabilístico (BM25, etc.)</h4>
+<div class="outline-text-4" id="text-org47b36c7">
 </div>
 <ul class="org-ul">
-<li><a id="org6d5aa39"></a>Idea<br />
-<div class="outline-text-5" id="text-org6d5aa39">
+<li><a id="org3d6f8e0"></a>Idea<br />
+<div class="outline-text-5" id="text-org3d6f8e0">
 <ul class="org-ul">
 <li>Estimar la probabilidad de que un documento sea relevante dada la consulta.</li>
 <li>Ordenar por \(P(\text{relevante} \mid d, q)\).</li>
 </ul>
 </div>
 </li>
-<li><a id="org8d50d94"></a>BM25<br />
-<div class="outline-text-5" id="text-org8d50d94">
+<li><a id="org526da67"></a>BM25<br />
+<div class="outline-text-5" id="text-org526da67">
 <ul class="org-ul">
 <li>Extensión del modelo probabilístico; muy usado en práctica.</li>
 <li>Incorpora longitud del documento (penalización por documentos muy largos).</li>
@@ -1785,8 +1810,8 @@ en d1; y aporta más que un término que aparezca en los 3 documentos (IDF menor
 </ul>
 </div>
 </li>
-<li><a id="orgfc5815b"></a>Ejemplo intuitivo BM25<br />
-<div class="outline-text-5" id="text-orgfc5815b">
+<li><a id="org055dc9e"></a>Ejemplo intuitivo BM25<br />
+<div class="outline-text-5" id="text-org055dc9e">
 <p>
 Documento A: 50 palabras, "recuperación" aparece 2 veces.
 Documento B: 500 palabras, "recuperación" aparece 10 veces.
@@ -1805,13 +1830,13 @@ media del corpus. Así, un documento corto y focalizado (A) puede rankear más a
 </li>
 </ul>
 </div>
-<div id="outline-container-org9ef8f11" class="outline-4">
-<h4 id="org9ef8f11">Modelos basados en lenguaje (Language Models)</h4>
-<div class="outline-text-4" id="text-org9ef8f11">
+<div id="outline-container-orgd8d85c3" class="outline-4">
+<h4 id="orgd8d85c3">Modelos basados en lenguaje (Language Models)</h4>
+<div class="outline-text-4" id="text-orgd8d85c3">
 </div>
 <ul class="org-ul">
-<li><a id="org018b6be"></a>Idea<br />
-<div class="outline-text-5" id="text-org018b6be">
+<li><a id="orgb6c9f2a"></a>Idea<br />
+<div class="outline-text-5" id="text-orgb6c9f2a">
 <ul class="org-ul">
 <li>Modelar cada documento como una distribución de probabilidad sobre términos (language model).</li>
 <li>La consulta se "genera" con cierta probabilidad desde el modelo del documento.</li>
@@ -1819,8 +1844,8 @@ media del corpus. Así, un documento corto y focalizado (A) puede rankear más a
 </ul>
 </div>
 </li>
-<li><a id="org0d4ed7e"></a>Ventajas<br />
-<div class="outline-text-5" id="text-org0d4ed7e">
+<li><a id="org89f47b1"></a>Ventajas<br />
+<div class="outline-text-5" id="text-org89f47b1">
 <ul class="org-ul">
 <li>Base teórica sólida (probabilidad).</li>
 <li>Permite suavizado (smoothing) para términos no vistos.</li>
@@ -1829,9 +1854,9 @@ media del corpus. Así, un documento corto y focalizado (A) puede rankear más a
 </li>
 </ul>
 </div>
-<div id="outline-container-orgbffe2b1" class="outline-4">
-<h4 id="orgbffe2b1">Resumen comparativo</h4>
-<div class="outline-text-4" id="text-orgbffe2b1">
+<div id="outline-container-org4f11637" class="outline-4">
+<h4 id="org4f11637">Resumen comparativo</h4>
+<div class="outline-text-4" id="text-org4f11637">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1885,20 +1910,20 @@ media del corpus. Así, un documento corto y focalizado (A) puede rankear más a
 </div>
 </div>
 </div>
-<div id="outline-container-org82c0e3c" class="outline-3">
-<h3 id="org82c0e3c">Evaluación de la recuperación</h3>
-<div class="outline-text-3" id="text-org82c0e3c">
+<div id="outline-container-org7b81701" class="outline-3">
+<h3 id="org7b81701">Evaluación de la recuperación</h3>
+<div class="outline-text-3" id="text-org7b81701">
 <p>
 La evaluación permite comparar sistemas o configuraciones y decidir mejoras.
 </p>
 </div>
-<div id="outline-container-org337b9ab" class="outline-4">
-<h4 id="org337b9ab">Conjuntos de prueba (test collections)</h4>
-<div class="outline-text-4" id="text-org337b9ab">
+<div id="outline-container-org9f27a70" class="outline-4">
+<h4 id="org9f27a70">Conjuntos de prueba (test collections)</h4>
+<div class="outline-text-4" id="text-org9f27a70">
 </div>
 <ul class="org-ul">
-<li><a id="org2f88ab6"></a>Componentes<br />
-<div class="outline-text-5" id="text-org2f88ab6">
+<li><a id="orgbb58625"></a>Componentes<br />
+<div class="outline-text-5" id="text-orgbb58625">
 <ol class="org-ol">
 <li><b>Corpus</b>: conjunto de documentos.</li>
 <li><b>Consultas</b> (topics): necesidades de información representativas.</li>
@@ -1906,16 +1931,16 @@ La evaluación permite comparar sistemas o configuraciones y decidir mejoras.
 </ol>
 </div>
 </li>
-<li><a id="org177d398"></a>Ejemplos de colecciones<br />
-<div class="outline-text-5" id="text-org177d398">
+<li><a id="orgab3f989"></a>Ejemplos de colecciones<br />
+<div class="outline-text-5" id="text-orgab3f989">
 <ul class="org-ul">
 <li>Cranfield, TREC, CLEF, NTCIR: estándar en investigación.</li>
 <li>En la industria: datos propios con juicios implícitos (clics, tiempo en página).</li>
 </ul>
 </div>
 </li>
-<li><a id="org06c2512"></a>Ejemplo de colección mínima<br />
-<div class="outline-text-5" id="text-org06c2512">
+<li><a id="org2443479"></a>Ejemplo de colección mínima<br />
+<div class="outline-text-5" id="text-org2443479">
 <ul class="org-ul">
 <li><b>Corpus</b>: 5 documentos d1, d2, d3, d4, d5.</li>
 <li><b>Consulta</b>: "evaluación de la recuperación".</li>
@@ -1937,13 +1962,13 @@ Total relevante = 3 (d2, d3, d5).
 </li>
 </ul>
 </div>
-<div id="outline-container-org3dc672c" class="outline-4">
-<h4 id="org3dc672c">Métricas principales</h4>
-<div class="outline-text-4" id="text-org3dc672c">
+<div id="outline-container-orgba97e52" class="outline-4">
+<h4 id="orgba97e52">Métricas principales</h4>
+<div class="outline-text-4" id="text-orgba97e52">
 </div>
 <ul class="org-ul">
-<li><a id="org74e5aaa"></a>Precisión (Precision)<br />
-<div class="outline-text-5" id="text-org74e5aaa">
+<li><a id="org8e97bca"></a>Precisión (Precision)<br />
+<div class="outline-text-5" id="text-org8e97bca">
 <p>
 \[
 P = \frac{\text{documentos relevantes recuperados}}{\text{total de documentos recuperados}}
@@ -1954,8 +1979,8 @@ P = \frac{\text{documentos relevantes recuperados}}{\text{total de documentos re
 </ul>
 </div>
 </li>
-<li><a id="org10f73fc"></a>Recall (Exhaustividad)<br />
-<div class="outline-text-5" id="text-org10f73fc">
+<li><a id="org98810ac"></a>Recall (Exhaustividad)<br />
+<div class="outline-text-5" id="text-org98810ac">
 <p>
 \[
 R = \frac{\text{documentos relevantes recuperados}}{\text{total de documentos relevantes en el corpus}}
@@ -1966,8 +1991,8 @@ R = \frac{\text{documentos relevantes recuperados}}{\text{total de documentos re
 </ul>
 </div>
 </li>
-<li><a id="orgeaface5"></a>F1 (F-measure)<br />
-<div class="outline-text-5" id="text-orgeaface5">
+<li><a id="orgb9dab18"></a>F1 (F-measure)<br />
+<div class="outline-text-5" id="text-orgb9dab18">
 <ul class="org-ul">
 <li>Media armónica de precisión y recall:</li>
 </ul>
@@ -1978,16 +2003,16 @@ F_1 = 2 \frac{P \cdot R}{P + R}
 </p>
 </div>
 </li>
-<li><a id="org50cb44a"></a>Precisión en k (P@k)<br />
-<div class="outline-text-5" id="text-org50cb44a">
+<li><a id="org6e19115"></a>Precisión en k (P@k)<br />
+<div class="outline-text-5" id="text-org6e19115">
 <ul class="org-ul">
 <li>Precisión considerando solo los primeros \(k\) resultados.</li>
 <li>Útil cuando el usuario solo mira los primeros resultados (p. ej. P@10).</li>
 </ul>
 </div>
 </li>
-<li><a id="org42ba535"></a>Ejemplo numérico: precisión, recall, F1, P@k<br />
-<div class="outline-text-5" id="text-org42ba535">
+<li><a id="org9737845"></a>Ejemplo numérico: precisión, recall, F1, P@k<br />
+<div class="outline-text-5" id="text-org9737845">
 <p>
 Con la colección anterior: 3 documentos relevantes (d2, d3, d5). Supongamos que
 el sistema devuelve, en orden: [d2, d1, d3, d4, d5].
@@ -2011,8 +2036,8 @@ P@k:
 </ul>
 </div>
 </li>
-<li><a id="orgcd1f14c"></a>Precisión promedia (AP) y MAP<br />
-<div class="outline-text-5" id="text-orgcd1f14c">
+<li><a id="orgde2ef38"></a>Precisión promedia (AP) y MAP<br />
+<div class="outline-text-5" id="text-orgde2ef38">
 <ul class="org-ul">
 <li><b>Average Precision (AP)</b>: para una consulta, promedio de precisiones en cada punto de recall donde se recupera un documento relevante.</li>
 <li><b>MAP (Mean Average Precision)</b>: media de AP sobre todas las consultas.</li>
@@ -2020,8 +2045,8 @@ P@k:
 </ul>
 </div>
 </li>
-<li><a id="orge371adf"></a>Ejemplo: Average Precision (AP)<br />
-<div class="outline-text-5" id="text-orge371adf">
+<li><a id="orgd8504b8"></a>Ejemplo: Average Precision (AP)<br />
+<div class="outline-text-5" id="text-orgd8504b8">
 <p>
 Mismo ranking: [d2, d1, d3, d4, d5]; relevantes = {d2, d3, d5}.
 </p>
@@ -2044,8 +2069,8 @@ Un ranking perfecto [d2, d3, d5, &#x2026;] tendría AP = 1.0.
 </p>
 </div>
 </li>
-<li><a id="org860392e"></a>NDCG (Normalized Discounted Cumulative Gain)<br />
-<div class="outline-text-5" id="text-org860392e">
+<li><a id="org00c37b7"></a>NDCG (Normalized Discounted Cumulative Gain)<br />
+<div class="outline-text-5" id="text-org00c37b7">
 <ul class="org-ul">
 <li>Tiene en cuenta la <b>posición</b> en el ranking: más relevante arriba es mejor.</li>
 <li>El "gain" se descuenta según la posición (discounted).</li>
@@ -2054,8 +2079,8 @@ Un ranking perfecto [d2, d3, d5, &#x2026;] tendría AP = 1.0.
 </ul>
 </div>
 <ul class="org-ul">
-<li><a id="org2150148"></a>Ejemplo NDCG (intuitivo)<br />
-<div class="outline-text-6" id="text-org2150148">
+<li><a id="org289a515"></a>Ejemplo NDCG (intuitivo)<br />
+<div class="outline-text-6" id="text-org289a515">
 <p>
 Supongamos relevancia en escala 0–3: 0 = no relevante, 3 = muy relevante.
 Ranking del sistema: pos1 rel=2, pos2 rel=0, pos3 rel=3, pos4 rel=1.
@@ -2085,9 +2110,9 @@ estén arriba en el ranking.
 </li>
 </ul>
 </div>
-<div id="outline-container-org1edaf19" class="outline-4">
-<h4 id="org1edaf19">Evaluación con usuarios</h4>
-<div class="outline-text-4" id="text-org1edaf19">
+<div id="outline-container-org5bd67c7" class="outline-4">
+<h4 id="org5bd67c7">Evaluación con usuarios</h4>
+<div class="outline-text-4" id="text-org5bd67c7">
 <ul class="org-ul">
 <li><b>Estudios de usabilidad</b>: tiempo para completar tareas, satisfacción, número de clics.</li>
 <li><b>A/B testing</b>: comparar dos versiones del sistema con usuarios reales.</li>
@@ -2095,9 +2120,9 @@ estén arriba en el ranking.
 </ul>
 </div>
 </div>
-<div id="outline-container-org40496e3" class="outline-4">
-<h4 id="org40496e3">Trade-off precisión vs. recall</h4>
-<div class="outline-text-4" id="text-org40496e3">
+<div id="outline-container-orgc855024" class="outline-4">
+<h4 id="orgc855024">Trade-off precisión vs. recall</h4>
+<div class="outline-text-4" id="text-orgc855024">
 <ul class="org-ul">
 <li>Aumentar resultados mostrados \(\Rightarrow\) recall sube, precisión puede bajar.</li>
 <li>Ser más estricto en el ranking \(\Rightarrow\) precisión sube, recall puede bajar.</li>
@@ -2105,9 +2130,9 @@ estén arriba en el ranking.
 </ul>
 </div>
 <ul class="org-ul">
-<li><a id="orgec010bb"></a>Ejemplo<br />
-<div class="outline-text-5" id="text-orgec010bb">
-<pre class="example" id="orgc6d1d69">
+<li><a id="orgb5fc94e"></a>Ejemplo<br />
+<div class="outline-text-5" id="text-orgb5fc94e">
+<pre class="example" id="orgeeeb8aa">
 Corpus: 100 documentos, 10 relevantes para la consulta.
 
 - Si el sistema devuelve solo los 5 primeros y los 5 son relevantes:
@@ -2124,9 +2149,9 @@ Corpus: 100 documentos, 10 relevantes para la consulta.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgcdb1f40" class="outline-3">
-<h3 id="orgcdb1f40">Referencias</h3>
-<div class="outline-text-3" id="text-orgcdb1f40">
+<div id="outline-container-org396a5b4" class="outline-3">
+<h3 id="org396a5b4">Referencias</h3>
+<div class="outline-text-3" id="text-org396a5b4">
 <ul class="org-ul">
 <li>Manning, Raghavan, Schütze: <i>Information Retrieval: Implementing and Evaluating Search Engines</i> (MIT Press).</li>
 <li>Baeza-Yates, Ribeiro-Neto: <i>Modern Information Retrieval</i> (Addison Wesley).</li>
@@ -2135,9 +2160,9 @@ Corpus: 100 documentos, 10 relevantes para la consulta.
 </div>
 </div>
 </div>
-<div id="outline-container-orga51d52c" class="outline-2">
-<h2 id="orga51d52c">Ejemplos IRS — Recuperación de información con feeds RSS</h2>
-<div class="outline-text-2" id="text-orga51d52c">
+<div id="outline-container-org9a95149" class="outline-2">
+<h2 id="org9a95149">Ejemplos IRS — Recuperación de información con feeds RSS</h2>
+<div class="outline-text-2" id="text-org9a95149">
 <p>
 Un <b>Sistema de Recuperación de Información</b> (IRS, o IR en inglés) es un sistema
 que permite almacenar, organizar y recuperar documentos (o ítems) relevantes
@@ -2157,9 +2182,9 @@ entrada (item) es un “documento” con título, descripción, fecha y enlace.
 Así practicamos extracción, limpieza e indexación como en un IRS real.
 </p>
 </div>
-<div id="outline-container-org31c629e" class="outline-3">
-<h3 id="org31c629e">Un buscador introductorio con feeds RSS</h3>
-<div class="outline-text-3" id="text-org31c629e">
+<div id="outline-container-org64c3b92" class="outline-3">
+<h3 id="org64c3b92">Un buscador introductorio con feeds RSS</h3>
+<div class="outline-text-3" id="text-org64c3b92">
 <p>
 En este material construimos un <b>buscador muy sencillo</b> que usa <b>feeds RSS</b> como
 fuente de documentos: tú escribes una consulta y el sistema te devuelve ítems
@@ -2170,9 +2195,9 @@ páginas; después extraemos, limpiamos e indexamos esos feeds y probamos la
 búsqueda.
 </p>
 </div>
-<div id="outline-container-orga842a7b" class="outline-4">
-<h4 id="orga842a7b">Hacks de búsqueda: encontrar páginas y URLs de feeds RSS</h4>
-<div class="outline-text-4" id="text-orga842a7b">
+<div id="outline-container-org695b3d1" class="outline-4">
+<h4 id="org695b3d1">Hacks de búsqueda: encontrar páginas y URLs de feeds RSS</h4>
+<div class="outline-text-4" id="text-org695b3d1">
 <p>
 El uso de operadores de búsqueda (también conocidos como hacks de
 búsqueda) permite refinar las consultas en buscadores web con el
@@ -2185,8 +2210,8 @@ alimentar el buscador de noticias propuesto.
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="org4e7d2d9"></a>Operadores útiles Google Search<br />
-<div class="outline-text-5" id="text-org4e7d2d9">
+<li><a id="org7bd6ae0"></a>Operadores útiles Google Search<br />
+<div class="outline-text-5" id="text-org7bd6ae0">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2256,8 +2281,8 @@ alimentar el buscador de noticias propuesto.
 </table>
 </div>
 </li>
-<li><a id="org68cf2a6"></a>Operadores útiles DuckDuckGo<br />
-<div class="outline-text-5" id="text-org68cf2a6">
+<li><a id="org7f7de2d"></a>Operadores útiles DuckDuckGo<br />
+<div class="outline-text-5" id="text-org7f7de2d">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2315,8 +2340,8 @@ alimentar el buscador de noticias propuesto.
 </table>
 </div>
 </li>
-<li><a id="org4ed5599"></a>Bing Search<br />
-<div class="outline-text-5" id="text-org4ed5599">
+<li><a id="orgd55be2e"></a>Bing Search<br />
+<div class="outline-text-5" id="text-orgd55be2e">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2374,8 +2399,8 @@ alimentar el buscador de noticias propuesto.
 </table>
 </div>
 </li>
-<li><a id="orgf0d9823"></a>Hacks combinados (muy útiles para IRS)<br />
-<div class="outline-text-5" id="text-orgf0d9823">
+<li><a id="orgee98934"></a>Hacks combinados (muy útiles para IRS)<br />
+<div class="outline-text-5" id="text-orgee98934">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2413,10 +2438,10 @@ alimentar el buscador de noticias propuesto.
 </li>
 </ul>
 </div>
-<div id="outline-container-org19a184b" class="outline-4">
-<h4 id="org19a184b">Consultas de ejemplo para probar en el buscador</h4>
-<div class="outline-text-4" id="text-org19a184b">
-<pre class="example" id="orgf0a7a4a">
+<div id="outline-container-orgdf7a0a6" class="outline-4">
+<h4 id="orgdf7a0a6">Consultas de ejemplo para probar en el buscador</h4>
+<div class="outline-text-4" id="text-orgdf7a0a6">
+<pre class="example" id="orgc8afcaa">
 inurl:rss noticias tecnología
 inurl:feed blog educación
 "rss" "suscribirse" site:elpais.com
@@ -2435,9 +2460,9 @@ ser la <b>colección</b> que alimentará el pequeño buscador sobre RSS.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc018068" class="outline-3">
-<h3 id="orgc018068">Extraer datos de un feed RSS y guardarlos</h3>
-<div class="outline-text-3" id="text-orgc018068">
+<div id="outline-container-org8ad62a1" class="outline-3">
+<h3 id="org8ad62a1">Extraer datos de un feed RSS y guardarlos</h3>
+<div class="outline-text-3" id="text-org8ad62a1">
 <p>
 En un IRS la <b>colección</b> es el conjunto de documentos sobre el que el sistema
 responde a las consultas. Sin colección no hay recuperación. En nuestro caso,
@@ -2633,9 +2658,9 @@ Salida del JSON
 </pre>
 </div>
 </div>
-<div id="outline-container-orgf08747d" class="outline-3">
-<h3 id="orgf08747d">Limpieza de texto (normalización para el IRS)</h3>
-<div class="outline-text-3" id="text-orgf08747d">
+<div id="outline-container-orgb8cc1c7" class="outline-3">
+<h3 id="orgb8cc1c7">Limpieza de texto (normalización para el IRS)</h3>
+<div class="outline-text-3" id="text-orgb8cc1c7">
 <p>
 Los feeds RSS suelen incluir en título y resumen <b>HTML</b> (etiquetas <code>&lt;p&gt;</code>, <code>&lt;a&gt;</code>,
 etc.), mayúsculas/minúsculas mezcladas y signos de puntuación. Si el IRS
@@ -2702,9 +2727,9 @@ Así se garantiza que la búsqueda “python” coincida con “Python” en el 
 </div>
 </div>
 </div>
-<div id="outline-container-org14469ae" class="outline-3">
-<h3 id="org14469ae">Modelo booleano: búsqueda por palabras clave</h3>
-<div class="outline-text-3" id="text-org14469ae">
+<div id="outline-container-orgdf0901a" class="outline-3">
+<h3 id="orgdf0901a">Modelo booleano: búsqueda por palabras clave</h3>
+<div class="outline-text-3" id="text-orgdf0901a">
 <p>
 En el <b>modelo booleano</b> de recuperación, cada documento es <b>relevante</b> o <b>no
 relevante</b> según cumpla o no una expresión lógica sobre los términos (AND, OR,
@@ -2762,9 +2787,9 @@ ordenar, se usaría un modelo con score (p. ej. el ranking siguiente).
 </div>
 </div>
 </div>
-<div id="outline-container-org2e15ce6" class="outline-3">
-<h3 id="org2e15ce6">Ranking simple (modelo tipo vectorial)</h3>
-<div class="outline-text-3" id="text-org2e15ce6">
+<div id="outline-container-org83c86e5" class="outline-3">
+<h3 id="org83c86e5">Ranking simple (modelo tipo vectorial)</h3>
+<div class="outline-text-3" id="text-org83c86e5">
 <p>
 El modelo booleano devuelve un conjunto sin orden: todos los documentos
 recuperados son “igual de relevantes”. En la práctica el usuario espera ver
@@ -2828,9 +2853,9 @@ en un IRS sobre feeds RSS.
 </div>
 </div>
 </div>
-<div id="outline-container-org776a468" class="outline-3">
-<h3 id="org776a468">Interfaz de resultados</h3>
-<div class="outline-text-3" id="text-org776a468">
+<div id="outline-container-orgb115641" class="outline-3">
+<h3 id="orgb115641">Interfaz de resultados</h3>
+<div class="outline-text-3" id="text-orgb115641">
 <p>
 En un IRS la <b>interfaz</b> es el medio por el que el usuario formula la consulta
 y <b>ve los resultados</b>. Sin una presentación clara de los documentos recuperados,
@@ -2883,9 +2908,9 @@ ve el listado rankeado de ítems RSS con enlaces clicables.
 </div>
 </div>
 </div>
-<div id="outline-container-org478ff7d" class="outline-3">
-<h3 id="org478ff7d">Pipeline completo del IRS con RSS</h3>
-<div class="outline-text-3" id="text-org478ff7d">
+<div id="outline-container-org2917c9c" class="outline-3">
+<h3 id="org2917c9c">Pipeline completo del IRS con RSS</h3>
+<div class="outline-text-3" id="text-org2917c9c">
 <p>
 Un IRS real encadena varias etapas: obtener la colección, indexar/normalizar,
 recibir la consulta, aplicar el modelo de recuperación y presentar los
@@ -2896,9 +2921,9 @@ lista rankeada → interfaz (tabla). Así se evidencia que el IRS no es solo
 “búsqueda”, sino <b>colección + consulta + modelo + interfaz</b>.
 </p>
 </div>
-<div id="outline-container-org6380497" class="outline-4">
-<h4 id="org6380497">Relación IRS ↔ feeds RSS en el pipeline</h4>
-<div class="outline-text-4" id="text-org6380497">
+<div id="outline-container-org52958b7" class="outline-4">
+<h4 id="org52958b7">Relación IRS ↔ feeds RSS en el pipeline</h4>
+<div class="outline-text-4" id="text-org52958b7">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2942,9 +2967,9 @@ lista rankeada → interfaz (tabla). Así se evidencia que el IRS no es solo
 </table>
 </div>
 </div>
-<div id="outline-container-org7daf436" class="outline-4">
-<h4 id="org7daf436">Explicación del código</h4>
-<div class="outline-text-4" id="text-org7daf436">
+<div id="outline-container-orgc0bc434" class="outline-4">
+<h4 id="orgc0bc434">Explicación del código</h4>
+<div class="outline-text-4" id="text-orgc0bc434">
 <p>
 <code>irs_pipeline(feed_url, query, max_entries, top_k)</code> encadena: (1) <code>fetch_rss</code>
 descarga y parsea el feed y devuelve la lista de ítems (colección en bruto);
@@ -2980,18 +3005,18 @@ presentación.
 </div>
 </div>
 </div>
-<div id="outline-container-org50c334c" class="outline-2">
-<h2 id="org50c334c">Introducción a XPath</h2>
-<div class="outline-text-2" id="text-org50c334c">
+<div id="outline-container-org9d74941" class="outline-2">
+<h2 id="org9d74941">Introducción a XPath</h2>
+<div class="outline-text-2" id="text-org9d74941">
 <p>
 <b>XPath</b> (XML Path Language) es un lenguaje para localizar nodos y extraer valores en
 documentos XML y HTML. Se usa en transformaciones XSLT, scraping web, APIs y consultas
 a documentos estructurados.
 </p>
 </div>
-<div id="outline-container-org556a8c4" class="outline-3">
-<h3 id="org556a8c4">¿Para qué sirve?</h3>
-<div class="outline-text-3" id="text-org556a8c4">
+<div id="outline-container-org87b83a1" class="outline-3">
+<h3 id="org87b83a1">¿Para qué sirve?</h3>
+<div class="outline-text-3" id="text-org87b83a1">
 <ul class="org-ul">
 <li>Navegar por la estructura de un árbol XML/HTML.</li>
 <li>Seleccionar elementos por etiqueta, atributo, posición o relación jerárquica.</li>
@@ -3000,9 +3025,9 @@ a documentos estructurados.
 </ul>
 </div>
 </div>
-<div id="outline-container-org0849510" class="outline-3">
-<h3 id="org0849510">Documento de ejemplo</h3>
-<div class="outline-text-3" id="text-org0849510">
+<div id="outline-container-org86cc5c7" class="outline-3">
+<h3 id="org86cc5c7">Documento de ejemplo</h3>
+<div class="outline-text-3" id="text-org86cc5c7">
 <p>
 En esta parte usaremos este XML ficticio como referencia:
 </p>
@@ -3033,22 +3058,22 @@ En esta parte usaremos este XML ficticio como referencia:
 </div>
 </div>
 </div>
-<div id="outline-container-org62f7449" class="outline-3">
-<h3 id="org62f7449">Sintaxis básica</h3>
-<div class="outline-text-3" id="text-org62f7449">
+<div id="outline-container-orgf1f9c3b" class="outline-3">
+<h3 id="orgf1f9c3b">Sintaxis básica</h3>
+<div class="outline-text-3" id="text-orgf1f9c3b">
 </div>
-<div id="outline-container-org8319f09" class="outline-4">
-<h4 id="org8319f09">Rutas absolutas y relativas</h4>
-<div class="outline-text-4" id="text-org8319f09">
+<div id="outline-container-org7d2a592" class="outline-4">
+<h4 id="org7d2a592">Rutas absolutas y relativas</h4>
+<div class="outline-text-4" id="text-org7d2a592">
 </div>
 <ul class="org-ul">
-<li><a id="org29cc75e"></a>Ruta absoluta<br />
-<div class="outline-text-5" id="text-org29cc75e">
+<li><a id="org1fde420"></a>Ruta absoluta<br />
+<div class="outline-text-5" id="text-org1fde420">
 <p>
 Empieza en la raíz del documento con <code>/</code>:
 </p>
 
-<pre class="example" id="org6cc516a">
+<pre class="example" id="org10e9892">
 /catalogo/libro
 </pre>
 
@@ -3057,13 +3082,13 @@ Selecciona todos los elementos <code>&lt;libro&gt;</code> que son hijos directos
 </p>
 </div>
 </li>
-<li><a id="org7e5187c"></a>Ruta relativa<br />
-<div class="outline-text-5" id="text-org7e5187c">
+<li><a id="org6e59164"></a>Ruta relativa<br />
+<div class="outline-text-5" id="text-org6e59164">
 <p>
 Se evalúa desde el nodo actual (contexto):
 </p>
 
-<pre class="example" id="orgec29192">
+<pre class="example" id="org0232173">
 libro/titulo
 </pre>
 
@@ -3074,9 +3099,9 @@ Desde el contexto actual, selecciona <code>&lt;titulo&gt;</code> dentro de <code
 </li>
 </ul>
 </div>
-<div id="outline-container-org32d21fd" class="outline-4">
-<h4 id="org32d21fd">Seleccionar por etiqueta</h4>
-<div class="outline-text-4" id="text-org32d21fd">
+<div id="outline-container-org8904639" class="outline-4">
+<h4 id="org8904639">Seleccionar por etiqueta</h4>
+<div class="outline-text-4" id="text-org8904639">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3115,14 +3140,14 @@ Desde el contexto actual, selecciona <code>&lt;titulo&gt;</code> dentro de <code
 </table>
 </div>
 <ul class="org-ul">
-<li><a id="org63ef92d"></a>Diferencia entre <code>/</code> y <code>//</code><br />
-<div class="outline-text-5" id="text-org63ef92d">
+<li><a id="org559da39"></a>Diferencia entre <code>/</code> y <code>//</code><br />
+<div class="outline-text-5" id="text-org559da39">
 <dl class="org-dl">
 <dt><code>/</code></dt><dd>Solo hijos <b>directos</b> (un nivel).</dd>
 <dt><code>//</code></dt><dd>Descendientes en <b>cualquier nivel</b>.</dd>
 </dl>
 
-<pre class="example" id="orgce51b50">
+<pre class="example" id="orgef89893">
 /catalogo/libro/titulo   → titulos que son nietos de catalogo (1 nivel)
 //titulo                 → todos los titulos del documento
 </pre>
@@ -3131,16 +3156,16 @@ Desde el contexto actual, selecciona <code>&lt;titulo&gt;</code> dentro de <code
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb08f25c" class="outline-3">
-<h3 id="orgb08f25c">Predicados</h3>
-<div class="outline-text-3" id="text-orgb08f25c">
+<div id="outline-container-org16d8427" class="outline-3">
+<h3 id="org16d8427">Predicados</h3>
+<div class="outline-text-3" id="text-org16d8427">
 <p>
 Los <b>predicados</b> <code>[...]</code> filtran nodos según una condición.
 </p>
 </div>
-<div id="outline-container-org6f66c25" class="outline-4">
-<h4 id="org6f66c25">Por posición</h4>
-<div class="outline-text-4" id="text-org6f66c25">
+<div id="outline-container-orgb4a262e" class="outline-4">
+<h4 id="orgb4a262e">Por posición</h4>
+<div class="outline-text-4" id="text-orgb4a262e">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3174,8 +3199,8 @@ Los <b>predicados</b> <code>[...]</code> filtran nodos según una condición.
 </table>
 </div>
 <ul class="org-ul">
-<li><a id="org12c2da3"></a>Nota sobre índices<br />
-<div class="outline-text-5" id="text-org12c2da3">
+<li><a id="org2636c3c"></a>Nota sobre índices<br />
+<div class="outline-text-5" id="text-org2636c3c">
 <p>
 En XPath, los índices empiezan en <b>1</b>, no en 0.
 </p>
@@ -3183,9 +3208,9 @@ En XPath, los índices empiezan en <b>1</b>, no en 0.
 </li>
 </ul>
 </div>
-<div id="outline-container-org26272df" class="outline-4">
-<h4 id="org26272df">Por atributo</h4>
-<div class="outline-text-4" id="text-org26272df">
+<div id="outline-container-org36a9ca3" class="outline-4">
+<h4 id="org36a9ca3">Por atributo</h4>
+<div class="outline-text-4" id="text-org36a9ca3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3229,9 +3254,9 @@ En XPath, los índices empiezan en <b>1</b>, no en 0.
 </table>
 </div>
 </div>
-<div id="outline-container-orgcc71b25" class="outline-4">
-<h4 id="orgcc71b25">Por contenido de texto</h4>
-<div class="outline-text-4" id="text-orgcc71b25">
+<div id="outline-container-org02ee6ee" class="outline-4">
+<h4 id="org02ee6ee">Por contenido de texto</h4>
+<div class="outline-text-4" id="text-org02ee6ee">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3275,16 +3300,16 @@ El punto <code>.</code> representa el nodo actual (el texto del elemento en much
 </div>
 </div>
 </div>
-<div id="outline-container-org7eea3dc" class="outline-3">
-<h3 id="org7eea3dc">Ejes</h3>
-<div class="outline-text-3" id="text-org7eea3dc">
+<div id="outline-container-orgb9eee09" class="outline-3">
+<h3 id="orgb9eee09">Ejes</h3>
+<div class="outline-text-3" id="text-orgb9eee09">
 <p>
 Los <b>ejes</b> definen la relación entre nodos. Sintaxis: <code>eje::paso</code>.
 </p>
 </div>
-<div id="outline-container-org9138ec9" class="outline-4">
-<h4 id="org9138ec9">Ejes más usados</h4>
-<div class="outline-text-4" id="text-org9138ec9">
+<div id="outline-container-orge2f4304" class="outline-4">
+<h4 id="orge2f4304">Ejes más usados</h4>
+<div class="outline-text-4" id="text-orge2f4304">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3348,10 +3373,10 @@ Los <b>ejes</b> definen la relación entre nodos. Sintaxis: <code>eje::paso</cod
 </table>
 </div>
 </div>
-<div id="outline-container-org4a7e719" class="outline-4">
-<h4 id="org4a7e719">Ejemplos con ejes</h4>
-<div class="outline-text-4" id="text-org4a7e719">
-<pre class="example" id="org118ed38">
+<div id="outline-container-org4050fca" class="outline-4">
+<h4 id="org4050fca">Ejemplos con ejes</h4>
+<div class="outline-text-4" id="text-org4050fca">
+<pre class="example" id="orgba8f104">
 /catalogo/child::libro          → igual que /catalogo/libro
 //titulo/parent::libro          → libros que contienen un titulo
 //libro[1]/following-sibling::libro  → hermanos siguientes del primer libro
@@ -3360,13 +3385,13 @@ Los <b>ejes</b> definen la relación entre nodos. Sintaxis: <code>eje::paso</cod
 </div>
 </div>
 </div>
-<div id="outline-container-orgf5a0eb9" class="outline-3">
-<h3 id="orgf5a0eb9">Funciones útiles</h3>
-<div class="outline-text-3" id="text-orgf5a0eb9">
+<div id="outline-container-orgceaf126" class="outline-3">
+<h3 id="orgceaf126">Funciones útiles</h3>
+<div class="outline-text-3" id="text-orgceaf126">
 </div>
-<div id="outline-container-orgbd83a7c" class="outline-4">
-<h4 id="orgbd83a7c">Funciones de texto</h4>
-<div class="outline-text-4" id="text-orgbd83a7c">
+<div id="outline-container-org681a29e" class="outline-4">
+<h4 id="org681a29e">Funciones de texto</h4>
+<div class="outline-text-4" id="text-org681a29e">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3424,9 +3449,9 @@ Los <b>ejes</b> definen la relación entre nodos. Sintaxis: <code>eje::paso</cod
 </table>
 </div>
 </div>
-<div id="outline-container-org733d1ab" class="outline-4">
-<h4 id="org733d1ab">Funciones numéricas</h4>
-<div class="outline-text-4" id="text-org733d1ab">
+<div id="outline-container-org1b3f9bf" class="outline-4">
+<h4 id="org1b3f9bf">Funciones numéricas</h4>
+<div class="outline-text-4" id="text-org1b3f9bf">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3464,16 +3489,16 @@ Los <b>ejes</b> definen la relación entre nodos. Sintaxis: <code>eje::paso</cod
 </tbody>
 </table>
 
-<pre class="example" id="orgbb9f108">
+<pre class="example" id="orge491ad0">
 count(//libro)           → 3
 sum(//precio)            → 51.50 (si los precios son números)
 //libro[position()=last()]
 </pre>
 </div>
 </div>
-<div id="outline-container-orga6bf4dc" class="outline-4">
-<h4 id="orga6bf4dc">Funciones de tipo</h4>
-<div class="outline-text-4" id="text-orga6bf4dc">
+<div id="outline-container-orga88760b" class="outline-4">
+<h4 id="orga88760b">Funciones de tipo</h4>
+<div class="outline-text-4" id="text-orga88760b">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3508,24 +3533,24 @@ sum(//precio)            → 51.50 (si los precios son números)
 </div>
 </div>
 </div>
-<div id="outline-container-orge2270c6" class="outline-3">
-<h3 id="orge2270c6">Operadores y combinaciones</h3>
-<div class="outline-text-3" id="text-orge2270c6">
+<div id="outline-container-orgea77142" class="outline-3">
+<h3 id="orgea77142">Operadores y combinaciones</h3>
+<div class="outline-text-3" id="text-orgea77142">
 </div>
-<div id="outline-container-org12e7d1d" class="outline-4">
-<h4 id="org12e7d1d">Operadores lógicos</h4>
-<div class="outline-text-4" id="text-org12e7d1d">
-<pre class="example" id="org3bf583f">
+<div id="outline-container-org1c0a354" class="outline-4">
+<h4 id="org1c0a354">Operadores lógicos</h4>
+<div class="outline-text-4" id="text-org1c0a354">
+<pre class="example" id="org6ac2573">
 //libro[@categoria="ficcion" and precio&gt;12]
 //libro[@categoria="ficcion" or @categoria="tecnica"]
 //titulo[not(contains(., "años"))]
 </pre>
 </div>
 </div>
-<div id="outline-container-org06263f8" class="outline-4">
-<h4 id="org06263f8">Unión de conjuntos (|)</h4>
-<div class="outline-text-4" id="text-org06263f8">
-<pre class="example" id="org14668b1">
+<div id="outline-container-org74f7a3f" class="outline-4">
+<h4 id="org74f7a3f">Unión de conjuntos (|)</h4>
+<div class="outline-text-4" id="text-org74f7a3f">
+<pre class="example" id="orgfbf5df3">
 //titulo | //autor
 </pre>
 
@@ -3534,18 +3559,18 @@ Devuelve todos los elementos <code>titulo</code> y <code>autor</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-orge70122b" class="outline-4">
-<h4 id="orge70122b">Operadores de comparación</h4>
-<div class="outline-text-4" id="text-orge70122b">
+<div id="outline-container-org4dbad9c" class="outline-4">
+<h4 id="org4dbad9c">Operadores de comparación</h4>
+<div class="outline-text-4" id="text-org4dbad9c">
 <p>
 = = <code>, =!</code> <code>, =&lt; =, =&lt;</code> <code>, =&gt; =, =&gt;</code> =
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org33bc68c" class="outline-3">
-<h3 id="org33bc68c">XPath en HTML (scraping)</h3>
-<div class="outline-text-3" id="text-org33bc68c">
+<div id="outline-container-org7c30169" class="outline-3">
+<h3 id="org7c30169">XPath en HTML (scraping)</h3>
+<div class="outline-text-3" id="text-org7c30169">
 <p>
 HTML no siempre es XML bien formado. Herramientas como <code>lxml</code> en Python pueden parsear
 HTML y aplicar XPath. Ejemplo:
@@ -3588,10 +3613,10 @@ HTML y aplicar XPath. Ejemplo:
 </pre>
 </div>
 </div>
-<div id="outline-container-org4ea38ba" class="outline-4">
-<h4 id="org4ea38ba">XPath útiles para HTML común</h4>
-<div class="outline-text-4" id="text-org4ea38ba">
-<pre class="example" id="org25be7d3">
+<div id="outline-container-org4542aee" class="outline-4">
+<h4 id="org4542aee">XPath útiles para HTML común</h4>
+<div class="outline-text-4" id="text-org4542aee">
+<pre class="example" id="org6b72d77">
 //a/@href                    → todos los enlaces (URL)
 //img/@src                   → todas las imágenes
 //div[@class='contenido']    → divs con esa clase
@@ -3602,13 +3627,13 @@ HTML y aplicar XPath. Ejemplo:
 </div>
 </div>
 </div>
-<div id="outline-container-org31d5c2e" class="outline-3">
-<h3 id="org31d5c2e">XPath en Python (lxml)</h3>
-<div class="outline-text-3" id="text-org31d5c2e">
+<div id="outline-container-org9ef807c" class="outline-3">
+<h3 id="org9ef807c">XPath en Python (lxml)</h3>
+<div class="outline-text-3" id="text-org9ef807c">
 </div>
-<div id="outline-container-org600c8c1" class="outline-4">
-<h4 id="org600c8c1">Cargar XML desde archivo</h4>
-<div class="outline-text-4" id="text-org600c8c1">
+<div id="outline-container-orgf24909c" class="outline-4">
+<h4 id="orgf24909c">Cargar XML desde archivo</h4>
+<div class="outline-text-4" id="text-orgf24909c">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #fb4934;">from</span> lxml <span style="color: #fb4934;">import</span> etree
 
@@ -3622,9 +3647,9 @@ HTML y aplicar XPath. Ejemplo:
 </div>
 </div>
 </div>
-<div id="outline-container-org70ee7a5" class="outline-4">
-<h4 id="org70ee7a5">Ejecutar XPath</h4>
-<div class="outline-text-4" id="text-org70ee7a5">
+<div id="outline-container-org54444e8" class="outline-4">
+<h4 id="org54444e8">Ejecutar XPath</h4>
+<div class="outline-text-4" id="text-org54444e8">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #928374;"># </span><span style="color: #928374;">.xpath() devuelve lista de nodos o valores seg&#250;n la expresi&#243;n
 </span><span style="color: #83a598;">libros</span> = root.xpath<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">"//libro"</span><span style="color: #fe8019;">)</span>
@@ -3635,9 +3660,9 @@ HTML y aplicar XPath. Ejemplo:
 </div>
 </div>
 </div>
-<div id="outline-container-org3dc961e" class="outline-4">
-<h4 id="org3dc961e">Namespaces (XML con prefijos)</h4>
-<div class="outline-text-4" id="text-org3dc961e">
+<div id="outline-container-org88fcd10" class="outline-4">
+<h4 id="org88fcd10">Namespaces (XML con prefijos)</h4>
+<div class="outline-text-4" id="text-org88fcd10">
 <p>
 Si el XML usa namespaces (p. ej. <code>xmlns</code>), hay que registrarlos:
 </p>
@@ -3650,69 +3675,69 @@ Si el XML usa namespaces (p. ej. <code>xmlns</code>), hay que registrarlos:
 </div>
 </div>
 </div>
-<div id="outline-container-orga43f3d6" class="outline-3">
-<h3 id="orga43f3d6">Ejercicios prácticos</h3>
-<div class="outline-text-3" id="text-orga43f3d6">
+<div id="outline-container-org7566632" class="outline-3">
+<h3 id="org7566632">Ejercicios prácticos</h3>
+<div class="outline-text-3" id="text-org7566632">
 <p>
 Con el XML de ejemplo del catálogo, escribe el XPath que:
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="orgcbef2b4"></a>Ejercicio 1<br />
-<div class="outline-text-5" id="text-orgcbef2b4">
+<li><a id="orgb67ef6a"></a>Ejercicio 1<br />
+<div class="outline-text-5" id="text-orgb67ef6a">
 <p>
 Obtenga el título del segundo libro.
 </p>
-<pre class="example" id="org4abaf74">
+<pre class="example" id="orgd55d857">
 # Respuesta: /catalogo/libro[2]/titulo/text()
 </pre>
 </div>
 </li>
-<li><a id="org6cd50d5"></a>Ejercicio 2<br />
-<div class="outline-text-5" id="text-org6cd50d5">
+<li><a id="orgf38c05b"></a>Ejercicio 2<br />
+<div class="outline-text-5" id="text-orgf38c05b">
 <p>
 Obtenga todos los precios en euros.
 </p>
-<pre class="example" id="org9a873aa">
+<pre class="example" id="org68515f6">
 # Respuesta: //precio[@moneda='EUR']/text()
 </pre>
 </div>
 </li>
-<li><a id="orgc1f0c5a"></a>Ejercicio 3<br />
-<div class="outline-text-5" id="text-orgc1f0c5a">
+<li><a id="org2f76d33"></a>Ejercicio 3<br />
+<div class="outline-text-5" id="text-org2f76d33">
 <p>
 Obtenga los títulos de los libros de ficción.
 </p>
-<pre class="example" id="orgacd9711">
+<pre class="example" id="orgd2b7ce3">
 # Respuesta: //libro[@categoria='ficcion']/titulo/text()
 </pre>
 </div>
 </li>
-<li><a id="org2e957e0"></a>Ejercicio 4<br />
-<div class="outline-text-5" id="text-org2e957e0">
+<li><a id="orgb240ef0"></a>Ejercicio 4<br />
+<div class="outline-text-5" id="text-orgb240ef0">
 <p>
 Obtenga el autor del libro cuyo título contiene "años".
 </p>
-<pre class="example" id="org3db748b">
+<pre class="example" id="orgeabf35b">
 # Respuesta: //libro[titulo[contains(., 'años')]]/autor/text()
 </pre>
 </div>
 </li>
-<li><a id="orgf78e8fb"></a>Ejercicio 5<br />
-<div class="outline-text-5" id="text-orgf78e8fb">
+<li><a id="org3f56362"></a>Ejercicio 5<br />
+<div class="outline-text-5" id="text-org3f56362">
 <p>
 Cuente cuántos libros hay en el catálogo.
 </p>
-<pre class="example" id="org1deec66">
+<pre class="example" id="orga55c656">
 # Respuesta: count(//libro)
 </pre>
 </div>
 </li>
 </ul>
 </div>
-<div id="outline-container-orgf493878" class="outline-3">
-<h3 id="orgf493878">Referencia rápida</h3>
-<div class="outline-text-3" id="text-orgf493878">
+<div id="outline-container-org017d441" class="outline-3">
+<h3 id="org017d441">Referencia rápida</h3>
+<div class="outline-text-3" id="text-org017d441">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3782,10 +3807,10 @@ Cuente cuántos libros hay en el catálogo.
 </table>
 </div>
 </div>
-<div id="outline-container-org72f0d15" class="outline-3">
-<h3 id="org72f0d15">Dependencias</h3>
-<div class="outline-text-3" id="text-org72f0d15">
-<pre class="example" id="orgad2030d">
+<div id="outline-container-orgc37b192" class="outline-3">
+<h3 id="orgc37b192">Dependencias</h3>
+<div class="outline-text-3" id="text-orgc37b192">
+<pre class="example" id="org0e565a8">
 pip install lxml
 </pre>
 
@@ -3795,31 +3820,31 @@ Para HTML "suelto": <code>lxml</code> con <code>etree.HTML()</code> o <code>Beau
 </div>
 </div>
 </div>
-<div id="outline-container-orgca8c948" class="outline-2">
-<h2 id="orgca8c948">Ruta Crítica del Web Scraping y Aspectos de Seguridad</h2>
-<div class="outline-text-2" id="text-orgca8c948">
+<div id="outline-container-org2047574" class="outline-2">
+<h2 id="org2047574">Ruta Crítica del Web Scraping y Aspectos de Seguridad</h2>
+<div class="outline-text-2" id="text-org2047574">
 </div>
-<div id="outline-container-orgcfbc1e5" class="outline-3">
-<h3 id="orgcfbc1e5">Introducción</h3>
-<div class="outline-text-3" id="text-orgcfbc1e5">
+<div id="outline-container-org3e803ba" class="outline-3">
+<h3 id="org3e803ba">Introducción</h3>
+<div class="outline-text-3" id="text-org3e803ba">
 <p>
 Este apartado describe la <b>ruta crítica</b> para realizar web scraping: los pasos imprescindibles,
 orden lógico y las consideraciones de <b>seguridad</b> (tuyas y del sitio objetivo) que conlleva.
 </p>
 </div>
 </div>
-<div id="outline-container-orge3b71d0" class="outline-3">
-<h3 id="orge3b71d0">La ruta crítica: fases del proyecto de scraping</h3>
-<div class="outline-text-3" id="text-orge3b71d0">
+<div id="outline-container-org32b31f3" class="outline-3">
+<h3 id="org32b31f3">La ruta crítica: fases del proyecto de scraping</h3>
+<div class="outline-text-3" id="text-org32b31f3">
 <p>
 La ruta crítica es la secuencia de actividades que deben completarse en orden y cuyas
 demoras afectan directamente el tiempo total del proyecto.
 </p>
 </div>
-<div id="outline-container-orgc61459a" class="outline-4">
-<h4 id="orgc61459a">Diagrama de flujo general</h4>
-<div class="outline-text-4" id="text-orgc61459a">
-<pre class="example" id="org89513ff">
+<div id="outline-container-org3686ecf" class="outline-4">
+<h4 id="org3686ecf">Diagrama de flujo general</h4>
+<div class="outline-text-4" id="text-org3686ecf">
+<pre class="example" id="orge60dccf">
 ┌─────────────────┐
 │ 1. LEGALIDAD    │ ¿Puedo hacerlo?
 │ y ÉTICA         │
@@ -3864,13 +3889,13 @@ demoras afectan directamente el tiempo total del proyecto.
 </div>
 </div>
 </div>
-<div id="outline-container-orga40c2ca" class="outline-3">
-<h3 id="orga40c2ca">Fase 1: Legalidad y ética (puerta de entrada)</h3>
-<div class="outline-text-3" id="text-orga40c2ca">
+<div id="outline-container-org7e661d1" class="outline-3">
+<h3 id="org7e661d1">Fase 1: Legalidad y ética (puerta de entrada)</h3>
+<div class="outline-text-3" id="text-org7e661d1">
 </div>
-<div id="outline-container-orgb3a2f97" class="outline-4">
-<h4 id="orgb3a2f97">Antes de escribir código</h4>
-<div class="outline-text-4" id="text-orgb3a2f97">
+<div id="outline-container-org3c4b190" class="outline-4">
+<h4 id="org3c4b190">Antes de escribir código</h4>
+<div class="outline-text-4" id="text-org3c4b190">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3922,10 +3947,10 @@ demoras afectan directamente el tiempo total del proyecto.
 </table>
 </div>
 </div>
-<div id="outline-container-org974b0a2" class="outline-4">
-<h4 id="org974b0a2">Ejemplo de robots.txt</h4>
-<div class="outline-text-4" id="text-org974b0a2">
-<pre class="example" id="org2743509">
+<div id="outline-container-org17d9bab" class="outline-4">
+<h4 id="org17d9bab">Ejemplo de robots.txt</h4>
+<div class="outline-text-4" id="text-org17d9bab">
+<pre class="example" id="org30dfee0">
 User-agent: *
 Disallow: /admin/
 Disallow: /api/  # Puede indicar que hay API disponible
@@ -3936,9 +3961,9 @@ Disallow: /
 </pre>
 </div>
 </div>
-<div id="outline-container-org0a141ad" class="outline-4">
-<h4 id="org0a141ad">Consecuencias de omitir esta fase</h4>
-<div class="outline-text-4" id="text-org0a141ad">
+<div id="outline-container-orgda658c2" class="outline-4">
+<h4 id="orgda658c2">Consecuencias de omitir esta fase</h4>
+<div class="outline-text-4" id="text-orgda658c2">
 <ul class="org-ul">
 <li>Demandas por violación de términos de servicio.</li>
 <li>Bloqueo de IP o cuenta.</li>
@@ -3948,13 +3973,13 @@ Disallow: /
 </div>
 </div>
 </div>
-<div id="outline-container-orgd6e6d10" class="outline-3">
-<h3 id="orgd6e6d10">Fase 2: Buscar alternativas al scraping</h3>
-<div class="outline-text-3" id="text-orgd6e6d10">
+<div id="outline-container-orgbb672ba" class="outline-3">
+<h3 id="orgbb672ba">Fase 2: Buscar alternativas al scraping</h3>
+<div class="outline-text-3" id="text-orgbb672ba">
 </div>
-<div id="outline-container-orgb5f54ca" class="outline-4">
-<h4 id="orgb5f54ca">Jerarquía de preferencia (orden recomendado)</h4>
-<div class="outline-text-4" id="text-orgb5f54ca">
+<div id="outline-container-orgeb18e3a" class="outline-4">
+<h4 id="orgeb18e3a">Jerarquía de preferencia (orden recomendado)</h4>
+<div class="outline-text-4" id="text-orgeb18e3a">
 <ol class="org-ol">
 <li><b>API oficial</b> (Twitter, INEGI, Amazon Product Advertising API, etc.)</li>
 <li><b>RSS / feed XML</b></li>
@@ -3969,9 +3994,9 @@ Nunca empezar con Selenium si no es necesario: es más lento y pesado. Ejemplos:
 </p>
 </div>
 </div>
-<div id="outline-container-org0918b13" class="outline-4">
-<h4 id="org0918b13">Antes de scrapear, preguntar</h4>
-<div class="outline-text-4" id="text-org0918b13">
+<div id="outline-container-orgb1a6bf4" class="outline-4">
+<h4 id="orgb1a6bf4">Antes de scrapear, preguntar</h4>
+<div class="outline-text-4" id="text-orgb1a6bf4">
 <ol class="org-ol">
 <li>¿Existe una <b>API oficial</b>? (Google, Twitter, INEGI, etc.)</li>
 <li>¿Hay <b>datos abiertos</b> o descarga masiva? (datos.gob.mx, Kaggle)</li>
@@ -3981,9 +4006,9 @@ Nunca empezar con Selenium si no es necesario: es más lento y pesado. Ejemplos:
 </ol>
 </div>
 </div>
-<div id="outline-container-org1195196" class="outline-4">
-<h4 id="org1195196">Motivos para preferir alternativas</h4>
-<div class="outline-text-4" id="text-org1195196">
+<div id="outline-container-org44f6a2a" class="outline-4">
+<h4 id="org44f6a2a">Motivos para preferir alternativas</h4>
+<div class="outline-text-4" id="text-org44f6a2a">
 <ul class="org-ul">
 <li>Legalidad más clara.</li>
 <li>Menor riesgo de bloqueo.</li>
@@ -3993,13 +4018,13 @@ Nunca empezar con Selenium si no es necesario: es más lento y pesado. Ejemplos:
 </div>
 </div>
 </div>
-<div id="outline-container-orgbdd830b" class="outline-3">
-<h3 id="orgbdd830b">Fase 3: Planificación</h3>
-<div class="outline-text-3" id="text-orgbdd830b">
+<div id="outline-container-orgacbd652" class="outline-3">
+<h3 id="orgacbd652">Fase 3: Planificación</h3>
+<div class="outline-text-3" id="text-orgacbd652">
 </div>
-<div id="outline-container-org463fbe8" class="outline-4">
-<h4 id="org463fbe8">Definir alcance</h4>
-<div class="outline-text-4" id="text-org463fbe8">
+<div id="outline-container-orgbcdb8ee" class="outline-4">
+<h4 id="orgbcdb8ee">Definir alcance</h4>
+<div class="outline-text-4" id="text-orgbcdb8ee">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -4043,9 +4068,9 @@ Nunca empezar con Selenium si no es necesario: es más lento y pesado. Ejemplos:
 </table>
 </div>
 </div>
-<div id="outline-container-org5d80979" class="outline-4">
-<h4 id="org5d80979">Estimar carga al servidor</h4>
-<div class="outline-text-4" id="text-org5d80979">
+<div id="outline-container-orgaf3b44b" class="outline-4">
+<h4 id="orgaf3b44b">Estimar carga al servidor</h4>
+<div class="outline-text-4" id="text-orgaf3b44b">
 <p>
 \[
 \text{peticiones/hora} \approx \frac{\text{páginas totales}}{\text{tiempo deseado (h)}} \times (1 + \text{margen reintentos})
@@ -4058,13 +4083,13 @@ Mantener un ritmo <b>razonable</b> evita saturar el servidor y ser detectado com
 </div>
 </div>
 </div>
-<div id="outline-container-org63f6372" class="outline-3">
-<h3 id="org63f6372">Fase 4: Análisis técnico</h3>
-<div class="outline-text-3" id="text-org63f6372">
+<div id="outline-container-orgb4ee829" class="outline-3">
+<h3 id="orgb4ee829">Fase 4: Análisis técnico</h3>
+<div class="outline-text-3" id="text-orgb4ee829">
 </div>
-<div id="outline-container-org9a83d73" class="outline-4">
-<h4 id="org9a83d73">Inspeccionar el sitio</h4>
-<div class="outline-text-4" id="text-org9a83d73">
+<div id="outline-container-org5f328d2" class="outline-4">
+<h4 id="org5f328d2">Inspeccionar el sitio</h4>
+<div class="outline-text-4" id="text-org5f328d2">
 <ul class="org-ul">
 <li>Herramientas de desarrollador (F12): estructura HTML, clases, IDs.</li>
 <li>Network tab: ver peticiones XHR/Fetch (contenido dinámico).</li>
@@ -4072,9 +4097,9 @@ Mantener un ritmo <b>razonable</b> evita saturar el servidor y ser detectado com
 </ul>
 </div>
 </div>
-<div id="outline-container-org870ea4a" class="outline-4">
-<h4 id="org870ea4a">Contenido estático vs. dinámico</h4>
-<div class="outline-text-4" id="text-org870ea4a">
+<div id="outline-container-org8ce9115" class="outline-4">
+<h4 id="org8ce9115">Contenido estático vs. dinámico</h4>
+<div class="outline-text-4" id="text-org8ce9115">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -4108,9 +4133,9 @@ Mantener un ritmo <b>razonable</b> evita saturar el servidor y ser detectado com
 </table>
 </div>
 </div>
-<div id="outline-container-org3ffb464" class="outline-4">
-<h4 id="org3ffb464">Mapear la estructura</h4>
-<div class="outline-text-4" id="text-org3ffb464">
+<div id="outline-container-org010232d" class="outline-4">
+<h4 id="org010232d">Mapear la estructura</h4>
+<div class="outline-text-4" id="text-org010232d">
 <ul class="org-ul">
 <li>URLs base y patrones de paginación.</li>
 <li>Selectores XPath o CSS estables.</li>
@@ -4118,9 +4143,9 @@ Mantener un ritmo <b>razonable</b> evita saturar el servidor y ser detectado com
 </ul>
 </div>
 </div>
-<div id="outline-container-org8fd6169" class="outline-4">
-<h4 id="org8fd6169">Detectando JSON oculto (Network)</h4>
-<div class="outline-text-4" id="text-org8fd6169">
+<div id="outline-container-org6c5ad19" class="outline-4">
+<h4 id="org6c5ad19">Detectando JSON oculto (Network)</h4>
+<div class="outline-text-4" id="text-org6c5ad19">
 <p>
 Muchos sitios (incl. Amazon, tiendas, portales) cargan datos por peticiones internas a APIs
 que devuelven JSON. En lugar de parsear HTML:
@@ -4139,14 +4164,14 @@ Ventaja: JSON estructurado, más fácil de parsear y más estable que el HTML.
 </div>
 </div>
 </div>
-<div id="outline-container-org8e018ad" class="outline-3">
-<h3 id="org8e018ad">Fase 5: Desarrollo</h3>
-<div class="outline-text-3" id="text-org8e018ad">
+<div id="outline-container-org9e97efa" class="outline-3">
+<h3 id="org9e97efa">Fase 5: Desarrollo</h3>
+<div class="outline-text-3" id="text-org9e97efa">
 </div>
-<div id="outline-container-org9f36ca3" class="outline-4">
-<h4 id="org9f36ca3">Estructura recomendada del código</h4>
-<div class="outline-text-4" id="text-org9f36ca3">
-<pre class="example" id="org2b42fa9">
+<div id="outline-container-org4c16e9a" class="outline-4">
+<h4 id="org4c16e9a">Estructura recomendada del código</h4>
+<div class="outline-text-4" id="text-org4c16e9a">
+<pre class="example" id="org0e45e07">
 scraper/
 ├── config.py        # URLs, timeouts, headers
 ├── fetch.py         # Lógica de peticiones HTTP
@@ -4157,9 +4182,9 @@ scraper/
 </pre>
 </div>
 </div>
-<div id="outline-container-org2fc511f" class="outline-4">
-<h4 id="org2fc511f">Manejo de errores</h4>
-<div class="outline-text-4" id="text-org2fc511f">
+<div id="outline-container-org2025c07" class="outline-4">
+<h4 id="org2025c07">Manejo de errores</h4>
+<div class="outline-text-4" id="text-org2025c07">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #fb4934;">import</span> time
 <span style="color: #fb4934;">import</span> requests
@@ -4186,17 +4211,17 @@ scraper/
 </div>
 </div>
 </div>
-<div id="outline-container-orgdd7959f" class="outline-3">
-<h3 id="orgdd7959f">Fase 6: Seguridad y robustez</h3>
-<div class="outline-text-3" id="text-orgdd7959f">
+<div id="outline-container-orge1e7c82" class="outline-3">
+<h3 id="orge1e7c82">Fase 6: Seguridad y robustez</h3>
+<div class="outline-text-3" id="text-orge1e7c82">
 </div>
-<div id="outline-container-org2d1600d" class="outline-4">
-<h4 id="org2d1600d">Seguridad de las peticiones</h4>
-<div class="outline-text-4" id="text-org2d1600d">
+<div id="outline-container-org4197eb7" class="outline-4">
+<h4 id="org4197eb7">Seguridad de las peticiones</h4>
+<div class="outline-text-4" id="text-org4197eb7">
 </div>
 <ul class="org-ul">
-<li><a id="orgfa1de7d"></a>User-Agent e identificación<br />
-<div class="outline-text-5" id="text-orgfa1de7d">
+<li><a id="orgf1dae1f"></a>User-Agent e identificación<br />
+<div class="outline-text-5" id="text-orgf1dae1f">
 <ul class="org-ul">
 <li>Identificarse de forma clara (no hacerse pasar por Googlebot si no lo eres).</li>
 <li>Incluir un correo de contacto si el sitio lo sugiere.</li>
@@ -4213,8 +4238,8 @@ scraper/
 </div>
 </div>
 </li>
-<li><a id="orgb1c76ef"></a>No exponer credenciales<br />
-<div class="outline-text-5" id="text-orgb1c76ef">
+<li><a id="org368d49c"></a>No exponer credenciales<br />
+<div class="outline-text-5" id="text-org368d49c">
 <ul class="org-ul">
 <li>Nunca hardcodear API keys, contraseñas o tokens.</li>
 <li>Usar variables de entorno o archivos de configuración excluidos de control de versiones.</li>
@@ -4229,8 +4254,8 @@ scraper/
 </div>
 </div>
 </li>
-<li><a id="org4c5a89e"></a>Validar y sanitizar datos de entrada<br />
-<div class="outline-text-5" id="text-org4c5a89e">
+<li><a id="org7cc67c6"></a>Validar y sanitizar datos de entrada<br />
+<div class="outline-text-5" id="text-org7cc67c6">
 <ul class="org-ul">
 <li>URLs, parámetros y consultas pueden venir de fuentes externas.</li>
 <li>Evitar inyección o URLs maliciosas (redirecciones a dominios desconocidos).</li>
@@ -4248,13 +4273,13 @@ scraper/
 </li>
 </ul>
 </div>
-<div id="outline-container-orgff54964" class="outline-4">
-<h4 id="orgff54964">Seguridad de los datos extraídos</h4>
-<div class="outline-text-4" id="text-orgff54964">
+<div id="outline-container-org1df6f3c" class="outline-4">
+<h4 id="org1df6f3c">Seguridad de los datos extraídos</h4>
+<div class="outline-text-4" id="text-org1df6f3c">
 </div>
 <ul class="org-ul">
-<li><a id="org47383df"></a>Sanitización de salida<br />
-<div class="outline-text-5" id="text-org47383df">
+<li><a id="orgaed9131"></a>Sanitización de salida<br />
+<div class="outline-text-5" id="text-orgaed9131">
 <ul class="org-ul">
 <li>Limpiar HTML antes de guardar (evitar XSS si luego se muestran en una web).</li>
 <li>Validar tipos y formatos (fechas, números, textos).</li>
@@ -4270,8 +4295,8 @@ scraper/
 </div>
 </div>
 </li>
-<li><a id="orgfdf1eac"></a>Almacenamiento<br />
-<div class="outline-text-5" id="text-orgfdf1eac">
+<li><a id="org0f5cb69"></a>Almacenamiento<br />
+<div class="outline-text-5" id="text-org0f5cb69">
 <ul class="org-ul">
 <li>No guardar datos personales innecesarios.</li>
 <li>Cifrar almacenamiento si hay datos sensibles.</li>
@@ -4281,9 +4306,9 @@ scraper/
 </li>
 </ul>
 </div>
-<div id="outline-container-org77cfdbd" class="outline-4">
-<h4 id="org77cfdbd">Protección del sitio objetivo (ética técnica)</h4>
-<div class="outline-text-4" id="text-org77cfdbd">
+<div id="outline-container-org85f7985" class="outline-4">
+<h4 id="org85f7985">Protección del sitio objetivo (ética técnica)</h4>
+<div class="outline-text-4" id="text-org85f7985">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -4327,9 +4352,9 @@ scraper/
 </table>
 </div>
 </div>
-<div id="outline-container-orgde37417" class="outline-4">
-<h4 id="orgde37417">Proxies y escalado (consideraciones)</h4>
-<div class="outline-text-4" id="text-orgde37417">
+<div id="outline-container-org60bba39" class="outline-4">
+<h4 id="org60bba39">Proxies y escalado (consideraciones)</h4>
+<div class="outline-text-4" id="text-org60bba39">
 <ul class="org-ul">
 <li>Proxies rotativos: mayor complejidad y coste; puede violar términos de uso.</li>
 <li>Antes de usarlos: confirmar legalidad y política del sitio.</li>
@@ -4338,13 +4363,13 @@ scraper/
 </div>
 </div>
 </div>
-<div id="outline-container-org130efac" class="outline-3">
-<h3 id="org130efac">Fase 7: Ejecución y mantenimiento</h3>
-<div class="outline-text-3" id="text-org130efac">
+<div id="outline-container-org22218d6" class="outline-3">
+<h3 id="org22218d6">Fase 7: Ejecución y mantenimiento</h3>
+<div class="outline-text-3" id="text-org22218d6">
 </div>
-<div id="outline-container-orgb468bc6" class="outline-4">
-<h4 id="orgb468bc6">Logging</h4>
-<div class="outline-text-4" id="text-orgb468bc6">
+<div id="outline-container-org3b8bee6" class="outline-4">
+<h4 id="org3b8bee6">Logging</h4>
+<div class="outline-text-4" id="text-org3b8bee6">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #fb4934;">import</span> logging
 logging.basicConfig<span style="color: #fe8019;">(</span>level=logging.INFO, <span style="color: #fe8019;">format</span>=<span style="color: #b8bb26;">"%(asctime)s [%(levelname)s] %(message)s"</span><span style="color: #fe8019;">)</span>
@@ -4356,9 +4381,9 @@ logger.error<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">
 </div>
 </div>
 </div>
-<div id="outline-container-org124b620" class="outline-4">
-<h4 id="org124b620">Monitoreo básico</h4>
-<div class="outline-text-4" id="text-org124b620">
+<div id="outline-container-org52e17af" class="outline-4">
+<h4 id="org52e17af">Monitoreo básico</h4>
+<div class="outline-text-4" id="text-org52e17af">
 <ul class="org-ul">
 <li>Tasa de éxito vs. errores.</li>
 <li>Tiempo de respuesta y códigos HTTP.</li>
@@ -4366,9 +4391,9 @@ logger.error<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">
 </ul>
 </div>
 </div>
-<div id="outline-container-orgff450b9" class="outline-4">
-<h4 id="orgff450b9">Adaptación a cambios</h4>
-<div class="outline-text-4" id="text-orgff450b9">
+<div id="outline-container-org1d2ef51" class="outline-4">
+<h4 id="org1d2ef51">Adaptación a cambios</h4>
+<div class="outline-text-4" id="text-org1d2ef51">
 <ul class="org-ul">
 <li>Los sitios modifican HTML, clases y rutas.</li>
 <li>Diseñar selectores robustos (evitar dependencias frágiles).</li>
@@ -4377,9 +4402,9 @@ logger.error<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">
 </div>
 </div>
 </div>
-<div id="outline-container-org2f6fddd" class="outline-3">
-<h3 id="org2f6fddd">Checklist de seguridad resumido</h3>
-<div class="outline-text-3" id="text-org2f6fddd">
+<div id="outline-container-orgd499036" class="outline-3">
+<h3 id="orgd499036">Checklist de seguridad resumido</h3>
+<div class="outline-text-3" id="text-orgd499036">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -4461,9 +4486,9 @@ logger.error<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">
 </table>
 </div>
 </div>
-<div id="outline-container-orge6e4b70" class="outline-3">
-<h3 id="orge6e4b70">Riesgos y mitigaciones</h3>
-<div class="outline-text-3" id="text-orge6e4b70">
+<div id="outline-container-org569f584" class="outline-3">
+<h3 id="org569f584">Riesgos y mitigaciones</h3>
+<div class="outline-text-3" id="text-org569f584">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -4517,9 +4542,9 @@ logger.error<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">
 </table>
 </div>
 </div>
-<div id="outline-container-orgb243299" class="outline-3">
-<h3 id="orgb243299">Referencias</h3>
-<div class="outline-text-3" id="text-orgb243299">
+<div id="outline-container-orge313b48" class="outline-3">
+<h3 id="orge313b48">Referencias</h3>
+<div class="outline-text-3" id="text-orge313b48">
 <ul class="org-ul">
 <li><code>Tutorial_Webscraping_XPath_Blogs.org</code>: Técnicas de scraping con XPath, ejemplo likcos.</li>
 <li><code>Fuentes_Datos_Gobierno_Abierto.org</code>: INEGI, datos.gob.mx, clima, alternativas legales.</li>
@@ -4530,22 +4555,22 @@ logger.error<span style="color: #fe8019;">(</span><span style="color: #b8bb26;">
 </div>
 </div>
 </div>
-<div id="outline-container-orgbc94b32" class="outline-2">
-<h2 id="orgbc94b32">Web Scraping con XPath para Blogs Estáticos</h2>
-<div class="outline-text-2" id="text-orgbc94b32">
+<div id="outline-container-org54c1a83" class="outline-2">
+<h2 id="org54c1a83">Web Scraping con XPath para Blogs Estáticos</h2>
+<div class="outline-text-2" id="text-org54c1a83">
 </div>
-<div id="outline-container-orgfd5aa9f" class="outline-3">
-<h3 id="orgfd5aa9f">Introducción</h3>
-<div class="outline-text-3" id="text-orgfd5aa9f">
+<div id="outline-container-org36e6a9d" class="outline-3">
+<h3 id="org36e6a9d">Introducción</h3>
+<div class="outline-text-3" id="text-org36e6a9d">
 <p>
 Este apartado explica cómo hacer <b>web scraping</b> con XPath sobre <b>blogs estáticos</b> (HTML
 pre-renderizado en el servidor), qué consideraciones técnicas y éticas tener, y por qué
 <b>sitios como Amazon</b> no son adecuados para este enfoque.
 </p>
 </div>
-<div id="outline-container-org972c62a" class="outline-4">
-<h4 id="org972c62a">Prerrequisitos</h4>
-<div class="outline-text-4" id="text-org972c62a">
+<div id="outline-container-orgaa478ca" class="outline-4">
+<h4 id="orgaa478ca">Prerrequisitos</h4>
+<div class="outline-text-4" id="text-orgaa478ca">
 <ul class="org-ul">
 <li>Python 3 con <code>requests</code>, <code>lxml</code> (o <code>BeautifulSoup</code> con parser lxml).</li>
 <li>Conocimientos básicos de XPath (ver <code>Tutorial_XPath.org</code>).</li>
@@ -4554,13 +4579,13 @@ pre-renderizado en el servidor), qué consideraciones técnicas y éticas tener,
 </div>
 </div>
 </div>
-<div id="outline-container-org36f2b8d" class="outline-3">
-<h3 id="org36f2b8d">Blogs estáticos vs. sitios dinámicos</h3>
-<div class="outline-text-3" id="text-org36f2b8d">
+<div id="outline-container-org8c03b01" class="outline-3">
+<h3 id="org8c03b01">Blogs estáticos vs. sitios dinámicos</h3>
+<div class="outline-text-3" id="text-org8c03b01">
 </div>
-<div id="outline-container-org0fc3ed6" class="outline-4">
-<h4 id="org0fc3ed6">¿Qué es un blog estático?</h4>
-<div class="outline-text-4" id="text-org0fc3ed6">
+<div id="outline-container-org2692043" class="outline-4">
+<h4 id="org2692043">¿Qué es un blog estático?</h4>
+<div class="outline-text-4" id="text-org2692043">
 <p>
 Un blog estático sirve HTML ya generado por el servidor. Al hacer una petición GET,
 recibes el contenido completo en la respuesta. No necesitas ejecutar JavaScript para
@@ -4568,8 +4593,8 @@ ver los artículos.
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="orgd0e3132"></a>Características típicas<br />
-<div class="outline-text-5" id="text-orgd0e3132">
+<li><a id="orgfaa1a52"></a>Características típicas<br />
+<div class="outline-text-5" id="text-orgfaa1a52">
 <ul class="org-ul">
 <li>HTML con estructura predecible (artículos en <code>&lt;article&gt;</code>, <code>&lt;div class</code>"post"&gt;=, etc.).</li>
 <li>Paginación mediante URLs distintas (<code>/page/2/</code>, <code>?p=2</code>).</li>
@@ -4580,9 +4605,9 @@ ver los artículos.
 </li>
 </ul>
 </div>
-<div id="outline-container-orge0908c5" class="outline-4">
-<h4 id="orge0908c5">¿Por qué son adecuados para scraping?</h4>
-<div class="outline-text-4" id="text-orge0908c5">
+<div id="outline-container-org7d45856" class="outline-4">
+<h4 id="org7d45856">¿Por qué son adecuados para scraping?</h4>
+<div class="outline-text-4" id="text-org7d45856">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -4627,13 +4652,13 @@ ver los artículos.
 </div>
 </div>
 </div>
-<div id="outline-container-org698e719" class="outline-3">
-<h3 id="org698e719">Técnicas de scraping para blogs con XPath</h3>
-<div class="outline-text-3" id="text-org698e719">
+<div id="outline-container-org874abf4" class="outline-3">
+<h3 id="org874abf4">Técnicas de scraping para blogs con XPath</h3>
+<div class="outline-text-3" id="text-org874abf4">
 </div>
-<div id="outline-container-orgc7be201" class="outline-4">
-<h4 id="orgc7be201">Paso 1: Inspeccionar la estructura HTML</h4>
-<div class="outline-text-4" id="text-orgc7be201">
+<div id="outline-container-orge968872" class="outline-4">
+<h4 id="orge968872">Paso 1: Inspeccionar la estructura HTML</h4>
+<div class="outline-text-4" id="text-orge968872">
 <p>
 Antes de escribir XPath, abre el blog en el navegador y usa las herramientas de
 desarrollador (F12) para ver:
@@ -4648,9 +4673,9 @@ desarrollador (F12) para ver:
 </ul>
 </div>
 </div>
-<div id="outline-container-org49afb97" class="outline-4">
-<h4 id="org49afb97">Paso 2: Obtener el HTML</h4>
-<div class="outline-text-4" id="text-org49afb97">
+<div id="outline-container-org44b31dd" class="outline-4">
+<h4 id="org44b31dd">Paso 2: Obtener el HTML</h4>
+<div class="outline-text-4" id="text-org44b31dd">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #fb4934;">import</span> requests
 <span style="color: #fb4934;">from</span> lxml <span style="color: #fb4934;">import</span> etree
@@ -4666,9 +4691,9 @@ response.raise_for_status<span style="color: #fe8019;">()</span>
 </div>
 </div>
 </div>
-<div id="outline-container-org3a445aa" class="outline-4">
-<h4 id="org3a445aa">Paso 3: Parsear y aplicar XPath</h4>
-<div class="outline-text-4" id="text-org3a445aa">
+<div id="outline-container-orgd950b11" class="outline-4">
+<h4 id="orgd950b11">Paso 3: Parsear y aplicar XPath</h4>
+<div class="outline-text-4" id="text-orgd950b11">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #83a598;">tree</span> = etree.HTML<span style="color: #fe8019;">(</span>html<span style="color: #fe8019;">)</span>
 
@@ -4695,9 +4720,9 @@ response.raise_for_status<span style="color: #fe8019;">()</span>
 </div>
 </div>
 </div>
-<div id="outline-container-org4ba3222" class="outline-4">
-<h4 id="org4ba3222">Paso 4: Extraer todos los artículos de una página</h4>
-<div class="outline-text-4" id="text-org4ba3222">
+<div id="outline-container-org5a62645" class="outline-4">
+<h4 id="org5a62645">Paso 4: Extraer todos los artículos de una página</h4>
+<div class="outline-text-4" id="text-org5a62645">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #fb4934;">def</span> <span style="color: #b8bb26;">extraer_articulos_pagina</span><span style="color: #fe8019;">(</span>html<span style="color: #fe8019;">)</span>:
 <span style="background-color: #3c3836;"> </span>   <span style="color: #83a598;">tree</span> = etree.HTML<span style="color: #fe8019;">(</span>html<span style="color: #fe8019;">)</span>
@@ -4717,9 +4742,9 @@ response.raise_for_status<span style="color: #fe8019;">()</span>
 </div>
 </div>
 </div>
-<div id="outline-container-org642e91a" class="outline-4">
-<h4 id="org642e91a">Paso 5: Paginación</h4>
-<div class="outline-text-4" id="text-org642e91a">
+<div id="outline-container-org1af6977" class="outline-4">
+<h4 id="org1af6977">Paso 5: Paginación</h4>
+<div class="outline-text-4" id="text-org1af6977">
 <p>
 Muchos blogs usan URLs como <code>/page/2/</code>, <code>/?paged=2</code>, <code>/blog?page=2</code>:
 </p>
@@ -4739,9 +4764,9 @@ Muchos blogs usan URLs como <code>/page/2/</code>, <code>/?paged=2</code>, <code
 </div>
 </div>
 </div>
-<div id="outline-container-orgd42e0db" class="outline-4">
-<h4 id="orgd42e0db">XPath útiles para blogs (resumen)</h4>
-<div class="outline-text-4" id="text-orgd42e0db">
+<div id="outline-container-orgd1b64c8" class="outline-4">
+<h4 id="orgd1b64c8">XPath útiles para blogs (resumen)</h4>
+<div class="outline-text-4" id="text-orgd1b64c8">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -4796,13 +4821,13 @@ Muchos blogs usan URLs como <code>/page/2/</code>, <code>/?paged=2</code>, <code
 </div>
 </div>
 </div>
-<div id="outline-container-orgd56e212" class="outline-3">
-<h3 id="orgd56e212">Consideraciones éticas y legales</h3>
-<div class="outline-text-3" id="text-orgd56e212">
+<div id="outline-container-org16ee173" class="outline-3">
+<h3 id="org16ee173">Consideraciones éticas y legales</h3>
+<div class="outline-text-3" id="text-org16ee173">
 </div>
-<div id="outline-container-org971951e" class="outline-4">
-<h4 id="org971951e">Buenas prácticas</h4>
-<div class="outline-text-4" id="text-org971951e">
+<div id="outline-container-org56ad4de" class="outline-4">
+<h4 id="org56ad4de">Buenas prácticas</h4>
+<div class="outline-text-4" id="text-org56ad4de">
 <ol class="org-ol">
 <li><b>robots.txt</b>: Revisar si el sitio prohíbe o limita el scraping.</li>
 <li><b>User-Agent</b>: Identificarse de forma razonable (no hacerse pasar por bot de Google).</li>
@@ -4812,9 +4837,9 @@ Muchos blogs usan URLs como <code>/page/2/</code>, <code>/?paged=2</code>, <code
 </ol>
 </div>
 </div>
-<div id="outline-container-org7a498a1" class="outline-4">
-<h4 id="org7a498a1">Cuándo es más aceptable</h4>
-<div class="outline-text-4" id="text-org7a498a1">
+<div id="outline-container-org134f9fd" class="outline-4">
+<h4 id="org134f9fd">Cuándo es más aceptable</h4>
+<div class="outline-text-4" id="text-org134f9fd">
 <ul class="org-ul">
 <li>Blogs personales o pequeños con contenido público.</li>
 <li>Uso educativo o de investigación.</li>
@@ -4824,13 +4849,13 @@ Muchos blogs usan URLs como <code>/page/2/</code>, <code>/?paged=2</code>, <code
 </div>
 </div>
 </div>
-<div id="outline-container-org5df8f41" class="outline-3">
-<h3 id="org5df8f41">Por qué NO es adecuado hacer scraping en Amazon (y similares)</h3>
-<div class="outline-text-3" id="text-org5df8f41">
+<div id="outline-container-org841a75f" class="outline-3">
+<h3 id="org841a75f">Por qué NO es adecuado hacer scraping en Amazon (y similares)</h3>
+<div class="outline-text-3" id="text-org841a75f">
 </div>
-<div id="outline-container-orgefaeb00" class="outline-4">
-<h4 id="orgefaeb00">1. Términos de uso y condiciones</h4>
-<div class="outline-text-4" id="text-orgefaeb00">
+<div id="outline-container-org05161bf" class="outline-4">
+<h4 id="org05161bf">1. Términos de uso y condiciones</h4>
+<div class="outline-text-4" id="text-org05161bf">
 <p>
 Amazon (y la mayoría de grandes plataformas) <b>prohíben explícitamente</b> el scraping en
 sus condiciones de servicio. Hacerlo puede suponer:
@@ -4847,9 +4872,9 @@ No es una limitación técnica, sino contractual y legal.
 </p>
 </div>
 </div>
-<div id="outline-container-orga0f6558" class="outline-4">
-<h4 id="orga0f6558">2. Contenido dinámico (JavaScript)</h4>
-<div class="outline-text-4" id="text-orga0f6558">
+<div id="outline-container-org82deef4" class="outline-4">
+<h4 id="org82deef4">2. Contenido dinámico (JavaScript)</h4>
+<div class="outline-text-4" id="text-org82deef4">
 <p>
 Amazon carga gran parte del contenido mediante JavaScript:
 </p>
@@ -4871,9 +4896,9 @@ Para scraping efectivo haría falta un navegador headless (Selenium, Playwright)
 </ul>
 </div>
 </div>
-<div id="outline-container-orgcbc5580" class="outline-4">
-<h4 id="orgcbc5580">3. Medidas anti-bot</h4>
-<div class="outline-text-4" id="text-orgcbc5580">
+<div id="outline-container-orgb51135a" class="outline-4">
+<h4 id="orgb51135a">3. Medidas anti-bot</h4>
+<div class="outline-text-4" id="text-orgb51135a">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -4917,9 +4942,9 @@ Para scraping efectivo haría falta un navegador headless (Selenium, Playwright)
 </table>
 </div>
 </div>
-<div id="outline-container-orgfd4b62a" class="outline-4">
-<h4 id="orgfd4b62a">4. Estructura cambiante</h4>
-<div class="outline-text-4" id="text-orgfd4b62a">
+<div id="outline-container-org1376232" class="outline-4">
+<h4 id="org1376232">4. Estructura cambiante</h4>
+<div class="outline-text-4" id="text-org1376232">
 <ul class="org-ul">
 <li>El HTML de Amazon cambia con frecuencia (A/B tests, rediseños).</li>
 <li>Selectores XPath que funcionan hoy pueden dejar de hacerlo en semanas.</li>
@@ -4927,9 +4952,9 @@ Para scraping efectivo haría falta un navegador headless (Selenium, Playwright)
 </ul>
 </div>
 </div>
-<div id="outline-container-org58866b5" class="outline-4">
-<h4 id="org58866b5">5. Alternativas legales y recomendadas</h4>
-<div class="outline-text-4" id="text-org58866b5">
+<div id="outline-container-orgd9d23e3" class="outline-4">
+<h4 id="orgd9d23e3">5. Alternativas legales y recomendadas</h4>
+<div class="outline-text-4" id="text-orgd9d23e3">
 <ul class="org-ul">
 <li><b>Amazon Product Advertising API</b>: Para afiliados y partners autorizados.</li>
 <li><b>Otros APIs oficiales</b>: Muchas tiendas ofrecen APIs para precios, inventario, etc.</li>
@@ -4937,9 +4962,9 @@ Para scraping efectivo haría falta un navegador headless (Selenium, Playwright)
 </ul>
 </div>
 </div>
-<div id="outline-container-org4f2f6ab" class="outline-4">
-<h4 id="org4f2f6ab">Resumen: Amazon vs. blog estático</h4>
-<div class="outline-text-4" id="text-org4f2f6ab">
+<div id="outline-container-org51ae24a" class="outline-4">
+<h4 id="org51ae24a">Resumen: Amazon vs. blog estático</h4>
+<div class="outline-text-4" id="text-org51ae24a">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -4992,9 +5017,9 @@ Para scraping efectivo haría falta un navegador headless (Selenium, Playwright)
 </div>
 </div>
 </div>
-<div id="outline-container-orgced5300" class="outline-3">
-<h3 id="orgced5300">Ejemplo completo: scraper para un blog estático</h3>
-<div class="outline-text-3" id="text-orgced5300">
+<div id="outline-container-org46bcc52" class="outline-3">
+<h3 id="org46bcc52">Ejemplo completo: scraper para un blog estático</h3>
+<div class="outline-text-3" id="text-org46bcc52">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #fb4934;">import</span> requests
 <span style="color: #fb4934;">from</span> lxml <span style="color: #fb4934;">import</span> etree
@@ -5033,17 +5058,17 @@ Para scraping efectivo haría falta un navegador headless (Selenium, Playwright)
 </div>
 </div>
 </div>
-<div id="outline-container-org0695664" class="outline-3">
-<h3 id="org0695664">Dependencias</h3>
-<div class="outline-text-3" id="text-org0695664">
-<pre class="example" id="orgbbf3a84">
+<div id="outline-container-org447b62c" class="outline-3">
+<h3 id="org447b62c">Dependencias</h3>
+<div class="outline-text-3" id="text-org447b62c">
+<pre class="example" id="org3de4052">
 pip install requests lxml
 </pre>
 </div>
 </div>
-<div id="outline-container-org05642ba" class="outline-3">
-<h3 id="org05642ba">Referencias</h3>
-<div class="outline-text-3" id="text-org05642ba">
+<div id="outline-container-orgd947e3e" class="outline-3">
+<h3 id="orgd947e3e">Referencias</h3>
+<div class="outline-text-3" id="text-orgd947e3e">
 <ul class="org-ul">
 <li><code>Tutorial_XPath.org</code>: Sintaxis y ejemplos de XPath.</li>
 <li><code>robots.txt</code>: Revisar <code>https://dominio.com/robots.txt</code> antes de scrapear.</li>
@@ -5052,13 +5077,13 @@ pip install requests lxml
 </div>
 </div>
 </div>
-<div id="outline-container-org3cd9d59" class="outline-2">
-<h2 id="org3cd9d59">Fuentes de Datos Gubernamentales y Abiertos: INEGI, datos.gob.mx y más</h2>
-<div class="outline-text-2" id="text-org3cd9d59">
+<div id="outline-container-org7c7be3d" class="outline-2">
+<h2 id="org7c7be3d">Fuentes de Datos Gubernamentales y Abiertos: INEGI, datos.gob.mx y más</h2>
+<div class="outline-text-2" id="text-org7c7be3d">
 </div>
-<div id="outline-container-org48dfd41" class="outline-3">
-<h3 id="org48dfd41">Introducción</h3>
-<div class="outline-text-3" id="text-org48dfd41">
+<div id="outline-container-orgaa69cd2" class="outline-3">
+<h3 id="orgaa69cd2">Introducción</h3>
+<div class="outline-text-3" id="text-orgaa69cd2">
 <p>
 Instituciones gubernamentales publican <b>datos abiertos</b> bajo marcos legales que permiten
 su reutilización. Es preferible usar <b>APIs oficiales</b> o <b>descargas directas</b> en lugar de
@@ -5071,26 +5096,26 @@ obtener información de forma adecuada.
 </p>
 </div>
 </div>
-<div id="outline-container-org25685da" class="outline-3">
-<h3 id="org25685da">INEGI (México)</h3>
-<div class="outline-text-3" id="text-org25685da">
+<div id="outline-container-orgb504025" class="outline-3">
+<h3 id="orgb504025">INEGI (México)</h3>
+<div class="outline-text-3" id="text-orgb504025">
 </div>
-<div id="outline-container-org34a7202" class="outline-4">
-<h4 id="org34a7202">Qué es INEGI</h4>
-<div class="outline-text-4" id="text-org34a7202">
+<div id="outline-container-orgb81b68f" class="outline-4">
+<h4 id="orgb81b68f">Qué es INEGI</h4>
+<div class="outline-text-4" id="text-orgb81b68f">
 <p>
 El <b>Instituto Nacional de Estadística y Geografía</b> (INEGI) produce estadísticas y
 geografía de México. Ofrece varias formas de acceso programático a sus datos.
 </p>
 </div>
 </div>
-<div id="outline-container-org7140131" class="outline-4">
-<h4 id="org7140131">API del Banco de Indicadores</h4>
-<div class="outline-text-4" id="text-org7140131">
+<div id="outline-container-orgb6b8d60" class="outline-4">
+<h4 id="orgb6b8d60">API del Banco de Indicadores</h4>
+<div class="outline-text-4" id="text-orgb6b8d60">
 </div>
 <ul class="org-ul">
-<li><a id="org1156966"></a>Registro y token<br />
-<div class="outline-text-5" id="text-org1156966">
+<li><a id="orgcf1feb9"></a>Registro y token<br />
+<div class="outline-text-5" id="text-orgcf1feb9">
 <ul class="org-ul">
 <li>URL: <code>https://www.inegi.org.mx/servicios/api_indicadores.html</code></li>
 <li>Requiere <b>registro</b> para obtener un <b>token</b>.</li>
@@ -5098,8 +5123,8 @@ geografía de México. Ofrece varias formas de acceso programático a sus datos.
 </ul>
 </div>
 </li>
-<li><a id="orgc82ea05"></a>Parámetros típicos<br />
-<div class="outline-text-5" id="text-orgc82ea05">
+<li><a id="org79e9651"></a>Parámetros típicos<br />
+<div class="outline-text-5" id="text-org79e9651">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -5163,8 +5188,8 @@ geografía de México. Ofrece varias formas de acceso programático a sus datos.
 </table>
 </div>
 </li>
-<li><a id="org1bec301"></a>Ejemplo en Python (API Indicadores)<br />
-<div class="outline-text-5" id="text-org1bec301">
+<li><a id="orgc4f5cbb"></a>Ejemplo en Python (API Indicadores)<br />
+<div class="outline-text-5" id="text-orgc4f5cbb">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #fb4934;">import</span> requests
 
@@ -5185,9 +5210,9 @@ geografía de México. Ofrece varias formas de acceso programático a sus datos.
 </li>
 </ul>
 </div>
-<div id="outline-container-org7923902" class="outline-4">
-<h4 id="org7923902">API DENUE (Directorio Estadístico Nacional de Unidades Económicas)</h4>
-<div class="outline-text-4" id="text-org7923902">
+<div id="outline-container-org443ea95" class="outline-4">
+<h4 id="org443ea95">API DENUE (Directorio Estadístico Nacional de Unidades Económicas)</h4>
+<div class="outline-text-4" id="text-org443ea95">
 <ul class="org-ul">
 <li>URL: <code>https://www.inegi.org.mx/servicios/api_denue.html</code></li>
 <li>Busca establecimientos por palabra, actividad económica, ubicación, etc.</li>
@@ -5196,8 +5221,8 @@ geografía de México. Ofrece varias formas de acceso programático a sus datos.
 </ul>
 </div>
 <ul class="org-ul">
-<li><a id="org9697515"></a>Ejemplo de consulta DENUE<br />
-<div class="outline-text-5" id="text-org9697515">
+<li><a id="org4a36853"></a>Ejemplo de consulta DENUE<br />
+<div class="outline-text-5" id="text-org4a36853">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #83a598;">TOKEN</span> = <span style="color: #b8bb26;">"TU_TOKEN"</span>
 <span style="color: #83a598;">busqueda</span> = <span style="color: #b8bb26;">"restaurante"</span>
@@ -5211,9 +5236,9 @@ geografía de México. Ofrece varias formas de acceso programático a sus datos.
 </li>
 </ul>
 </div>
-<div id="outline-container-orgca66664" class="outline-4">
-<h4 id="orgca66664">Datos Abiertos INEGI</h4>
-<div class="outline-text-4" id="text-orgca66664">
+<div id="outline-container-org4f9a7b9" class="outline-4">
+<h4 id="org4f9a7b9">Datos Abiertos INEGI</h4>
+<div class="outline-text-4" id="text-org4f9a7b9">
 <ul class="org-ul">
 <li>URL: <code>https://www.inegi.org.mx/datosabiertos/</code></li>
 <li>Archivos en formatos estándar (CSV, Excel, etc.).</li>
@@ -5221,9 +5246,9 @@ geografía de México. Ofrece varias formas de acceso programático a sus datos.
 </ul>
 </div>
 </div>
-<div id="outline-container-orga039767" class="outline-4">
-<h4 id="orga039767">Descarga Masiva INEGI</h4>
-<div class="outline-text-4" id="text-orga039767">
+<div id="outline-container-org6b423ae" class="outline-4">
+<h4 id="org6b423ae">Descarga Masiva INEGI</h4>
+<div class="outline-text-4" id="text-org6b423ae">
 <ul class="org-ul">
 <li>URL: <code>https://www.inegi.org.mx/app/descarga/</code></li>
 <li>Permite seleccionar DENUE, Banco de Indicadores, Inventario Nacional de Viviendas,
@@ -5231,10 +5256,10 @@ microdatos y tabulados por área geográfica, tema, período y formato.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf4a56b8" class="outline-4">
-<h4 id="orgf4a56b8">Librería inegipy (Python)</h4>
-<div class="outline-text-4" id="text-orgf4a56b8">
-<pre class="example" id="orgecd718d">
+<div id="outline-container-org917c740" class="outline-4">
+<h4 id="org917c740">Librería inegipy (Python)</h4>
+<div class="outline-text-4" id="text-org917c740">
+<pre class="example" id="org8ef233a">
 pip install inegipy
 </pre>
 
@@ -5245,13 +5270,13 @@ Documentación: <code>https://pypi.org/project/inegipy/</code>
 </div>
 </div>
 </div>
-<div id="outline-container-orgbf2e238" class="outline-3">
-<h3 id="orgbf2e238">datos.gob.mx (Plataforma Nacional de Datos Abiertos)</h3>
-<div class="outline-text-3" id="text-orgbf2e238">
+<div id="outline-container-org2e6556b" class="outline-3">
+<h3 id="org2e6556b">datos.gob.mx (Plataforma Nacional de Datos Abiertos)</h3>
+<div class="outline-text-3" id="text-org2e6556b">
 </div>
-<div id="outline-container-orgb26de4c" class="outline-4">
-<h4 id="orgb26de4c">Qué es datos.gob.mx</h4>
-<div class="outline-text-4" id="text-orgb26de4c">
+<div id="outline-container-org02828ec" class="outline-4">
+<h4 id="org02828ec">Qué es datos.gob.mx</h4>
+<div class="outline-text-4" id="text-org02828ec">
 <p>
 Plataforma centralizada de <b>datos abiertos</b> del Gobierno de México. Incluye miles de
 bases de datos de dependencias federales, estatales y organismos autónomos.
@@ -5264,17 +5289,17 @@ bases de datos de dependencias federales, estatales y organismos autónomos.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf5ce436" class="outline-4">
-<h4 id="orgf5ce436">API CKAN</h4>
-<div class="outline-text-4" id="text-orgf5ce436">
+<div id="outline-container-org3fc1fce" class="outline-4">
+<h4 id="org3fc1fce">API CKAN</h4>
+<div class="outline-text-4" id="text-org3fc1fce">
 <p>
 La plataforma usa <b>CKAN</b>. Su API permite listar conjuntos, buscar y obtener URLs de
 descarga de recursos (CSV, Excel, etc.).
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="orgbbac445"></a>Endpoints útiles<br />
-<div class="outline-text-5" id="text-orgbbac445">
+<li><a id="org51e412e"></a>Endpoints útiles<br />
+<div class="outline-text-5" id="text-org51e412e">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -5320,8 +5345,8 @@ descarga de recursos (CSV, Excel, etc.).
 </table>
 </div>
 </li>
-<li><a id="org552ef40"></a>Ejemplo: listar y buscar conjuntos de datos<br />
-<div class="outline-text-5" id="text-org552ef40">
+<li><a id="org8795ef9"></a>Ejemplo: listar y buscar conjuntos de datos<br />
+<div class="outline-text-5" id="text-org8795ef9">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #fb4934;">import</span> requests
 
@@ -5340,8 +5365,8 @@ descarga de recursos (CSV, Excel, etc.).
 </div>
 </div>
 </li>
-<li><a id="org393458b"></a>Ejemplo: obtener URL de descarga de un recurso<br />
-<div class="outline-text-5" id="text-org393458b">
+<li><a id="org43276ed"></a>Ejemplo: obtener URL de descarga de un recurso<br />
+<div class="outline-text-5" id="text-org43276ed">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #928374;"># </span><span style="color: #928374;">Supongamos que tenemos el id del dataset (ej. "catalogo-escuelas")
 </span><span style="color: #83a598;">dataset_id</span> = <span style="color: #b8bb26;">"catalogo-escuelas"</span>
@@ -5361,9 +5386,9 @@ descarga de recursos (CSV, Excel, etc.).
 </li>
 </ul>
 </div>
-<div id="outline-container-org49830df" class="outline-4">
-<h4 id="org49830df">Descarga directa de archivos</h4>
-<div class="outline-text-4" id="text-org49830df">
+<div id="outline-container-orge2c9c3c" class="outline-4">
+<h4 id="orge2c9c3c">Descarga directa de archivos</h4>
+<div class="outline-text-4" id="text-orge2c9c3c">
 <p>
 En la web de datos.gob.mx cada dataset tiene recursos con enlaces de descarga directa.
 Se puede usar la API para obtener esas URLs y luego <code>requests.get()</code> para descargar.
@@ -5371,13 +5396,13 @@ Se puede usar la API para obtener esas URLs y luego <code>requests.get()</code> 
 </div>
 </div>
 </div>
-<div id="outline-container-org38149e0" class="outline-3">
-<h3 id="org38149e0">Otras fuentes gubernamentales de datos abiertos</h3>
-<div class="outline-text-3" id="text-org38149e0">
+<div id="outline-container-org2559e2b" class="outline-3">
+<h3 id="org2559e2b">Otras fuentes gubernamentales de datos abiertos</h3>
+<div class="outline-text-3" id="text-org2559e2b">
 </div>
-<div id="outline-container-orgf8eb835" class="outline-4">
-<h4 id="orgf8eb835">México</h4>
-<div class="outline-text-4" id="text-orgf8eb835">
+<div id="outline-container-org7ba8bf8" class="outline-4">
+<h4 id="org7ba8bf8">México</h4>
+<div class="outline-text-4" id="text-org7ba8bf8">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -5423,9 +5448,9 @@ Se puede usar la API para obtener esas URLs y luego <code>requests.get()</code> 
 </table>
 </div>
 </div>
-<div id="outline-container-org7b968f7" class="outline-4">
-<h4 id="org7b968f7">España</h4>
-<div class="outline-text-4" id="text-org7b968f7">
+<div id="outline-container-org98ac4e0" class="outline-4">
+<h4 id="org98ac4e0">España</h4>
+<div class="outline-text-4" id="text-org98ac4e0">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -5453,9 +5478,9 @@ Se puede usar la API para obtener esas URLs y luego <code>requests.get()</code> 
 </table>
 </div>
 </div>
-<div id="outline-container-org812ba03" class="outline-4">
-<h4 id="org812ba03">Internacional</h4>
-<div class="outline-text-4" id="text-org812ba03">
+<div id="outline-container-org7df8b8b" class="outline-4">
+<h4 id="org7df8b8b">Internacional</h4>
+<div class="outline-text-4" id="text-org7df8b8b">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -5496,9 +5521,9 @@ Se puede usar la API para obtener esas URLs y luego <code>requests.get()</code> 
 </div>
 </div>
 </div>
-<div id="outline-container-org061a7c7" class="outline-3">
-<h3 id="org061a7c7">Cuándo usar cada método</h3>
-<div class="outline-text-3" id="text-org061a7c7">
+<div id="outline-container-org9aaca26" class="outline-3">
+<h3 id="org9aaca26">Cuándo usar cada método</h3>
+<div class="outline-text-3" id="text-org9aaca26">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -5544,9 +5569,9 @@ Se puede usar la API para obtener esas URLs y luego <code>requests.get()</code> 
 </table>
 </div>
 </div>
-<div id="outline-container-orgae705e1" class="outline-3">
-<h3 id="orgae705e1">Buenas prácticas</h3>
-<div class="outline-text-3" id="text-orgae705e1">
+<div id="outline-container-orgfb4cda7" class="outline-3">
+<h3 id="orgfb4cda7">Buenas prácticas</h3>
+<div class="outline-text-3" id="text-orgfb4cda7">
 <ol class="org-ol">
 <li><b>Priorizar API y descargas oficiales</b>: Son legales, estables y están pensadas para uso programático.</li>
 <li><b>Revisar términos de uso y licencias</b>: Aunque sean datos abiertos, pueden haber condiciones.</li>
@@ -5557,9 +5582,9 @@ Se puede usar la API para obtener esas URLs y luego <code>requests.get()</code> 
 </ol>
 </div>
 </div>
-<div id="outline-container-org46e7ffd" class="outline-3">
-<h3 id="org46e7ffd">Ejemplo completo: indicador INEGI + guardar CSV</h3>
-<div class="outline-text-3" id="text-org46e7ffd">
+<div id="outline-container-org8dee3dc" class="outline-3">
+<h3 id="org8dee3dc">Ejemplo completo: indicador INEGI + guardar CSV</h3>
+<div class="outline-text-3" id="text-org8dee3dc">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #fb4934;">import</span> requests
 <span style="color: #fb4934;">import</span> csv
@@ -5585,9 +5610,9 @@ Se puede usar la API para obtener esas URLs y luego <code>requests.get()</code> 
 </div>
 </div>
 </div>
-<div id="outline-container-org8c70ec7" class="outline-3">
-<h3 id="org8c70ec7">Resumen de enlaces</h3>
-<div class="outline-text-3" id="text-org8c70ec7">
+<div id="outline-container-org9814a20" class="outline-3">
+<h3 id="org9814a20">Resumen de enlaces</h3>
+<div class="outline-text-3" id="text-org9814a20">
 <ul class="org-ul">
 <li>INEGI API Indicadores: <code>https://www.inegi.org.mx/servicios/api_indicadores.html</code></li>
 <li>INEGI API DENUE: <code>https://www.inegi.org.mx/servicios/api_denue.html</code></li>
@@ -5599,22 +5624,22 @@ Se puede usar la API para obtener esas URLs y luego <code>requests.get()</code> 
 </ul>
 </div>
 </div>
-<div id="outline-container-orge081545" class="outline-3">
-<h3 id="orge081545">Dependencias</h3>
-<div class="outline-text-3" id="text-orge081545">
-<pre class="example" id="org64a473b">
+<div id="outline-container-orgb74e2d6" class="outline-3">
+<h3 id="orgb74e2d6">Dependencias</h3>
+<div class="outline-text-3" id="text-orgb74e2d6">
+<pre class="example" id="org5830b3b">
 pip install requests inegipy
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7b94ddf" class="outline-2">
-<h2 id="org7b94ddf">Actividades Introductorias - Recuperación de la Información</h2>
-<div class="outline-text-2" id="text-org7b94ddf">
+<div id="outline-container-org2fbf115" class="outline-2">
+<h2 id="org2fbf115">Actividades Introductorias - Recuperación de la Información</h2>
+<div class="outline-text-2" id="text-org2fbf115">
 </div>
-<div id="outline-container-org5e1c5fe" class="outline-3">
-<h3 id="org5e1c5fe">Introducción</h3>
-<div class="outline-text-3" id="text-org5e1c5fe">
+<div id="outline-container-orgcb4d3e1" class="outline-3">
+<h3 id="orgcb4d3e1">Introducción</h3>
+<div class="outline-text-3" id="text-orgcb4d3e1">
 <p>
 Este conjunto de actividades tiene como objetivo desarrollar en el estudiante
 las habilidades básicas de recuperación de información:
@@ -5635,24 +5660,24 @@ No se requiere programación. El enfoque es conceptual y práctico.
 <hr />
 </div>
 </div>
-<div id="outline-container-org7f03579" class="outline-3">
-<h3 id="org7f03579">1. Inteligencia Artificial en la vida diaria</h3>
-<div class="outline-text-3" id="text-org7f03579">
+<div id="outline-container-orga5c078e" class="outline-3">
+<h3 id="orga5c078e">1. Inteligencia Artificial en la vida diaria</h3>
+<div class="outline-text-3" id="text-orga5c078e">
 </div>
-<div id="outline-container-org2e12c02" class="outline-4">
-<h4 id="org2e12c02">1.1 Uso de la IA en la educación y el aprendizaje</h4>
-<div class="outline-text-4" id="text-org2e12c02">
+<div id="outline-container-org43054df" class="outline-4">
+<h4 id="org43054df">1.1 Uso de la IA en la educación y el aprendizaje</h4>
+<div class="outline-text-4" id="text-org43054df">
 </div>
 <ul class="org-ul">
-<li><a id="org9ed7495"></a>Objetivo<br />
-<div class="outline-text-5" id="text-org9ed7495">
+<li><a id="orgad45f1a"></a>Objetivo<br />
+<div class="outline-text-5" id="text-orgad45f1a">
 <p>
 Analizar cómo cambia la recuperación de información según la formulación de la consulta.
 </p>
 </div>
 </li>
-<li><a id="orge99d640"></a>Actividad<br />
-<div class="outline-text-5" id="text-orge99d640">
+<li><a id="org8c1bce4"></a>Actividad<br />
+<div class="outline-text-5" id="text-org8c1bce4">
 <ol class="org-ol">
 <li>Formular tres consultas:
 <ul class="org-ul">
@@ -5671,15 +5696,15 @@ Analizar cómo cambia la recuperación de información según la formulación de
 </ol>
 </div>
 </li>
-<li><a id="org5b1c634"></a>Producto<br />
-<div class="outline-text-5" id="text-org5b1c634">
+<li><a id="orgc130331"></a>Producto<br />
+<div class="outline-text-5" id="text-orgc130331">
 <p>
 Tabla comparativa de calidad de resultados por tipo de consulta.
 </p>
 </div>
 </li>
-<li><a id="org9124245"></a>Reflexión<br />
-<div class="outline-text-5" id="text-org9124245">
+<li><a id="org6e3826b"></a>Reflexión<br />
+<div class="outline-text-5" id="text-org6e3826b">
 <ul class="org-ul">
 <li>¿Qué consulta tuvo mayor precisión?</li>
 <li>¿Cuál generó más ruido?</li>
@@ -5688,20 +5713,20 @@ Tabla comparativa de calidad de resultados por tipo de consulta.
 </li>
 </ul>
 </div>
-<div id="outline-container-orgae3c8a6" class="outline-4">
-<h4 id="orgae3c8a6">1.2 IA generativa y creación de contenido</h4>
-<div class="outline-text-4" id="text-orgae3c8a6">
+<div id="outline-container-orgbeb5152" class="outline-4">
+<h4 id="orgbeb5152">1.2 IA generativa y creación de contenido</h4>
+<div class="outline-text-4" id="text-orgbeb5152">
 </div>
 <ul class="org-ul">
-<li><a id="org2b22837"></a>Objetivo<br />
-<div class="outline-text-5" id="text-org2b22837">
+<li><a id="org5e8e2e2"></a>Objetivo<br />
+<div class="outline-text-5" id="text-org5e8e2e2">
 <p>
-Comparar sistemas generativos y sistemas de recuperación tradicionales.
+nComparar sistemas generativos y sistemas de recuperación tradicionales.
 </p>
 </div>
 </li>
-<li><a id="org08c798e"></a>Actividad<br />
-<div class="outline-text-5" id="text-org08c798e">
+<li><a id="org77fd58b"></a>Actividad<br />
+<div class="outline-text-5" id="text-org77fd58b">
 <ol class="org-ol">
 <li>Buscar información sobre "IA generativa".</li>
 <li>Formular la misma pregunta a ChatGPT.</li>
@@ -5714,15 +5739,15 @@ Comparar sistemas generativos y sistemas de recuperación tradicionales.
 </ol>
 </div>
 </li>
-<li><a id="org1fa9f21"></a>Producto<br />
-<div class="outline-text-5" id="text-org1fa9f21">
+<li><a id="org07aaaf7"></a>Producto<br />
+<div class="outline-text-5" id="text-org07aaaf7">
 <p>
 Reporte comparativo de 1 cuartilla.
 </p>
 </div>
 </li>
-<li><a id="orge1e1217"></a>Conceptos clave<br />
-<div class="outline-text-5" id="text-orge1e1217">
+<li><a id="org18c1fe2"></a>Conceptos clave<br />
+<div class="outline-text-5" id="text-org18c1fe2">
 <p>
 Relevancia, ranking, síntesis vs recuperación.
 </p>
@@ -5730,13 +5755,13 @@ Relevancia, ranking, síntesis vs recuperación.
 </li>
 </ul>
 </div>
-<div id="outline-container-org5121c53" class="outline-4">
-<h4 id="org5121c53">1.3 Impacto de la IA en el empleo joven</h4>
-<div class="outline-text-4" id="text-org5121c53">
+<div id="outline-container-orgcbab556" class="outline-4">
+<h4 id="orgcbab556">1.3 Impacto de la IA en el empleo joven</h4>
+<div class="outline-text-4" id="text-orgcbab556">
 </div>
 <ul class="org-ul">
-<li><a id="org8d81c8a"></a>Actividad<br />
-<div class="outline-text-5" id="text-org8d81c8a">
+<li><a id="orgbb535ef"></a>Actividad<br />
+<div class="outline-text-5" id="text-orgbb535ef">
 <ol class="org-ol">
 <li>Recuperar:
 <ul class="org-ul">
@@ -5748,8 +5773,8 @@ Relevancia, ranking, síntesis vs recuperación.
 </ol>
 </div>
 </li>
-<li><a id="orgd1aa2ac"></a>Reflexión<br />
-<div class="outline-text-5" id="text-orgd1aa2ac">
+<li><a id="orgf91b834"></a>Reflexión<br />
+<div class="outline-text-5" id="text-orgf91b834">
 <p>
 ¿Predomina el sensacionalismo o la evidencia?
 </p>
@@ -5757,13 +5782,13 @@ Relevancia, ranking, síntesis vs recuperación.
 </li>
 </ul>
 </div>
-<div id="outline-container-org81123fe" class="outline-4">
-<h4 id="org81123fe">1.4 Ética, privacidad y regulación</h4>
-<div class="outline-text-4" id="text-org81123fe">
+<div id="outline-container-orgf36edcc" class="outline-4">
+<h4 id="orgf36edcc">1.4 Ética, privacidad y regulación</h4>
+<div class="outline-text-4" id="text-orgf36edcc">
 </div>
 <ul class="org-ul">
-<li><a id="org1d16365"></a>Actividad<br />
-<div class="outline-text-5" id="text-org1d16365">
+<li><a id="org0075da9"></a>Actividad<br />
+<div class="outline-text-5" id="text-org0075da9">
 <p>
 Realizar búsqueda usando:
 site:.gob
@@ -5776,8 +5801,8 @@ Comparar resultados con blogs o medios comerciales.
 </p>
 </div>
 </li>
-<li><a id="orgaa9c9e9"></a>Producto<br />
-<div class="outline-text-5" id="text-orgaa9c9e9">
+<li><a id="org3baf1a6"></a>Producto<br />
+<div class="outline-text-5" id="text-org3baf1a6">
 <p>
 Mapa conceptual de fuentes oficiales vs no oficiales.
 </p>
@@ -5785,13 +5810,13 @@ Mapa conceptual de fuentes oficiales vs no oficiales.
 </li>
 </ul>
 </div>
-<div id="outline-container-org94989ef" class="outline-4">
-<h4 id="org94989ef">1.5 Herramientas de IA cotidianas</h4>
-<div class="outline-text-4" id="text-org94989ef">
+<div id="outline-container-org8fcf1f3" class="outline-4">
+<h4 id="org8fcf1f3">1.5 Herramientas de IA cotidianas</h4>
+<div class="outline-text-4" id="text-org8fcf1f3">
 </div>
 <ul class="org-ul">
-<li><a id="orgd1c825d"></a>Actividad<br />
-<div class="outline-text-5" id="text-orgd1c825d">
+<li><a id="org40dc133"></a>Actividad<br />
+<div class="outline-text-5" id="text-org40dc133">
 <ol class="org-ol">
 <li>Identificar 5 herramientas de IA.</li>
 <li>Recuperar información sobre:
@@ -5806,17 +5831,17 @@ Mapa conceptual de fuentes oficiales vs no oficiales.
 </ul>
 </div>
 </div>
-<div id="outline-container-org588e299" class="outline-3">
-<h3 id="org588e299">2. Salud mental y bienestar en jóvenes</h3>
-<div class="outline-text-3" id="text-org588e299">
+<div id="outline-container-org0638375" class="outline-3">
+<h3 id="org0638375">2. Salud mental y bienestar en jóvenes</h3>
+<div class="outline-text-3" id="text-org0638375">
 </div>
-<div id="outline-container-org6dac842" class="outline-4">
-<h4 id="org6dac842">2.1 Ansiedad y estrés académico</h4>
-<div class="outline-text-4" id="text-org6dac842">
+<div id="outline-container-org8387848" class="outline-4">
+<h4 id="org8387848">2.1 Ansiedad y estrés académico</h4>
+<div class="outline-text-4" id="text-org8387848">
 </div>
 <ul class="org-ul">
-<li><a id="org5684d84"></a>Actividad<br />
-<div class="outline-text-5" id="text-org5684d84">
+<li><a id="orge79d68b"></a>Actividad<br />
+<div class="outline-text-5" id="text-orge79d68b">
 <p>
 Comparar resultados de:
 </p>
@@ -5827,8 +5852,8 @@ Comparar resultados de:
 </ul>
 </div>
 </li>
-<li><a id="orgec3b192"></a>Reflexión<br />
-<div class="outline-text-5" id="text-orgec3b192">
+<li><a id="orgcbac9fb"></a>Reflexión<br />
+<div class="outline-text-5" id="text-orgcbac9fb">
 <p>
 ¿Cómo cambia la calidad de los resultados?
 </p>
@@ -5836,13 +5861,13 @@ Comparar resultados de:
 </li>
 </ul>
 </div>
-<div id="outline-container-org85339c1" class="outline-4">
-<h4 id="org85339c1">2.2 Influencia de redes sociales</h4>
-<div class="outline-text-4" id="text-org85339c1">
+<div id="outline-container-orgec2dd5a" class="outline-4">
+<h4 id="orgec2dd5a">2.2 Influencia de redes sociales</h4>
+<div class="outline-text-4" id="text-orgec2dd5a">
 </div>
 <ul class="org-ul">
-<li><a id="org1b5d9f6"></a>Actividad<br />
-<div class="outline-text-5" id="text-org1b5d9f6">
+<li><a id="orgc15992c"></a>Actividad<br />
+<div class="outline-text-5" id="text-orgc15992c">
 <p>
 Buscar:
 </p>
@@ -5858,13 +5883,13 @@ Comparar narrativas y diversidad de fuentes.
 </li>
 </ul>
 </div>
-<div id="outline-container-orgf765e19" class="outline-4">
-<h4 id="orgf765e19">2.3 Estrategias de autocuidado</h4>
-<div class="outline-text-4" id="text-orgf765e19">
+<div id="outline-container-org3cdb50c" class="outline-4">
+<h4 id="org3cdb50c">2.3 Estrategias de autocuidado</h4>
+<div class="outline-text-4" id="text-org3cdb50c">
 </div>
 <ul class="org-ul">
-<li><a id="org1a055f4"></a>Actividad<br />
-<div class="outline-text-5" id="text-org1a055f4">
+<li><a id="org8a2828b"></a>Actividad<br />
+<div class="outline-text-5" id="text-org8a2828b">
 <p>
 Clasificar resultados en:
 </p>
@@ -5878,13 +5903,13 @@ Clasificar resultados en:
 </li>
 </ul>
 </div>
-<div id="outline-container-org7cfabda" class="outline-4">
-<h4 id="org7cfabda">2.4 Salud mental universitaria</h4>
-<div class="outline-text-4" id="text-org7cfabda">
+<div id="outline-container-org442e2cf" class="outline-4">
+<h4 id="org442e2cf">2.4 Salud mental universitaria</h4>
+<div class="outline-text-4" id="text-org442e2cf">
 </div>
 <ul class="org-ul">
-<li><a id="orgcfaa5dc"></a>Actividad<br />
-<div class="outline-text-5" id="text-orgcfaa5dc">
+<li><a id="org03fef76"></a>Actividad<br />
+<div class="outline-text-5" id="text-org03fef76">
 <p>
 Recuperar programas de apoyo psicológico en universidades mexicanas.
 </p>
@@ -5901,13 +5926,13 @@ Analizar:
 </li>
 </ul>
 </div>
-<div id="outline-container-orgdb61b80" class="outline-4">
-<h4 id="orgdb61b80">2.5 Programas y políticas públicas</h4>
-<div class="outline-text-4" id="text-orgdb61b80">
+<div id="outline-container-orgc0d2692" class="outline-4">
+<h4 id="orgc0d2692">2.5 Programas y políticas públicas</h4>
+<div class="outline-text-4" id="text-orgc0d2692">
 </div>
 <ul class="org-ul">
-<li><a id="org5a50e2c"></a>Actividad<br />
-<div class="outline-text-5" id="text-org5a50e2c">
+<li><a id="orgf18bc6a"></a>Actividad<br />
+<div class="outline-text-5" id="text-orgf18bc6a">
 <p>
 Buscar:
 site:.gob.mx "salud mental jovenes"
@@ -5921,17 +5946,17 @@ Evaluar cobertura y actualidad.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc0e316f" class="outline-3">
-<h3 id="orgc0e316f">3. Algoritmos, poder y sociedad digital</h3>
-<div class="outline-text-3" id="text-orgc0e316f">
+<div id="outline-container-org868b5bc" class="outline-3">
+<h3 id="org868b5bc">3. Algoritmos, poder y sociedad digital</h3>
+<div class="outline-text-3" id="text-org868b5bc">
 </div>
-<div id="outline-container-orgdf36dbd" class="outline-4">
-<h4 id="orgdf36dbd">3.1 Algoritmos de recomendación</h4>
-<div class="outline-text-4" id="text-orgdf36dbd">
+<div id="outline-container-org7785879" class="outline-4">
+<h4 id="org7785879">3.1 Algoritmos de recomendación</h4>
+<div class="outline-text-4" id="text-org7785879">
 </div>
 <ul class="org-ul">
-<li><a id="org10e8264"></a>Actividad<br />
-<div class="outline-text-5" id="text-org10e8264">
+<li><a id="org2bb95a9"></a>Actividad<br />
+<div class="outline-text-5" id="text-org2bb95a9">
 <p>
 Diferentes perfiles de búsqueda:
 </p>
@@ -5947,13 +5972,13 @@ Comparar resultados obtenidos.
 </li>
 </ul>
 </div>
-<div id="outline-container-org7a86cfe" class="outline-4">
-<h4 id="org7a86cfe">3.2 Economía de la atención</h4>
-<div class="outline-text-4" id="text-org7a86cfe">
+<div id="outline-container-org631f6a5" class="outline-4">
+<h4 id="org631f6a5">3.2 Economía de la atención</h4>
+<div class="outline-text-4" id="text-org631f6a5">
 </div>
 <ul class="org-ul">
-<li><a id="orga662514"></a>Actividad<br />
-<div class="outline-text-5" id="text-orga662514">
+<li><a id="orgc64020b"></a>Actividad<br />
+<div class="outline-text-5" id="text-orgc64020b">
 <p>
 Seleccionar un tema polémico.
 Comparar:
@@ -5967,13 +5992,13 @@ Comparar:
 </li>
 </ul>
 </div>
-<div id="outline-container-org6c1dceb" class="outline-4">
-<h4 id="org6c1dceb">3.3 Vigilancia y privacidad</h4>
-<div class="outline-text-4" id="text-org6c1dceb">
+<div id="outline-container-org572cd69" class="outline-4">
+<h4 id="org572cd69">3.3 Vigilancia y privacidad</h4>
+<div class="outline-text-4" id="text-org572cd69">
 </div>
 <ul class="org-ul">
-<li><a id="org0f22e69"></a>Actividad<br />
-<div class="outline-text-5" id="text-org0f22e69">
+<li><a id="orgc91fea4"></a>Actividad<br />
+<div class="outline-text-5" id="text-orgc91fea4">
 <p>
 Comparar búsquedas:
 </p>
@@ -5989,13 +6014,13 @@ Analizar profundidad de resultados.
 </li>
 </ul>
 </div>
-<div id="outline-container-org6a92d06" class="outline-4">
-<h4 id="org6a92d06">3.4 Plataformas digitales y control de la información</h4>
-<div class="outline-text-4" id="text-org6a92d06">
+<div id="outline-container-orgc8e44b8" class="outline-4">
+<h4 id="orgc8e44b8">3.4 Plataformas digitales y control de la información</h4>
+<div class="outline-text-4" id="text-orgc8e44b8">
 </div>
 <ul class="org-ul">
-<li><a id="org0921d55"></a>Actividad<br />
-<div class="outline-text-5" id="text-org0921d55">
+<li><a id="org607f3c1"></a>Actividad<br />
+<div class="outline-text-5" id="text-org607f3c1">
 <p>
 Buscar el mismo tema en:
 </p>
@@ -6012,13 +6037,13 @@ Comparar ranking y diversidad de fuentes.
 </li>
 </ul>
 </div>
-<div id="outline-container-org0b1a669" class="outline-4">
-<h4 id="org0b1a669">3.5 Desinformación y fake news</h4>
-<div class="outline-text-4" id="text-org0b1a669">
+<div id="outline-container-org51ffd1a" class="outline-4">
+<h4 id="org51ffd1a">3.5 Desinformación y fake news</h4>
+<div class="outline-text-4" id="text-org51ffd1a">
 </div>
 <ul class="org-ul">
-<li><a id="org2b734f1"></a>Actividad principal: Detectives de información<br />
-<div class="outline-text-5" id="text-org2b734f1">
+<li><a id="orgac05191"></a>Actividad principal: Detectives de información<br />
+<div class="outline-text-5" id="text-orgac05191">
 <ol class="org-ol">
 <li>Se proporciona una noticia potencialmente dudosa.</li>
 <li>El estudiante debe:
@@ -6037,8 +6062,8 @@ Comparar ranking y diversidad de fuentes.
 </ol>
 </div>
 </li>
-<li><a id="orga1e0512"></a>Producto final<br />
-<div class="outline-text-5" id="text-orga1e0512">
+<li><a id="orge391d2c"></a>Producto final<br />
+<div class="outline-text-5" id="text-orge391d2c">
 <p>
 Informe argumentado con evidencia recuperada.
 </p>
@@ -6048,10 +6073,244 @@ Informe argumentado con evidencia recuperada.
 </div>
 </div>
 </div>
+<div id="outline-container-org690d568" class="outline-2">
+<h2 id="org690d568">La Ventana de Overton</h2>
+<div class="outline-text-2" id="text-org690d568">
+<p>
+La Ventana de Overton es una teoría política que describe el rango de
+ideas que el público está dispuesto a aceptar en un momento dado. Las
+ideas fuera de la ventana se consideran "radicales" o "impensables".
+</p>
+
+<p>
+El objetivo de la desinformación suele ser "empujar" la ventana para
+que algo que hoy nos parece una locura, mañana nos parezca normal.
+</p>
+</div>
+<div id="outline-container-org1d289b6" class="outline-3">
+<h3 id="org1d289b6">Caso de Estudio: "La legalización de la carne humana"</h3>
+<div class="outline-text-3" id="text-org1d289b6">
+<p>
+Este es uno de los ejemplos más perturbadores y efectivos para
+analizar cómo se manipula la opinión pública mediante noticias falsas
+y debates provocados.
+</p>
+
+<ol class="org-ol">
+<li>La Noticia (El anzuelo)</li>
+</ol>
+
+<p>
+En varios portales de noticias "alternativas" y redes sociales,
+empezaron a circular artículos afirmando que "Científicos y éticos
+sugieren que comer carne humana producida en laboratorio es la
+solución al cambio climático".
+</p>
+
+<ol class="org-ol">
+<li>El proceso de búsqueda y recuperación para los alumnos:</li>
+</ol>
+
+<p>
+Paso 1: De lo Impensable a lo Radical. Aparecen noticias sobre una
+empresa ficticia o un artista que "sirve carne humana" en una cena
+privada. (Es falso, pero introduce la idea en el buscador de Google).
+</p>
+
+<p>
+Paso 2: De lo Radical a lo Aceptable. Aparecen artículos de opinión
+(muchas veces financiados por bots) que dicen: "No es que queramos
+comer humanos, pero ¿no es peor que se muera el planeta?". Aquí el
+alumno debe buscar quién firma esos artículos.
+</p>
+
+<p>
+Paso 3: De lo Aceptable a lo Sensato. Se recuperan noticias sobre
+"carne cultivada en laboratorio" (que es real) y se mezclan
+malintencionadamente con el tema del canibalismo para confundir al
+usuario.
+</p>
+
+<ol class="org-ol">
+<li>La Realidad (El Fact-Check)</li>
+</ol>
+
+<p>
+No hay ninguna legislación ni movimiento científico serio promoviendo
+el canibalismo. Sin embargo, la noticia falsa se utiliza para:
+</p>
+
+<p>
+Desacreditar la lucha contra el cambio climático (haciendo que parezca
+que los ecologistas son caníbales).
+</p>
+
+<p>
+Generar clics por puro impacto visual y emocional.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org7dfa711" class="outline-2">
+<h2 id="org7dfa711">Ejercicios: La Ventana de Overton</h2>
+<div class="outline-text-2" id="text-org7dfa711">
+</div>
+<div id="outline-container-org58d79e7" class="outline-3">
+<h3 id="org58d79e7">Introducción al Análisis de Desplazamiento de Opinión</h3>
+<div class="outline-text-3" id="text-org58d79e7">
+<p>
+Este documento contiene 10 casos de estudio sobre temas que están
+moviendo la "Ventana de Overton" en la esfera pública global. El
+objetivo es recuperar las fuentes originales y determinar
+la veracidad o manipulación de los datos presentados.
+</p>
+</div>
+</div>
+<div id="outline-container-org95ae280" class="outline-3">
+<h3 id="org95ae280">Casos de Estudio para Investigación Forense Digital</h3>
+<div class="outline-text-3" id="text-org95ae280">
+</div>
+<div id="outline-container-org7379fc7" class="outline-4">
+<h4 id="org7379fc7">1. Implementación de Ciudades de 15 Minutos y Restricción de Movimiento</h4>
+<div class="outline-text-4" id="text-org7379fc7">
+<ul class="org-ul">
+<li><b>Premisa:</b> Gobiernos europeos han comenzado a instalar vallas
+biométricas para impedir que los ciudadanos salgan de su radio de 15
+minutos sin permiso digital previo.</li>
+<li><b>Punto de búsqueda:</b> Investigar regulaciones urbanísticas en Oxford y
+París (2023-2024).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org6a4e6dc" class="outline-4">
+<h4 id="org6a4e6dc">2. El Crédito Social Obligatorio para Acceso a Internet</h4>
+<div class="outline-text-4" id="text-org6a4e6dc">
+<ul class="org-ul">
+<li><b>Premisa:</b> La nueva Ley de Servicios Digitales incluye un sistema de
+puntos donde comentarios "negativos" bloquean el acceso al home
+banking del usuario de forma automática.</li>
+<li><b>Punto de búsqueda:</b> Analizar el texto de la Digital Services Act
+(DSA) de la Unión Europea.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb90a243" class="outline-4">
+<h4 id="orgb90a243">3. Sustitución de Proteína Animal por Invertebrados en Comedores Escolares</h4>
+<div class="outline-text-4" id="text-orgb90a243">
+<ul class="org-ul">
+<li><b>Premisa:</b> La normativa de la FAO para 2025 exige que el 30% de la
+harina en escuelas sea de origen insectoide para combatir el metano
+bovino.</li>
+<li><b>Punto de búsqueda:</b> Rastrear comunicados oficiales de la FAO y el Codex Alimentarius.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd457fdc" class="outline-4">
+<h4 id="orgd457fdc">4. Identidad Digital de Recién Nacidos mediante Escaneo de Iris</h4>
+<div class="outline-text-4" id="text-orgd457fdc">
+<ul class="org-ul">
+<li><b>Premisa:</b> Un programa piloto en hospitales de Indonesia vincula la
+partida de nacimiento a una billetera digital biométrica desde el
+primer minuto de vida.</li>
+<li><b>Punto de búsqueda:</b> Investigar proyectos de ID2020 y alianzas
+tecnológicas en el sudeste asiático.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2b1cbaf" class="outline-4">
+<h4 id="org2b1cbaf">5. Impuesto Global al Carbono Individual (Monedero de CO2)</h4>
+<div class="outline-text-4" id="text-org2b1cbaf">
+<ul class="org-ul">
+<li><b>Premisa:</b> Bancos centrales están probando tarjetas de crédito que se
+bloquean si el usuario supera su cuota mensual de emisiones de
+carbono al comprar carne o combustible.</li>
+<li><b>Punto de búsqueda:</b> Revisar las propuestas del Foro Económico Mundial
+sobre "Personal Carbon Allowances".</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8782740" class="outline-4">
+<h4 id="org8782740">6. Legalización de la "Eutanasia por Cansancio Vital" en Menores</h4>
+<div class="outline-text-4" id="text-org8782740">
+<ul class="org-ul">
+<li><b>Premisa:</b> Países Bajos y Canadá han extendido sus protocolos médicos
+para permitir el procedimiento en adolescentes con cuadros de
+eco-ansiedad severa sin consentimiento parental.</li>
+<li><b>Punto de búsqueda:</b> Recuperar las leyes MAiD (Canadá) y el Protocolo de Groningen.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge557c23" class="outline-4">
+<h4 id="orge557c23">7. Sensores de "Ruido Social" en Hogares Inteligentes</h4>
+<div class="outline-text-4" id="text-orge557c23">
+<ul class="org-ul">
+<li><b>Premisa:</b> Las nuevas normativas de Smart Homes exigen que los
+asistentes de voz reporten palabras clave de "discurso de odio"
+directamente a las autoridades locales.</li>
+<li><b>Punto de búsqueda:</b> Analizar términos y condiciones de dispositivos
+IoT y patentes recientes de procesamiento de lenguaje natural.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf572616" class="outline-4">
+<h4 id="orgf572616">8. La Prohibición de la Propiedad Privada de Vehículos para 2030</h4>
+<div class="outline-text-4" id="text-orgf572616">
+<ul class="org-ul">
+<li><b>Premisa:</b> Un acuerdo firmado en la COP28 establece que la fabricación
+de coches particulares cesará en 2028, permitiendo solo el modelo de
+"suscripción por uso" estatal.</li>
+<li><b>Punto de búsqueda:</b> Consultar las resoluciones finales de la COP28 y el plan "Fit for 55".</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org935191a" class="outline-4">
+<h4 id="org935191a">9. Uso de IA para la Reescritura de Textos Históricos en Tiempo Real</h4>
+<div class="outline-text-4" id="text-org935191a">
+<ul class="org-ul">
+<li><b>Premisa:</b> Bibliotecas digitales están utilizando algoritmos para
+"adaptar" el lenguaje de clásicos literarios a estándares de
+sensibilidad modernos sin dejar rastro del original.</li>
+<li><b>Punto de búsqueda:</b> Investigar casos de edición en obras de Roald Dahl y Agatha Christie (2023).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2717e0e" class="outline-4">
+<h4 id="org2717e0e">10. Geoingeniería: El Bloqueo Solar mediante Aerosoles de Azufre</h4>
+<div class="outline-text-4" id="text-org2717e0e">
+<ul class="org-ul">
+<li><b>Premisa:</b> Un proyecto financiado por magnates tecnológicos ha
+comenzado a liberar partículas en la estratósfera para oscurecer el
+sol y bajar 1.5°C la temperatura global este verano.</li>
+<li><b>Punto de búsqueda:</b> Rastrear el proyecto SCoPEx de Harvard y su estado de ejecución actual.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org5a7c155" class="outline-3">
+<h3 id="org5a7c155">Guía de Recuperación para el Alumno</h3>
+<div class="outline-text-3" id="text-org5a7c155">
+<ol class="org-ol">
+<li>Localizar la <b>fuente primaria</b> (documento legal, paper científico o
+comunicado oficial).</li>
+<li>Identificar si el contenido recuperado coincide con la <b>premisa</b> o si
+hay una distorsión semántica.</li>
+<li>Evaluar en qué fase de la Ventana de Overton se encuentra el tema:
+<ul class="org-ul">
+<li class="off"><code>[&#xa0;]</code> Impensable</li>
+<li class="off"><code>[&#xa0;]</code> Radical</li>
+<li class="off"><code>[&#xa0;]</code> Aceptable</li>
+<li class="off"><code>[&#xa0;]</code> Sensato</li>
+<li class="off"><code>[&#xa0;]</code> Popular</li>
+<li class="off"><code>[&#xa0;]</code> Política Pública</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Eduardo Alcaraz</p>
-<p class="date">Created: 2026-02-18 mié 08:13</p>
+<p class="date">Created: 2026-02-20 vie 08:34</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
