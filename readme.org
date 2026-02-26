@@ -7,6 +7,7 @@
 #+OPTIONS: num:nil
 #+HTML_HEAD: <style> #content{max-width:1800px;}</style>
 #+HTML_HEAD: <style>pre.src {background-color: #303030; color: #e5e5e5;}</style>
+#+BIND: org-confirm-babel-evaluate nil
 
 
 * Instalación de requerimientos
@@ -2902,6 +2903,7 @@ Generar clics por puro impacto visual y emocional.
 
 
 
+
 * Ejercicios: La Ventana de Overton
 
 ** Introducción al Análisis de Desplazamiento de Opinión
@@ -2983,9 +2985,334 @@ la veracidad o manipulación de los datos presentados.
 2. Identificar si el contenido recuperado coincide con la *premisa* o si
    hay una distorsión semántica.
 3. Evaluar en qué fase de la Ventana de Overton se encuentra el tema:
-   - [ ] Impensablen
+   - [ ] Impensable
    - [ ] Radical
    - [ ] Aceptable
    - [ ] Sensato
    - [ ] Popular
    - [ ] Política Pública
+
+   
+*  Similitud de coseno y TF‑IDF en Python
+
+Esta apartado explica *TF‑IDF* y *similitud de coseno* y muestra cómo aplicarlos en Python cargando *varios archivos de texto*.
+
+** 1. Representar textos como vectores
+
+- *Bolsa de palabras (Bag of Words)*: cada documento se representa por cuántas veces aparece cada palabra.
+  - Ventaja: sencillo.
+  - Desventaja: trata todas las palabras como igual de importantes (un "el" cuenta tanto como "inteligencia").
+  - *TF‑IDF* mejora esta idea ponderando las palabras según:
+  - *TF (Term Frequency)*: qué tan frecuente es una palabra en un documento.
+  - *IDF (Inverse Document Frequency)*: qué tan rara es esa palabra en toda la colección de documentos.
+
+
+** 2. TF (Term Frequency)
+
+Para una palabra \(t\) en un documento \(d\):
+
+\[
+TF(t, d) = \frac{\text{número de veces que aparece } t \text{ en } d}{\text{número total de palabras en } d}
+\]
+
+En la práctica, muchas librerías usan variantes (por ejemplo, solo el conteo bruto).
+
+
+** 3. IDF (Inverse Document Frequency)
+
+Para una palabra \(t\) en una colección de documentos \(D\) (con \(|D|\) documentos) y \(df(t)\) = número de documentos donde aparece \(t\):
+
+\[
+IDF(t, D) = \log \left( \frac{|D|}{1 + df(t)} \right)
+\]
+
+- Si una palabra aparece en muchos documentos, \(df(t)\) es grande y el *IDF es pequeño* → la palabra aporta *poca información*.
+- Si una palabra aparece en pocos documentos, \(df(t)\) es pequeño y el *IDF es grande* → la palabra aporta *mucha información*.
+
+
+** 4. TF‑IDF
+
+El peso TF‑IDF de una palabra \(t\) en un documento \(d\) se define como:
+
+\[
+TF\text{-}IDF(t, d, D) = TF(t, d) \cdot IDF(t, D)
+\]
+
+Cada documento se convierte en un *vector* donde cada componente es el TF‑IDF de una palabra del vocabulario.
+
+
+
+Imagina que tienes muchos documentos (noticias, artículos, tareas, etc.) y quieres saber de qué habla cada uno y cuáles se parecen entre sí.
+
+*** 4.1. TF: qué tanto se repite una palabra en un documento
+
+Piensa en un solo documento.
+
+TF (Term Frequency) responde a la pregunta:
+- "¿Cuántas veces aparece esta palabra aquí dentro?"
+
+Ejemplo sencillo:
+- Si en un texto de 100 palabras, la palabra "gato" aparece 5 veces, su TF es 5 de 100 (o simplemente 5, según la variante de la fórmula).
+
+Cuanto más aparece una palabra en ese documento, más importante parece para ese documento.
+
+*** 4.2. El problema de las palabras que no dicen nada
+
+Palabras como "el", "la", "de", "y" aparecen en casi todos los textos y no nos dicen de qué trata el documento.
+
+Si solo miráramos TF, "el" podría parecer súper importante, pero no queremos eso.
+
+*** 4.3. IDF: qué tan rara es una palabra en toda la colección
+
+Ahora miramos todos los documentos juntos.
+
+IDF (Inverse Document Frequency) responde:
+- "¿En cuántos documentos aparece esta palabra?"
+
+Ideas clave:
+- Si una palabra aparece en muchísimos documentos, su IDF es bajo → es poco informativa.
+- Si aparece en pocos documentos, su IDF es alto → es muy informativa (característica de ciertos textos).
+
+Es como decir:
+- Palabra muy común ⇒ "no cuenta tanto".
+- Palabra rara ⇒ "esto describe algo específico".
+
+*** 4.4. TF‑IDF: combinar las dos ideas
+
+TF‑IDF = TF × IDF
+
+- TF dice: qué tanto se usa la palabra dentro de este documento.
+- IDF dice: qué tan rara o especial es esa palabra en toda la colección.
+
+Al multiplicar:
+- Una palabra que se repite mucho en este documento y casi no aparece en otros ⇒ peso alto (muy representativa de este texto).
+- Una palabra que se repite mucho pero aparece en todos lados (como "el") ⇒ peso bajo.
+
+Al final, cada documento se convierte en un vector (una lista de números), donde cada número es el TF‑IDF de una palabra:
+- cuanto más grande el número, más describe esa palabra al documento.
+
+*** 4n.5. ¿Para qué sirve en la práctica?
+
+- Para que un buscador sepa qué documentos son más relevantes a una consulta.
+- Para medir similitud entre textos (por ejemplo, usando después la similitud de coseno).
+- Para que una máquina vea el texto como números significativos y no solo como palabras sueltas.
+  
+
+
+
+
+** 5. Similitud de coseno
+
+Dado dos vectores \(A\) y \(B\) (por ejemplo, los TF‑IDF de dos documentos), la *similitud de coseno* es:
+
+\[
+\text{coseno}(A, B) = \frac{A \cdot B}{\|A\| \cdot \|B\|}
+\]
+
+- \(A \cdot B\): producto punto (suma de multiplicaciones componente a componente).
+- \(\|A\|\): norma (longitud) del vector.
+- Resultado:
+  - *1* → vectores muy parecidos (documentos muy similares).
+  - *0* → vectores ortogonales (sin relación).
+  - Valores negativos suelen no aparecer con TF‑IDF estándar (porque los pesos son no negativos).
+
+
+** 6. Ejemplo en Python: cargar varios .txt, calcular TF‑IDF y similitud de coseno
+
+Este ejemplo usa =scikit‑learn= para calcular TF‑IDF y similitudes entre varios documentos de texto.
+
+*** 6.1. Requisitos
+
+Instala las dependencias:
+
+#+begin_src bash
+pip install scikit-learn
+#+end_src
+
+Organiza tus textos, por ejemplo:
+
+- Carpeta =textos/= con archivos:
+  - =doc1.txt=
+  - =doc2.txt=
+  - =doc3.txt=
+  - ...
+
+*** 6.2. Código básico
+
+#+begin_src python
+from pathlib import Path
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+
+def cargar_documentos(directorio: str):
+    """Carga todos los .txt de un directorio y devuelve rutas y contenidos."""
+    base_path = Path(directorio)
+    filepaths = sorted(base_path.glob("*.txt"))
+
+    documentos = []
+    nombres = []
+
+    for path in filepaths:
+        texto = path.read_text(encoding="utf-8", errors="ignore")
+        documentos.append(texto)
+        nombres.append(path.name)
+
+    return nombres, documentos
+
+
+def calcular_tfidf(documentos):
+    """Calcula la matriz TF-IDF a partir de una lista de textos."""
+    vectorizador = TfidfVectorizer(
+        lowercase=True,      # pasar todo a minúsculas
+        stop_words="spanish" # eliminar stopwords en español (siempre opcional)
+    )
+    matriz_tfidf = vectorizador.fit_transform(documentos)
+    return matriz_tfidf, vectorizador
+
+
+def matriz_similitud_coseno(matriz_tfidf):
+    """Devuelve la matriz de similitud de coseno entre todos los documentos."""
+    return cosine_similarity(matriz_tfidf)
+
+
+if __name__ == "__main__":
+    # 1. Cargar documentos
+    nombres, documentos = cargar_documentos("textos")
+
+    # 2. Calcular TF-IDF
+    matriz_tfidf, vectorizador = calcular_tfidf(documentos)
+
+    # 3. Calcular similitud de coseno entre todos los pares de documentos
+    sim_matrix = matriz_similitud_coseno(matriz_tfidf)
+
+    # 4. Mostrar resultados
+    print("Documentos cargados:")
+    for i, nombre in enumerate(nombres):
+        print(f"{i}: {nombre}")
+
+    print("\nMatriz de similitud de coseno:")
+    print(sim_matrix)
+
+    # Ejemplo: similitud entre el documento 0 y el 1
+    if len(nombres) >= 2:
+        print(
+            f"\nSimilitud de coseno entre '{nombres[0]}' y '{nombres[1]}': "
+            f"{sim_matrix[0, 1]:.4f}"
+        )
+#+end_src
+
+
+** 7. Similitud de coseno “a mano” (opcional)
+
+Para entender mejor el algoritmo, se puede calcular la similitud de coseno sin usar =cosine_similarity=:
+
+#+begin_src python
+import numpy as np
+
+
+def similitud_coseno_manual(vec_a, vec_b):
+    """Calcula la similitud de coseno entre dos vectores de NumPy."""
+    numerador = np.dot(vec_a, vec_b)
+    norma_a = np.linalg.norm(vec_a)
+    norma_b = np.linalg.norm(vec_b)
+
+    if norma_a == 0 or norma_b == 0:
+        return 0.0  # si algún vector es cero, definimos similitud 0
+
+    return numerador / (norma_a * norma_b)
+#+end_src
+
+Con la matriz TF‑IDF de =scikit‑learn= (que es una matriz dispersa), podrías convertir una fila a vector denso para probar:
+
+#+begin_src python
+vec0 = matriz_tfidf[0].toarray()[0]
+vec1 = matriz_tfidf[1].toarray()[0]
+
+print(similitud_coseno_manual(vec0, vec1))
+#+end_src
+
+
+** 8. Caso de uso típico: búsqueda de documentos similares
+
+Podemos usar TF‑IDF y similitud de coseno para, dado un documento (o una consulta de texto), encontrar los documentos más parecidos.
+
+#+begin_src python
+import numpy as np
+
+
+def documentos_mas_similares(idx_objetivo, sim_matrix, nombres, top_k=3):
+    """
+    Devuelve los índices y nombres de los documentos más similares
+    a un documento objetivo.
+    """
+    similitudes = sim_matrix[idx_objetivo]
+
+    # Ordenar por similitud descendente (ignorando el propio documento)
+    indices_ordenados = np.argsort(-similitudes)
+
+    resultados = []
+    for idx in indices_ordenados:
+        if idx == idx_objetivo:
+            continue
+        resultados.append((idx, nombres[idx], similitudes[idx]))
+        if len(resultados) >= top_k:
+            break
+
+    return resultados
+
+
+if __name__ == "__main__":
+    # ... reutilizar código anterior para cargar nombres, documentos,
+    # matriz_tfidf y sim_matrix ...
+
+    if len(nombres) > 0:
+        idx_objetivo = 0  # por ejemplo, el primer documento
+        similares = documentos_mas_similares(idx_objetivo, sim_matrix, nombres, top_k=3)
+
+        print(f"\nDocumentos más similares a '{nombres[idx_objetivo]}':")
+        for idx, nombre, score in similares:
+            print(f"- {nombre}: similitud = {score:.4f}")
+#+end_src
+
+
+
+- *TF‑IDF* transforma textos en vectores numéricos que destacan las palabras más informativas.
+- La *similitud de coseno* mide cuánto se parecen dos documentos según el ángulo entre sus vectores.
+- Con =scikit‑learn=, podemos:
+  - Cargar múltiples archivos =.txt=.
+  - Calcular su representación TF‑IDF.
+  - Obtener la similitud de coseno entre todos los documentos y buscar los más parecidos.
+
+  
+** 10. ¿Dónde se usa TF‑IDF y la similitud de coseno?
+
+TF‑IDF y la similitud de coseno se utilizan ampliamente en tareas de recuperación de información y minería de texto:
+
+- Motores de búsqueda: las consultas y documentos se representan como
+  vectores TF‑IDF y se ordenan por similitud de coseno para mostrar
+  primero los resultados más relevantes.
+- Búsqueda de documentos similares: dado un documento, se buscan otros
+  con alta similitud de coseno (por ejemplo, artículos científicos o
+  noticias relacionadas).
+- Sistemas de recomendación basados en contenido: se comparan
+  descripciones de ítems (productos, películas, cursos) con lo que el
+  usuario ha visto, usando similitud de coseno sobre vectores TF‑IDF.
+- Clustering y clasificación de textos: los vectores TF‑IDF sirven
+  como entrada a algoritmos de agrupamiento o clasificación para
+  organizar grandes colecciones de documentos.
+- Detección de plagio: se comparan trabajos de estudiantes o artículos
+  para medir si comparten demasiado contenido (similitud de coseno
+  alta).
+- Filtrado de spam y categorización de correos: los correos se
+  representan con TF‑IDF y se clasifican; también puede medirse la
+  similitud con ejemplos de spam conocidos.
+- Sistemas de FAQ simples: se representa cada pregunta frecuente con
+  TF‑IDF y, ante una nueva consulta, se devuelve la respuesta asociada
+  a la pregunta más similar según la similitud de coseno.
+
+
+
+
+
