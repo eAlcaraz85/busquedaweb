@@ -2993,9 +2993,7 @@ la veracidad o manipulación de los datos presentados.
    - [ ] Política Pública
 
    
-*  Similitud de coseno y TF‑IDF en Python
-
-Esta apartado explica *TF‑IDF* y *similitud de coseno* y muestra cómo aplicarlos en Python cargando *varios archivos de texto*.
+* Similitud de coseno y TF‑IDF en Python
 
 ** 1. Representar textos como vectores
 
