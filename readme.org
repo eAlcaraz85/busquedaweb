@@ -3177,7 +3177,7 @@ def matriz_similitud_coseno(matriz_tfidf):
 
 if __name__ == "__main__":
     # 1. Cargar documentos
-    nombres, documentos = cargar_documentos("textos")
+    nombres, documentos = cargar_documentos("/home/likcos/txt")
 
     # 2. Calcular TF-IDF
     matriz_tfidf, vectorizador = calcular_tfidf(documentos)
@@ -3200,6 +3200,157 @@ if __name__ == "__main__":
             f"{sim_matrix[0, 1]:.4f}"
         )
 #+end_src
+
+#+RESULTS:
+
+Código con stop word añadidas
+
+#+BEGIN_SRC python :results output
+from pathlib import Path
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+STOP_WORDS_ES = [
+    "a", "acá", "ahí", "al", "algo", "algún", "alguna", "algunas", "alguno",
+    "algunos", "allá", "allí", "ante", "antes", "aquel", "aquella", "aquellas",
+    "aquello", "aquellos", "aquí", "así", "aún", "bajo", "bastante", "bien",
+    "cabe", "cada", "casi", "como", "con", "contra", "cual", "cuales",
+    "cualquier", "cualquiera", "cualquieras", "cuán", "cuándo", "cuánto",
+    "de", "dejar", "del", "demás", "demasiado", "donde", "dos", "el", "él",
+    "ella", "ellas", "ellos", "en", "entre", "era", "eran", "eres", "es",
+    "esa", "esas", "ese", "eso", "esos", "esta", "está", "están", "estas",
+    "este", "esto", "estos", "estoy", "fue", "fueron", "fui", "ha", "han",
+    "hasta", "hay", "la", "las", "le", "les", "lo", "los", "más", "me",
+    "mi", "mis", "mucha", "muchas", "mucho", "muchos", "muy", "nada",
+    "ni", "no", "nos", "nosotros", "nuestra", "nuestras", "nuestro",
+    "nuestros", "o", "os", "otra", "otras", "otro", "otros", "para",
+    "pero", "poco", "por", "porque", "que", "qué", "quien", "quién",
+    "quienes", "se", "sea", "según", "ser", "si", "sí", "sin", "sobre",
+    "so", "somos", "son", "su", "sus", "también", "tan", "tanto", "te",
+    "tenemos", "tener", "tiene", "tienen", "toda", "todas", "todavía",
+    "todo", "todos", "tu", "tus", "un", "una", "uno", "unos", "usted",
+    "ustedes", "ya", "yo"
+]
+
+def cargar_documentos(directorio: str):
+    base_path = Path(directorio)
+    filepaths = sorted(base_path.glob("*.txt"))
+
+    documentos = []
+    nombres = []
+
+    for path in filepaths:
+        texto = path.read_text(encoding="utf-8", errors="ignore")
+        documentos.append(texto)
+        nombres.append(path.name)
+
+    return nombres, documentos
+
+
+def calcular_tfidf(documentos):
+    vectorizador = TfidfVectorizer(
+        lowercase=True,
+        stop_words=STOP_WORDS_ES  # aquí pasamos la lista
+    )
+    matriz_tfidf = vectorizador.fit_transform(documentos)
+    return matriz_tfidf, vectorizador
+
+
+def matriz_similitud_coseno(matriz_tfidf):
+    return cosine_similarity(matriz_tfidf)
+
+
+if __name__ == "__main__":
+    nombres, documentos = cargar_documentos("/home/likcos/txt")
+    matriz_tfidf, vectorizador = calcular_tfidf(documentos)
+    sim_matrix = matriz_similitud_coseno(matriz_tfidf)
+
+    print("Documentos cargados:")
+    for i, nombre in enumerate(nombres):
+        print(f"{i}: {nombre}")
+
+    print("\nMatriz de similitud de coseno:")
+    print(sim_matrix)
+
+    if len(nombres) >= 2:
+        print(
+            f"\nSimilitud de coseno entre '{nombres[0]}' y '{nombres[1]}': "
+            f"{sim_matrix[0, 1]:.4f}"
+        )
+#+END_SRC
+
+#+RESULTS:
+: Documentos cargados:
+: 0: ia.txt
+: 1: otro.txt
+: 
+: Matriz de similitud de coseno:
+: [[1. 0.]
+:  [0. 1.]]
+: 
+: Similitud de coseno entre 'ia.txt' y 'otro.txt': 0.0000
+
+
+Ejemplo con nltk
+
+#+BEGIN_SRC python
+from pathlib import Path
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+from nltk.corpus import stopwords
+
+
+def cargar_documentos(directorio: str):
+    base_path = Path(directorio)
+    filepaths = sorted(base_path.glob("*.txt"))
+
+    documentos = []
+    nombres = []
+
+    for path in filepaths:
+        texto = path.read_text(encoding="utf-8", errors="ignore")
+        documentos.append(texto)
+        nombres.append(path.name)
+
+    return nombres, documentos
+
+
+def calcular_tfidf(documentos):
+    stopwords_es = stopwords.words("spanish")
+
+    vectorizador = TfidfVectorizer(
+        lowercase=True,
+        stop_words=stopwords_es
+    )
+    matriz_tfidf = vectorizador.fit_transform(documentos)
+    return matriz_tfidf, vectorizador
+
+
+def matriz_similitud_coseno(matriz_tfidf):
+    return cosine_similarity(matriz_tfidf)
+
+
+if __name__ == "__main__":
+    nombres, documentos = cargar_documentos("textos")
+    matriz_tfidf, vectorizador = calcular_tfidf(documentos)
+    sim_matrix = matriz_similitud_coseno(matriz_tfidf)
+
+    print("Documentos cargados:")
+    for i, nombre in enumerate(nombres):
+        print(f"{i}: {nombre}")
+
+    print("\nMatriz de similitud de coseno:")
+    print(sim_matrix)
+
+    if len(nombres) >= 2:
+        print(
+            f"\nSimilitud de coseno entre '{nombres[0]}' y '{nombres[1]}': "
+            f"{sim_matrix[0, 1]:.4f}"
+        )
+#+END_SRC
 
 
 ** 7. Similitud de coseno “a mano” (opcional)
