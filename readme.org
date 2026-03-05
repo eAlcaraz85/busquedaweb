@@ -3465,3 +3465,149 @@ TF‑IDF y la similitud de coseno se utilizan ampliamente en tareas de recuperac
 
 
 
+
+* Modelo HSV (Hue, Saturation, Value)
+El modelo *HSV* es una representación más intuitiva del color basada en la percepción humana, donde el matiz, la saturación y el valor describen un color.
+
+- *Características*:
+  - *Matiz (Hue, H)*: Representa el ángulo en el círculo cromático, en grados [0°, 360°).
+  - *Saturación (S)*: Indica la pureza del color, rango de [0,1].
+  - *Valor (V)*: Define el brillo del color, rango de [0,1].
+
+- *Conversión de RGB a HSV*:
+  - Primero, normalizar los valores RGB entre 0 y 1:
+	\[
+    R' = \frac{R}{L}, \quad G' = \frac{G}{L}, \quad B' = \frac{B}{L}
+    \]
+
+	donde \( L \) es el valor máximo de intensidad (por ejemplo, 255).
+
+  - Calcular el valor máximo y mínimo:
+    \[
+    C_{\max} = \max(R', G', B'), \quad C_{\min} = \min(R', G', B')
+    \]
+
+  - Diferencia:
+    \[
+    \Delta = C_{\max} - C_{\min}
+    \]
+
+  - *Cálculo del Matiz (H)*:
+    \[
+    \text{Si } \Delta = 0 \Rightarrow H = 0 \\
+    \text{Si } C_{\max} = R' \Rightarrow H = 60^\circ \times \left( \frac{G' - B'}{\Delta} \mod 6 \right) \\
+    \text{Si } C_{\max} = G' \Rightarrow H = 60^\circ \times \left( \frac{B' - R'}{\Delta} + 2 \right) \\
+    \text{Si } C_{\max} = B' \Rightarrow H = 60^\circ \times \left( \frac{R' - G'}{\Delta} + 4 \right)
+    \]
+
+  - *Cálculo de la Saturación (S)*:
+    \[
+    \text{Si } C_{\max} = 0 \Rightarrow S = 0 \\
+    \text{Si no} \Rightarrow S = \frac{\Delta}{C_{\max}}
+    \]
+
+  - *Cálculo del Valor (V)*:
+    \[
+	V = C_{\max}
+    \]
+
+- *Aplicaciones*:
+  - Edición de imágenes, interfaces de selección de color y en procesamiento de video.
+
+- *Ejemplo*:
+  - Convertir RGB (255, 255, 0) a HSV:
+    - Normalizar:
+      \[
+      R' = 1, \quad G' = 1, \quad B' = 0
+      \]
+    - \( C_{\max} = 1 \), \( C_{\min} = 0 \), \( \Delta = 1 \)
+    - Calcular H:
+      \[
+      H = 60^\circ \times \left( \frac{G' - B'}{\Delta} \mod 6 \right) = 60^\circ \times (1 \mod 6) = 60^\circ
+      \]
+    - Calcular S:
+      \[
+      S = \frac{\Delta}{C_{\max}} = \frac{1}{1} = 1
+      \]
+    - Calcular V:
+      \[
+      V = C_{\max} = 1
+      \]
+    - *Resultado*: H = 60°, S = 1, V = 1 (Color amarillo)
+
+** HSV opencv
+
+** Tutorial: Umbrales en el Modelo de Color HSV
+
+El espacio de color *HSV* (Hue, Saturation, Value) se utiliza para la segmentación de colores en OpenCV. A continuación, explicaremos los tres parámetros principales y cómo definir umbrales para detectar colores.
+
+** Definición de los Parámetros del Modelo HSV
+
+- *Hue (H)*: Tono o color básico (rojo, verde, azul, etc.). En OpenCV va de 0 a 179.
+- *Saturation (S)*: Intensidad del color. Va de 0 a 255.
+- *Value (V)*: Brillo del color. Va de 0 a 255.
+
+** Detectar un color en el espacio HSV
+
+Puedes definir un rango de color utilizando los valores de Hue, Saturation y Value para segmentar colores específicos en una imagen.
+
+*** Código en Python para detectar un color (Verde)
+
+#+BEGIN_SRC python :results output
+import cv2
+import numpy as np
+
+# Leer la imagen
+img = cv2.imread('imagen.jpg')
+
+# Convertir la imagen al espacio de color HSV
+hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+# Definir el rango inferior y superior para detectar verde
+lower_green = np.array([35, 100, 100])  # Hue, Saturación, Brillo mínimos
+upper_green = np.array([85, 255, 255])  # Hue, Saturación, Brillo máximos
+
+# Crear una máscara que solo incluya los píxeles dentro del rango
+mask = cv2.inRange(hsv, lower_green, upper_green)
+
+# Aplicar la máscara a la imagen original
+result = cv2.bitwise_and(img, img, mask=mask)
+
+# Mostrar la imagen original y la imagen con el color detectado
+cv2.imshow("Imagen Original", img)
+cv2.imshow("Color Detectado", result)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+#+END_SRC
+
+** Explicación de los Parámetros:
+
+- *lower_green = np.array([35, 100, 100])*:
+  - El valor mínimo del tono es 35, correspondiente a un verde.
+  - La saturación mínima es 100 para evitar colores desaturados.
+  - El valor mínimo de brillo es 100 para evitar colores muy oscuros.
+
+- *upper_green = np.array([85, 255, 255])*:
+  - El valor máximo del tono es 85, cubriendo tonos verdes claros y oscuros.
+  - La saturación máxima es 255 para incluir verdes vibrantes.
+  - El valor máximo de brillo es 255 para incluir colores brillantes.
+
+** Ajustes de los Umbrales
+
+Dependiendo de las condiciones de luz y el color exacto que deseas detectar, puedes ajustar los valores de Hue, Saturación y Brillo:
+
+- **Hue (H)**: Ajusta el rango para detectar tonos específicos del color.
+- **Saturation (S)**: Ajusta para incluir colores más o menos saturados.
+- **Value (V)**: Ajusta para incluir colores más claros o más oscuros.
+
+** Ejemplo visual: Rango de tonos para detectar verde
+
+| Color        | Hue (H) | Saturación (S) | Brillo (V) |
+|--------------|---------|----------------|------------|
+| Verde claro  | 35      | 100            | 100        |
+| Verde oscuro | 85      | 255            | 255        |
+
+** Uso de ~cv2.inRange~
+
+La función ~cv2.inRange()~ crea una máscara binaria donde los píxeles dentro del rango son blancos (255) y los fuera del rango son negros (0).
+
