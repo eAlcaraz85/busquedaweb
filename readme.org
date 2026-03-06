@@ -3609,5 +3609,28 @@ Dependiendo de las condiciones de luz y el color exacto que deseas detectar, pue
 
 ** Uso de ~cv2.inRange~
 
-La función ~cv2.inRange()~ crea una máscara binaria donde los píxeles dentro del rango son blancos (255) y los fuera del rango son negros (0).
+La función ~cv2.inRange()~ crea una máscara binaria donde los píxeles dentro del rango son blancos (255) y los fuera del rango son negros (0).oO
 
+** cargar varias imágenes opencv
+
+#+BEGIN_SRC python
+import cv2
+import glob
+
+# 1. Obtener todas las rutas de imágenes en una carpeta
+ruta_imagenes = glob.glob('carpeta_imagenes/*.jpg')
+
+# 2. Leer imágenes y guardarlas en una lista
+imagenes = []
+for ruta in ruta_imagenes:
+    img = cv2.imread(ruta)
+    if img is not None:
+        imagenes.append(img)
+    
+# 3. Acceder a las imágenes cargadas
+for i, img in enumerate(imagenes):
+    cv2.imshow(f'Imagen {i}', img)
+    
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+#+END_SRC
