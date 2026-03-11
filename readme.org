@@ -3558,17 +3558,30 @@ import cv2
 import numpy as np
 
 # Leer la imagen
-img = cv2.imread('imagen.jpg')
+img = cv2.imread('man.jpg')
 
 # Convertir la imagen al espacio de color HSV
 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
 # Definir el rango inferior y superior para detectar verde
-lower_green = np.array([35, 100, 100])  # Hue, Saturación, Brillo mínimos
+lower_green = np.array([35, 60, 60])  # Hue, Saturación, Brillo mínimos
 upper_green = np.array([85, 255, 255])  # Hue, Saturación, Brillo máximos
+
+
+# 4. Contar píxeles blancos (non-zero)
+
 
 # Crear una máscara que solo incluya los píxeles dentro del rango
 mask = cv2.inRange(hsv, lower_green, upper_green)
+
+pixel_blanco = cv2.countNonZero(mask)
+print('pixel blanco =',  pixel_blanco)
+# 5. Calcular total de píxeles y porcentaje
+total_pixel = mask.shape[0] * mask.shape[1]
+print('total pixeles = ',  total_pixel)
+porcentaje = (pixel_blanco / total_pixel) * 100
+
+print('porcenaje', porcentaje)
 
 # Aplicar la máscara a la imagen original
 result = cv2.bitwise_and(img, img, mask=mask)
@@ -3576,9 +3589,16 @@ result = cv2.bitwise_and(img, img, mask=mask)
 # Mostrar la imagen original y la imagen con el color detectado
 cv2.imshow("Imagen Original", img)
 cv2.imshow("Color Detectado", result)
+cv2.imshow("mask", mask)
+
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 #+END_SRC
+
+#+RESULTS:
+: pixel blanco = 366649
+: total pixeles =  810000
+: porcenaje 45.26530864197531
 
 ** Explicación de los Parámetros:
 
@@ -3634,3 +3654,569 @@ for i, img in enumerate(imagenes):
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 #+END_SRC
+
+
+
+
+
+** Cargar vídeo Opencv 
+
+#+BEGIN_SRC python
+#OpenCV
+import cv2 as cv
+import numpy as np
+
+cap = cv.VideoCapture(0)
+i=0
+while(True):
+    ret, img = cap.read()
+    if ret:
+        cv.imshow('video', img)
+        #img2 = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        #cv.imshow('video1', img2)
+        cv.imwrite('/home/likcos/caras/cara'+str(i)+'.jpg', img)
+        i+=1
+        k =cv.waitKey(1) & 0xFF
+        if k == 27 :
+	    break
+    else:
+        break
+   
+cap.release()
+cv.destroyAllWindows()
+#+END_SRC
+
+#+RESULTS:
+: None
+
+
+*  Procesamiento de lenguaje natural
+
+** 2.1 Representación de los documentos en lenguaje natural
+
+Los documentos en lenguaje natural (textos, correos, artículos, publicaciones en redes, etc.) deben transformarse a una forma numérica para que puedan ser procesados por algoritmos de aprendizaje automático o recuperación de información. Esta transformación se denomina *representación de documentos*.
+
+La idea general es pasar de texto crudo (cadenas de caracteres) a estructuras que capturen, en lo posible, el contenido semántico y estadístico:
+
+- Listas de tokens (palabras, términos, n‑gramas).
+- Vectores numéricos (por ejemplo, frecuencia de términos, TF‑IDF, embeddings).
+- Estructuras más complejas (árboles sintácticos, grafos de dependencias, etc.).
+
+En este tema nos centraremos principalmente en las representaciones *basadas en bolsa de palabras* y *espacios vectoriales*.
+
+** 2.1.1 Pre-procesamiento
+
+El *pre‑procesamiento* es el conjunto de pasos que prepara el texto para ser representado numéricamente. Suele incluir:
+
+- *Normalización*:
+  - Conversión a minúsculas.
+  - Eliminación de caracteres especiales irrelevantes (signos extraños, espacios múltiples).
+  - Opcionalmente, normalización de tildes y caracteres Unicode.
+
+- *Tokenización*:
+  - División del texto en unidades básicas (tokens): palabras, signos, o n‑gramas.
+  - Ejemplo: "Los perros ladran fuerte" → ["los", "perros", "ladran", "fuerte"].
+
+- *Eliminación de stopwords*:
+  - Palabras muy frecuentes que aportan poca información semántica en muchos contextos (artículos, preposiciones, pronombres).
+  - Ejemplos en español: "el", "la", "de", "y", "a", "que".
+
+- *Lematización y stemming*:
+  - *Stemming*: recortar palabras a una raíz aproximada (ej. "hablando", "hablaría", "hablaron" → "habl").
+  - *Lematización*: transformar la palabra a su forma canónica o lema (ej. "hablando", "hablaría", "hablaron" → "hablar").
+  - En español, la lematización suele ser preferible al stemming porque mantiene mejor la forma correcta de la palabra.
+
+El objetivo principal del pre‑procesamiento es reducir la variabilidad superficial del texto y centrarse en la información relevante para la tarea (clasificación, búsqueda, resumen, etc.).
+
+** 2.1.2 Indexado
+
+El *indexado* es el proceso de construir estructuras de datos que permitan recuperar documentos de forma eficiente en función de los términos que contienen.
+
+En sistemas de recuperación de información suelen construirse:
+
+- *Índice directo*:
+  - Para cada documento, la lista de términos que contiene y sus frecuencias.
+  - Útil para calcular representaciones internas y para análisis dentro del documento.
+
+- *Índice invertido*:
+  - Para cada término, la lista de documentos en los que aparece (y, opcionalmente, posiciones, frecuencias, etc.).
+  - Es la estructura clave en motores de búsqueda.
+  - Ejemplo esquemático:
+    - "perro" → {doc1: f=3, doc4: f=1}
+    - "gato" → {doc2: f=2, doc5: f=1}
+
+El índice invertido hace posible responder consultas de palabras clave de manera muy rápida, sin examinar todos los documentos de la colección.
+
+** 2.1.3 Reducción de dimensionalidad
+
+Cuando representamos documentos como vectores de términos, el número de dimensiones suele ser enorme (tantos términos distintos como vocabulario). Esto provoca problemas:
+
+- Alto costo computacional.
+- Espacio de almacenamiento grande.
+- Ruidoso: muchos términos poco frecuentes o irrelevantes.
+
+La *reducción de dimensionalidad* busca obtener representaciones más compactas preservando la mayor parte de la información relevante.
+
+En PLN se usan varias estrategias:
+
+- *Selección de características*:
+  - Eliminar términos irrelevantes según criterios estadísticos (frecuencia mínima, ganancia de información, chi‑cuadrado, etc.).
+
+- *Proyección a espacios de menor dimensión*:
+  - Métodos lineales: PCA (Análisis de Componentes Principales), LSA (Latent Semantic Analysis).
+  - Métodos no lineales o basados en aprendizaje de representaciones: autoencoders, embeddings (Word2Vec, GloVe, FastText, etc., aunque estos se aplican a nivel de palabras, pueden agregarse para obtener vectores de documentos).
+
+La reducción de dimensionalidad puede:
+
+- Mejorar rendimiento de algoritmos.
+- Reducir el sobreajuste.
+- Facilitar la visualización de datos de texto en 2D o 3D.
+
+** 2.1.4 Umbral de frecuencia
+
+Un criterio sencillo y efectivo de selección de características es el *umbral de frecuencia*.
+
+La idea básica:
+
+- Eliminar términos que aparecen muy pocas veces en la colección.
+- En algunos casos, también se filtran términos que aparecen en casi todos los documentos.
+
+Parámetros típicos:
+
+- *Frecuencia mínima absoluta*: por ejemplo, descartar términos que aparecen en menos de 5 documentos.
+- *Frecuencia relativa / documento*: descartar términos presentes en un porcentaje excesivo de documentos (ej. más del 80 %) porque suelen ser poco discriminativos.
+
+Ventajas:
+
+- Implementación muy simple.
+- Reduce significativamente el tamaño del vocabulario.
+- Suele mejorar la calidad de los modelos, especialmente para tareas de clasificación o clustering de documentos.
+
+Limitaciones:
+
+- Puede eliminar términos raros pero muy informativos (por ejemplo, nombres propios, tecnicismos).
+- No considera el valor discriminativo de los términos de forma más sofisticada (para eso se usan medidas como la ganancia de información).
+
+** 2.1.5 Ganancia de información
+
+La *ganancia de información* (Information Gain, IG) es una medida de teoría de la información que indica cuánto reduce la incertidumbre sobre una variable objetivo (por ejemplo, la clase de un documento) al conocer el valor de una característica (por ejemplo, la presencia o ausencia de un término).
+
+En clasificación de textos:
+
+- Variable objetivo: clase del documento (spam/no spam, categoría temática, etc.).
+- Característica: término \(t\) (presente/ausente, o rangos de frecuencia).
+
+La ganancia de información se define como:
+
+\[
+IG(\text{clase}, t) = H(\text{clase}) - H(\text{clase} \mid t),
+\]
+
+donde:
+
+- \(H(\text{clase})\) es la entropía de la distribución de clases sin considerar el término.
+- \(H(\text{clase} \mid t)\) es la entropía de las clases condicionada por el conocimiento de si el término está o no presente.
+
+Interpretación:
+
+- Si un término aparece principalmente en documentos de una clase específica, reduce mucho la incertidumbre sobre la clase cuando lo observamos → alta ganancia de información.
+- Si un término se distribuye de forma parecida en todas las clases, apenas aporta información → baja ganancia de información.
+
+Uso principal:
+
+- *Selección de características supervisada* para clasificación de textos.
+- Se calculan las IG de todos los términos y se conservan los de mayor valor.
+
+** 2.2 Modelado espacio vectorial
+
+El *modelo de espacio vectorial* (Vector Space Model, VSM) representa documentos y, a menudo, consultas como vectores en un espacio de alta dimensión.
+
+Elementos básicos:
+
+- Cada dimensión corresponde a un término del vocabulario (o a una característica derivada).
+- Cada documento se representa como un vector \(\vec{d} = (w_1, w_2, \dots, w_n)\), donde \(w_i\) es el peso del término \(i\) en ese documento.
+
+Formas típicas de pesar los términos:
+
+- *Frecuencia absoluta* (TF, term frequency): cuenta de cuántas veces aparece el término en el documento.
+- *Frecuencia normalizada*: TF dividido entre el número total de términos del documento.
+- *TF‑IDF* (Term Frequency – Inverse Document Frequency):
+  - TF mide la importancia local del término en el documento.
+  - IDF mide la rareza global del término en la colección.
+  - IDF suele definirse como \(IDF(t) = \log \frac{N}{df_t}\), donde:
+    - \(N\) es el número total de documentos.
+    - \(df_t\) es el número de documentos que contienen el término \(t\).
+  - El peso TF‑IDF se calcula comúnmente como:
+\[
+w_{t,d} = TF_{t,d} \times IDF(t)
+\]
+
+Ventajas del VSM:
+
+- Relativamente sencillo de implementar.
+- Escala bien a colecciones grandes con técnicas adecuadas de indexado.
+- Permite medir similitud entre documentos y entre documento‑consulta.
+
+Limitaciones:
+
+- Ignora el orden de las palabras (modelo de bolsa de palabras).
+- Captura poco la semántica profunda (sinónimos, polisemia).
+- El espacio puede ser extremadamente disperso y de alta dimensión.
+
+** 2.3 Cálculo de similitudes
+
+Una vez que documentos y consultas se representan como vectores, se necesitan medidas de similitud (o distancia) para compararlos.
+
+Medidas comunes:
+
+- *Similitud del coseno*:
+  - Define la similitud entre dos vectores \(\vec{d_1}\) y \(\vec{d_2}\) como:
+\[
+\text{sim}_\cos(\vec{d_1}, \vec{d_2}) =
+ \frac{\vec{d_1} \cdot \vec{d_2}}
+      {\|\vec{d_1}\| \, \|\vec{d_2}\|}
+\]
+  - Varía entre 0 y 1 cuando todos los pesos son no negativos.
+  - Es muy utilizada en recuperación de información y clustering de textos.
+
+- *Distancia euclídea*:
+  - Mide la distancia geométrica estándar entre vectores.
+  - Menos utilizada directamente en texto por la alta dimensionalidad y dispersión.
+
+- *Distancia Manhattan (L1)*:
+  - Suma de valores absolutos de las diferencias de cada dimensión.
+  - A veces útil cuando interesa la suma de discrepancias absolutas.
+
+En motores de búsqueda basados en VSM:
+
+- La consulta se representa como un vector (de términos de la consulta).
+- Cada documento tiene su vector (por ejemplo en TF‑IDF).
+- Se calcula la similitud (normalmente coseno) entre la consulta y cada documento.
+- Se ordenan los documentos de mayor a menor similitud.
+
+** 2.4 NLTK
+
+*NLTK* (Natural Language Toolkit) es una biblioteca de Python muy utilizada para aprendizaje y experimentación en PLN, especialmente en entornos académicos.
+
+Características principales:
+
+- Soporta múltiples lenguajes (aunque está más centrada en inglés; para español tiene recursos limitados pero útiles).
+- Incluye:
+  - Herramientas de pre‑procesamiento: tokenizadores, stemmers, lematizadores, stopwords.
+  - Modelos de lenguaje simples (n‑gramas).
+  - Etiquetado morfosintáctico (POS tagging) y parsers sintácticos.
+  - Corpora de ejemplo para experimentación.
+
+Ejemplo sencillo en Python (tokenización y stopwords en español):
+
+#+begin_src python
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+# Asegurarse de haber descargado los recursos necesarios:
+# nltk.download('punkt')
+# nltk.download('stopwords')
+
+texto = "Los modelos de lenguaje natural permiten procesar grandes volúmenes de texto."
+
+tokens = word_tokenize(texto.lower(), language='spanish')
+stopwords_es = set(stopwords.words('spanish'))
+
+tokens_filtrados = [t for t in tokens if t.isalpha() and t not in stopwords_es]
+
+print(tokens_filtrados)
+#+end_src
+
+Aunque existen bibliotecas más modernas y eficientes para producción (como spaCy, Hugging Face Transformers, etc.), NLTK sigue siendo muy valiosa para comprender los fundamentos del PLN.
+
+** 2.5 Aplicaciones
+
+El procesamiento de lenguaje natural tiene numerosas aplicaciones prácticas. A continuación, se destacan algunas relacionadas con la representación de documentos, modelo vectorial y cálculo de similitudes.
+
+** 2.5.1 Búsqueda natural en bases de datos
+
+La *búsqueda natural* en bases de datos consiste en permitir que los usuarios formulen consultas en lenguaje natural (frases completas) en lugar de usar únicamente filtros estructurados (campos, operadores).
+
+Estrategia típica:
+
+- Pre‑procesar los textos de los registros (descripciones, títulos, comentarios) y construir un índice invertido.
+- Representar tanto los registros como las consultas como vectores (TF‑IDF u otros esquemas).
+- Calcular similitud entre la consulta del usuario y cada registro (o documento) y devolver los más similares.
+
+Ventajas:
+
+- Experiencia de usuario más cercana a un buscador web.
+- Permite descubrir información relevante incluso si el usuario desconoce los campos exactos de la base de datos.
+
+Aspectos avanzados:
+
+- Expansión de consulta (añadir sinónimos o términos relacionados).
+- Relevancia basada en aprendizaje (learning to rank).
+- Uso de embeddings semánticos para capturar similitud conceptual más allá de palabras exactas.
+
+** 2.5.2 Estadística de discursos en texto
+
+El análisis estadístico de discursos y textos permite extraer patrones y tendencias de grandes colecciones:
+
+- *Frecuencias de términos*:
+  - Palabras más usadas por un hablante, partido político, medio de comunicación, etc.
+
+- *Análisis de temas*:
+  - Métodos como LDA (Latent Dirichlet Allocation) detectan temas latentes a partir de distribuciones de términos.
+
+- *Evolución temporal*:
+  - Cómo cambian los temas y vocabulario a lo largo del tiempo.
+
+- *Análisis de sentimiento*:
+  - Clasificar textos según polaridad (positivo, negativo, neutro) o emociones.
+
+La representación vectorial de documentos es clave aquí, ya que:
+
+- Permite agrupar discursos similares (clustering).
+- Facilita medir proximidad entre discursos de distintos autores o períodos.
+- Hace posible visualizaciones en 2D/3D tras reducción de dimensionalidad.
+
+** 2.5.3 Chatbots y frameworks para su construcción
+
+Los *chatbots* son sistemas capaces de interactuar en lenguaje natural con usuarios a través de texto o voz.
+
+En chatbots clásicos (no basados en modelos de lenguaje gigantes), el PLN se utiliza para:
+
+- *Comprensión de la intención (intent detection)*:
+  - Clasificar el mensaje del usuario en una de varias intenciones (consultar saldo, hacer una reserva, pedir ayuda, etc.).
+  - Se suele entrenar un clasificador donde los mensajes están representados como vectores de características (TF‑IDF, embeddings, etc.).
+
+- *Reconocimiento de entidades*:
+  - Detectar y extraer entidades relevantes (fechas, lugares, nombres propios, productos).
+
+- *Gestión del diálogo*:
+  - Módulo que decide la siguiente acción del sistema según el estado del diálogo y la intención detectada.
+
+Existen diversos frameworks para construir chatbots:
+
+- *Rasa*:
+  - Framework open source en Python orientado a chatbots con intención + entidades + diálogo.
+  - Utiliza representaciones vectoriales y modelos de clasificación para la comprensión del lenguaje.
+
+- *Botpress, Microsoft Bot Framework, Dialogflow, etc.*:
+  - Proporcionan herramientas visuales, conectores a múltiples canales (web, Telegram, WhatsApp, etc.) y modelos de PLN integrados.
+
+Aunque los modelos actuales tipo *transformer* (como BERT, GPT y variantes) han revolucionado la construcción de chatbots, muchos conceptos fundamentales siguen siendo los mismos:
+
+- Representar texto de forma numérica.
+- Calcular similitudes y probabilidades.
+- Tomar decisiones basadas en la información contenida en los vectores.
+
+** 2.6 Procesamiento y recuperación de información en imágenes
+
+Aunque el foco de esta sección son los textos, muchas de las ideas se trasladan casi de forma directa al dominio de las imágenes si pensamos siempre en tres pasos: *pre‑procesar → representar → comparar*.
+
+*** 2.6.1 Pre-procesamiento de imágenes
+
+Paralelamente al pre‑procesamiento de texto, sobre una imagen se suelen aplicar transformaciones para hacerla más manejable y homogénea:
+
+- *Normalización geométrica*:
+  - Redimensionar todas las imágenes a un tamaño fijo (por ejemplo, 224×224 píxeles).
+  - Recortes (cropping) para centrar el contenido relevante.
+
+- *Normalización de intensidad y color*:
+  - Escalar los valores de píxeles a un rango estándar (por ejemplo, \([0, 1]\) o \([-1, 1]\)).
+  - Estandarizar canales de color (RGB, escala de grises, etc.).
+
+- *Reducción de ruido*:
+  - Filtros de suavizado para eliminar artefactos.
+
+En tareas de aprendizaje profundo, estas operaciones suelen estar integradas en los *pipelines* de entrenamiento y predicción.
+
+*** 2.6.2 Representación vectorial de imágenes
+
+El análogo a la bolsa de palabras o TF‑IDF en texto es la construcción de un *vector de características* que resuma el contenido visual de la imagen.
+
+Dos enfoques generales:
+
+- *Descriptores manuales (clásicos)*:
+  - *Histogramas de color*: resumen cuántos píxeles de cada rango de color hay.
+  - *Descriptores de textura* (LBP, Gabor, etc.): describen patrones de textura.
+  - *Puntos de interés y descriptores locales* (SIFT, SURF, ORB):
+    - Se detectan puntos “salientes” en la imagen.
+    - Para cada punto se calcula un vector que describe su vecindad.
+    - Estos vectores locales pueden agruparse (clustering) para formar una *bolsa de palabras visuales*: cada imagen se representa como un histograma de “palabras visuales”.
+
+- *Embeddings aprendidos (profundos)*:
+  - Redes neuronales convolucionales (CNN) o Vision Transformers se entrenan sobre grandes bases de datos de imágenes.
+  - Se toma la salida de una capa intermedia (o penúltima capa) como vector de características compacto.
+  - Estos vectores suelen capturar información semántica de alto nivel (objetos, escenas, estilos).
+
+En ambos casos, el resultado final es un vector \(\vec{i} = (f_1, f_2, \dots, f_m)\) asociado a cada imagen, análogo al vector de términos de un documento.
+
+*** 2.6.3 Reducción de dimensionalidad y estructuras para búsqueda
+
+Los vectores de características de imágenes pueden ser de muy alta dimensión (cientos o miles de componentes), por lo que también se aplican técnicas de reducción de dimensionalidad y estructuras de indexado especializadas:
+
+- *Reducción de dimensionalidad*:
+  - PCA, autoencoders, etc., para comprimir los vectores manteniendo la información relevante.
+  - Facilita la visualización de colecciones de imágenes en 2D/3D.
+
+- *Índices para búsqueda por similitud*:
+  - A diferencia del índice invertido basado en términos, aquí se usan estructuras diseñadas para *búsqueda de vecinos más cercanos* en espacios vectoriales:
+    - Árboles k‑d, estructuras HNSW, y librerías como FAISS, Annoy o similares.
+  - Estas estructuras permiten encontrar, de forma eficiente, las imágenes cuyos vectores están más cerca del vector de consulta.
+
+*** 2.6.4 Cálculo de similitud entre imágenes
+
+Una vez representadas como vectores, las imágenes se comparan con medidas de similitud o distancia, igual que en texto:
+
+- *Similitud del coseno*:
+  - Muy usada cuando los vectores provienen de redes neuronales o han sido normalizados.
+
+- *Distancia euclídea (L2)*:
+  - Común en embeddings de visión, especialmente si el modelo fue entrenado con una pérdida que asume L2.
+
+- *Otras distancias*:
+  - L1, distancias sobre histogramas (por ejemplo, distancia de Bhattacharyya), etc.
+
+La idea clave es la misma: imágenes “parecidas” tienen vectores cercanos según la métrica elegida.
+
+*** 2.6.5 Recuperación de información basada en contenido de imágenes (CBIR)
+
+El problema de *Content‑Based Image Retrieval (CBIR)* es el análogo directo a la recuperación de información en texto:
+
+- Se tiene una base de datos de imágenes, cada una con su vector de características.
+- Dada una consulta:
+  - Una imagen ejemplo (búsqueda por similitud visual).
+  - O incluso una descripción en texto, si ambos tipos se proyectan a un espacio común.
+- Se calcula el vector de la consulta y se buscan los vectores de la base que sean más cercanos.
+- Se devuelven las imágenes ordenadas por similitud.
+
+Con modelos recientes (por ejemplo, CLIP y otros modelos multimodales), se puede:
+
+- Mapear texto e imágenes a un mismo espacio vectorial.
+- Hacer *búsqueda de imágenes por texto*:
+  - El texto se convierte a un vector.
+  - Se recuperan las imágenes con vectores más similares.
+
+*** 2.6.6 Analogía resumen texto ↔ imagen
+
+Resumiendo la analogía:
+
+- *Texto*:
+  - Pre‑procesamiento: limpieza, tokenización, stopwords, lemas.
+  - Representación: bolsa de palabras, TF‑IDF, embeddings.
+  - Índices: índices invertidos y estructuras para búsqueda eficiente.
+  - Similitud: coseno, distancias.
+  - Aplicación: búsqueda de documentos, clasificación, clustering, etc.
+
+- *Imagen*:
+  - Pre‑procesamiento: normalización de tamaño, color, ruido.
+  - Representación: descriptores clásicos o embeddings de redes profundas.
+  - Índices: estructuras de vecinos más cercanos en espacios vectoriales.
+  - Similitud: coseno, L2, otras distancias sobre histogramas.
+  - Aplicación: búsqueda de imágenes similares, reconocimiento de objetos, sistemas de recomendación visual, etc.
+
+En ambos casos, el núcleo conceptual es el mismo: *representar objetos complejos como vectores en un espacio, y recuperar información relevante midiendo cercanía en ese espacio*.
+
+** 2.7 Procesamiento y recuperación de información en audio
+
+El mismo esquema *pre‑procesar → representar → comparar* se aplica al dominio del *audio* (voz, música, sonidos ambientales, podcasts, etc.).
+
+*** 2.7.1 Pre-procesamiento de audio
+
+- *Normalización de señal*:
+  - Re-muestreo a una frecuencia fija (ej. 16 kHz para voz, 44.1 kHz para música).
+  - Normalización de amplitud (volumen) para que las señales sean comparables.
+
+- *Segmentación*:
+  - División en ventanas o tramas (frames) de duración fija (ej. 20–40 ms), con solapamiento (overlap) para no perder información en los bordes.
+  - Detección de actividad de voz (VAD) para ignorar silencios o ruido de fondo.
+
+- *Filtrado y reducción de ruido*:
+  - Filtros paso bajo / paso banda según la aplicación.
+  - Técnicas de supresión de ruido (espectrales o con redes neuronales).
+
+*** 2.7.2 Representación vectorial de audio
+
+El audio se convierte en vectores de características que resumen el contenido acústico:
+
+- *Descriptores clásicos (dominio tiempo-frecuencia)*:
+  - *MFCC* (Mel-frequency cepstral coefficients): muy usados en reconocimiento de voz y música; resumen el espectro en bandas tipo Mel.
+  - *Espectrogramas*: representación 2D (tiempo × frecuencia); pueden tratarse como “imágenes” y aplicar CNN.
+  - *Energía, zero-crossing rate, características espectrales* (centroide, ancho de banda, etc.).
+
+- *Embeddings aprendidos (profundos)*:
+  - Redes entrenadas para tareas de audio (reconocimiento de voz, identificación de canciones, detección de eventos sonoros).
+  - Se extrae el vector de una capa intermedia como “fingerprint” del audio.
+  - Modelos como Wav2Vec, YAMNet, o encoders de música (MusicNN, etc.) producen vectores compactos por segmento o por archivo.
+
+Cada clip o ventana de audio queda representado como \(\vec{a} = (f_1, f_2, \dots, f_m)\), análogo al vector de un documento o una imagen.
+
+*** 2.7.3 Reducción de dimensionalidad e indexado
+
+- *Reducción de dimensionalidad*: PCA, autoencoders, etc., igual que en texto e imágenes.
+- *Índices para búsqueda*: estructuras de vecinos más cercanos (FAISS, HNSW, Annoy) sobre los vectores de audio para recuperar clips similares de forma eficiente.
+
+*** 2.7.4 Similitud y aplicaciones en audio
+
+- *Similitud*: coseno, distancia euclídea (L2), etc., sobre los vectores de características o embeddings.
+- *Aplicaciones*:
+  - *Búsqueda por contenido*: “encuentra canciones o fragmentos que suenen como este”.
+  - *Identificación de música* (Shazam-like): matching de huellas espectrales o de embeddings.
+  - *Recuperación de voz*: buscar fragmentos de habla similares (mismo hablante, mismo tema).
+  - *Clasificación*: género musical, idioma, detección de eventos sonoros (risa, aplausos, etc.).
+
+** 2.8 Procesamiento y recuperación de información en vídeo
+
+El *vídeo* puede entenderse como secuencias de imágenes (frames) más una pista de audio opcional. La idea de representar y comparar se mantiene; lo que cambia es que hay que decidir *qué* representar (frames clave, promedios temporales, secuencias de vectores).
+
+*** 2.8.1 Pre-procesamiento de vídeo
+
+- *Extracción de frames*:
+  - Muestreo a tasa fija (ej. 1 fps) o detección de cambios de escena (shot detection) para quedarse con frames representativos.
+
+- *Normalización por frame*:
+  - Mismo tipo de pre-procesamiento que en imágenes: redimensionado, normalización de color, etc.
+
+- *Audio (opcional)*:
+  - Si se usa la pista de audio, se aplican las técnicas de pre-procesamiento de la sección 2.7.
+
+*** 2.8.2 Representación vectorial de vídeo
+
+- *Por frames*:
+  - Cada frame se pasa por una CNN o Vision Transformer y se obtiene un vector.
+  - El vídeo puede representarse como:
+    - *Un único vector*: promedio o concatenación de los vectores de unos pocos frames clave; o el vector del frame central.
+    - *Secuencia de vectores*: para modelar la evolución temporal con RNN, LSTM o Transformers.
+
+- *Descriptores clásicos*:
+  - Histogramas de movimiento (optical flow), histogramas de color promediados en el tiempo, etc.
+
+- *Modelos multimodales*:
+  - Modelos que fusionan visión + audio (ej. redes que procesan frames y waveform) para un único embedding por clip de vídeo.
+
+*** 2.8.3 Indexado, similitud y aplicaciones en vídeo
+
+- *Indexado*: los vectores (por vídeo completo o por segmento) se almacenan en índices de vecinos más cercanos para búsqueda rápida.
+- *Similitud*: coseno, L2, o métricas sobre secuencias (DTW, etc.) si se comparan trayectorias temporales.
+- *Aplicaciones*:
+  - *Búsqueda por similitud visual*: “vídeos que se parecen a este” (misma escena, mismo estilo).
+  - *Búsqueda por contenido*: encontrar fragmentos donde aparece un objeto, una acción o un tema.
+  - *Detección de duplicados o near-duplicates*: gestión de derechos, moderación de contenido.
+  - *Resumen y recomendación*: agrupar vídeos por contenido para recomendadores o catálogos.
+
+*** 2.8.4 Resumen multimodal: texto, imagen, audio y vídeo
+
+En todos los casos el flujo es el mismo:
+
+| Modalidad | Pre-procesamiento      | Representación típica              | Búsqueda / recuperación        |
+|-----------+------------------------+------------------------------------+---------------------------------|
+| Texto     | Tokenización, lemas   | TF-IDF, embeddings                 | Índice invertido, ANN           |
+| Imagen    | Resize, color         | Descriptores, CNN/ViT embeddings   | ANN (FAISS, HNSW, etc.)         |
+| Audio     | Ventanas, MFCC        | MFCC, espectrogramas, Wav2Vec, etc.| ANN sobre vectores de audio     |
+| Vídeo     | Frames, shots         | Vectores por frame o por clip      | ANN (sobre resumen del vídeo)   |
+
+*Representar como vectores y medir cercanía en ese espacio* permite
+recuperar información de forma unificada; los modelos multimodales
+(CLIP, modelos audio-visuales) extienden esto a consultas cruzadas
+(texto → imagen, texto → vídeo, etc.).
+
+
