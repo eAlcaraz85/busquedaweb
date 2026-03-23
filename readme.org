@@ -4326,5 +4326,318 @@ recuperar información de forma unificada; los modelos multimodales
 
 
 
+*  PCA y reducción de dimensionalidad
+
+** 1. Punto de partida: muchos atributos, un diagnóstico
+
+En el archivo =enfermedad_1000.csv= tienes, de forma simplificada:
+
+- Un identificador: =id=
+- Muchas variables numéricas:
+  - Clínicas: =edad=, =imc=, =glucosa=, =insulina=, =colesterol_total=, =hdl=,
+    =ldl=, =trigliceridos=, =presion_sistolica=, =presion_diastolica=, frecuencia_cardiaca
+  - Estilo de vida: =actividad_fisica=, =consumo_calorias=, =horas_sueno=,
+    =estres=…
+  - Genéticas: =gen_1= … =gen_5=
+  - Ruido: =ruido_1= … =ruido_5=
+- Una variable objetivo binaria: =diagnostico= (por ejemplo 0 = sano, 1 = enfermo)
+
+En términos de *dimensionalidad*:
+
+- Cada columna numérica (excepto =id= y =diagnostico=) es una *dimensión* del espacio de datos.
+- Cada fila (paciente) es un *punto* en ese espacio de alta dimensión.
+
+Problema típico:
+
+- Hay muchas variables, algunas muy correlacionadas entre sí.
+- El modelo puede ser complejo, difícil de visualizar y más propenso al *sobreajuste*.
+
+La pregunta central es:
+
+#+begin_quote
+¿Podemos describir “casi toda” la información útil de estos datos con
+**menos dimensiones** que las columnas originales?
+#+end_quote
+
+El *Análisis de Componentes Principales (PCA)* responde precisamente a esa pregunta.
+
+
+** 2. Idea intuitiva del PCA
+
+Imagina:
+
+- Cada paciente es un punto en un espacio de, por ejemplo, 20 o 25 dimensiones (tantas como variables uses).
+- Esta nube de puntos tiene una cierta forma: más dispersión en unas direcciones, menos en otras.
+
+El PCA busca:
+
+- *Nuevas direcciones* en ese espacio (llamadas *componentes principales*) tales que:
+  - La *primera dirección* (PC1) es aquella en la que la nube de datos tiene la *mayor variabilidad posible*.
+  - La *segunda dirección* (PC2) es la segunda con mayor variabilidad, pero *ortogonal* (independiente) de la primera.
+  - La tercera (PC3) también es ortogonal a las anteriores, y así sucesivamente.
+
+**¿Qué significa exactamente “ortogonal”?**
+
+- En un dibujo 2D:
+  - El eje horizontal (X) y el eje vertical (Y) forman un ángulo recto de 90°.
+  - Esos dos ejes se llaman *ortogonales*.
+- En 3D:
+  - Los ejes X, Y y Z también son ortogonales entre sí (cada pareja se cruza en 90°).
+- En muchas dimensiones (más de 3):
+  - No lo podemos dibujar, pero la idea es la misma:
+  - Cada componente principal es un “eje nuevo” y todos esos ejes
+    nuevos se cruzan entre sí en “ángulo recto” en ese espacio de
+    muchas dimensiones.
+
+Traducido a lenguaje de datos:
+
+- Que PC1 y PC2 sean ortogonales significa:
+  - *No apuntan en la misma dirección* ni son combinaciones similares de las variables originales.
+  - Lo que cuenta PC1 sobre un paciente es *información distinta* de lo que cuenta PC2.
+- Estadísticamente:
+  - PC1 y PC2 son *no correlacionadas*:
+    - Saber que un paciente tiene un valor alto en PC1 **no te dice nada** sobre si tendrá un valor alto o bajo en PC2.
+    - No hay relación lineal simple entre ellas.
+
+Una forma de imaginarlo:
+
+- Piensa que cada componente principal es una pregunta diferente que le haces al paciente:
+  - PC1: “¿En qué medida tienes un perfil metabólico alto: glucosa, triglicéridos, colesterol…?”
+  - PC2: “¿En qué medida tienes un perfil cardiovascular alto: presión, frecuencia cardíaca…?”
+- Que sean ortogonales significa:
+  - La respuesta a la primera pregunta (PC1) *no está “mezclada”* con la segunda (PC2).
+  - Cada pregunta mira la nube de puntos desde un ángulo completamente distinto.
+
+¿Por qué es bueno que sean ortogonales?
+
+- Porque evita la *redundancia*:
+  - Si tuvieras dos componentes que casi miran lo mismo, estarías repitiendo información.
+  - Al ser ortogonales, cada componente aporta un “trozo nuevo” de información sobre cómo se dispersan los datos.
+- Porque te da dimensiones **limpias y separadas**:
+  - Puedes decir: “PC1 recoge este tipo de variación, PC2 otro tipo, PC3 otro…”
+  - Y sabes que esas variaciones no están solapadas entre sí.
+
+Cada componente principal es:
+
+- Una *combinación lineal* de todas las variables originales.
+- Una nueva “variable” que resume un patrón de variación en los datos.
+
+Ejemplo conceptual:
+
+- PC1 podría representar una combinación fuerte de:
+  - =glucosa=, =insulina=, =trigliceridos=, =colesterol_total=
+  - Es decir, un “eje metabólico”.
+- PC2 podría combinar:
+  - =presion_sistolica=, =presion_diastolica=, =frecuencia_cardiaca=
+  - Un “eje cardiovascular”.
+- PC3 podría estar más vinculado a =gen_1…gen_5= y algunas variables de estilo de vida.
+
+Estas nuevas variables (PC1, PC2, PC3…) son las que usarías en lugar del conjunto original completo.
+
+
+** 3. Relación entre PCA y reducción de dimensionalidad
+
+La clave es cómo se reparte la **varianza total** de los datos entre los componentes:
+
+- PC1 explica un cierto porcentaje de la varianza (por ejemplo, 30%).
+- PC2 otro porcentaje (por ejemplo, 20% adicional).
+- PC3 otro tanto, etc.
+
+Al sumar esa varianza explicada, obtienes una **varianza acumulada**:
+
+- PC1: 30% acumulado
+- PC1 + PC2: 50%
+- PC1 + PC2 + PC3: 65%
+- …
+
+La observación empírica en muchos problemas reales es:
+
+- Con relativamente **pocos componentes** (2, 3, 5, 10) puedes llegar a explicar una gran parte
+  de la varianza total (por ejemplo, **80–95%**).
+
+Eso significa:
+
+- Aunque tengas 20–30 variables originales, tal vez **5 componentes
+  principales** capturan casi toda la información relevante.
+- Entonces puedes “reducir” tu problema a trabajar en un espacio de dimensión 5, en lugar de 20–30.
+
+En tu dataset:
+
+- Variables como =colesterol_total=, =hdl=, =ldl=, =trigliceridos= van muy ligadas.
+- =presion_sistolica= y =presion_diastolica= también se complementan.
+- Parte de las columnas de =ruido_1..ruido_5= aportarán varianza pero desestructurada (sin correlaciones claras).
+
+El PCA tiende a:
+
+- Concentrar la variación “estructurada” (patrones reales) en los **primeros componentes**.
+- Dejar la variación más caótica o ruido en los componentes posteriores, que explican poca varianza.
+
+
+** 4. Geometría del PCA
+
+Visualización mental:
+
+1. Tienes una nube de puntos de alta dimensión (los pacientes).
+2. Centras los datos:
+   - A cada variable le restas su media para que todas tengan media cero.
+   - (Normalmente también se escala a varianza 1; esto equilibra variables en distinta escala.)
+3. Buscas la recta (dirección) en el espacio donde la proyección de los datos:
+   - Tiene la **mayor dispersión posible**.
+   - Es decir, donde la nube se “alarga” más.
+   - Esa recta define la **primera componente principal**.
+4. Luego buscas otra recta:
+   - Perpendicular a la primera.
+   - Que maximice la varianza restante.
+   - Esa es la **segunda componente principal**.
+5. Y sigues repitiendo el proceso para más componentes.
+
+Cada paciente puede ahora describirse por sus *coordenadas* en estas nuevas direcciones:
+
+- En vez de dar sus valores de =edad=, =imc=, =glucosa=, ..., =gen_5=, =ruido_5=
+- Le asignas sus valores en PC1, PC2, PC3, …
+
+Si te quedas solo con PC1 y PC2:
+
+- Cada paciente pasa a ser un punto en un *plano bidimensional*.
+- Puedes dibujar un gráfico de dispersión y colorear por =diagnostico=
+  para ver si la nube con 0 y 1 tiende a separarse.
+
+
+** 5. Papel de las variables de ruido
+
+En tu conjunto de datos aparecen explícitamente =ruido_1= … =ruido_5=.
+
+Intuitivamente:
+
+- Estas columnas parecen generadas como *variables aleatorias* sin estructura clara.
+- No deberían estar muy correlacionadas con el resto de variables ni entre sí (más allá del azar).
+
+¿Cómo las trata el PCA?
+
+- Como cualquier otra variable: solo “ve” que tienen cierta varianza.
+- Si el ruido tiene una varianza comparable a las demás, también contribuye a la suma total de varianza.
+- Pero, al no estar organizado en patrones claros, suele:
+  - No concentrarse mucho en los *primeros componentes* (que buscan patrones sistemáticos).
+  - Repartirse en muchos componentes o aparecer más en los componentes que explican poca varianza.
+
+Cuando tú decides quedarte solo con los **primeros k componentes**:
+
+- Estás, en la práctica, *filtrando* parte de esa variación aleatoria.
+- Es una forma de *limpiar ruido* a la vez que reduces dimensionalidad.
+
+
+** 6. Interpretación de los componentes principales
+
+Cada componente principal se define por un conjunto de **cargas** (pesos) sobre las variables originales.
+
+Aunque aquí no entremos en fórmulas:
+
+- Imagina una tabla donde cada fila es una variable (por ejemplo =glucosa=, =imc=, =estres=…)
+- Y cada columna es un componente (PC1, PC2, PC3…)
+- El valor en la tabla es el “peso” (o importancia) de esa variable en ese componente.
+
+Interpretación cualitativa:
+
+- Para PC1:
+  - Si ves que tienen pesos grandes (en valor absoluto) variables como =glucosa=, =insulina=, =trigliceridos=, =colesterol_total=
+  - Dirías que PC1 representa sobre todo un **eje metabólico**.
+- Para PC2:
+  - Si dominan =presion_sistolica=, =presion_diastolica=, =frecuencia_cardiaca=
+  - Podrías hablar de un **eje cardiovascular**.
+- Para otros componentes:
+  - Pueden aparecer combinaciones entre factores genéticos, estrés, horas de sueño, actividad física, etc.
+
+Así, los componentes no solo reducen dimensiones, sino que:
+
+- Te dan una visión de **qué grupos de variables tienden a variar juntas**.
+- Permiten crear “índices” o “ejes” latentes (metabólico, cardiovascular, de estilo de vida, genético, etc.).
+
+
+** 7. Reducir dimensionalidad paso a paso (conceptualmente)
+
+Supongamos que quieres pasar de, por ejemplo, 24 variables originales a algo más manejable.
+
+El proceso conceptual sería:
+
+1. **Crear la matriz de datos X**:
+   - Filas = pacientes.
+   - Columnas = todas las variables numéricas salvo:
+     - Quitas =id= (identificador).
+     - Quitas =diagnostico= (objetivo, la dejas aparte).
+2. **Estandarizar** las variables:
+   - Restas la media y divides entre la desviación estándar de cada columna.
+   - Así ninguna domina solo por tener escala más grande.
+3. **Calcular el PCA**:
+   - Obtienes tantos componentes como columnas originales.
+   - Cada componente tiene:
+     - Una varianza asociada.
+     - Un porcentaje de varianza explicada.
+4. **Ordenar por importancia**:
+   - PC1 es el más importante, luego PC2, etc.
+   - Haces la suma acumulada de varianzas explicadas.
+5. **Elegir cuántos componentes conservar**:
+   - Decides un umbral, por ejemplo:
+     - “Quiero explicar al menos el 90% de la varianza total.”
+   - Cuentas cuántos componentes necesitas para alcanzar ese porcentaje acumulado.
+   - Imagina que necesitas 6 componentes para llegar al 90%.
+6. **Proyectar los datos**:
+   - Cada paciente se representa ahora por solo 6 números: sus coordenadas en PC1…PC6.
+   - Has pasado de 24 dimensiones a 6, conservando la mayor parte de la información.
+7. **Usar los componentes en lugar de las variables originales**:
+   - Para entrenamiento de modelos de clasificación (por ejemplo, para predecir =diagnostico=).
+   - Para visualización (por ejemplo, PC1 vs PC2 coloreando por diagnóstico).
+
+Esta es la **reducción de dimensionalidad**:
+
+- Sigues describiendo razonablemente bien cada paciente.
+- Pero lo haces con menos dimensiones, más compactas y menos redundantes.
+
+
+** 8. Ventajas y limitaciones del PCA en este contexto
+
+**Ventajas:**
+
+- Reduce el número de variables, simplificando modelos posteriores.
+- Disminuye la **colinealidad** (las PCs son ortogonales entre sí).
+- Puede mejorar la **estabilidad** de los modelos y reducir el sobreajuste.
+- Facilita la **visualización**:
+  - Con 2 o 3 PCs puedes hacer gráficos 2D/3D y ver patrones o grupos.
+- Ayuda a entender:
+  - Qué conjuntos de variables forman “bloques” que se mueven juntos.
+
+**Limitaciones:**
+
+- Los componentes son **combinaciones lineales**:
+  - A veces su interpretación clínica no es tan directa como la de las variables originales.
+- El PCA no usa la información de =diagnostico= para construir los componentes:
+  - Es una técnica **no supervisada**.
+  - Encuentra direcciones de máxima varianza, no necesariamente las mejores para separar sanos de enfermos.
+- Si el ruido tiene varianza alta, puede influir:
+  - Por eso es importante interpretar y, si hace falta, depurar variables antes o después del PCA.
+
+
+** 9. PCA como preprocesamiento antes de modelar el diagnóstico
+
+Aplicado a tu conjunto =enfermedad_1000.csv=, el PCA se puede entender como un **bloque intermedio**:
+
+1. **Datos originales**:
+   - Muchas columnas (edad, imc, glucosa, genes, ruido, etc.).
+2. **PCA y reducción**:
+   - Transformas esas columnas en un número pequeño de componentes principales.
+3. **Modelo supervisado**:
+   - Usas los componentes (PC1..PCk) para entrenar un modelo que prediga =diagnostico=.
+
+Conceptualmente:
+
+- En vez de decir:
+  - “Mi modelo mira 24 variables originales.”
+- Dices:
+  - “Mi modelo mira 6 índices latentes que resumen patrones clínicos, metabólicos, cardiovasculares, genéticos y de estilo de vida.”
+
+Esta forma de pensar:
+
+- Te obliga a separar mentalmente:
+  - **Estructura interna de los datos** (capturada por PCA).
+  - **Relación con el diagnóstico** (capturada por el modelo supervisado posterior).
 
 
