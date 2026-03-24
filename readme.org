@@ -4641,3 +4641,169 @@ Esta forma de pensar:
   - **Relación con el diagnóstico** (capturada por el modelo supervisado posterior).
 
 
+
+
+
+*  Actividad: Reducción de Dimensionalidad en Recuperación de Información
+
+** Objetivo
+Comparar la reducción de dimensionalidad realizada manualmente (“a
+ojo”) con métodos automáticos como TF-IDF + SVD, para entender sus
+ventajas y limitaciones.
+
+
+** Dataset (Documentos)
+
+*** Documento 1 – Tecnología
+El aprendizaje automático es una rama de la inteligencia artificial
+que permite a las computadoras aprender a partir de datos sin ser
+programadas explícitamente. Se utiliza en aplicaciones como
+reconocimiento de voz, visión por computadora y sistemas de
+recomendación.
+
+*** Documento 2 – Salud
+La salud pública se enfoca en la prevención de enfermedades y la
+promoción del bienestar en la población. Incluye campañas de
+vacunación, educación sanitaria y el control de epidemias.
+
+*** Documento 3 – Deportes
+El fútbol es uno de los deportes más populares en el mundo. Requiere
+habilidades físicas, trabajo en equipo y estrategias para anotar goles
+y ganar partidos.
+
+*** Documento 4 – Tecnología
+Los sistemas de inteligencia artificial pueden analizar grandes
+volúmenes de datos para identificar patrones y tomar decisiones
+automatizadas en diversos contextos.
+
+*** Documento 5 – Educación
+La educación moderna incorpora tecnologías digitales para mejorar el
+aprendizaje. Plataformas en línea, simuladores y recursos interactivos
+facilitan la enseñanza.
+
+*** Documento 6 – Medio Ambiente
+El cambio climático afecta a los ecosistemas y provoca fenómenos
+extremos como sequías, inundaciones y aumento de temperatura global.
+
+*** Documento 7 – Economía
+La inflación es el aumento generalizado de los precios de bienes y
+servicios en una economía durante un periodo de tiempo.
+
+*** Documento 8 – Tecnología
+Las redes neuronales profundas permiten el desarrollo de sistemas
+avanzados de reconocimiento de imágenes y procesamiento de lenguaje
+natural.
+
+*** Documento 9 – Salud
+Una alimentación balanceada y el ejercicio regular son fundamentales
+para prevenir enfermedades y mantener una buena calidad de vida.
+
+*** Documento 10 – Educación
+El aprendizaje en línea ha crecido significativamente gracias al
+acceso a internet y a plataformas digitales educativas.
+
+
+** Parte 1: Reducción “a ojo”
+
+*** Instrucciones
+Para cada documento:
+
+- Selecciona las palabras más importantes
+- Reduce cada texto a máximo 5 palabras clave
+
+*** Entregable
+
+| Documento | Palabras clave |
+|-----------+----------------|
+| Doc 1     |                |
+| Doc 2     |                |
+| ...       |                |
+
+---
+
+** Parte 2: Discusión
+
+Responde:
+
+1. ¿Qué criterio utilizaste para seleccionar palabras?
+2. ¿Coincidiste con otros compañeros?
+3. ¿Qué dificultades encontraste?
+
+---
+
+** Parte 3: Representación con TF-IDF
+
+#+BEGIN_SRC python
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+documentos = [
+"El aprendizaje automático es una rama de la inteligencia artificial...",
+"La salud pública se enfoca en la prevención de enfermedades...",
+"El fútbol es uno de los deportes más populares...",
+"Los sistemas de inteligencia artificial pueden analizar grandes datos...",
+"La educación moderna incorpora tecnologías digitales...",
+"El cambio climático afecta a los ecosistemas...",
+"La inflación es el aumento de precios...",
+"Las redes neuronales profundas permiten...",
+"Una alimentación balanceada y el ejercicio...",
+"El aprendizaje en línea ha crecido..."
+]
+
+vectorizer = TfidfVectorizer(stop_words='spanish')
+X = vectorizer.fit_transform(documentos)
+
+print(X.shape)
+#+END_SRC
+
+
+** Parte 4: Reducción con SVD (LSA)
+
+#+BEGIN_SRC python
+from sklearn.decomposition import TruncatedSVD
+
+svd = TruncatedSVD(n_components=2)
+X_reducido = svd.fit_transform(X)
+
+print(X_reducido)
+#+END_SRC
+
+
+** Parte 5: Análisis
+
+Responde:
+
+1. ¿Qué representan las nuevas dimensiones?
+2. ¿Se agrupan documentos similares?
+3. ¿Qué diferencias hay respecto a la reducción manual?
+
+
+** Parte 6: Comparación
+
+| Aspecto       | Manual | TF-IDF + SVD |
+|---------------+--------+--------------|
+| Facilidad     |        |              |
+| Precisión     |        |              |
+| Escalabilidad |        |              |
+| Objetividad   |        |              |
+
+
+** Reflexión Final
+
+1. ¿Qué método es más confiable?
+2. ¿Cuál usarías en un sistema real?
+3. ¿Se pierde información en ambos casos?
+
+
+** Actividad Extra
+
+- Probar con diferentes valores:
+  - n_components = 2, 3, 5
+- Analizar cambios en resultados
+- Agrupar documentos similares
+
+
+* Conclusión
+
+La reducción manual es útil para comprender el proceso, pero los
+métodos matemáticos permiten trabajar con grandes volúmenes de datos
+de forma objetiva, eficiente y reproducible.
