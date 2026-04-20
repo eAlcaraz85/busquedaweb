@@ -4793,7 +4793,7 @@ Responde:
 2. ¿Cuál usarías en un sistema real?
 3. ¿Se pierde información en ambos casos?
 
-
+   
 ** Actividad Extra
 
 - Probar con diferentes valores:
@@ -4802,8 +4802,648 @@ Responde:
 - Agrupar documentos similares
 
 
-* Conclusión
+** Conclusión
 
 La reducción manual es útil para comprender el proceso, pero los
 métodos matemáticos permiten trabajar con grandes volúmenes de datos
 de forma objetiva, eficiente y reproducible.
+
+
+* Aplicaciones
+** 2.5.1 Búsqueda natural en bases de datos
+La *búsqueda natural en bases de datos* (también llamada *consulta en
+lenguaje natural* o *Natural Language Querying*) es el conjunto de
+técnicas que permiten que un usuario haga preguntas como las diría
+normalmente —por ejemplo: “Muéstrame los alumnos con promedio mayor a
+85 del último periodo” o “¿Cuántos registros hay por carrera en
+2025?”— y que el sistema las convierta en una consulta formal
+ejecutable (SQL, una llamada a una API, SPARQL, etc.). El objetivo
+principal es reducir la barrera técnica para acceder a los datos: en
+lugar de conocer el esquema, los nombres exactos de tablas y columnas,
+y la sintaxis de SQL, el usuario expresa una intención y el sistema se
+encarga de interpretarla.
+
+En la práctica, una solución de este tipo suele tener varias
+etapas. Primero, el sistema debe *entender la intención* del usuario:
+qué quiere (contar, listar, comparar, filtrar, ordenar), sobre qué
+entidades (alumnos, materias, pagos, productos) y con qué
+restricciones (rango de fechas, umbral de promedio, carrera
+específica). Después aparece un paso crítico llamado *schema linking*:
+conectar las palabras del usuario con los elementos reales del
+esquema. Por ejemplo, si el usuario dice “promedio”, el sistema debe
+decidir si se refiere a `promedio_aritmetico_acumulado`,
+`promedio_periodo_anterior` u otro campo; si dice “último periodo”,
+quizá se refiere a `ultimo_periodo_inscrito`. Este mapeo se complica
+porque los usuarios usan sinónimos, abreviaciones o términos que no
+coinciden 1 a 1 con la base.
+
+Una vez que la intención y el vínculo al esquema están claros, el
+sistema genera la consulta. Hay enfoques basados en reglas y
+plantillas (muy efectivos cuando el dominio es reducido y controlado),
+y enfoques basados en aprendizaje automático, donde se intenta
+resolver el problema como *Text-to-SQL* (convertir texto a SQL). Con
+modelos modernos, especialmente LLMs, se puede generar SQL con
+bastante flexibilidad, pero aparecen retos: el SQL generado puede ser
+sintácticamente válido y aun así ser conceptualmente incorrecto (una
+unión mal hecha, una condición interpretada al revés, un campo
+equivocado). Por eso en sistemas reales se agregan *restricciones* y
+*validaciones*: limitar tablas y columnas permitidas, aplicar políticas
+de acceso por rol, revisar que el SQL no tenga operaciones peligrosas,
+y a veces ejecutar primero un “plan” o consulta de prueba.
+
+Además de generar SQL, un buen sistema de búsqueda natural también
+debe presentar resultados de forma comprensible. Es común que muestre
+la consulta interpretada (o un resumen de ella) para que el usuario
+confirme que el sistema entendió bien: “Voy a filtrar por carrera=ISC
+y promedio>85 en el periodo 20252”. Cuando hay ambigüedad, lo ideal es
+preguntar: “¿Te refieres al promedio acumulado o al del periodo
+anterior?” Este comportamiento conversacional reduce errores
+silenciosos y aumenta confianza.
+
+Finalmente, la evaluación de estos sistemas no se limita a “si el SQL
+coincide con uno de referencia”. Muchas veces hay múltiples SQL
+equivalentes (distinto orden de joins o condiciones) que producen el
+mismo resultado. Por eso se evalúa con métricas basadas en ejecución
+(si el resultado es correcto) y con análisis por componentes (qué tan
+bien detecta filtros, agregaciones, joins y límites). En producción,
+también importan métricas operativas: tiempo de respuesta, tasa de
+consultas que requieren aclaración, y, muy importante, seguridad y
+privacidad.
+
+** 2.5.2 Estadística de discursos en texto
+La *estadística de discursos en texto* es el  análisis
+cuantitativo de características lingüísticas y estructurales que
+aparecen en discursos escritos u orales (transcritos). Aquí “discurso”
+no es solo el contenido literal, sino la forma en la que se organiza
+la información: cómo se conectan ideas, cómo se argumenta, qué estilo
+se usa, qué recursos lingüísticos aparecen y cómo cambian a lo largo
+del texto o entre distintos autores/grupos.
+
+En términos prácticos, el análisis puede hacerse a varios niveles. En
+el nivel léxico, se estudian frecuencias de palabras, expresiones,
+n-gramas (secuencias de palabras), diversidad léxica y
+repetición. Estas medidas ayudan a describir el estilo: un texto con
+alta diversidad léxica y oraciones largas suele diferir de uno con
+vocabulario repetitivo y frases cortas, aunque hablen del mismo
+tema. También se analizan palabras funcionales (artículos,
+preposiciones) porque son sorprendentemente útiles para distinguir
+estilos y patrones de autoría.
+
+En un nivel sintáctico, se examina la estructura de las oraciones:
+longitud promedio, complejidad, uso de subordinación, patrones de
+etiquetas gramaticales (POS tags), y construcciones repetidas. Estos
+indicadores pueden correlacionar con formalidad, claridad, densidad
+informativa o incluso fatiga/estrés en ciertos dominios (aunque esto
+requiere cuidado metodológico).
+
+En el nivel semántico y discursivo, se incorporan técnicas como
+extracción de tópicos (por ejemplo, modelos tipo LDA), embeddings para
+medir similitud entre segmentos, detección de cambios temáticos, y
+análisis de cohesión textual (cómo se conectan frases mediante
+referencias y conectores). Un rasgo típico del discurso es el uso de
+marcadores discursivos (“sin embargo”, “por tanto”, “en conclusión”),
+que sirven para cuantificar el tipo de relación lógica que predomina:
+contraste, causa, enumeración, explicación, etc. En debates o textos
+argumentativos, también se intenta identificar premisas, conclusiones
+y evidencias, lo cual permite estudiar la estructura del argumento de
+manera cuantitativa.
+
+Cuando el discurso es conversacional (chats, entrevistas, soporte),
+aparecen estadísticas específicas: duración de turnos, proporción de
+preguntas vs afirmaciones, interrupciones, actos de habla (pedir,
+prometer, quejarse), y medidas de alineación entre interlocutores. En
+atención al cliente, por ejemplo, se analiza si el agente usa más
+lenguaje empático, si el usuario incrementa el tono negativo, o si hay
+patrones que anticipen escalamiento a un humano.
+
+Estas estadísticas se usan en aplicaciones como monitoreo de redes
+sociales, análisis de campañas políticas, evaluación de participación
+en educación, auditoría de lenguaje institucional, y detección de
+cambios de estilo (por ejemplo, en control de calidad o en
+seguridad). Sin embargo, hay desafíos importantes: los modelos pueden
+reflejar sesgos (de género, región o grupo social), el dominio puede
+tener jerga que altera frecuencias, y los datos reales suelen contener
+información sensible, por lo que hay que cuidar anonimización y
+privacidad.
+
+** 2.5.3 Chatbots y frameworks para su construcción
+Un *chatbot* es un sistema que interactúa con usuarios mediante texto o
+voz para responder preguntas, guiar procesos o automatizar
+tareas. Aunque hoy se asocian mucho a modelos generativos, los
+chatbots existen desde hace décadas, con enfoques basados en reglas,
+menús y árboles de decisión. La diferencia actual es la capacidad de
+manejar lenguaje natural más flexible y mantener conversaciones más
+“humanas” con modelos de IA.
+
+Desde una perspectiva de ingeniería, construir un chatbot no es solo
+“poner un modelo a responder”. Un sistema robusto suele incluir un
+canal (web, WhatsApp, Telegram, app), una capa de interpretación
+(NLU), un gestor de diálogo (manejo de estado y contexto), una capa de
+negocio (conexión a bases de datos y APIs), y una capa de generación
+de respuesta (plantillas o modelos). La complejidad real surge cuando
+el chatbot debe ejecutar acciones: consultar registros, crear tickets,
+actualizar datos o aplicar reglas de negocio. En esos casos, además de
+entender texto, debe operar con seguridad y trazabilidad.
+
+Hay distintos estilos de construcción. En chatbots orientados a
+tareas, se usan flujos: se recopila información paso a paso, se
+validan campos, se confirman acciones (“¿Seguro que deseas cancelar tu
+cita?”) y se maneja el estado. Frameworks como Rasa, Microsoft Bot
+Framework o herramientas de flujo tipo Botpress han sido populares
+porque permiten diseñar conversaciones controladas y auditables. En
+chatbots orientados a conocimiento (FAQ, manuales, normativas), se usa
+recuperación de información: el bot busca en documentos y responde con
+base en fuentes. Con modelos modernos, se usa mucho el enfoque RAG
+(Retrieval-Augmented Generation): el sistema recupera fragmentos
+relevantes de un repositorio (por ejemplo, PDFs o páginas internas) y
+el modelo genera la respuesta usando esos fragmentos como contexto
+para reducir alucinaciones.
+
+Cuando se usan LLMs, es común integrar “herramientas” (tools):
+funciones que consultan bases de datos, calculan algo, o realizan una
+acción. Esto habilita chatbots que no solo responden, sino que
+“hacen”. Pero también introduce riesgos: un modelo podría ejecutar
+acciones indebidas si no se restringe. Por eso se aplican controles:
+listas de herramientas permitidas, validación de parámetros, control
+de acceso por rol, redacción de datos sensibles, límites de tasa, y
+logs para auditoría.
+
+La evaluación de chatbots va más allá de exactitud. Importa la tasa de
+resolución (cuántos casos se resuelven sin humano), satisfacción del
+usuario, tasa de escalamiento, latencia, cobertura de intents, y
+especialmente la precisión factual cuando responde con información
+institucional. En chatbots con acciones, también se mide integridad:
+que no creen duplicados, que respeten reglas y que manejen errores con
+claridad.
+
+En resumen, los frameworks para chatbots ayudan a organizar estas
+piezas: diseño conversacional, NLU, estado, integración con sistemas,
+y despliegue multicanal. La elección depende del tipo de bot: si es
+transaccional con flujos estrictos, convienen herramientas de diálogo
+estructurado; si es de conocimiento, conviene RAG; si es híbrido, una
+arquitectura por componentes y buenas prácticas de seguridad y
+observabilidad son esenciales.
+
+
+* Categorización automática de documentos
+** 3.1.1 Definición formal del problema
+La *categorización automática de documentos* (o *clasificación de texto*)
+es el problema de asignar a cada documento una o varias etiquetas
+predefinidas, como “deportes”, “política”, “finanzas”, “reclamo”,
+“solicitud”, “spam”, etc. Formalmente, se parte de un conjunto de
+documentos \(D = \{d_1,\dots,d_n\}\) y un conjunto de categorías \(C =
+\{c_1,\dots,c_k\}\). El objetivo es aprender una función \(f(d)\) que,
+dado un documento, devuelva la categoría correcta. En clasificación
+*multiclase* el documento pertenece a una sola clase; en *multietiqueta*
+puede pertenecer a varias simultáneamente (por ejemplo, un correo
+puede ser “facturación” y “urgente”).
+
+Para poder aplicar aprendizaje automático, un documento debe
+representarse como una estructura numérica: un vector de
+características. Tradicionalmente se usaron representaciones de bolsa
+de palabras (conteos, TF-IDF) donde cada dimensión corresponde a un
+término. Con modelos modernos se usan embeddings que capturan
+significado contextual. Una vez representado el documento como vector
+\(x\), la tarea se reduce a aprender una función \(f(x)\) que aproxime
+la relación entre texto y etiqueta.
+
+En la definición formal aparecen varios retos: el lenguaje es ambiguo,
+las clases pueden traslaparse, y los datos suelen ser desbalanceados
+(pocas instancias en clases raras). Además, a veces las categorías
+están definidas jerárquicamente (tema \(\to\) subtema) o cambian con
+el tiempo (concept drift). Por eso, además de entrenar un modelo, la
+formulación del problema incluye definir claramente qué significa cada
+etiqueta, cómo se etiqueta el corpus y qué se considera “correcto” en
+evaluación.
+
+** 3.1.2 Paradigmas de categorización
+El paradigma más común es el *supervisado*, donde se cuenta con ejemplos
+etiquetados. Aquí el desempeño depende directamente de la calidad y
+consistencia de las etiquetas: si dos personas etiquetan de forma
+distinta, el modelo aprenderá señales confusas. Por eso en proyectos
+reales se construyen guías de etiquetado y se mide acuerdo entre
+anotadores.
+
+El paradigma *no supervisado* (clustering) se usa cuando no hay
+etiquetas o cuando se quiere explorar el espacio de documentos para
+descubrir grupos naturales. Aunque no reemplaza a la clasificación
+supervisada (porque no se ajusta necesariamente a categorías de
+negocio), ayuda a detectar temas emergentes, redundancia o categorías
+mal definidas.
+
+El *semi-supervisado* intenta aprovechar grandes volúmenes de texto sin
+etiqueta junto con una pequeña cantidad de ejemplos
+etiquetados. Técnicas como self-training o pseudo-etiquetado permiten
+que un modelo entrenado con pocos datos genere etiquetas para datos no
+etiquetados, y luego se refine. Esto es útil cuando etiquetar es caro.
+
+La *transferencia* es hoy un enfoque central: usar modelos preentrenados
+(transformers) y adaptarlos al dominio. Esto puede hacerse con
+fine-tuning (entrenar las últimas capas o todo el modelo con tu
+dataset) o con prompting (dar ejemplos en el prompt) cuando el modelo
+es suficientemente capaz. En escenarios con datos sensibles o dominio
+especializado, a veces se combina con RAG para aportar conocimiento y
+contexto al clasificador.
+
+Finalmente, los enfoques basados en reglas siguen siendo relevantes en
+contextos donde se requiere alta interpretabilidad o cumplimiento
+estricto. Por ejemplo, clasificar tickets como “urgente” si contiene
+ciertas expresiones o códigos. Sin embargo, las reglas suelen ser
+frágiles frente a variaciones de lenguaje y requieren mantenimiento
+constante.
+
+** 3.1.3 Algoritmos de categorización
+Los algoritmos dependen mucho de la representación. Con
+representaciones TF-IDF, modelos lineales como SVM o regresión
+logística suelen ofrecer resultados muy fuertes, especialmente en
+textos con vocabulario distintivo. Naive Bayes también es un baseline
+clásico: asume independencia condicional entre palabras, lo cual no es
+realista, pero funciona sorprendentemente bien en muchos problemas,
+sobre todo con datasets medianos y vocabulario amplio.
+
+Para tareas con múltiples etiquetas, se pueden entrenar clasificadores
+independientes (binary relevance) o usar cadenas de clasificadores que
+modelan dependencia entre etiquetas (classifier chains). En términos
+simples: si “facturación” y “pago” suelen co-ocurrir, un método que
+capture esa relación puede mejorar predicciones.
+
+Los modelos neuronales clásicos (RNN, LSTM, CNN) fueron usados para
+capturar secuencias y patrones locales. Actualmente, los transformers
+dominan por su capacidad de representar contexto: entienden que el
+significado de una palabra depende de su entorno. Para clasificación,
+se toma una representación global del texto y se entrena una capa de
+salida. Estos modelos suelen mejorar desempeño en casos con ambigüedad
+semántica, ironía o variación de estilo, pero requieren más recursos y
+cuidado (sobreajuste, latencia, costos).
+
+En producción, además del modelo, se emplean técnicas de calibración y
+umbrales. En multi-label, se decide un umbral por clase para convertir
+probabilidades en etiquetas. También se usan “top-k” (tomar las k
+etiquetas más probables) o estrategias mixtas que priorizan recall en
+clases críticas.
+
+** 3.1.4 Medidas de evaluación
+Evaluar clasificación de texto requiere más que accuracy,
+especialmente cuando hay desbalance. La precisión (precision) mide de
+lo que el modelo predice como positivo, cuánto es correcto; el recall
+mide de lo que realmente era positivo, cuánto detectó. El F1 combina
+ambos y es una métrica estándar. Para múltiples clases, se usan
+promedios macro y micro: macro trata todas las clases por igual (útil
+si importan clases raras), micro pondera por frecuencia (útil si
+importa el rendimiento global).
+
+En multi-label, aparecen métricas específicas: Hamming loss mide el
+error promedio por etiqueta, subset accuracy exige que todas las
+etiquetas coincidan (muy estricta), y también se computan
+precision/recall/F1 por etiqueta y agregados. Si el modelo produce
+puntuaciones, se evalúa como ranking: MAP o NDCG, donde importa que
+las etiquetas correctas estén arriba.
+
+Más allá de métricas numéricas, una evaluación práctica incluye
+inspección de falsos positivos y falsos negativos. Esto ayuda a
+detectar: etiquetas mal definidas, datos ruidosos, confusiones
+sistemáticas y sesgos. En dominios sensibles, también se evalúa
+robustez: desempeño ante cambios de vocabulario, ataques de ruido y
+drift temporal.
+
+** 3.1.5 Estrategias de evaluación
+Las estrategias de evaluación se centran en estimar qué tan bien
+generaliza el modelo. La división clásica es train/valid/test, donde
+test se reserva estrictamente para el final. En datasets pequeños,
+k-fold cross-validation reduce varianza y da una estimación más
+confiable. En datasets desbalanceados, los splits estratificados
+preservan proporciones de clase.
+
+Un aspecto crítico es evitar fuga de información (data leakage). Por
+ejemplo, si hay documentos duplicados o muy similares y se reparten
+entre train y test, el modelo parecerá excelente sin realmente
+generalizar. Lo mismo ocurre si se construye el vocabulario TF-IDF
+usando todo el dataset antes de dividir: se filtra información del
+test hacia el entrenamiento. La regla práctica es: toda transformación
+que “aprenda” parámetros debe ajustarse con train y aplicarse a
+valid/test.
+
+Para selección de hiperparámetros, se usa grid search o random search,
+y en redes neuronales se aplica early stopping para evitar
+sobreajuste. En modelos modernos, se recomienda también medir
+calibración (que la probabilidad refleje confianza real) y rendimiento
+operacional: latencia, memoria, costo por predicción. Esto es
+importante porque un modelo ligeramente mejor en F1 puede ser inviable
+si su costo es demasiado alto para producción.
+
+Finalmente, una estrategia completa incluye evaluación cualitativa y
+monitoreo en producción. En producción, el lenguaje cambia, aparecen
+nuevos temas, y las etiquetas pueden evolucionar. Por eso se
+establecen pipelines de reentrenamiento, revisión de muestras
+difíciles, retroalimentación humana y medición de drift. En problemas
+de negocio, el “éxito” no siempre coincide con F1: a veces importa
+reducir tiempos, aumentar resolución o evitar errores críticos, por lo
+que se definen métricas alineadas al impacto real.
+
+
+* Tutorial NLTK (Español): Análisis de sentimientos 
+
+** Objetivo
+Hacer *análisis de sentimientos* (positivo/negativo/neutro) sobre una lista de textos tipo “twits”, usando *NLTK* en *español*.
+
+Este tutorial incluye 2 enfoques:
+- *Clasificador supervisado (Naive Bayes)*: el enfoque principal (el más útil con NLTK en español).
+- *Baseline léxico (reglas simples)*: para comparar y entender limitaciones.
+
+** Requisitos
+*** Python + NLTK
+En una terminal, desde esta carpeta:
+
+#+begin_src shell :results output :exports both
+python3 -m pip install --upgrade pip
+python3 -m pip install nltk
+#+end_src
+
+
+** Datos (tus textos)
+#+begin_src python
+comentarios = [
+    "El autocompletado de este IDE es bastante lento cuando el proyecto supera los mil archivos.",
+    "La nueva actualización de la extensión de Python arruinó la indentación automática.",
+    "Es increíble lo fácil que es configurar un entorno virtual con esta herramienta.",
+    "El compilador tardó 45 segundos en generar el binario final.",
+    "No entiendo por qué quitaron el botón de acceso rápido al depurador en esta versión.",
+    "Me encanta que ahora se integre nativamente con Git sin necesidad de plugins extra.",
+    "El modo oscuro de la interfaz tiene un contraste excelente para trabajar de noche.",
+    "Siempre que intento abrir un archivo CSV muy grande, el editor se queda congelado.",
+    "La refactorización de código se hace casi de manera mágica, me ahorra horas.",
+    "El log de errores muestra un mensaje hexadecimal que no ayuda en nada a resolver el problema.",
+    "Para esta práctica utilizaremos el framework de React en el frontend.",
+    "La documentación oficial está desactualizada respecto a la última versión estable.",
+    "Pude resolver el bug de concurrencia gracias a la herramienta de profiling.",
+    "El atajo de teclado para comentar bloques de código dejó de funcionar tras actualizar.",
+    "El consumo de RAM del entorno de desarrollo no baja de los 4GB, es excesivo.",
+    "La sintaxis del lenguaje es muy limpia, pero la curva de aprendizaje del framework es empinada.",
+    "Logré implementar el algoritmo de búsqueda en grafos sin utilizar recursividad.",
+    "El soporte técnico del IDE tardó tres semanas en responder mi ticket.",
+    "Configurar el linter por primera vez es tedioso, aunque después vale la pena.",
+    "Se requiere una versión de Node igual o superior a la 18.x para ejecutar el script.",
+    "El descriptor SIFT detectó los puntos clave perfectamente incluso con cambios de iluminación.",
+    "El modelo de Deep Learning requiere demasiada capacidad de cómputo para lo que hace.",
+    "Entrenar esta red neuronal tomó 14 horas continuas en la GPU.",
+    "Prefiero usar técnicas clásicas de visión por computadora porque son más predecibles matemáticamente.",
+    "La librería de OpenCV falló al intentar abrir el flujo de video de la cámara web.",
+    "El dataset original contiene 5,000 imágenes etiquetadas manualmente.",
+    "Increíble la precisión que logramos en la detección de bordes usando el filtro de Canny.",
+    "El ruido gaussiano en las imágenes médicas está afectando la etapa de segmentación.",
+    "El script de preprocesamiento normaliza los píxeles a valores entre 0 y 1.",
+    "Los resultados del artículo no son reproducibles porque no publicaron los hiperparámetros.",
+    "La API de reconocimiento facial es rapidísima, aunque falla con personas usando mascarilla.",
+    "Extraer las características usando SURF fue mucho más eficiente que intentar una red convolucional.",
+    "El accuracy del modelo se estancó en 82% sin importar cuántas épocas más lo entrene.",
+    "Me fascina la elegancia matemática detrás de las transformadas de Hough.",
+    "La función de binarización de Otsu calculó el umbral incorrecto para este lote de fotos.",
+    "Reducir la dimensionalidad con PCA mejoró notablemente el tiempo de inferencia.",
+    "El clasificador SVM separó las clases con un margen muy claro.",
+    "La matriz de confusión muestra demasiados falsos positivos en la clase minoritaria.",
+    "El tutorial sobre detección de blobs está muy bien explicado paso a paso.",
+    "Al exportar el modelo a ONNX, el tamaño del archivo se redujo a la mitad.",
+    "La base de datos relacional completó la migración sin pérdida de registros.",
+    "El query de SQL está haciendo un escaneo completo de la tabla y colapsando el servidor.",
+    "Excelente latencia en los servidores de la región este, apenas 12ms.",
+    "Intentar configurar los contenedores de Docker en Windows sigue siendo un dolor de cabeza.",
+    "El balanceador de carga distribuyó el tráfico equitativamente durante el pico de usuarios.",
+    "La API REST responde con un error 500 intermitente que nadie sabe explicar.",
+    "Me gusta la interfaz de administración del clúster, pero le faltan opciones de monitoreo en tiempo real.",
+    "El backup automático se ejecuta todos los días a las 3:00 AM.",
+    "Perdimos dos horas de producción porque el certificado SSL expiró y no hubo alerta.",
+    "La arquitectura de microservicios hizo que el despliegue fuera extremadamente ágil.",
+    "No puedo creer que sigan guardando las contraseñas en texto plano en la base de datos.",
+    "El servicio de mensajería asíncrona procesó un millón de eventos por minuto sin problemas.",
+    "La conexión al servidor SSH se cierra por timeout cada cinco minutos, es frustrante.",
+    "El caché de Redis redujo el tiempo de carga de la página de inicio en un 80%.",
+    "El script de automatización borró accidentalmente el directorio de configuraciones.",
+    "Desplegar la aplicación en la nube fue mucho más caro de lo que habíamos presupuestado.",
+    "La migración a GraphQL simplificó muchísimo las consultas desde las aplicaciones móviles.",
+    "El uso de CPU del servidor de base de datos se mantiene estable en 45%.",
+    "Restaurar el sistema desde el último snapshot fue rápido e intuitivo.",
+    "Las políticas de CORS en este servidor están configuradas de manera demasiado restrictiva.",
+    "La rúbrica del proyecto final no especifica si debemos incluir pruebas unitarias.",
+    "El profesor explicó maravillosamente el concepto de complejidad algorítmica.",
+    "La impresora 3D se atascó a mitad de la noche y arruinó una pieza de 10 horas.",
+    "El laminador Cura generó unos soportes imposibles de remover sin romper el modelo.",
+    "Las instrucciones de la práctica de laboratorio están llenas de ambigüedades.",
+    "Me sorprende la calidad del acabado superficial al imprimir con PETG a esta temperatura.",
+    "Reparar el archivo STL con MeshLab fue súper sencillo y rápido.",
+    "El examen parcial abarcará desde el capítulo 1 hasta el 4 del libro de texto.",
+    "El sistema de gestión escolar se cae siempre en temporada de inscripciones.",
+    "Me encantó cómo el asesor de tesis estructuró el cronograma de investigación.",
+    "La presentación sobre descriptores visuales me ayudó a entender por qué no todo es Deep Learning.",
+    "El aula virtual no permite adjuntar archivos mayores a 5MB, lo cual es inútil para código compilado.",
+    "La cama caliente de la impresora no alcanza los 80 grados necesarios para ABS.",
+    "El código que compartieron en el repositorio de la clase compila a la primera.",
+    "Las calificaciones del primer corte ya fueron publicadas en el portal institucional.",
+    "Aunque la teoría fue densa, los ejercicios prácticos aterrizaron muy bien los conceptos.",
+    "El filamento se rompió por exceso de humedad dentro del extrusor.",
+    "Exportar el documento de Org-mode a PDF con LaTeX dio un formato impecable.",
+    "La retroalimentación del código fue dura pero extremadamente constructiva.",
+    "No tuvimos suficiente tiempo en el laboratorio para terminar de armar el circuito.",
+    "La aplicación móvil se cierra sola al intentar usar la cámara en Android 13.",
+    "El nuevo diseño del dashboard es moderno y muy intuitivo para el usuario final.",
+    "La resolución del monitor secundario no se ajusta correctamente en Linux.",
+    "Escribir la documentación técnica en Markdown me resulta muy productivo.",
+    "El parche de seguridad solucionó la vulnerabilidad, pero rompió la compatibilidad hacia atrás.",
+    "El paquete de instalación incluye un script de desinstalación limpia.",
+    "Es la tercera vez esta semana que la VPN corporativa me desconecta sin motivo.",
+    "El gestor de dependencias resolvió todos los conflictos de versiones automáticamente.",
+    "La animación de carga es fluida y hace que la espera se sienta mucho menor.",
+    "Los atajos de teclado me permiten editar texto sin quitar las manos de la posición base.",
+    "El sistema reporta una fuga de memoria cada vez que se instancia esa clase.",
+    "La actualización del firmware del router tomó menos de cinco minutos.",
+    "Trabajar con expresiones regulares largas a menudo resulta en código difícil de mantener.",
+    "El modo de depuración paso a paso es la mejor característica de este software.",
+    "La batería del teclado inalámbrico dura casi seis meses con uso diario.",
+    "Los colores de la terminal por defecto son difíciles de leer contra un fondo oscuro.",
+    "Implementar el patrón Singleton aquí resolvió el problema de instancias múltiples.",
+    "El foro de la comunidad resolvió mi duda técnica mucho más rápido que el manual oficial.",
+    "El framework de pruebas genera reportes de cobertura en formato HTML detallado.",
+    "El diseño responsivo de la web falla completamente al visualizarse en tablets en modo horizontal."
+]
+print("Cantidad de textos:", len(comentarios))
+#+end_src
+
+** Paso 1: Descarga de recursos NLTK
+NLTK requiere descargar algunos recursos (tokenizadores y stopwords).
+
+#+begin_src python
+import nltk
+
+def ensure_nltk_resources():
+    for resource in ("punkt", "stopwords"):
+        try:
+            nltk.data.find(f"tokenizers/{resource}" if resource == "punkt" else f"corpora/{resource}")
+        except LookupError:
+            nltk.download(resource, quiet=False)
+
+ensure_nltk_resources()
+print("NLTK OK.")
+#+end_src
+
+** Paso 2: Preprocesamiento (normalización, tokenización, stopwords, stemming)
+*** Normalización + features
+Vamos a crear un “featurizer” (convierte texto → diccionario de features) que se usa para entrenar y predecir.
+
+#+begin_src python
+import re
+from nltk.corpus import stopwords
+from nltk.stem.snowball import SnowballStemmer
+from nltk.tokenize import wordpunct_tokenize
+
+_URL_RE = re.compile(r"https?://\\S+|www\\.\\S+")
+_MENTION_RE = re.compile(r"@\\w+")
+_HASHTAG_RE = re.compile(r"#\\w+")
+_NON_LETTER_RE = re.compile(r"[^a-záéíóúñü0-9\\s]+", re.IGNORECASE)
+_MULTISPACE_RE = re.compile(r"\\s+")
+
+def normalize_text(text: str) -> str:
+    t = text.strip().lower()
+    t = _URL_RE.sub(" ", t)
+    t = _MENTION_RE.sub(" ", t)
+    t = _HASHTAG_RE.sub(" ", t)
+    t = _NON_LETTER_RE.sub(" ", t)
+    t = _MULTISPACE_RE.sub(" ", t).strip()
+    return t
+
+sw = set(stopwords.words("spanish"))
+stemmer = SnowballStemmer("spanish")
+
+def featurize(text: str) -> dict:
+    t = normalize_text(text)
+    tokens = wordpunct_tokenize(t)
+    feats = {}
+    for tok in tokens:
+        if tok.isdigit():
+            feats["HAS_NUMBER"] = True
+            continue
+        if len(tok) < 2:
+            continue
+        if tok in sw:
+            continue
+        stem = stemmer.stem(tok)
+        feats[f"w={stem}"] = True
+    feats["LEN_GT_120"] = len(t) > 120
+    feats["HAS_EXCLAMATION"] = "!" in text
+    feats["HAS_NEGATION"] = any(w in t.split() for w in ("no", "nunca", "jamás", "ni"))
+    return feats
+
+print("Ejemplo normalizado:")
+print(normalize_text(comentarios[0]))
+print("Features (muestra):", list(featurize(comentarios[0]).keys())[:12])
+#+end_src
+
+** Paso 3 (baseline): Sentimiento por léxico simple (reglas)
+Este enfoque NO es “inteligente”; sirve para tener un punto de comparación rápido.
+
+#+begin_src python
+POS_WORDS = {
+    "increíble","fácil","me encanta","excelente","mágica","ahorra","precisión","maravillosamente",
+    "rápido","intuitivo","productivo","constructiva","fluida","mejor","elegancia","perfectamente",
+}
+NEG_WORDS = {
+    "lento","arruinó","congelado","no entiendo","no ayuda","desactualizada","dejó de funcionar",
+    "excesivo","tardó","dolor","error","colapsando","inútil","expiró","texto plano",
+    "frustrante","borró","caro","restrictiva","ambigüedades","se cae","no permite",
+}
+
+def lexicon_sentiment(text: str) -> str:
+    t = normalize_text(text)
+    score = 0
+    for w in POS_WORDS:
+        if w in t:
+            score += 1
+    for w in NEG_WORDS:
+        if w in t:
+            score -= 1
+    if score > 0:
+        return "pos"
+    if score < 0:
+        return "neg"
+    return "neu"
+
+for i in range(5):
+    print(i, lexicon_sentiment(comentarios[i]), "-", comentarios[i])
+#+end_src
+
+** Paso 4 (principal): Clasificador supervisado Naive Bayes (NLTK)
+NLTK no trae un “modelo listo” de sentimiento en español, por eso usamos un clasificador *supervisado*.
+
+*** 4.1 Dataset mínimo de entrenamiento (amplíalo)
+Puedes editar estos ejemplos cuando quieras. Mientras más ejemplos (50–200), mejor.
+
+#+begin_src python
+import nltk
+
+train_data = [
+    ("Me encanta que ahora se integre nativamente con Git", "pos"),
+    ("El modo oscuro de la interfaz tiene un contraste excelente", "pos"),
+    ("La refactorización de código se hace casi de manera mágica", "pos"),
+    ("Es increíble lo fácil que es configurar un entorno virtual", "pos"),
+    ("Excelente latencia en los servidores", "pos"),
+    ("El autocompletado de este IDE es bastante lento", "neg"),
+    ("La nueva actualización arruinó la indentación automática", "neg"),
+    ("El editor se queda congelado", "neg"),
+    ("No entiendo por qué quitaron el botón", "neg"),
+    ("No ayuda en nada a resolver el problema", "neg"),
+    ("El consumo de RAM es excesivo", "neg"),
+    ("La API REST responde con un error 500", "neg"),
+    ("Perdimos dos horas de producción porque el certificado SSL expiró", "neg"),
+    ("El script borró accidentalmente el directorio de configuraciones", "neg"),
+    ("Para esta práctica utilizaremos React en el frontend", "neu"),
+    ("Se requiere una versión de Node igual o superior a la 18", "neu"),
+    ("El dataset original contiene 5,000 imágenes etiquetadas", "neu"),
+    ("El backup automático se ejecuta todos los días a las 3:00 AM", "neu"),
+    ("El uso de CPU se mantiene estable en 45%", "neu"),
+    ("El examen parcial abarcará desde el capítulo 1 hasta el 4", "neu"),
+]
+
+train_set = [(featurize(text), label) for text, label in train_data]
+classifier = nltk.NaiveBayesClassifier.train(train_set)
+print("Entrenamiento OK. Ejemplos:", len(train_set))
+#+end_src
+
+**** 4.2 Predicción sobre tus textos
+Generamos un CSV con: texto, etiqueta, probabilidad.
+
+#+begin_src python
+import csv
+
+out_rows = []
+for text in comentarios:
+    feats = featurize(text)
+    dist = classifier.prob_classify(feats)
+    label = dist.max()
+    prob = float(dist.prob(label))
+    out_rows.append((text, label, prob))
+
+out_path = "sentimientos_resultados.csv"
+with open(out_path, "w", newline="", encoding="utf-8") as f:
+    w = csv.writer(f)
+    w.writerow(["texto", "sentimiento", "probabilidad"])
+    for row in out_rows:
+        w.writerow(row)
+
+print("Clasificación terminada.")
+print("Archivo generado:", out_path)
+print()
+print("Muestra (primeros 10):")
+for i, (t, lab, p) in enumerate(out_rows[:10]):
+    print(f"{i:02d}  {lab}  p={p:.3f}  {t}")
+#+end_src
+
+*** 4.3 Features más informativas
+Esto te ayuda a entender qué palabras (stems) está usando el clasificador.
+
+#+begin_src python
+classifier.show_most_informative_features(15)
+#+end_src
+
+
+** Siguientes mejoras (recomendadas)
+- Agrega más ejemplos a `train_data` (idealmente 50–200).
+- Incluye más frases “neutras” (descriptivas) para que no todo caiga en pos/neg.
+
