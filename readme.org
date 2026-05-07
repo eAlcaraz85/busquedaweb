@@ -5017,6 +5017,7 @@ etiqueta, cómo se etiqueta el corpus y qué se considera “correcto” en
 evaluación.
 
 ** 3.1.2 Paradigmas de categorización
+
 El paradigma más común es el *supervisado*, donde se cuenta con ejemplos
 etiquetados. Aquí el desempeño depende directamente de la calidad y
 consistencia de las etiquetas: si dos personas etiquetan de forma
@@ -5141,10 +5142,14 @@ reducir tiempos, aumentar resolución o evitar errores críticos, por lo
 que se definen métricas alineadas al impacto real.
 
 
+
+
+
 * Tutorial NLTK (Español): Análisis de sentimientos 
 
 ** Objetivo
-Hacer *análisis de sentimientos* (positivo/negativo/neutro) sobre una lista de textos tipo “twits”, usando *NLTK* en *español*.
+Hacer *análisis de sentimientos* (positivo/negativo/neutro) sobre una
+lista de textos tipo “twits”, usando *NLTK* en *español*.
 
 Este tutorial incluye 2 enfoques:
 - *Clasificador supervisado (Naive Bayes)*: el enfoque principal (el más útil con NLTK en español).
@@ -5286,7 +5291,8 @@ print("NLTK OK.")
 
 ** Paso 2: Preprocesamiento (normalización, tokenización, stopwords, stemming)
 *** Normalización + features
-Vamos a crear un “featurizer” (convierte texto → diccionario de features) que se usa para entrenar y predecir.
+Vamos a crear un “featurizer” (convierte texto → diccionario de
+features) que se usa para entrenar y predecir.
 
 #+begin_src python
 import re
@@ -5370,7 +5376,8 @@ for i in range(5):
 #+end_src
 
 ** Paso 4 (principal): Clasificador supervisado Naive Bayes (NLTK)
-NLTK no trae un “modelo listo” de sentimiento en español, por eso usamos un clasificador *supervisado*.
+NLTK no trae un “modelo listo” de sentimiento en español, por eso
+usamos un clasificador *supervisado*.
 
 *** 4.1 Dataset mínimo de entrenamiento (amplíalo)
 Puedes editar estos ejemplos cuando quieras. Mientras más ejemplos (50–200), mejor.
@@ -5446,4 +5453,1614 @@ classifier.show_most_informative_features(15)
 ** Siguientes mejoras (recomendadas)
 - Agrega más ejemplos a `train_data` (idealmente 50–200).
 - Incluye más frases “neutras” (descriptivas) para que no todo caiga en pos/neg.
+
+
+
+* (NLP): 3.2 Sentimientos, 3.3 Agrupamiento, 3.4 Embeddings y GPT-X
+
+** 3.2 Análisis de sentimientos
+
+*** ¿Qué es?
+El *análisis de sentimientos* busca inferir la *polaridad* o *actitud*
+expresada en un texto. Dependiendo del problema, puede formularse
+como:
+- *Clasificación* (p. ej. positivo/negativo/neutro).
+- *Regresión* (p. ej. puntuación de -1 a 1, o 1 a 5 estrellas).
+- *Detección de emoción* (alegría, ira, tristeza, miedo, sorpresa, etc.).
+- *Aspect-based sentiment analysis (ABSA)*: sentimiento *por aspecto*
+  (p. ej. “batería: negativa”, “pantalla: positiva”).
+
+*** ¿Para qué se usa?
+- **Atención al cliente**: priorizar tickets según urgencia/enojo y detectar temas recurrentes.
+- **Monitoreo de marca**: medir percepción en redes.
+- **Producto/UX**: entender qué duele y qué gusta en reseñas.
+- **Riesgo/seguridad**: detectar hostilidad, abuso o señales de crisis (con cuidado ético).
+
+*** Flujo típico (pipeline)
+1. **Definir etiquetas y criterio**: ¿neutro existe?, ¿qué es
+   “positivo”?, ¿hay ironía?, ¿qué hacer con ambivalencias?
+2. **Recolección y etiquetado**: muestreo representativo por dominio
+   (redes, reseñas, encuestas).
+3. **Preprocesamiento** (según modelo):
+   - Normalizar (minúsculas, URLs, menciones, emojis), tokenizar.
+   - Mantener señales útiles: “!!”, MAYÚSCULAS, negación (“no”),
+     repetición (“bueeeno”), emojis.
+4. **Representación**:
+   - Clásico: *bag of words*, *n-gramas*, *TF-IDF*.
+   - Moderno: embeddings (word/sentence) o *transformers*.
+5. **Modelo**:
+   - Léxico/reglas, ML clásico (SVM/logreg), deep learning (LSTM/CNN),
+     transformers (BERT/RoBERTa).
+6. **Evaluación**:
+   - Conjunto de prueba separado, *baseline* claro, análisis de errores.
+7. **Despliegue y monitoreo**:
+   - Deriva de datos (cambios de jerga), *drift* por eventos, sesgos,
+     re-entrenamiento.
+
+*** Enfoques principales
+**** 1) Léxico + reglas (baseline)
+Se usa una lista de palabras con peso (positivo/negativo) y reglas
+simples (negación, intensificadores).
+- **Ventajas**: rápido, interpretable, útil como baseline.
+- **Desventajas**: se rompe por contexto, sarcasmo, dominio, polisemia.
+
+**** 2) Aprendizaje supervisado (ML clásico)
+Se entrena un clasificador con ejemplos etiquetados.
+- **Representación**: TF-IDF con unigramas/bigramas suele funcionar sorprendentemente bien.
+- **Modelos**: Regresión logística, SVM lineal, Naive Bayes.
+- **Ventajas**: fuerte baseline, eficiente.
+- **Desventajas**: requiere datos etiquetados; generaliza peor a cambios de dominio.
+
+**** 3) Deep learning / Transformers
+Los *transformers* (BERT y derivados) dominan por entender contexto.
+- **Ventajas**: mejor desempeño, maneja contexto/negación mejor.
+- **Desventajas**: más costo computacional; riesgo de sobreajuste con
+  pocos datos; requiere cuidado en despliegue.
+
+*** Métricas y evaluación
+- **Accuracy**: útil si clases balanceadas.
+- **Precision/Recall/F1 (macro y micro)**: recomendado en clases desbalanceadas.
+- **Matriz de confusión**: para ver confusiones típicas (p. ej. neutro vs negativo).
+- **AUC** (si binario y se usan probabilidades).
+
+Buenas prácticas:
+- Separar por *tiempo* si habrá despliegue real (evita fuga de información).
+- Reportar **macro-F1** si hay desbalance.
+- Hacer **análisis de errores**: negación, ironía, ambigüedad, jerga, spanglish.
+
+*** Retos comunes (muy importantes)
+- **Sarcasmo/ironía**: “¡Qué buen servicio!” (cuando es queja).
+- **Negación y alcance**: “no está mal” no es igual a “mal”.
+- **Dominio**: “está pesado” puede ser malo (app lenta) o bueno (música).
+- **Lenguaje informal**: emojis, abreviaturas, faltas, alargamientos (“bueeeno”).
+- **Sesgo**: datos no representativos (muestra de redes vs población).
+
+*** Ejemplo mínimo (conceptual) en Python con TF-IDF + logística
+Este bloque es opcional (si tienes `scikit-learn` instalado).
+
+#+begin_src python
+texts = [
+    "Me encanta la interfaz, es muy rápida",
+    "La app se congela y es desesperante",
+    "Cumple lo que promete, nada especial",
+]
+labels = ["pos", "neg", "neu"]
+print("Ejemplos:", len(texts))
+#+end_src
+
+#+begin_src python
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+
+clf = Pipeline([
+    ("tfidf", TfidfVectorizer(ngram_range=(1,2), min_df=1)),
+    ("lr", LogisticRegression(max_iter=1000)),
+])
+clf.fit(texts, labels)
+
+pred = clf.predict(["No está mal, pero podría ser más rápido"])
+print("Predicción:", pred[0])
+#+end_src
+
+** 3.3 Agrupamiento de texto (clustering)
+*** ¿Qué es y por qué importa?
+El *agrupamiento de texto* busca organizar documentos en *grupos*
+(clusters) donde los elementos del mismo grupo sean más similares
+entre sí que con los de otros grupos, *sin etiquetas previas*.
+
+Usos típicos:
+- **Descubrir temas** en grandes colecciones (tickets, reseñas, correos).
+- **Deduplicación** (detectar textos casi iguales).
+- **Exploración** y *búsqueda* (navegación por categorías emergentes).
+- **Segmentación** de usuarios por opiniones o necesidades.
+
+*** Paso cero: representación (lo más crítico)
+Clustering depende casi por completo de la representación vectorial.
+
+Opciones comunes:
+- **BoW / TF-IDF**:
+  - Bueno para textos cortos-medianos y vocabularios estables.
+  - Alta dimensionalidad; suele requerir reducción (SVD/LSA).
+- **Embeddings**:
+  - *Sentence embeddings* (p. ej. SBERT) funcionan muy bien para similitud semántica.
+  - Menos dimensionalidad, mejor para sinonimia/paráfrasis.
+
+*** Algoritmos más usados
+**** K-means (y mini-batch K-means)
+- Requiere elegir **K** (número de clusters).
+- Funciona bien con TF-IDF y distancia coseno (normalizando) o euclídea con cuidado.
+- Escalable y rápido.
+
+**** Clustering jerárquico (agglomerative)
+- No requiere fijar K exacto de inicio (se puede cortar dendrograma).
+- Interpretabilidad por jerarquía.
+- Más costoso en grandes volúmenes.
+
+**** DBSCAN / HDBSCAN (densidad)
+- Detecta outliers/ruido y clusters de forma irregular.
+- Muy útil con embeddings semánticos.
+- Sensible a hiperparámetros (eps/min_samples).
+
+**** Modelos de temas (relacionados, no idénticos)
+- LDA/NMF: “temas” como distribuciones de palabras; útil para interpretación.
+- A menudo se usa como *exploración temática* más que clustering estricto.
+
+*** ¿Cómo elegir K? (si aplica)
+- **Método del codo** (inercia) y **silhouette** (ojo: silhouette se puede
+  engañar en alta dimensión).
+- Considerar la utilidad: “¿K=20 clusters me ayuda a tomar decisiones?”.
+- Validación humana: revisar muestras representativas por cluster y ajustar.
+
+*** Evaluación (sin etiquetas)
+No hay una sola métrica perfecta; combina:
+- **Intrínseca**: silhouette, Davies–Bouldin, Calinski–Harabasz (orientativas).
+- **Estabilidad**: ¿los clusters cambian mucho si re-muestreas?
+- **Coherencia semántica**: revisión humana, top términos por cluster.
+- **Extrínseca**: ¿mejora un objetivo? (tiempo de triage, tasa de resolución, etc.).
+
+*** Buenas prácticas
+- Normalizar y limpiar *sin borrar señales semánticas*.
+- Para TF-IDF: usar n-gramas y filtrar términos muy raros o demasiado frecuentes.
+- Reducir dimensionalidad (TruncatedSVD/UMAP) antes de ciertos algoritmos o para visualizar.
+- Nombrar clusters con:
+  - top términos (TF-IDF promedio) o
+  - ejemplos prototípicos (documentos cercanos al centroide).
+
+*** Ejemplo mínimo (conceptual) con TF-IDF + K-means
+#+begin_src python
+docs = [
+    "No puedo iniciar sesión, me marca error 500",
+    "La contraseña no funciona y no llega el correo de recuperación",
+    "La app va lenta y se traba cuando abro reportes",
+    "Quiero factura con RFC y datos fiscales",
+    "Necesito descargar mi factura del mes pasado",
+]
+print("Docs:", len(docs))
+#+end_src
+
+#+begin_src python
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import KMeans
+
+X = TfidfVectorizer(ngram_range=(1,2), min_df=1).fit_transform(docs)
+kmeans = KMeans(n_clusters=2, n_init="auto", random_state=42)
+labels = kmeans.fit_predict(X)
+
+for d, c in zip(docs, labels):
+    print(c, "-", d)
+#+end_src
+
+** 3.4 Tecnologías emergentes: word embeddings (ELMo, BERT) y GPT-X
+*** 3.4.1 Representaciones distribucionales (embeddings) en NLP
+Un *embedding* representa unidades lingüísticas como vectores densos donde la geometría captura relaciones semánticas/sintácticas.
+
+Idea base (distribucional):
+“*Una palabra se conoce por la compañía que mantiene*”.
+
+*** 3.4.2 Embeddings estáticos vs contextuales
+**** Embeddings estáticos (una palabra = un vector)
+Ejemplos: Word2Vec, GloVe, fastText.
+- **Ventajas**: ligeros, rápidos, útiles como features.
+- **Desventajas**: no distinguen sentidos (p. ej. “banco” = riverbank vs institución).
+
+fastText ayuda con sub-palabras:
+- mejor para morfología y palabras raras/errores (“cansadísimo”, “cansadisimo”).
+
+**** Embeddings contextuales (depende de la oración)
+Aquí el vector de una palabra cambia según el contexto:
+- “banco” en “me senté en el banco” vs “fui al banco a depositar”.
+
+*** 3.4.3 ELMo (Embeddings from Language Models)
+ELMo genera embeddings contextuales usando un *modelo de lenguaje* bi-direccional basado en LSTM.
+- Produce representaciones por capa que capturan distinta información (sintaxis vs semántica).
+- Fue un salto grande antes de los transformers, pero hoy suele reemplazarse por BERT y variantes.
+
+*** 3.4.4 BERT (Bidirectional Encoder Representations from Transformers)
+BERT es un *encoder transformer* entrenado con objetivos auto-supervisados (clásicamente: enmascarar tokens y predecirlos).
+Ideas clave:
+- **Auto-atención**: cada token “mira” a los demás para construir significado.
+- **Bidireccionalidad**: usa contexto izquierdo y derecho simultáneamente (ideal para clasificación/extracción).
+
+Casos de uso típicos:
+- **Clasificación** (sentimientos, intención).
+- **NER** (entidades) y **extracción**.
+- **QA extractivo** (responder señalando un span en un texto).
+
+Prácticas modernas con BERT:
+- Fine-tuning supervisado con tu dataset.
+- Alternativa: embeddings de oraciones (SBERT) para similitud y clustering.
+
+*** 3.4.5 GPT-X (familia GPT y modelos generativos tipo decoder)
+Los modelos tipo *GPT* son *decoders* transformer entrenados para predecir el siguiente token. Esto los hace muy fuertes en:
+- Generación de texto.
+- Resumen y reescritura.
+- Traducción (vía prompting).
+- Código y razonamiento asistido (con límites).
+
+Conceptos clave:
+- **Pre-entrenamiento**: aprende regularidades del lenguaje a gran escala.
+- **Instrucción (instruction tuning)**: aprende a seguir órdenes.
+- **Alineamiento**: reducir conductas no deseadas (p. ej. RLHF/otros).
+
+*** 3.4.6 ¿Cómo se usan en la práctica? (patrones actuales)
+**** Prompting (sin entrenamiento)
+Cuando tienes pocos datos o quieres prototipar:
+- Definir rol/objetivo.
+- Dar ejemplos (few-shot).
+- Exigir formato de salida (JSON, tabla, etc.).
+
+**** Fine-tuning (con datos)
+Útil si necesitas:
+- Estilo/terminología muy específica.
+- Mejor desempeño en una tarea repetitiva y bien definida.
+
+**** RAG (Retrieval-Augmented Generation)
+Combina búsqueda + generación:
+- Recuperas documentos relevantes (vector search) y el modelo responde apoyándose en ese contexto.
+- Reduce alucinaciones y adapta a conocimiento privado/actual.
+
+*** 3.4.7 Riesgos y consideraciones
+- **Alucinación**: el modelo puede “inventar” datos.
+- **Privacidad**: cuidado con texto sensible en prompts/logs.
+- **Sesgos**: reflejan sesgos del entrenamiento.
+- **Evaluación**: no basta con “se ve bien”; se requieren métricas y casos de prueba.
+
+*** 3.4.8 Mapa rápido: ¿qué usar y cuándo?
+- Si quieres **baseline fuerte y barato** en sentimientos: TF-IDF + logística/SVM.
+- Si quieres **alto desempeño** en sentimientos: fine-tuning de un transformer (BERT/RoBERTa).
+- Si quieres **clustering semántico**: sentence embeddings (tipo SBERT) + HDBSCAN/K-means.
+- Si quieres **resumir, clasificar con reglas complejas o extraer info** sin mucho entrenamiento: GPT-X con prompting (y si hay docs, RAG).
+
+
+
+
+*  Clustering de texto con K-Means (tweets/comentarios y documentos grandes)
+
+**  ¿Qué es “clasificar” con clusters?
+En textos tipo X/Facebook/Instagram, a veces se dice “clasificar” cuando en realidad se busca:
+- *Clustering (no supervisado)*: agrupar textos por similitud sin etiquetas.
+- *Sentimiento (supervisado)*: etiquetar como positivo/negativo (requiere labels).
+
+Esta guía se centra en *clustering con K-Means* y, al final, muestra una forma práctica de “traducir” clusters a (positivo/negativo) con una pequeña capa humana (si lo necesitas).
+
+**  Teoría de K-Means
+K-Means es un algoritmo de *clustering particional* que busca dividir \(n\) puntos en \(K\) grupos. Cada grupo se representa por un *centroide* (un vector “promedio”).
+
+*** ¿Qué optimiza? 
+Dados puntos \(x_1,\dots,x_n \in \mathbb{R}^d\), K-Means busca minimizar la suma de distancias cuadráticas al centroide del cluster asignado:
+
+\[
+\min_{\{C_k\}_{k=1}^K}\ \sum_{k=1}^K \sum_{x_i \in C_k} \lVert x_i - \mu_k \rVert_2^2
+\quad\text{donde}\quad
+\mu_k = \frac{1}{|C_k|}\sum_{x_i \in C_k} x_i
+\]
+
+Esta cantidad se conoce como *inercia* (en scikit-learn: `inertia_`).
+
+*Qué significa*: K-Means quiere clusters donde los puntos estén “compactos” alrededor de su centroide (en distancia euclídea).
+
+*Lectura intuitiva del objetivo*
+- Si un documento cae “lejos” de su centroide, contribuye mucho a la inercia (por el cuadrado).
+- Por eso, K-Means suele “preferir” crear un cluster separado para grupos de puntos que estén bien apartados.
+- Si fuerzas un \(K\) muy pequeño, K-Means meterá temas distintos en el mismo cluster y la inercia subirá.
+
+*¿Por qué distancia al cuadrado?*
+La distancia al cuadrado tiene dos efectos prácticos:
+- penaliza fuerte errores grandes (outliers),
+- permite que el mejor representante del cluster (en este criterio) sea el promedio (centroide).
+
+*** ¿Cómo funciona? (algoritmo de Lloyd, iterativo)
+Se alternan dos pasos hasta converger:
+- *Asignación*: asignar cada punto al centroide más cercano.
+- *Actualización*: recomputar cada centroide como el promedio de los puntos asignados.
+
+Cada iteración no puede empeorar la función objetivo (la inercia baja o se queda igual), por eso siempre converge *a un mínimo local*.
+
+*Paso a paso (qué pasa “en la práctica”)*
+Imagina que ya tienes \(K\) centroides “propuestos”:
+1. *Asignación*: para cada documento, se calcula su distancia a cada centroide y se asigna al más cercano.
+2. *Re-cálculo del centroide*: para cada cluster, se promedian los vectores de sus documentos. Ese promedio “se mueve” hacia donde hay más masa de puntos.
+3. Se repite: al moverse los centroides, cambian distancias, por lo tanto pueden cambiar asignaciones.
+
+Con el tiempo, las asignaciones dejan de cambiar (o cambian muy poco) y el algoritmo se detiene.
+
+*Por qué siempre baja (o no sube) la inercia*
+- Si fijas los centroides, la mejor asignación es “al más cercano” (eso minimiza el término de distancia por punto).
+- Si fijas las asignaciones, el mejor centroide (que minimiza SSE) es el promedio del cluster.
+Al alternar ambos pasos, no empeoras el valor objetivo.
+
+*Mínimo local (por qué no es “el óptimo global”)*
+La función objetivo no es convexa respecto a asignaciones + centroides. Eso implica:
+- distintos arranques pueden terminar en particiones distintas,
+- algunas particiones son claramente mejores (menor inercia) que otras,
+- por eso conviene `n_init` (varios arranques) y k-means++.
+
+*** Inicialización (por qué importa)
+Como converge a mínimos locales, el resultado depende del arranque:
+- *Random*: centroides aleatorios (más riesgo de soluciones malas).
+- *k-means++*: elige centroides iniciales separados; suele mejorar estabilidad y calidad.
+
+En scikit-learn, `KMeans` usa k-means++ por defecto. `n_init` controla cuántos arranques se prueban y se toma el mejor (menor inercia).
+
+*** Criterios de parada (convergencia)
+Se detiene cuando:
+- las asignaciones ya no cambian, o
+- el movimiento de centroides es muy pequeño (`tol`), o
+- se alcanza `max_iter`.
+
+*Qué significa converger en términos de clusters*
+- Si las asignaciones no cambian, ya no hay un “intercambio” de puntos entre clusters que reduzca el objetivo.
+- Aun así, puede haber varias soluciones “parecidas” con inercia similar (por eso la estabilidad es útil).
+
+*** Complejidad (intuición práctica)**
+Si \(n\)=documentos, \(d\)=dimensión, \(K\)=clusters, \(I\)=iteraciones:
+\[
+O(n \cdot K \cdot d \cdot I)
+\]
+En texto, \(d\) puede ser enorme (vocabulario), por eso `MiniBatchKMeans` suele ser mejor cuando hay muchos textos.
+
+*MiniBatchKMeans: por qué acelera**
+En vez de usar todos los puntos para actualizar centroides en cada iteración, usa minibatches (muestras pequeñas):
+- reduce costo computacional,
+- converge a una solución similar,
+- suele ser suficiente para datasets grandes de texto.
+
+*** Supuestos implícitos y limitaciones
+K-Means tiende a funcionar mejor cuando:
+- los clusters son aproximadamente “esféricos” (en euclídea),
+- tienen tamaños parecidos,
+- y la métrica euclídea tiene sentido para tus vectores.
+
+Limitaciones típicas:
+- sensible a outliers (puntos raros pueden arrastrar centroides),
+- sufre con clusters no convexos (formas raras),
+- elegir \(K\) no es automático,
+- si hay features con escalas distintas, domina la escala más grande (en texto se mitiga con TF-IDF + normalización).
+
+*Problemas típicos que verás en texto*
+- Un cluster “basura” con stopwords o muletillas (“hola”, “buenas”, “gracias”) si no filtras bien.
+- Clusters por estilo (uso de emojis, mayúsculas, alargamientos “buenoooo”) en vez de tema.
+- Con documentos largos, clusters por longitud si no normalizas o si TF domina.
+
+**  K-Means aplicado a texto
+En texto no trabajas con coordenadas “físicas”, sino con representaciones:
+- TF-IDF (sparse, alta dimensión)
+- embeddings (densos)
+
+*** TF-IDF (qué representa)**
+TF-IDF pondera términos por:
+- **TF**: frecuencia en el documento
+- **IDF**: rareza global (si aparece en muchos docs, pesa menos)
+
+Resultado: cada documento es un vector donde “suben” palabras distintivas.
+
+*Por qué TF-IDF suele ser mejor que conteos crudos para clustering*
+Con conteos crudos, palabras comunes dominan (“de”, “la”, “que” o términos de dominio muy frecuentes).
+TF-IDF baja automáticamente el peso de términos que aparecen en casi todos los documentos, y por eso:
+- mejora la separación por “temas”,
+- reduce clusters dominados por vocabulario genérico.
+
+*** Coseno vs euclídea (por qué aparece coseno en NLP)
+En texto, muchas veces importa más el *ángulo* entre vectores (dirección) que su magnitud:
+- Similaridad coseno: \(\cos(\theta) = \frac{x\cdot y}{\lVert x\rVert\lVert y\rVert}\)
+
+Si tus vectores están normalizados a norma 1 (L2), entonces:
+\[
+\lVert x-y\rVert_2^2 = 2 - 2\cos(\theta)
+\]
+Es decir: minimizar euclídea en vectores L2-normalizados equivale a maximizar coseno (ordenan igual).
+
+Por eso K-Means con TF-IDF (que normalmente ya viene normalizado) suele funcionar razonablemente.
+
+*Detalle importante: normalización*
+Si NO normalizas (o cambias `norm=None`):
+- documentos más largos tienden a tener vectores de mayor magnitud,
+- eso puede sesgar distancias y agrupar por “tamaño” más que por contenido.
+Por eso es común mantener `norm='l2'` (default en `TfidfVectorizer`).
+
+*** Textos cortos vs documentos largos
+- **Cortos (tweets/comentarios)**: pocas palabras ⇒ señales débiles; ayuda:
+  - bigramas (capturan frases)
+  - char n-grams (robustos a faltas/variantes)
+- **Largos**: mezclan subtemas ⇒ conviene:
+  - reducir dimensión (LSA/SVD)
+  - o segmentar por párrafos/oraciones antes de clusterizar si buscas temas finos
+
+**  Interpretación teórica de “qué representa un centroide” en texto
+En K-Means el centroide \(\mu_k\) es el promedio de los vectores del cluster. En texto (TF-IDF):
+- cada dimensión \(\mu_{k,j}\) corresponde a un término (o n-grama),
+- un valor alto \(\mu_{k,j}\) sugiere que ese término aparece con TF-IDF alto en muchos documentos del cluster.
+
+*Cómo leerlo en palabras*
+- “Términos top del centroide” ≈ vocabulario más característico del cluster.
+- No significa que *todos* los documentos tengan todas esas palabras, sino que en promedio empujan al centroide en esa dirección.
+
+*Por qué a veces confunde*
+- Si hay términos muy correlacionados o muy frecuentes, pueden aparecer como top en varios clusters.
+- En documentos largos, un término puede ser “tema transversal” y no discriminar.
+- Por eso se recomienda SIEMPRE acompañar términos top con documentos representativos.
+
+** Pipeline recomendado (funciona muy bien como baseline)
+1. Recolectar textos (columna `text` en CSV, por ejemplo).
+2. Limpiar ligero (URLs, @menciones, #hashtags opcional).
+3. Vectorizar:
+   - Para textos cortos: TF-IDF con *word n-grams* (1–2) y/o *char n-grams* (3–5).
+   - Para documentos largos: TF-IDF + *TruncatedSVD* (LSA) para reducir dimensión.
+4. Clusterizar:
+   - `MiniBatchKMeans` si tienes muchos textos (rápido y estable).
+   - `KMeans` si son pocos (simple).
+5. Interpretar:
+   - términos top por cluster
+   - ejemplos representativos por cluster (los más cercanos al centroide)
+6. Elegir K con codo/silhouette + interpretabilidad.
+
+**  Cómo interpretar un cluster 
+Interpretar no es solo “ver palabras top”; lo recomendable es combinar:
+
+*** Tamaño del cluster
+- Un cluster gigante puede ser “tema general” o ruido/stopwords insuficientes.
+- Clusters minúsculos pueden ser outliers, spam, o un subtema real (depende del caso).
+
+*** Términos representativos
+Con TF-IDF + K-Means:
+- el centroide es un vector con pesos por término.
+- los términos con mayor peso en el centroide suelen describir “de qué va” el cluster.
+
+Ojo: si un término muy frecuente domina todos los clusters, probablemente:
+- te faltan stopwords (de dominio)
+- `max_df` está muy alto
+
+*** Documentos representativos*
+Es la forma más confiable de entender el cluster:
+- lee 5–20 documentos más cercanos al centroide
+- anota “qué tienen en común”
+- ponle un nombre breve al cluster (tema/intención)
+
+*** Separación y ambigüedad
+Si dos clusters comparten muchos términos top y ejemplos similares:
+- quizá \(K\) es muy alto, o
+- el preprocesamiento/vectorización no está capturando bien diferencias.
+
+Si un cluster mezcla dos temas muy distintos:
+- quizá \(K\) es muy bajo, o
+- documentos largos están mezclando subtemas (considera trocear).
+
+** Métricas: qué sí miden y qué NO
+*** Inercia (SSE / within-cluster)
+- Siempre baja cuando subes \(K\).
+- Sirve para el “codo”: el punto donde agregar clusters mejora poco.
+- No te garantiza interpretabilidad.
+
+*** Silhouette
+Mide si un punto está más cerca de su cluster que de otros.
+- Alto (cerca de 1): bien separado.
+- Cerca de 0: solapado.
+- Negativo: asignaciones dudosas.
+
+En texto, no siempre es alto aunque el resultado sea útil; úsalo como guía, no como juez único.
+
+*** Estabilidad (muy recomendada)
+Una validación muy práctica:
+- corre K-Means con varios `random_state`/`n_init`
+- mira si términos top y ejemplos por cluster se parecen
+
+Si cambia muchísimo:
+- el problema quizá no tiene clusters fuertes
+- o necesitas mejor vectorización (char n-grams, SVD, embeddings, etc.)
+
+** “Proceso mental” recomendado
+
+Si quieres una base sólida al aplicarlo, sigue esta rutina:
+1. **Define la noción de similitud**: ¿quieres clusters por tema (política/deportes), por intención (queja/elogio), por spam, por marca?
+2. **Muestra de lectura**: lee 100–200 textos al azar. Anota patrones (emojis, URLs, bots, repetidos).
+3. **Baseline simple**: TF-IDF word (1,2) + MiniBatchKMeans con un K moderado (8–15).
+4. **Interpretación**: para cada cluster, revisa términos top + 10 textos representativos.
+5. **Ajuste del vectorizador**:
+   - si ves clusters por ortografía: agrega char n-grams
+   - si ves términos genéricos: sube `min_df`, baja `max_df`, agrega stopwords de dominio
+6. **Ajuste de K**:
+   - si clusters mezclan temas: sube K
+   - si clusters se duplican: baja K
+7. **Valida estabilidad**: cambia `random_state` y revisa si se sostiene la estructura.
+8. **Exporta y usa**: con `cluster` puedes hacer analítica, dashboards, muestreo por cluster, etc.
+
+**  Instalación (dependencias mínimas)
+#+begin_src bash :results output :exports both
+python -m pip install -U scikit-learn pandas numpy
+#+end_src
+
+**  Script 1 (tweets/comentarios): TF-IDF + MiniBatchKMeans + explicación de clusters
+Este script:
+- Lee `input.csv` con columna `text`
+- Limpia básico
+- Vectoriza con TF-IDF (palabras + bigramas)
+- Agrupa con `MiniBatchKMeans`
+- Imprime términos top y ejemplos por cluster
+- Exporta `output_clusters.csv` con la etiqueta de cluster por fila
+
+#+begin_src python :results output :exports both
+import re
+import numpy as np
+import pandas as pd
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import MiniBatchKMeans
+from sklearn.metrics.pairwise import cosine_distances
+
+INPUT_CSV = "input.csv"          # debe tener columna: text
+OUTPUT_CSV = "output_clusters.csv"
+
+K = 8                           # prueba 5, 8, 12... según tu caso
+TOP_TERMS = 12                  # palabras/frases a mostrar por cluster
+EXAMPLES_PER_CLUSTER = 5        # textos ejemplo por cluster
+
+def normalize_social_text(s: str) -> str:
+    s = s.lower().strip()
+    s = re.sub(r"https?://\S+|www\.\S+", " ", s)     # urls
+    s = re.sub(r"@\w+", " ", s)                      # menciones
+    s = re.sub(r"#(\w+)", r" \1 ", s)                # #hashtag -> palabra
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+df = pd.read_csv(INPUT_CSV)
+if "text" not in df.columns:
+    raise ValueError("El CSV debe incluir una columna llamada 'text'.")
+
+texts_raw = df["text"].astype(str).fillna("")
+texts = texts_raw.map(normalize_social_text).tolist()
+
+# Vectorización: fuerte baseline para textos cortos.
+vectorizer = TfidfVectorizer(
+    stop_words="spanish",
+    ngram_range=(1, 2),
+    min_df=2,         # sube si hay mucho ruido; baja si el dataset es pequeño
+    max_df=0.9
+)
+X = vectorizer.fit_transform(texts)
+
+clusterer = MiniBatchKMeans(
+    n_clusters=K,
+    random_state=42,
+    batch_size=2048,
+    n_init="auto"
+)
+labels = clusterer.fit_predict(X)
+df["cluster"] = labels
+
+terms = np.array(vectorizer.get_feature_names_out())
+centroids = clusterer.cluster_centers_
+
+print("Tamaño por cluster:")
+for c in range(K):
+    print(f"  Cluster {c}: {(labels==c).sum()} textos")
+
+print("\nTérminos top por cluster (para nombrarlos):")
+for c in range(K):
+    top_idx = centroids[c].argsort()[::-1][:TOP_TERMS]
+    print(f"\n  Cluster {c}: " + ", ".join(terms[top_idx]))
+
+# Ejemplos representativos = más cercanos al centroide (en coseno)
+print("\nEjemplos representativos por cluster:")
+for c in range(K):
+    idx = np.where(labels == c)[0]
+    if len(idx) == 0:
+        continue
+
+    # Distancia coseno contra el centroide: menor = más representativo
+    D = cosine_distances(X[idx], centroids[c].reshape(1, -1)).ravel()
+    best = idx[np.argsort(D)[:EXAMPLES_PER_CLUSTER]]
+
+    print(f"\n  Cluster {c}:")
+    for i in best:
+        t = texts_raw.iloc[i]
+        print("   -", t if len(t) <= 240 else (t[:240] + " ..."))
+
+df.to_csv(OUTPUT_CSV, index=False)
+print(f"\nListo. Exportado: {OUTPUT_CSV}")
+#+end_src
+
+**Notas útiles para comentarios cortos**
+- Si hay MUCHA ortografía creativa/emojis, prueba un vectorizador de *caracteres*:
+  - `TfidfVectorizer(analyzer="char_wb", ngram_range=(3,5))`
+  Esto suele agrupar mejor variantes (“buenoo”, “buenísimo”, “buenisimo”).
+
+** Elegir K: codo + silhouette (rápido)
+#+begin_src python :results output :exports both
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import MiniBatchKMeans
+from sklearn.metrics import silhouette_score
+
+INPUT_CSV = "input.csv"
+
+df = pd.read_csv(INPUT_CSV)
+texts = df["text"].astype(str).fillna("").tolist()
+
+X = TfidfVectorizer(stop_words="spanish", ngram_range=(1,2), min_df=2, max_df=0.9).fit_transform(texts)
+
+print("k, inertia, silhouette")
+for k in range(2, 16):
+    km = MiniBatchKMeans(n_clusters=k, random_state=42, batch_size=2048, n_init="auto")
+    labels = km.fit_predict(X)
+    sil = silhouette_score(X, labels)
+    print(k, km.inertia_, sil)
+#+end_src
+
+Interpretación práctica:
+- *silhouette* alto suele ser mejor, pero en texto puede no ser enorme y aun así ser útil.
+- Elige el K donde:
+  - los términos top “tienen sentido”
+  - los ejemplos representativos se ven coherentes
+  - y la métrica no empeora brutalmente
+
+**  Script 2 (documentos grandes): TF-IDF -> SVD (LSA) -> K-Means
+Para documentos largos, TF-IDF puede quedar en un espacio enorme y esparcido.
+Una receta típica:
+- TF-IDF (palabras)
+- `TruncatedSVD` (p.ej. 100–300 componentes)
+- Normalización
+- K-Means (en el espacio reducido)
+
+#+begin_src python :results output :exports both
+import numpy as np
+import pandas as pd
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
+from sklearn.preprocessing import Normalizer
+from sklearn.pipeline import make_pipeline
+from sklearn.cluster import KMeans
+
+INPUT_CSV = "input.csv"    # columna: text (puede ser documento grande)
+K = 12
+SVD_COMPONENTS = 200       # 100–300 es común
+TOP_TERMS = 12
+
+df = pd.read_csv(INPUT_CSV)
+texts = df["text"].astype(str).fillna("").tolist()
+
+vectorizer = TfidfVectorizer(
+    stop_words="spanish",
+    ngram_range=(1,2),
+    min_df=2,
+    max_df=0.9
+)
+X = vectorizer.fit_transform(texts)
+
+svd = TruncatedSVD(n_components=SVD_COMPONENTS, random_state=42)
+normalizer = Normalizer(copy=False)
+X_lsa = make_pipeline(svd, normalizer).fit_transform(X)
+
+km = KMeans(n_clusters=K, random_state=42, n_init="auto")
+labels = km.fit_predict(X_lsa)
+df["cluster"] = labels
+
+terms = np.array(vectorizer.get_feature_names_out())
+
+# “Términos top” aproximados en LSA: proyectamos centroides hacia el espacio TF-IDF
+# (no es perfecto, pero sirve para interpretación rápida).
+centroids_lsa = km.cluster_centers_                  # (K, SVD_COMPONENTS)
+centroids_tfidf_approx = centroids_lsa @ svd.components_  # (K, vocab)
+
+print("Tamaño por cluster:")
+for c in range(K):
+    print(f"  Cluster {c}: {(labels==c).sum()} documentos")
+
+print("\nTérminos top por cluster:")
+for c in range(K):
+    top_idx = np.argsort(centroids_tfidf_approx[c])[::-1][:TOP_TERMS]
+    print(f"\n  Cluster {c}: " + ", ".join(terms[top_idx]))
+#+end_src
+
+** Cómo convertir clusters en “positivo/negativo” sin perder el enfoque no supervisado
+K-Means NO sabe de “positivo/negativo”, solo agrupa por similitud.
+Pero puedes hacer algo muy útil:
+- (A) Haces clustering.
+- (B) Tomas 30–100 textos por cluster (los más representativos) y *los etiquetas a mano* como:
+  - positivo / negativo / neutral / spam / etc.
+- (C) Con eso:
+  - o bien “nombras” clusters (cluster 3 = “queja/negativo”, cluster 1 = “elogio/positivo”)
+  - o entrenas un clasificador supervisado rápido (LogReg/SVM) para generalizar.
+
+Esto suele ser más rápido que etiquetar todo desde cero, porque el clustering ya ordenó el caos.
+
+**  Checklist para que te quede bien con redes sociales
+- [ ] Quitar duplicados/RT/spam.
+- [ ] Revisar si te conviene `analyzer="char_wb"` (muchas variaciones y faltas).
+- [ ] Probar `ngram_range=(1,2)` y `min_df` (2–10 según tamaño).
+- [ ] Probar K en 5–20 y quedarte con el más interpretable.
+- [ ] Siempre imprimir: términos top + ejemplos representativos.
+
+**  Entrada de datos sugerida (CSV)
+Formato mínimo:
+- `text`: el comentario/tweet/documento
+Opcional:
+- `id`, `source`, `date`, etc.
+
+
+
+*  Rastreadores Web
+
+
+Los *rastreadores web* (web crawlers o spiders) son programas que
+recorren sistemáticamente la World Wide Web para descubrir, obtener y
+a menudo almacenar contenido. Son la base de los buscadores,
+agregadores de noticias, monitorización de precios, análisis de redes
+sociales y muchas otras aplicaciones que dependen de datos públicos o
+semi-públicos en línea.
+
+Este documento organiza los conceptos en torno al DOM, el alcance del
+rastreo, modelos arquitectónicos, herramientas como Scrapy,
+almacenamiento, redes sociales y aplicaciones típicas.
+
+** DOM y HTML parsing
+
+El *Document Object Model* (DOM) es una representación en árbol del documento HTML (o XML) que el navegador construye tras analizar (*parsear*) el marcado. Cada nodo corresponde a elementos, atributos y texto; las APIs del navegador permiten consultar y modificar ese árbol.
+
+*** Parsing de HTML
+
+El *parsing* consiste en leer una cadena de caracteres (HTML) y producir una estructura utilizable (árbol DOM o similar). En entornos sin navegador (por ejemplo, scripts en Python), las librerías suelen:
+
+- Usar analizadores tolerantes a HTML “sucio” (como el que generan sitios legacy), por ejemplo *html.parser*, *lxml.html* o *BeautifulSoup* en el ecosistema Python.
+- Ofrecer selectores tipo CSS o XPath para localizar nodos sin recorrer manualmente todo el árbol.
+
+*** Relación con el rastreo
+
+En el rastreo no siempre se necesita un DOM completo como en el navegador: a menudo basta con extraer fragmentos (títulos, enlaces, tablas). Sin embargo, entender el DOM ayuda a:
+
+- Escribir selectores estables (por clase, id, atributos *data-*, jerarquía).
+- Distinguir contenido generado en el cliente (JavaScript) frente al HTML inicial del servidor, lo que condiciona si basta con una petición HTTP simple o hace falta un navegador headless.
+
+*** Consideraciones prácticas
+
+- *Codificación*: declarar o detectar UTF-8 y variantes para no corromper texto.
+- *HTML mal formado*: los parsers indulgentes reconstruyen el árbol de forma heurística; los resultados pueden variar ligeramente entre librerías.
+- *Namespaces y HTML5*: elementos y atributos deben interpretarse según las reglas del estándar vigente del proyecto.
+
+** Alcance del rastreador web
+
+El *alcance* define qué URLs y recursos entran en el proceso de rastreo y cuáles quedan fuera.
+
+*** Dimensiones del alcance
+
+- *Dominio y subdominios*: limitar a un dominio concreto evita “salirse” del sitio objetivo.
+- *Profundidad y anchura*: cuántos niveles de enlaces seguir desde una URL semilla y cuántas URLs concurrentes por nivel.
+- *Patrones de URL*: incluir o excluir rutas mediante expresiones regulares o reglas (por ejemplo solo */producto/*).
+- *Tipo de recurso*: HTML, PDF, APIs JSON, etc.
+
+*** Políticas y restricciones
+
+- *robots.txt*: indica rutas que el propietario del sitio prefiere no rastrear; el respeto es una buena práctica y en muchos casos condición de uso del servicio.
+- *Términos de uso* del sitio o de la API: pueden prohibir el scraping automatizado.
+- *Rate limiting*: espaciar peticiones para no sobrecargar servidores ni provocar bloqueos.
+
+*** Objetivos típicos por alcance
+
+| Alcance              | Uso típico                                      |
+|----------------------+-------------------------------------------------|
+| Sitio único          | Catálogo de una tienda, portal institucional    |
+| Varios dominios      | Comparadores, agregadores de noticias           |
+| Web abierta masiva   | Motores de búsqueda (índices muy grandes)       |
+
+** Modelos de rastreadores web
+
+*** Modelo de cola de URLs (clásico)
+
+1. Partir de una lista de *URLs semilla*.
+2. Encolar URLs pendientes; desencolar, descargar y analizar cada página.
+3. Extraer enlaces (y otros identificadores) y añadirlos a la cola si no están visitados (deduplicación con un conjunto o Bloom filter).
+4. Repetir hasta vaciar la cola o alcanzar límites (tiempo, profundidad, número de páginas).
+
+Este modelo encaja bien con frameworks como Scrapy, donde el “spider” genera *requests* siguientes a partir de cada respuesta.
+
+*** Rastreo enfocado (focused crawling)
+
+Prioriza enlaces según relevancia respecto a un tema (puntuación por texto del ancla, similitud con un modelo, etc.), útil cuando no interesa indexar todo el sitio.
+
+*** Rastreo incremental
+
+Mantiene estado de “última visita” o *ETags* / *Last-Modified* para volver solo a páginas cambiadas, reduciendo ancho de banda y carga.
+
+*** Rastreo distribuido
+
+Varios workers reparten URLs por partición (por dominio o hash) para escalar; requiere coordinación, deduplicación distribuida y políticas de cortesía por host.
+
+*** Sitios dinámicos (SPA)
+
+Cuando el contenido depende de JavaScript, el modelo puede incluir:
+
+- Navegador headless (Playwright, Puppeteer) que ejecute JS y exponga DOM final.
+- O consumo directo de APIs internas que el propio sitio llama vía XHR/fetch (si son accesibles y legales).
+
+** Librerías para desarrollo de rastreadores (Scrapy)
+
+*** Rol de Scrapy
+
+*Scrapy* es un framework en Python orientado al rastreo y extracción estructurada. No es solo un parser: incluye motor de peticiones concurrentes, middlewares, pipelines, extensiones y herramientas de línea de comandos.
+
+*** Componentes principales
+
+- *Spider*: clase que define cómo seguir enlaces y qué datos extraer de cada respuesta.
+- *Request / Response*: flujo de trabajo asíncrono basado en Twisted (I/O no bloqueante).
+- *Item*: estructura de datos extraídos (similar a un dict tipado o dataclass).
+- *Pipeline*: procesamiento posterior (validación, limpieza, deduplicación, escritura a BD o ficheros).
+- *Downloader middlewares*: cabeceras, proxies, reintentos, manejo de cookies.
+- *Spider middlewares*: filtrado o modificación de requests/responses entre motor y spider.
+
+*** Ventajas
+
+- Concurrencia y rendimiento elevados frente a scripts secuenciales con *requests* + bucle manual.
+- Separación clara entre extracción, almacenamiento y configuración.
+- Ecosistema de extensiones (Splash para JS, proxies rotativos, etc., según necesidad).
+
+*** Alternativas y complementos
+
+- *requests* + *BeautifulSoup* / *lxml*: simple para proyectos pequeños o prototipos.
+- *Playwright* / *Selenium*: cuando el DOM depende de ejecución en cliente.
+- *httpx*, *aiohttp*: clientes HTTP asíncronos si se construye un rastreador a medida sin Scrapy.
+
+** Almacenamiento de datos
+
+Los datos rastreados deben persistirse según volumen, velocidad de llegada y uso posterior.
+
+*** Opciones comunes
+
+- *Ficheros*: CSV, JSON Lines (una línea por registro), Parquet para analítica.
+- *Bases relacionales* (PostgreSQL, SQLite): esquemas claros, integridad, consultas SQL.
+- *NoSQL* (MongoDB, Elasticsearch): documentos flexibles o búsqueda de texto completo.
+- *Almacenes de objetos* (S3, MinIO): volúmenes grandes de HTML crudo o binarios.
+- *Colas de mensajes* (Redis, RabbitMQ, Kafka): desacoplar rastreo de procesamiento pesado.
+
+*** Buenas prácticas
+
+- Definir claves naturales o IDs para evitar duplicados.
+- Versionar esquemas cuando evolucionen los campos extraídos.
+- Comprimir archivos históricos y aplicar retención según normativa (RGPD, etc., si hay datos personales).
+
+*** Metadatos útiles
+
+Fecha de rastreo, URL canónica, código HTTP, hash del contenido para detectar cambios entre ejecuciones.
+
+** Redes sociales
+
+Las redes sociales son fuentes de texto, enlaces, métricas de engagement y grafos sociales, pero su acceso está muy regulado.
+
+*** Acceso típico
+
+- *APIs oficiales* (cuotas, autenticación OAuth, términos estrictos): preferible para proyectos legítimos y estables.
+- *Exportaciones* o datos proporcionados por el usuario.
+- El *scraping* directo del HTML público a menudo viola términos de servicio y puede cambiar de forma frecuente (anti-bot, login obligatorio).
+
+*** Desafíos
+
+- Contenido detrás de login, infinite scroll, carga dinámica.
+- Limitaciones legales y éticas: consentimiento, derecho al olvido, uso de datos personales.
+
+En trabajos académicos o de producto, suele priorizarse API oficial o conjuntos de datos abiertos ya anonimizados.
+
+** Aplicaciones
+
+*** Idea general
+
+Los rastreadores alimentan sistemas que van más allá del simple almacenamiento: monitorización, inteligencia competitiva, investigación, periodismo de datos, etc.
+
+*** Reportes automáticos de texto a partir de la web
+
+Objetivo: transformar colecciones de páginas o feeds en *informes legibles* (resúmenes, destacados, alertas) sin redacción manual constante.
+
+- *Pipeline típico*: rastreo programado → extracción del cuerpo principal (readability, boilerplate removal) → normalización de texto → opcionalmente NLP (resumen extractivo o abstractivo) → plantilla de informe (PDF, HTML, correo).
+- *Casos*: newsletters automáticos a partir de prensa sectorial, “digest” diario de cambios en normativa publicada en boletines oficiales, informes de menciones de marca en noticias.
+
+Calidad del informe depende de la calidad de la extracción del artículo principal y de la deduplicación de noticias repetidas.
+
+*** Minería de opinión
+
+La *minería de opinión* (o análisis de sentimiento) extrae de textos actitudes positivas, negativas o neutras, y a veces emociones finas o aspectos (*aspect-based sentiment*).
+
+- *Enfoques*: léxicos de polaridad, modelos de machine learning o transformers entrenados en corpus de reseñas/redes.
+- *Datos de entrada*: comentarios de productos, tweets (vía API), foros, encuestas abiertas — muchas veces obtenidos tras rastreo o API y preprocesamiento.
+- *Aplicaciones*: reputación de marca, seguimiento de campañas, detección de crisis, análisis de satisfacción del cliente.
+
+Limitaciones: ironía, contexto cultural y sesgos del modelo pueden distorsionar resultados; conviene validación humana en decisiones críticas.
+
+
+
+
+* Guía práctica: BeautifulSoup, rastreador simple, Scrapy y proyecto completo
+
+** Propósito de este apartado
+
+Aprenderás *cuatro enfoques*: BeautifulSoup en un script, rastreador
+manual con colas, Scrapy con =runspider= y un *proyecto Scrapy completo*
+(=startproject= + =scrapy crawl=), además de una guía de *problemas
+frecuentes*. Todo sobre páginas de *práctica*, con código *reproducible* y
+*documentado* línea a línea.
+
+** Aviso legal y uso responsable
+
+- El rastreo automatizado puede estar *prohibido* por los términos de
+  uso de muchos sitios. Este tutorial usa únicamente
+  *[[https://quotes.toscrape.com/][quotes.toscrape.com]]*, un sitio público pensado para aprender scraping
+  y Scrapy.
+- Respeta siempre *[[https://www.robotstxt.org/][robots.txt]]*, limita la *frecuencia* de peticiones e
+  identifica tu programa con un *User-Agent* claro (por ejemplo nombre
+  del curso o proyecto).
+- No uses estos ejemplos contra redes sociales, bancos, sitios con
+  datos personales o servicios que requieran credenciales sin
+  autorización explícita.
+
+** Entorno recomendado (Python y dependencias)
+
+Crea un entorno virtual e instala paquetes. Así no mezclas versiones con otros proyectos.
+
+#+BEGIN_SRC shell :eval never
+cd ~/Scripts
+python3 -m venv venv-tutorial-rastreo
+source venv-tutorial-rastreo/bin/activate   # En Windows: venv-tutorial-rastreo\Scripts\activate
+pip install --upgrade pip
+pip install -r requirements-tutorial-rastreo.txt
+# alternative explícita:
+# pip install requests beautifulsoup4 lxml scrapy
+#+END_SRC
+
+
+*** Qué instala cada paquete
+
+| Paquete        | Función breve                                          |
+|----------------+--------------------------------------------------------|
+| =requests=       | Peticiones HTTP sencillas (obtener HTML)               |
+| =beautifulsoup4= | Analizar HTML y buscar etiquetas con selectores        |
+| =lxml=           | Parser rápido; BeautifulSoup puede usarlo como motor   |
+| =scrapy=         | Framework de rastreo: colas, concurrencia, exportación |
+
+** Parte 1 — BeautifulSoup: una sola página
+
+Este script descarga *una* URL, construye el árbol del documento y extrae citas. Es el camino más directo para prototipos pequeños.
+
+*** Código completo (=bs4_una_pagina.py=)
+
+
+#+BEGIN_SRC python :eval never
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Extracción de citas con BeautifulSoup — sitio de práctica únicamente."""
+
+import sys
+import requests
+from bs4 import BeautifulSoup
+
+# URL permitida para este tutorial (sitio de demostración para scraping).
+URL = "https://quotes.toscrape.com/"
+
+# User-Agent: identifica quién hace la petición (buena práctica; evita bloqueos por "bot genérico").
+HEADERS = {
+    "User-Agent": "TutorialOrgEducacional/1.0 (curso; contacto: tu-email@ejemplo.org)",
+    "Accept-Language": "es,en;q=0.8",
+}
+
+
+def main() -> None:
+    """Descarga HTML, analiza y muestra cada cita en salida estándar."""
+    try:
+        # timeout evita quedarse colgado si el servidor no responde.
+        respuesta = requests.get(URL, headers=HEADERS, timeout=15)
+        # raise_for_status() lanza excepción si el código HTTP es 4xx o 5xx.
+        respuesta.raise_for_status()
+    except requests.RequestException as exc:
+        print(f"Error de red al obtener {URL}: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    # BeautifulSoup parsea el texto HTML; "lxml" es el parser rápido que instalamos.
+    sopa = BeautifulSoup(respuesta.text, "lxml")
+
+    # select() usa selectores CSS: cada bloque de cita está en div.quote.
+    for bloque in sopa.select("div.quote"):
+        # Dentro del bloque, el texto de la cita está en span.text.
+        texto_el = bloque.select_one("span.text")
+        autor_el = bloque.select_one("small.author")
+        etiquetas_els = bloque.select("div.tags a.tag")
+
+        texto = texto_el.get_text(strip=True) if texto_el else ""
+        autor = autor_el.get_text(strip=True) if autor_el else ""
+        # get_text() en varios nodos: iteramos y limpiamos espacios.
+        etiquetas = [a.get_text(strip=True) for a in etiquetas_els]
+
+        print(f"Cita: {texto}")
+        print(f"  Autor: {autor}")
+        print(f"  Etiquetas: {', '.join(etiquetas)}")
+        print()
+
+
+if __name__ == "__main__":
+    main()
+#+END_SRC
+
+*** Explicación línea por línea (archivo anterior)
+
+- *=#!/usr/bin/env python3=* — En sistemas Unix, indica que el intérprete es Python 3 al ejecutar =./bs4_una_pagina.py=.
+- *=*-*- coding: utf-8 -*-=* — Declara codificación UTF-8 para el archivo fuente (acentos en comentarios).
+- *Docstring del módulo* — Describe el propósito y el ámbito (solo sitio de práctica).
+- *=import sys=* — Acceso a =sys.stderr= y =sys.exit= para errores claros.
+- *=import requests=* — Cliente HTTP para =GET=.
+- *=from bs4 import BeautifulSoup=* — Clase principal del parser.
+- *=URL= ...=* — Constante: un solo origen; fácil de cambiar para otro *sitio permitido*.
+- *=HEADERS=* — Diccionario de cabeceras HTTP; =User-Agent= identifica el cliente (ética y menos bloqueos).
+- *=def main() -> None:=* — Función principal con anotación de tipo (=None= porque solo imprime).
+- *=try/except requests.RequestException=* — Captura fallos de red, DNS, SSL, timeouts.
+- *=requests.get(..., timeout=15)=* — Petición GET con límite de espera en segundos.
+- *=raise_for_status()=* — Falla explícitamente si la respuesta no es exitosa.
+- *=BeautifulSoup(respuesta.text, "lxml")=* — Construye el DOM lógico desde el HTML en texto.
+- *=sopa.select("div.quote")=* — Lista de nodos que coinciden con el selector CSS.
+- *=select_one=* — Primer match o =None=; evita errores si falta un elemento.
+- *=get_text(strip=True)=* — Solo texto visible, sin etiquetas; =strip=True= quita espacios extremos.
+- *List comprehension en etiquetas* — Colección ordenada de strings de cada enlace de etiqueta.
+
+*** Cómo ejecutarlo
+
+#+BEGIN_SRC shell :eval never
+cd ~/Scripts
+source venv-tutorial-rastreo/bin/activate
+python3 bs4_una_pagina.py
+#+END_SRC
+
+Deberías ver en consola varias citas con autor y etiquetas.
+
+** Parte 2 — Rastreador web simple (cola + visitados)
+
+Este script *no* usa Scrapy: implementa una cola de URLs, un conjunto de ya visitadas y un retardo entre peticiones — útil para entender el *modelo mental* del rastreo antes del framework.
+
+*** Código completo (=rastreador_simple_colas.py=)
+
+Solo sigue enlaces cuyo *netloc* sea =quotes.toscrape.com= para no salir del sitio de práctica.
+
+#+BEGIN_SRC python :eval never
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Rastreador didáctico con cola + visitados — solo quotes.toscrape.com."""
+
+from __future__ import annotations
+
+import collections
+import sys
+import time
+from typing import Optional
+from urllib.parse import urljoin, urlparse
+
+import requests
+from bs4 import BeautifulSoup
+
+SEED_URL = "https://quotes.toscrape.com/"
+# Dominios permitidos: no seguiremos enlaces fuera de esta lista (seguridad).
+ALLOWED_NETLOCS = {"quotes.toscrape.com"}
+
+HEADERS = {
+    "User-Agent": "TutorialOrgEducacional/1.0 (rastreador simple; solo sitio de práctica)",
+}
+
+# Segundos entre peticiones al mismo host (cortesía; reduce carga en el servidor).
+DELAY_SECONDS = 1.0
+# Máximo de páginas a visitar en esta demostración (evita ejecuciones infinitas).
+MAX_PAGES = 15
+
+
+def normalizar_url(base: str, href: Optional[str]) -> Optional[str]:
+    """Convierte href relativo en URL absoluta; devuelve None si href vacío."""
+    if not href:
+        return None
+    return urljoin(base, href)
+
+
+def es_permitida(url: str) -> bool:
+    """True solo si el dominio está en ALLOWED_NETLOCS (http/https)."""
+    partes = urlparse(url)
+    if partes.scheme not in ("http", "https"):
+        return False
+    return partes.netloc in ALLOWED_NETLOCS
+
+
+def extraer_citas_y_enlaces(html: str, url_actual: str) -> tuple[list[dict], list[str]]:
+    """Devuelve (lista de dicts cita, lista de URLs halladas en la página)."""
+    sopa = BeautifulSoup(html, "lxml")
+    citas: list[dict] = []
+
+    for bloque in sopa.select("div.quote"):
+        texto_el = bloque.select_one("span.text")
+        autor_el = bloque.select_one("small.author")
+        texto = texto_el.get_text(strip=True) if texto_el else ""
+        autor = autor_el.get_text(strip=True) if autor_el else ""
+        citas.append({"texto": texto, "autor": autor})
+
+    enlaces: list[str] = []
+    for a in sopa.select("a[href]"):
+        href = a.get("href")
+        absoluta = normalizar_url(url_actual, href)
+        if absoluta and es_permitida(absoluta):
+            enlaces.append(absoluta)
+
+    return citas, enlaces
+
+
+def main() -> None:
+    cola: collections.deque[str] = collections.deque()
+    visitados: set[str] = set()
+    paginas_visitadas = 0
+
+    cola.append(SEED_URL)
+
+    while cola and paginas_visitadas < MAX_PAGES:
+        url = cola.popleft()
+        if url in visitados:
+            continue
+        visitados.add(url)
+
+        try:
+            time.sleep(DELAY_SECONDS)
+            r = requests.get(url, headers=HEADERS, timeout=15)
+            r.raise_for_status()
+        except requests.RequestException as exc:
+            print(f"Aviso: no se pudo leer {url}: {exc}", file=sys.stderr)
+            continue
+
+        paginas_visitadas += 1
+        citas, enlaces = extraer_citas_y_enlaces(r.text, url)
+
+        print(f"--- Página {paginas_visitadas}: {url} ({len(citas)} citas) ---")
+        for c in citas:
+            print(f"  · {c['autor']}: {c['texto'][:80]}...")
+
+        for enlace in enlaces:
+            if enlace not in visitados:
+                cola.append(enlace)
+
+
+if __name__ == "__main__":
+    main()
+#+END_SRC
+
+*** Explicación línea por línea (ideas clave)
+
+- *=from __future__ import annotations=* — Permite anotaciones de tipo con tipos que aún no están definidos (compatible con versiones antiguas de Python 3.7+).
+- *=collections.deque=* — Cola eficiente por ambos extremos para URLs pendientes.
+- *=urljoin, urlparse=* — Unir base + href relativo y analizar esquema/host.
+- *=ALLOWED_NETLOCS=* — *Política de alcance*: solo enlaces del mismo sitio de práctica.
+- *=DELAY_SECONDS / MAX_PAGES=* — Límites explícitos: cortesía y demostración acotada.
+- *=normalizar_url=* — Evita errores con enlaces como =/page/2/= respecto a la URL actual.
+- *=es_permitida=* — Filtra =javascript:=, otros dominios, etc.
+- *=extraer_citas_y_enlaces=* — Una función pura: HTML → datos + nuevos enlaces.
+- *Bucle principal* — Mientras haya cola y no se supere =MAX_PAGES=, sacar URL, marcar visitada, dormir, GET, parsear, encolar nuevos enlaces no visitados.
+- *Fragmento =[:80]=* — Solo muestra un prefijo de la cita para salida legible.
+
+*** Cómo ejecutarlo
+
+#+BEGIN_SRC shell :eval never
+cd ~/Scripts
+source venv-tutorial-rastreo/bin/activate
+python3 rastreador_simple_colas.py
+#+END_SRC
+
+** Parte 3 — Scrapy: spider en un solo archivo
+
+Scrapy gestiona concurrencia, reintentos y exportación (=json=, =csv=). Aquí usamos =scrapy runspider= con *un único archivo* para que sea fácil de copiar en el tutorial.
+
+*** Código completo (=scrapy_quotes_spider.py=)
+
+#+BEGIN_SRC python :eval never
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Spider Scrapy de ejemplo — solo https://quotes.toscrape.com/"""
+
+import scrapy
+
+
+class QuotesSpider(scrapy.Spider):
+    # Nombre interno del spider (usado en logs y en línea de comandos).
+    name = "quotes"
+
+    # URLs iniciales desde las que Scrapy lanzará la primera petición.
+    start_urls = ["https://quotes.toscrape.com/"]
+
+    # Reglas de cortesía y cumplimiento: robots.txt, retardo, agente identificable.
+    custom_settings = {
+        "ROBOTSTXT_OBEY": True,
+        "DOWNLOAD_DELAY": 1,
+        "USER_AGENT": "TutorialOrgEducacional/1.0 (Scrapy; solo quotes.toscrape.com)",
+    }
+
+    def parse(self, response):
+        # response.css usa selectores CSS de Scrapy; ::text extrae solo texto del nodo.
+        for bloque in response.css("div.quote"):
+            yield {
+                "texto": bloque.css("span.text::text").get(),
+                "autor": bloque.css("small.author::text").get(),
+                "etiquetas": bloque.css("div.tags a.tag::text").getall(),
+            }
+
+        # Siguiente página: enlace relativo en li.next > a.
+        siguiente = response.css("li.next a::attr(href)").get()
+        if siguiente:
+            # follow construye URL absoluta y programa otra petición con el mismo parse.
+            yield response.follow(siguiente, callback=self.parse)
+
+#+END_SRC
+
+*** Explicación línea por línea (Scrapy)
+
+- *=class QuotesSpider(scrapy.Spider):=* — Toda spider hereda de =scrapy.Spider= e implementa al menos =parse= (u otros callbacks).
+- *=name=* — Identificador único del spider dentro del proyecto (aquí proyecto implícito al usar =runspider=).
+- *=start_urls=* — Lista de seeds; Scrapy crea un =Request= por cada una con =callback=self.parse= por defecto.
+- *=custom_settings=* — Diccionario que sobrescribe ajustes solo para este spider.
+  - *=ROBOTSTXT_OBEY: True=* — Respeta =robots.txt= del sitio (buena práctica).
+  - *=DOWNLOAD_DELAY: 1=* — ~1 s entre descargas al *mismo* dominio (además del scheduler de Scrapy).
+  - *=USER_AGENT=* — Identificación del cliente.
+- *=def parse(self, response):=* — Método llamado con la =Response= ya descargada (=response.body=, =response.url=, etc.).
+- *=response.css("div.quote")=* — Iterable de selectores; cada uno apunta a un fragmento del DOM.
+- *=.css("span.text::text").get()=* — Primer texto; =getall()= devolvería lista.
+- *=yield { ... }=* — En Scrapy, =yield= de un dict produce un *item* que pueden procesar pipelines o exportación.
+- *=response.css("li.next a::attr(href)").get()=* — Valor del atributo =href= del enlace “siguiente”, o =None= si no hay.
+- *=yield response.follow(siguiente, callback=self.parse)=* — Encola petición al siguiente path y reutiliza =parse= para la nueva página.
+
+*** Cómo ejecutarlo y guardar JSON
+
+#+BEGIN_SRC shell :eval never
+cd ~/Scripts
+source venv-tutorial-rastreo/bin/activate
+scrapy runspider scrapy_quotes_spider.py -o citas_scrapy.json
+#+END_SRC
+
+El fichero =citas_scrapy.json= contendrá una lista de objetos JSON (una
+línea por item en formato JSON Lines si usas =jl=; con =json= Scrapy puede
+escribir lista JSON según versión — si prefieres JSON Lines explícito
+usa =-o citas.jl=).
+
+** Parte 4 — Proyecto Scrapy completo (=scrapy startproject= + =scrapy crawl=)
+
+Además de =scrapy runspider archivo.py=, Scrapy suele organizarse como
+*proyecto*: un directorio con configuración global, posibles *pipelines*,
+*middlewares* y varias *spiders*. Así separas *qué* rastreas (spider) de
+*cómo* lo hace el motor (retardo, concurrencia, user-agent en
+=settings.py=).
+
+*** Cómo se generó el proyecto de este tutorial
+
+Desde =~/Scripts= (con el entorno virtual activado y Scrapy instalado) se ejecutó:
+
+#+BEGIN_SRC shell :eval never
+cd ~/Scripts
+source venv-tutorial-rastreo/bin/activate
+scrapy startproject tutorial_scrapy_quotes
+#+END_SRC
+
+Eso creó la carpeta =tutorial_scrapy_quotes/= con la plantilla
+oficial. Luego se añadió el spider =quotes= y se ajustó =USER_AGENT= en
+=settings.py=. Si repites el comando en otra máquina, obtienes la misma
+base; solo necesitas copiar o crear el fichero del spider que ves
+abajo.
+
+*** Árbol relevante del proyecto
+
+#+BEGIN_EXAMPLE
+tutorial_scrapy_quotes/
+├── scrapy.cfg                    # Indica a Scrapy dónde están los settings del proyecto
+└── tutorial_scrapy_quotes/
+    ├── items.py                  # Modelos de datos (opcional; aquí no es obligatorio)
+    ├── middlewares.py            # Hooks de petición/respuesta (opcional)
+    ├── pipelines.py              # Procesar items antes de guardarlos (opcional)
+    ├── settings.py               # USER_AGENT, ROBOTSTXT_OBEY, retardos, pipelines…
+    └── spiders/
+        ├── __init__.py
+        └── quotes.py             # Spider =quotes= de este tutorial
+#+END_EXAMPLE
+
+- *=scrapy.cfg=* — Archivo INI mínimo: sección =[settings]= con =default = tutorial_scrapy_quotes.settings=. Al ejecutar =scrapy crawl= *desde la carpeta que contiene este archivo*, Scrapy carga esa configuración.
+- *=settings.py=* — Valores por defecto del *proyecto*. Aquí conviene centralizar =USER_AGENT=, =ROBOTSTXT_OBEY=, =DOWNLOAD_DELAY= y =CONCURRENT_REQUESTS_PER_DOMAIN= para que *todas* las spiders del proyecto hereden el mismo comportamiento responsable.
+- *=spiders/quotes.py=* — Define una clase que hereda de =scrapy.Spider= con =name = "quotes"=; ese *nombre* es el que usas en la línea de comandos.
+
+*** Fragmentos importantes de =settings.py= (explicación línea por línea)
+
+En el proyecto generado, estos valores educan el rastreo (plantilla Scrapy ya incorpora varios; el tutorial añade =USER_AGENT= explícito):
+
+- *=BOT_NAME=* — Nombre lógico del proyecto (aparece en logs).
+- *=SPIDER_MODULES= / NEWSPIDER_MODULE=* — Rutas Python donde Scrapy busca clases spider.
+- *=ROBOTSTXT_OBEY = True=* — Antes de rastrear un dominio, descarga y respeta =/robots.txt= si existe (si no existe, ver *Problemas frecuentes*).
+- *=CONCURRENT_REQUESTS_PER_DOMAIN = 1=* — Como máximo una petición concurrente por dominio (cortesía).
+- *=DOWNLOAD_DELAY = 1=* — Pausa base entre peticiones al mismo dominio (segundos).
+- *=USER_AGENT=* — Cadena que identifica tu aplicación; debe ser honesta y reconocible.
+- *=FEED_EXPORT_ENCODING = "utf-8"=* — Al usar =-o archivo.json=, la exportación en UTF-8.
+
+*** Código del spider (=tutorial_scrapy_quotes/spiders/quotes.py=)
+
+La lógica es la misma que en la Parte 3, con dos diferencias típicas de proyecto:
+
+- *=allowed_domains=* — Lista blanca de dominios; Scrapy descarta peticiones fuera de ella (evita seguir enlaces externos por error).
+- *Sin =custom_settings=* en la clase — la cortesía ya está en =settings.py= del proyecto.
+
+#+BEGIN_SRC python :eval never
+# -*- coding: utf-8 -*-
+"""Spider del proyecto tutorial — solo https://quotes.toscrape.com/"""
+
+import scrapy
+
+
+class QuotesSpider(scrapy.Spider):
+    name = "quotes"
+    allowed_domains = ["quotes.toscrape.com"]
+    start_urls = ["https://quotes.toscrape.com/"]
+
+    def parse(self, response):
+        for bloque in response.css("div.quote"):
+            yield {
+                "texto": bloque.css("span.text::text").get(),
+                "autor": bloque.css("small.author::text").get(),
+                "etiquetas": bloque.css("div.tags a.tag::text").getall(),
+            }
+
+        siguiente = response.css("li.next a::attr(href)").get()
+        if siguiente:
+            yield response.follow(siguiente, callback=self.parse)
+#+END_SRC
+
+- *=name = "quotes"=* — Debe coincidir con el argumento de =scrapy crawl quotes=.
+- *=allowed_domains=* — Solo =quotes.toscrape.com=; coherente con el alcance seguro del tutorial.
+- *Resto* — Igual que en Parte 3: =yield= de dicts y =response.follow= para paginar.
+
+*** Cómo ejecutar el proyecto
+
+Hay que situarse en el directorio que contiene =scrapy.cfg= (no dentro de =tutorial_scrapy_quotes/tutorial_scrapy_quotes/=).
+
+#+BEGIN_SRC shell :eval never
+cd ~/Scripts/tutorial_scrapy_quotes
+source ~/Scripts/venv-tutorial-rastreo/bin/activate
+scrapy crawl quotes -o citas_proyecto.json
+#+END_SRC
+
+Salida: fichero =citas_proyecto.json= con los items (codificación UTF-8 según =settings=).
+
+*** =runspider= (Parte 3) vs proyecto (Parte 4)
+
+| Aspecto                 | =scrapy runspider mi_spider.py=          | Proyecto con =scrapy crawl nombre=           |
+|-------------------------+----------------------------------------+--------------------------------------------|
+| Configuración           | =custom_settings= en la clase o poco más | =settings.py= compartido por varias spiders  |
+| Spiders múltiples       | Incómodo (varios archivos sueltos)     | Natural: una clase por fichero en =spiders/= |
+| Pipelines / middlewares | Manual                                 | Integrados por nombre en =settings.py=       |
+| Uso típico              | Prototipo, un solo archivo             | Cursos, equipos, despliegue con =scrapyd=    |
+
+** Tabla comparativa rápida
+
+| Enfoque                 | Cuándo usarlo                                    |
+|-------------------------+--------------------------------------------------|
+| BeautifulSoup + GET     | Pocas páginas, script rápido, aprendizaje        |
+| Cola + visitados        | Entender rastreo sin framework; control total    |
+| Scrapy =runspider=        | Prototipo Scrapy en un solo =.py=                  |
+| Proyecto Scrapy (=crawl=) | Varios spiders, settings y pipelines compartidos |
+
+** Problemas frecuentes y soluciones
+
+*** =ModuleNotFoundError: No module named 'lxml'= (o =bs4=, =scrapy=)
+
+- *Causa*: El intérprete de Python no es el del entorno virtual donde instalaste dependencias, o no ejecutaste =pip install -r requirements-tutorial-rastreo.txt=.
+- *Solución*: =source .../venv-tutorial-rastreo/bin/activate= y vuelve a instalar. Comprueba con =which python= y =pip show scrapy= que apuntan al mismo =venv=.
+
+*** BeautifulSoup: *Couldn't find a tree builder with the features you requested*
+
+- *Causa*: Pediste el parser =lxml= pero no está instalado.
+- *Solución*: =pip install lxml= o, temporalmente, usa =BeautifulSoup(html, "html.parser")= (más lento, sin dependencia extra).
+
+*** =ssl.SSLError= / =CERTIFICATE_VERIFY_FAILED=
+
+- *Causa*: Certificados del sistema desactualizados, proxy corporativo que intercepta TLS, o entorno muy antiguo.
+- *Solución*: Actualizar el paquete =ca-certificates= del SO o de Python; en redes con proxy, configurar variables de entorno o el middleware de proxy de Scrapy *solo si tu organización lo permite*. No desactives la verificación SSL en producción sin criterio de seguridad.
+
+*** =scrapy: command not found=
+
+- *Causa*: =venv= no activado o Scrapy no instalado en ese entorno.
+- *Solución*: Activa el =venv= o ejecuta =python -m scrapy crawl quotes= desde el directorio del proyecto.
+
+*** =403 Forbidden= o bloqueos similares
+
+- *Causa*: El sitio rechaza peticiones automáticas (User-Agent, falta de cabeceras, rate limit).
+- *Solución educativa*: En sitios *permitidos* suele bastar un =USER_AGENT= identificable y =DOWNLOAD_DELAY=. No intentes evadir protecciones de sitios que prohíben el rastreo.
+
+*** Timeouts y =ConnectionError=
+
+- *Causa*: Red inestable, firewall, URL incorrecta o servidor caído.
+- *Solución*: Revisa la URL en el navegador; en =requests= usa =timeout=; en Scrapy revisa =DOWNLOAD_TIMEOUT= en documentación.
+
+*** Log de Scrapy: =robotstxt ... 404=
+
+- *Causa*: El sitio no publica =/robots.txt=; el servidor responde 404.
+- *Qué implica*: No es un error fatal: Scrapy sigue; simplemente no hay reglas públicas en ese path. Sigue respetando leyes y términos del sitio.
+
+*** =ImportError= al lanzar el spider del proyecto
+
+- *Causa*: Ejecutaste =scrapy crawl= desde un directorio incorrecto (sin =scrapy.cfg=) o el nombre del spider no coincide con =name= en la clase.
+- *Solución*: =cd= a la carpeta que contiene =scrapy.cfg=; comprueba =scrapy list= para ver spiders registradas.
+
+*** Duplicados en el fichero de salida o URL visitadas dos veces
+
+- *Causa*: Misma página enlazada con query strings distintas o cola sin deduplicar en scripts manuales.
+- *Solución*: Normaliza URLs (sin fragmentos, parámetros opcionales); en Scrapy usa =dont_filter= solo cuando sea consciente.
+
+
+*  XPath con Python: lxml, BeautifulSoup, rastreador y Scrapy
+
+** Cómo encaja XPath con “requests + BeautifulSoup + Scrapy + rastreador”
+
+Puedes y *debes* combinarlo con Python. La idea clave es:
+
+- *XPath* es un *lenguaje de consultas* sobre el árbol del documento (similar en papel a SQL sobre tablas, pero sobre nodos XML/HTML).
+- Quien *ejecuta* XPath en tu stack suele ser:
+  - *lxml* (=lxml.html.fromstring= + =.xpath(...)=),
+  - *Scrapy* (=response.xpath(...)=, internamente *Parsel*, muy parecido a lxml),
+  - *parsel* (=Selector(text=html).xpath(...)=) para pruebas sin descargar.
+
+** BeautifulSoup y XPath
+
+BeautifulSoup *no* tiene método =.xpath()=. Sus puntos fuertes son =find=, =select= (CSS) y recorrido del árbol en Python.
+
+*Combinación habitual*: una petición =requests= → obtienes HTML como texto → puedes:
+
+1. Parsear con =BeautifulSoup(html, "lxml")= y usar *solo CSS*; o
+2. Parsear el *mismo* string con =lxml.html.fromstring(html)= y usar *XPath*.
+
+Así *sí* “combinas” BS4 y XPath en un script: *mismo HTML, dos APIs* (el
+tutorial =xpath_mismo_html_bs4_y_lxml.py= lo demuestra). No hace falta
+mezclar en un solo objeto: basta con dos parseos del mismo contenido
+(coste mínimo en proyectos de aprendizaje).
+
+** Rastreador web (cola + visitados)
+
+Un *crawler* casero (como =rastreador_simple_colas.py=) solo recorre URLs: en cada página obtienes =html= y debes *extraer* citas y enlaces. Esa extracción puede ser con *CSS + BeautifulSoup* o con *XPath + lxml* — el bucle de cola *no cambia*; solo cambia la función =extraer_*=. Por eso existe =rastreador_simple_colas_xpath.py=: mismo patrón de rastreador, motor XPath.
+
+** Scrapy
+
+En Scrapy casi siempre usas =response.css()= o =response.xpath()= indistintamente en el mismo =parse=. Puedes tener un spider *solo XPath* (=scrapy_quotes_xpath_spider.py=) para practicar sin mezclar sintaxis.
+
+| Herramienta            | ¿Ejecuta XPath nativamente? | Forma práctica de combinar                          |
+|------------------------+----------------------------+-----------------------------------------------------|
+| BeautifulSoup          | No                         | Mismo HTML también parseado con =lxml.html=         |
+| lxml                     | Sí                         | =lh.fromstring(html).xpath("...")=                   |
+| Scrapy (=response=)    | Sí                         | =response.xpath("//div...")=                         |
+| Rastreador + requests | Depende del parser         | Tras =requests.get=, =lxml= o BS4 como elijas       |
+
+** ¿Por qué un documento sobre XPath ?
+
+Los selectores *CSS* son cortos y familiares si vienes del front. *XPath*
+describe rutas y relaciones (padre, hermano, posición) con *una
+expresión*: a veces menos frágil cuando las clases CSS son
+autogeneradas.
+
+XPath *no* sustituye políticas legales ni =robots.txt=; solo ubicas nodos
+en el DOM.
+
+** Conceptos mínimos de XPath 1.0
+
+La mayoría de motores en Python y Scrapy implementan *XPath 1.0*.
+
+*** Rutas y predicados
+
+- =//div[contains(@class,'quote')]= — cualquier =div= con clase que contenga esa cadena (útil cuando hay varias clases en el mismo atributo).
+- =.//span= — desde el nodo actual, cualquier descendiente =span= (en Scrapy dentro de un selector ya acotado).
+- =//a[contains(@href,'/page/')]= — filtrar enlaces por parte del =href=.
+
+*** Texto
+
+- =string(.//span[...])= o =normalize-space(...)= — texto listo para guardar.
+- =//a/@href= — todos los valores del atributo (útil en crawlers para encolar URLs).
+
+** Receta 1 — Una página: BeautifulSoup (CSS) y lxml (XPath) sobre el mismo HTML
+
+*Archivo en disco:* =~/Scripts/xpath_mismo_html_bs4_y_lxml.py=
+
+Flujo: una sola =requests.get= → =r.text= → (A) =BeautifulSoup= + =select= → (B) =lxml.html.fromstring= + =xpath=. Comparas los mismos campos con dos sintaxis.
+
+#+BEGIN_SRC python :eval never
+#!/usr/bin/env python3
+import requests
+from bs4 import BeautifulSoup
+from lxml import html as lh
+
+URL = "https://quotes.toscrape.com/"
+r = requests.get(URL, headers={"User-Agent": "TutorialXPath/1.0"}, timeout=15)
+r.raise_for_status()
+html_texto = r.text
+
+# A) BeautifulSoup: solo CSS / API propia
+sopa = BeautifulSoup(html_texto, "lxml")
+for bloque in sopa.select("div.quote"):
+    ...
+
+# B) lxml: XPath sobre el mismo string
+arbol = lh.fromstring(html_texto)
+for bloque in arbol.xpath("//div[contains(@class, 'quote')]"):
+    texto = bloque.xpath("string(.//span[contains(@class,'text')])").strip()
+    ...
+#+END_SRC
+
+- *Línea =BeautifulSoup(..., "lxml")=* — El nombre ="lxml"= aquí es el *parser* interno de BS4 (rápido); no implica que BS4 ejecute XPath.
+- *=lh.fromstring(html_texto)=* — Construye el árbol que sí entiende =.xpath()=.
+
+*** Ejecutar
+
+#+BEGIN_SRC shell :eval never
+cd ~/Scripts && source venv-tutorial-rastreo/bin/activate
+python3 xpath_mismo_html_bs4_y_lxml.py
+#+END_SRC
+
+** Receta 2 — Rastreador con colas + XPath (=requests= + =lxml=)
+
+*Archivo:* =~/Scripts/rastreador_simple_colas_xpath.py=
+
+Es el mismo diseño que =rastreador_simple_colas.py= (semilla, =deque=, =visitados=, retardo, lista blanca de dominio), pero la función de extracción usa:
+
+- =doc.xpath("//div[contains(@class,'quote')]")= para citas,
+- =doc.xpath("//a/@href")= para enlaces (luego =urljoin= + filtro de dominio).
+
+Así ves que el *web crawler* es independiente del parser: puedes enseñar primero BS4 y luego sustituir solo el “parseo interno” por XPath.
+
+#+BEGIN_SRC shell :eval never
+python3 rastreador_simple_colas_xpath.py
+#+END_SRC
+
+** Receta 3 — Scrapy solo con =response.xpath=
+
+*Archivo:* =~/Scripts/scrapy_quotes_xpath_spider.py=
+
+#+BEGIN_SRC shell :eval never
+scrapy runspider scrapy_quotes_xpath_spider.py -o citas_xpath.json
+#+END_SRC
+
+Dentro de =parse= no hace falta =css=: =response.xpath("//...")= devuelve selectores; sobre cada =bloque= usas rutas relativas =.//...=.
+
+*** Mezclar en un mismo spider
+
+#+BEGIN_SRC python :eval never
+# Ilustración: un bloque con CSS, otro con XPath
+for item in response.css("div.quote"):
+    autor = item.xpath("normalize-space(.//small[contains(@class,'author')])").get()
+#+END_SRC
+
+Scrapy *unifica* la API: =item= es un =Selector= que tiene tanto =css= como =xpath=.
+
+** Probar XPath sin red (HTML guardado) — =parsel=
+
+Scrapy instala *parsel*. Puedes pegar HTML en un fichero y experimentar:
+
+#+BEGIN_SRC python :eval never
+from parsel import Selector
+
+html = open("muestra.html", encoding="utf-8").read()
+sel = Selector(text=html)
+for x in sel.xpath("//div[contains(@class,'quote')]"):
+    print(x.xpath("string(.)").get())
+#+END_SRC
+
+** Equivalencias rápidas (quotes.toscrape.com)
+
+| Idea             | CSS (Scrapy)          | XPath                                 |
+|------------------+-----------------------+---------------------------------------|
+| Bloque cita      | =div.quote=             | =//div[contains(@class,'quote')]=       |
+| Texto cita       | =span.text::text=       | =.//span[contains(@class,'text')]=      |
+| Siguiente página | =li.next a::attr(href)= | =//li[contains(@class,'next')]/a/@href= |
+
 
