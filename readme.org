@@ -4644,7 +4644,7 @@ Esta forma de pensar:
 
 
 
-*  Actividad: Reducción de Dimensionalidad en Recuperación de Información
+* Actividad: Reducción de Dimensionalidad en Recuperación de Información
 
 ** Objetivo
 Comparar la reducción de dimensionalidad realizada manualmente (“a
@@ -5639,21 +5639,41 @@ docs = [
 print("Docs:", len(docs))
 #+end_src
 
-#+begin_src python
+#+begin_src python :results output
+
+docs = [
+    "No puedo iniciar sesión, me marca error 500",
+    "La contraseña no funciona y no llega el correo de recuperación",
+    "La app va lenta y se traba cuando abro reportes",
+    "Quiero factura con RFC y datos fiscales",
+    "Necesito descargar mi factura del mes pasado",
+]
+print("Docs:", len(docs))
+
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 
-X = TfidfVectorizer(ngram_range=(1,2), min_df=1).fit_transform(docs)
-kmeans = KMeans(n_clusters=2, n_init="auto", random_state=42)
+X = TfidfVectorizer(ngram_range=(2,2), min_df=1).fit_transform(docs)
+kmeans = KMeans(n_clusters=3, n_init="auto", random_state=42)
 labels = kmeans.fit_predict(X)
 
 for d, c in zip(docs, labels):
     print(c, "-", d)
 #+end_src
 
+#+RESULTS:
+: Docs: 5
+: 2 - No puedo iniciar sesión, me marca error 500
+: 0 - La contraseña no funciona y no llega el correo de recuperación
+: 1 - La app va lenta y se traba cuando abro reportes
+: 1 - Quiero factura con RFC y datos fiscales
+: 1 - Necesito descargar mi factura del mes pasado
+
 ** 3.4 Tecnologías emergentes: word embeddings (ELMo, BERT) y GPT-X
 *** 3.4.1 Representaciones distribucionales (embeddings) en NLP
-Un *embedding* representa unidades lingüísticas como vectores densos donde la geometría captura relaciones semánticas/sintácticas.
+Un *embedding* representa unidades lingüísticas como vectores densos
+donde la geometría captura relaciones semánticas/sintácticas.
 
 Idea base (distribucional):
 “*Una palabra se conoce por la compañía que mantiene*”.
@@ -5735,17 +5755,21 @@ Combina búsqueda + generación:
 
 
 
-*  Clustering de texto con K-Means (tweets/comentarios y documentos grandes)
+* Clustering de texto con K-Means (tweets/comentarios y documentos grandes)
 
 **  ¿Qué es “clasificar” con clusters?
 En textos tipo X/Facebook/Instagram, a veces se dice “clasificar” cuando en realidad se busca:
 - *Clustering (no supervisado)*: agrupar textos por similitud sin etiquetas.
 - *Sentimiento (supervisado)*: etiquetar como positivo/negativo (requiere labels).
 
-Esta guía se centra en *clustering con K-Means* y, al final, muestra una forma práctica de “traducir” clusters a (positivo/negativo) con una pequeña capa humana (si lo necesitas).
+Esta guía se centra en *clustering con K-Means* y, al final, muestra una
+forma práctica de “traducir” clusters a (positivo/negativo) con una
+pequeña capa humana (si lo necesitas).
 
 **  Teoría de K-Means
-K-Means es un algoritmo de *clustering particional* que busca dividir \(n\) puntos en \(K\) grupos. Cada grupo se representa por un *centroide* (un vector “promedio”).
+K-Means es un algoritmo de *clustering particional* que busca dividir
+\(n\) puntos en \(K\) grupos. Cada grupo se representa por un
+*centroide* (un vector “promedio”).
 
 *** ¿Qué optimiza? 
 Dados puntos \(x_1,\dots,x_n \in \mathbb{R}^d\), K-Means busca minimizar la suma de distancias cuadráticas al centroide del cluster asignado:
@@ -6200,7 +6224,262 @@ Opcional:
 
 
 
-*  Rastreadores Web
+* K-Means para Agrupar Tweets: Tutorial Básico
+
+** ¿Qué es K-Means?
+K-Means es un algoritmo que agrupa datos en *K clusters* (grupos).
+Cada dato se asigna al grupo cuyo centro (centroide) esté más cerca.
+
+Aplicado a tweets: agrupa tweets similares automáticamente,
+sin que tú le digas las categorías de antemano.
+
+** ¿Cómo funciona con texto?
+
+#+begin_src text
+1. Tweets (texto)
+       │
+       ▼
+2. Vectorizar (TF-IDF)     ← Convierte texto en números
+       │
+       ▼
+3. K-Means                  ← Agrupa los vectores similares
+       │
+       ▼
+4. Clusters                 ← Grupos de tweets relacionados
+#+end_src
+
+- *TF-IDF* convierte cada tweet en un vector numérico basado en
+  la frecuencia e importancia de sus palabras.
+- *K-Means* toma esos vectores y los agrupa por similitud.
+
+** Requisitos
+#+begin_src bash
+pip install scikit-learn matplotlib
+#+end_src
+
+Solo eso. Scikit-learn ya incluye TF-IDF y K-Means.
+
+** El código completo
+
+#+begin_src python
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# --- 1. Tweets de ejemplo ---
+tweets = [
+    # Deportes
+    "Gran partido de fútbol ayer, el gol fue increíble",
+    "El equipo ganó la liga, qué temporada tan buena",
+    "Messi anotó un golazo en el último minuto",
+    "La selección entrena para el mundial de fútbol",
+    "Increíble jugada del portero, atajó todo",
+    "El clásico del domingo fue muy emocionante",
+
+    # Tecnología
+    "Acabo de comprar el nuevo iPhone, la cámara es genial",
+    "Python es el mejor lenguaje para aprender a programar",
+    "La inteligencia artificial va a cambiar todo",
+    "Actualizé mi laptop y ahora va mucho más rápido",
+    "El nuevo procesador tiene un rendimiento increíble",
+    "Aprendiendo machine learning con scikit-learn",
+
+    # Comida
+    "Las tacos de pastor de aquí son los mejores",
+    "Hoy cociné una pasta con salsa de tomate casera",
+    "El café de esta mañana estaba delicioso",
+    "Probé un restaurante nuevo y la pizza estaba buenísima",
+    "Nada como unos chilaquiles para desayunar",
+    "Receta fácil: arroz con pollo y verduras",
+]
+
+# --- 2. Vectorizar los tweets con TF-IDF ---
+vectorizador = TfidfVectorizer(
+    stop_words=None,       # podríamos filtrar stopwords del español
+    max_features=100,      # usar las 100 palabras más relevantes
+    lowercase=True,        # todo a minúsculas
+)
+X = vectorizador.fit_transform(tweets)
+
+print(f"Matriz TF-IDF: {X.shape[0]} tweets × {X.shape[1]} palabras")
+
+# --- 3. Aplicar K-Means ---
+k = 3  # queremos 3 grupos
+kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+kmeans.fit(X)
+
+etiquetas = kmeans.labels_  # a qué cluster pertenece cada tweet
+
+# --- 4. Mostrar resultados ---
+for cluster_id in range(k):
+    print(f"\n{'='*50}")
+    print(f"  CLUSTER {cluster_id}")
+    print(f"{'='*50}")
+    for i, tweet in enumerate(tweets):
+        if etiquetas[i] == cluster_id:
+            print(f"  • {tweet}")
+
+# --- 5. Palabras clave de cada cluster ---
+print(f"\n{'='*50}")
+print("  PALABRAS CLAVE POR CLUSTER")
+print(f"{'='*50}")
+nombres_palabras = vectorizador.get_feature_names_out()
+centroides = kmeans.cluster_centers_
+
+for cluster_id in range(k):
+    # Obtener las 5 palabras con mayor peso en el centroide
+    indices_top = centroides[cluster_id].argsort()[-5:][::-1]
+    palabras_top = [nombres_palabras[i] for i in indices_top]
+    print(f"  Cluster {cluster_id}: {', '.join(palabras_top)}")
+
+# --- 6. Graficar (reducción a 2D con SVD) ---
+from sklearn.decomposition import TruncatedSVD
+
+svd = TruncatedSVD(n_components=2, random_state=42)
+X_2d = svd.fit_transform(X)
+
+colores = ['#e74c3c', '#3498db', '#2ecc71']
+nombres_cluster = [f'Cluster {i}' for i in range(k)]
+
+plt.figure(figsize=(10, 6))
+for cluster_id in range(k):
+    mask = etiquetas == cluster_id
+    plt.scatter(
+        X_2d[mask, 0], X_2d[mask, 1],
+        c=colores[cluster_id],
+        label=nombres_cluster[cluster_id],
+        s=100, alpha=0.7, edgecolors='black'
+    )
+    for i in range(len(tweets)):
+        if etiquetas[i] == cluster_id:
+            plt.annotate(
+                tweets[i][:25] + "...",
+                (X_2d[i, 0], X_2d[i, 1]),
+                fontsize=7, alpha=0.8
+            )
+
+plt.title("Agrupación de Tweets con K-Means")
+plt.xlabel("Componente 1")
+plt.ylabel("Componente 2")
+plt.legend()
+plt.tight_layout()
+plt.savefig("kmeans_tweets.png", dpi=150)
+plt.show()
+print("\nGráfica guardada en kmeans_tweets.png")
+#+end_src
+
+** Ejecutar
+#+begin_src bash
+python tutorial_kmeans_tweets.py
+#+end_src
+
+** Salida esperada
+
+#+begin_src text
+Matriz TF-IDF: 18 tweets × 100 palabras
+
+==================================================
+  CLUSTER 0
+==================================================
+  • Gran partido de fútbol ayer, el gol fue increíble
+  • El equipo ganó la liga, qué temporada tan buena
+  • Messi anotó un golazo en el último minuto
+  ...
+
+==================================================
+  CLUSTER 1
+==================================================
+  • Acabo de comprar el nuevo iPhone, la cámara es genial
+  • Python es el mejor lenguaje para aprender a programar
+  ...
+
+==================================================
+  CLUSTER 2
+==================================================
+  • Las tacos de pastor de aquí son los mejores
+  • Hoy cociné una pasta con salsa de tomate casera
+  ...
+
+  PALABRAS CLAVE POR CLUSTER
+==================================================
+  Cluster 0: fútbol, gol, equipo, partido, jugada
+  Cluster 1: nuevo, programar, aprender, inteligencia, laptop
+  Cluster 2: tacos, café, pizza, receta, pasta
+#+end_src
+
+** ¿Cómo elegir el valor de K?
+
+El *método del codo* ayuda a decidir cuántos clusters usar:
+
+#+begin_src python
+inercias = []
+rango_k = range(2, 8)
+
+for k in rango_k:
+    km = KMeans(n_clusters=k, random_state=42, n_init=10)
+    km.fit(X)
+    inercias.append(km.inertia_)
+
+plt.figure(figsize=(8, 4))
+plt.plot(rango_k, inercias, 'bo-')
+plt.xlabel('Número de clusters (K)')
+plt.ylabel('Inercia')
+plt.title('Método del Codo')
+plt.savefig("metodo_codo.png", dpi=150)
+plt.show()
+#+end_src
+
+El *codo* de la curva indica el K óptimo: donde agregar más
+clusters ya no mejora mucho la agrupación.
+
+** Mejoras opcionales
+
+*** Filtrar stopwords en español
+#+begin_src python
+stopwords_es = [
+    "de", "la", "el", "en", "y", "los", "las", "un", "una",
+    "es", "que", "del", "al", "con", "para", "por", "más",
+    "fue", "son", "muy", "tan", "ya", "su", "hoy", "aquí",
+]
+
+vectorizador = TfidfVectorizer(
+    stop_words=stopwords_es,
+    max_features=100,
+)
+#+end_src
+
+*** Usar tweets reales (CSV)
+#+begin_src python
+import csv
+
+tweets = []
+with open("mis_tweets.csv", encoding="utf-8") as f:
+    lector = csv.DictReader(f)
+    for fila in lector:
+        tweets.append(fila["texto"])
+#+end_src
+
+*** Asignar un tweet nuevo a un cluster
+#+begin_src python
+nuevo = ["Me encanta la nueva actualización de Android"]
+vector = vectorizador.transform(nuevo)
+cluster = kmeans.predict(vector)
+print(f"Este tweet pertenece al cluster {cluster[0]}")
+#+end_src
+
+** Conceptos clave resumidos
+
+| Concepto    | Qué hace                                          |
+|-------------+---------------------------------------------------|
+| TF-IDF      | Convierte texto en vectores numéricos              |
+| K-Means     | Agrupa vectores similares en K clusters            |
+| Centroide   | El "centro" promedio de cada cluster               |
+| Inercia     | Qué tan compactos son los clusters (menor = mejor) |
+| Método codo | Gráfica para elegir el mejor valor de K            |
+| SVD         | Reduce dimensiones para poder graficar en 2D       |
+
+
+* Rastreadores Web
 
 
 Los *rastreadores web* (web crawlers o spiders) son programas que
@@ -6902,7 +7181,7 @@ Salida: fichero =citas_proyecto.json= con los items (codificación UTF-8 según 
 - *Solución*: Normaliza URLs (sin fragmentos, parámetros opcionales); en Scrapy usa =dont_filter= solo cuando sea consciente.
 
 
-*  XPath con Python: lxml, BeautifulSoup, rastreador y Scrapy
+* XPath con Python: lxml, BeautifulSoup, rastreador y Scrapy
 
 ** Cómo encaja XPath con “requests + BeautifulSoup + Scrapy + rastreador”
 
@@ -7062,5 +7341,7 @@ for x in sel.xpath("//div[contains(@class,'quote')]"):
 | Bloque cita      | =div.quote=             | =//div[contains(@class,'quote')]=       |
 | Texto cita       | =span.text::text=       | =.//span[contains(@class,'text')]=      |
 | Siguiente página | =li.next a::attr(href)= | =//li[contains(@class,'next')]/a/@href= |
+
+
 
 
