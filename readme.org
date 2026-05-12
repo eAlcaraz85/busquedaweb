@@ -7974,13 +7974,13 @@ for g_idx, grupo in enumerate(grupos):
         print(f"    - {noticias[i]['titulo'][:50]}")
 #+end_src
 
-* Fase 3: Clasificación y Análisis Automático
+** Fase 3: Clasificación y Análisis Automático
 
 El sistema ahora debe categorizar automáticamente cada noticia y
 analizar su tono (sentimiento). También detecta temas en conversaciones
 para poder orientar publicidad.
 
-** 3.1 Clasificador automático de noticias
+*** 3.1 Clasificador automático de noticias
 
 #+begin_src python
 from sklearn.naive_bayes import MultinomialNB
@@ -8073,7 +8073,7 @@ for noticia in noticias:
     print(f"  Scores: {', '.join(f'{c}={s:.2f}' for c,s in top_scores)}")
 #+end_src
 
-** 3.2 Análisis de sentimientos
+*** 3.2 Análisis de sentimientos
 
 El SIMANW necesita saber si las noticias tienen un tono positivo, negativo
 o neutral para generar reportes de percepción.
@@ -8133,7 +8133,7 @@ print(f"  Promedio: {resumen_sent['sentimiento_promedio']:+.3f}")
 print(f"  Tono general: {resumen_sent['tono_general'].upper()}")
 #+end_src
 
-** 3.3 Sistema de recomendación por contenido
+*** 3.3 Sistema de recomendación por contenido
 
 El SIMANW recomienda noticias relacionadas al usuario basándose en
 similitud de contenido.
@@ -8187,7 +8187,7 @@ for idx, score in perfil_recs:
     print(f"  → [{score:.3f}] {noticias[idx]['titulo'][:55]}")
 #+end_src
 
-** 3.4 Detección de temas en conversación para publicidad dirigida
+*** 3.4 Detección de temas en conversación para publicidad dirigida
 
 El SIMANW incluye un componente de chat donde los usuarios discuten
 noticias. El sistema detecta el tema de la conversación para mostrar
@@ -8312,13 +8312,13 @@ temas_conv = Counter(r['tema'] for r in resultados_chat)
 print(f"Resumen de temas en la conversación: {dict(temas_conv)}")
 #+end_src
 
-** Fase 4: Motor de Búsqueda Inteligente
+*** Fase 4: Motor de Búsqueda Inteligente
 
 El alumno construye el motor de búsqueda del SIMANW que permite a los
 usuarios encontrar noticias usando lenguaje natural, y evalúa su
 efectividad con métricas formales.
 
-*** 4.1 Índice invertido y búsqueda
+**** 4.1 Índice invertido y búsqueda
 
 #+begin_src python
 import math
@@ -8418,7 +8418,7 @@ for consulta in consultas:
         print(f"      Cat: {r['categoria']} | Sent: {r['sentimiento']}")
 #+end_src
 
-*** 4.2 Evaluación del motor de búsqueda
+**** 4.2 Evaluación del motor de búsqueda
 
 #+begin_src python
 class EvaluadorIRS:
@@ -8508,7 +8508,7 @@ for k in range(1, 6):
     print(f"  P@{k} = {pk:.3f}")
 #+end_src
 
-*** 4.3 Búsqueda en lenguaje natural (como consultar una base de datos)
+**** 4.3 Búsqueda en lenguaje natural (como consultar una base de datos)
 
 El usuario puede hacer preguntas naturales y el sistema las entiende.
 
@@ -8580,13 +8580,13 @@ for consulta in consultas_naturales:
     print()
 #+end_src
 
-** Fase 5: Chatbot y Sistema Question/Answering
+*** Fase 5: Chatbot y Sistema Question/Answering
 
 El alumno integra un chatbot que responde preguntas sobre las noticias
 procesadas por el sistema, combinando recuperación de información con
 generación de respuestas.
 
-*** 5.1 Chatbot basado en similitud
+**** 5.1 Chatbot basado en similitud
 
 #+begin_src python
 class ChatbotSIMANW:
@@ -8671,7 +8671,7 @@ for pregunta in preguntas_usuario:
 print(f"Resumen: {chatbot.resumen_interaccion()}")
 #+end_src
 
-*** 5.2 Sistema Question/Answering completo
+**** 5.2 Sistema Question/Answering completo
 
 El sistema Q&A combina recuperación de información con comprensión de
 preguntas para dar respuestas precisas.
@@ -8802,13 +8802,13 @@ for pregunta in preguntas_qa:
     print()
 #+end_src
 
-** Fase 6: Knowledge Graph y Web Semántica
+*** Fase 6: Knowledge Graph y Web Semántica
 
 Todo lo que el SIMANW ha procesado se almacena en un Knowledge Graph
 semántico. Esto permite consultas SPARQL avanzadas y conectar los datos
 con fuentes externas de datos abiertos.
 
-*** 6.1 Construcción del Knowledge Graph
+**** 6.1 Construcción del Knowledge Graph
 
 #+begin_src python
 from rdflib import Graph, Namespace, Literal, URIRef, RDF, RDFS, OWL, XSD
@@ -8908,7 +8908,7 @@ for l in lineas:
     print(f"  {l}")
 #+end_src
 
-*** 6.2 Consultas SPARQL sobre el Knowledge Graph
+**** 6.2 Consultas SPARQL sobre el Knowledge Graph
 
 #+begin_src python
 print("=== FASE 6.2: Consultas SPARQL ===\n")
@@ -8999,7 +8999,7 @@ for row in kg.consultar(query4):
     print(f"  {row.autor}: {row.publicaciones} publicación(es)")
 #+end_src
 
-*** 6.3 Datos abiertos y conexión con fuentes externas
+**** 6.3 Datos abiertos y conexión con fuentes externas
 
 El SIMANW se conecta con datos abiertos gubernamentales, enriqueciendo
 la información con datos públicos en formato semántico.
@@ -9132,7 +9132,7 @@ else:
     print("  (Los enlaces se generan cuando las categorías coinciden con los temas)")
 #+end_src
 
-*** 6.4 Consulta a endpoints SPARQL externos
+**** 6.4 Consulta a endpoints SPARQL externos
 
 #+begin_src python
 from SPARQLWrapper import SPARQLWrapper, JSON
@@ -9186,12 +9186,12 @@ Endpoints SPARQL disponibles para el SIMANW:
 """)
 #+end_src
 
-** Fase 7: Reportes Automáticos y Entrega Final
+*** Fase 7: Reportes Automáticos y Entrega Final
 
 El sistema genera reportes completos automáticamente a partir de
 toda la información procesada y almacenada.
 
-*** 7.1 Generador de reportes
+**** 7.1 Generador de reportes
 
 #+begin_src python
 from datetime import datetime
@@ -9292,7 +9292,7 @@ reportero = GeneradorReportes(noticias, kg)
 print(reportero.reporte_completo())
 #+end_src
 
-*** 7.2 Integración final: Pipeline completo
+**** 7.2 Integración final: Pipeline completo
 
 #+begin_src python
 print("""
@@ -9349,14 +9349,14 @@ print("""
 """)
 #+end_src
 
-** Actividades Complementarias
+*** Actividades Complementarias
 
 Las siguientes actividades deben integrarse al proyecto SIMANW para
 reforzar y extender cada fase. Cada actividad tiene complejidad media:
 requiere investigación y programación adicional, pero se apoya en lo
 ya construido.
 
-*** AC-1: Rastreo de un sitio real con paginación (Fase 1)
+**** AC-1: Rastreo de un sitio real con paginación (Fase 1)
 
 El alumno debe adaptar el extractor para rastrear un portal de noticias
 real (por ejemplo, un periódico local o un blog tecnológico) que tenga
@@ -9477,7 +9477,7 @@ for r in resultados[:5]:
     print(f"  - {r['titulo']}")
 #+end_src
 
-*** AC-2: Nube de palabras y estadísticas de un discurso (Fase 2)
+**** AC-2: Nube de palabras y estadísticas de un discurso (Fase 2)
 
 El alumno debe tomar un texto largo (discurso político, artículo
 científico, o reseña extensa) y generar:
@@ -9603,7 +9603,7 @@ for c in comp:
     print(f"{c['titulo']:<20} {c['palabras']:>9} {c['vocabulario']:>7} {c['riqueza']:>8.3f} {c['promedio_oracion']:>10.1f}")
 #+end_src
 
-*** AC-3: Clasificador multimodelo con selección automática (Fase 3)
+**** AC-3: Clasificador multimodelo con selección automática (Fase 3)
 
 El alumno entrena múltiples clasificadores y el sistema selecciona
 automáticamente el mejor según los datos, aplicando validación cruzada.
@@ -9728,7 +9728,7 @@ for texto, pred in zip(nuevos, predicciones):
     print(f"  [{pred}] {texto[:50]}...")
 #+end_src
 
-*** AC-4: Análisis de hilos de discusión de red social (Fase 3-4)
+**** AC-4: Análisis de hilos de discusión de red social (Fase 3-4)
 
 El alumno rastrea (o simula) un hilo de discusión de una red social,
 analiza la evolución del sentimiento, detecta los subtemas discutidos
@@ -9887,7 +9887,7 @@ for cluster_id, info in subtemas.items():
     print(f"  Subtema {cluster_id+1} ({info['n_mensajes']} msgs): {info['keywords']}")
 #+end_src
 
-*** AC-5: Evaluación comparativa de modelos de búsqueda (Fase 4)
+**** AC-5: Evaluación comparativa de modelos de búsqueda (Fase 4)
 
 El alumno implementa y compara formalmente el modelo booleano vs.
 el modelo vectorial usando las mismas consultas y métricas.
@@ -9998,7 +9998,7 @@ print(f"{'':30} | {'Vectorial':<10} | {'':>5} | {sum_vec_p/n:>6.3f} | {sum_vec_r
 print(f"\nConclusion: El modelo {'vectorial' if sum_vec_p > sum_bool_p else 'booleano'} tiene mejor precision promedio.")
 #+end_src
 
-*** AC-6: Interfaz conversacional con memoria de contexto (Fase 5)
+**** AC-6: Interfaz conversacional con memoria de contexto (Fase 5)
 
 El chatbot debe recordar la conversación anterior y usar ese contexto
 para mejorar sus respuestas (no responder de forma aislada).
@@ -10101,7 +10101,7 @@ print(f"  Temas de interés: {stats['temas_interes']}")
 print(f"  Tipos de respuesta: {dict(stats['tipos_respuesta'])}")
 #+end_src
 
-*** AC-7: Enriquecimiento del Knowledge Graph con Wikidata (Fase 6)
+**** AC-7: Enriquecimiento del Knowledge Graph con Wikidata (Fase 6)
 
 El alumno conecta entidades del Knowledge Graph local con Wikidata,
 enriqueciendo la información con datos externos enlazados.
