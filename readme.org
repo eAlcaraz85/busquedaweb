@@ -10210,3 +10210,148 @@ print("\nQuery sugerida para Wikidata (tecnología):")
 print(enriquecedor.generar_query_wikidata('tecnologia'))
 #+end_src
 
+
+
+
+* Expediente X: Búsqueda y Recuperación de Información
+
+** Expediente X: Búsqueda y Recuperación de la Información
+
+*** Introduación para los Agentes
+La *búsqueda en colecciones de texto* no siempre es un cuadro de texto y
+un botón. Detrás hay *modelos de coincidencia*, *índices*, *ponderación de
+términos* y, a veces, *filtros* que actúan como llaves antes de rankear
+resultados. Su misión de hoy consta de tres fases para localizar
+fragmentos clasificados dentro de un *corpus interceptado* (documentos
+de ejemplo que ustedes mismos construirán o cargarán desde variables
+en código).
+
+*** Misión 1: La Telaraña de Tokens (Investigación e Índice Invertido Básico)
+
+**** La Historia
+Hemos interceptado una serie de *informes en texto plano* (=corpus_mision1=). Los archivos no están cifrados, pero están *desordenados conceptualmente*: necesitamos saber *en qué documentos aparece cada palabra* para poder responder consultas tipo biblioteca clásica.
+
+**** Tu Tarea
+1. *Fase de Investigación:* Antes de programar, investiga en internet:
+   - ¿Qué es un *índice invertido* (inverted index)?
+   - ¿Qué relación tiene con la *tokenización* y la *lista de postings*?
+2. *Fase de Construcción:* Construye en Python un índice invertido *case-insensitive* (minúsculas) a partir del diccionario de documentos siguiente (cada clave es un =doc_id=, cada valor es el texto). Debes:
+   - Tokenizar (puedes usar solo =split()= y limpieza básica de puntuación simple).
+   - Para la consulta booleana =agente AND red=, devolver la *intersección* de listas de postings (documentos que contienen *ambas* palabras).
+   - Imprimir los =doc_id= resultantes ordenados alfabéticamente.
+
+#+BEGIN_SRC python :results output :session m1
+corpus_mision1 = {
+    "d1": "La red de agentes interceptó tráfico sospechoso en el nodo norte.",
+    "d2": "El agente de campo reportó actividad normal en la red interna.",
+    "d3": "Manual de procedimientos: la red no debe apagarse sin autorización.",
+    "d4": "Mantenimiento programado del agente automático de respaldo.",
+}
+
+# ESCRIBE TU CÓDIGO AQUÍ:
+# 1) Tokenizar y construir índice invertido: término -> lista de doc_id
+# 2) Resolver la consulta booleana: "agente" AND "red"
+# 3) Imprimir doc_id coincidentes, ordenados
+
+#+END_SRC
+
+*** Misión 2: Operación Vector de Consulta (Recuperación por TF-IDF)
+
+**** La Historia
+El enemigo dejó de organizar la información solo con palabras sueltas. Ahora los informes son *casi sinónimos* entre sí: la coincidencia literal (=AND=) falla. Interceptamos un =corpus_mision2= más grande; debemos rankear documentos por *similitud vectorial* frente a una *consulta en lenguaje natural*.
+
+**** Las Pistas
+- Puedes usar =sklearn.feature_extraction.text.TfidfVectorizer= y =sklearn.metrics.pairwise.cosine_similarity=.
+- Si no tienes instalada la librería: =pip install scikit-learn=.
+
+**** Tu Tarea
+1. Representa los documentos y la consulta en el espacio TF-IDF.
+2. Calcula la similitud coseno entre la *consulta* y *cada documento*.
+3. Imprime un *ranking* (de mayor a menor similitud) con formato: =doc_id: puntuación= para los **tres** documentos más relevantes.
+
+#+BEGIN_SRC python :results output :session m2
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+corpus_mision2 = {
+    "a1": "Protocolo de evacuación silenciosa en instalaciones subterráneas.",
+    "a2": "Guía de rutas de escape y puntos de reunión sin alarmas audibles.",
+    "a3": "Receta de cocina: pasta con tomate y albahaca para el personal.",
+    "a4": "Mapa de salidas de emergencia y señalética fotoluminiscente.",
+    "a5": "Informe meteorológico: probabilidad de lluvia en la región este.",
+}
+
+consulta_mision2 = "evacuación silenciosa rutas de escape emergencia"
+
+# ESCRIBE TU CÓDIGO AQUÍ:
+# 1) Vectorizar corpus + consulta (mismo vectorizador)
+# 2) cosine_similarity entre vector de consulta y matriz de documentos
+# 3) Imprimir top-3 doc_id con puntuación
+
+#+END_SRC
+
+*** Misión 3: El Cifrado de Colección (Reto Híbrido: Filtro + TF-IDF)
+
+**** La Historia
+¡El reto final! El enemigo *duplicó vocabulario* en toda la base: hay ruido semántico global. Los fragmentos *realmente clasificados* están marcados con una *llave de metadatos*: solo los documentos con =nivel="SIGILO"= contienen, concatenados en el orden del ranking, pistas que terminan con el delimitador =###FIN###= en el texto original (simulado aquí como un solo documento “jefe” que debes encontrar).
+
+**** Las Pistas
+- **Llave de colección:** procesar *únicamente* los documentos cuyo campo =nivel= sea =SIGILO=.
+- Luego aplica TF-IDF *solo sobre ese subconjunto* y rankea frente a la consulta dada.
+- El *mensaje recuperado* es el texto completo del documento rankeado en primer lugar (debe contener =###FIN###= al final en la plantilla de datos; si generas tus propios textos, respeta ese delimitador en el doc top-1).
+
+**** Tu Tarea
+1. Filtra la lista de documentos por =nivel == "SIGILO"=.
+2. Construye TF-IDF y rankea con similitud coseno frente a la consulta.
+3. Imprime el =doc_id= ganador y las *primeras 120 caracteres* de su texto (suficiente para ver contexto y el delimitador si está al final).
+
+#+BEGIN_SRC python :results output :session m3
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+documentos_mision3 = [
+    {"doc_id": "x1", "nivel": "PUBLICO", "texto": "Boletín de prensa sobre obras en la avenida central y tráfico lento."},
+    {"doc_id": "x2", "nivel": "SIGILO", "texto": "Rumor operativo: el contacto cambió frecuencia; verificar handoff nocturno. ###FIN###"},
+    {"doc_id": "x3", "nivel": "PUBLICO", "texto": "Convocatoria a curso de primeros auxilios para voluntarios municipales."},
+    {"doc_id": "x4", "nivel": "SIGILO", "texto": "Inventario de papelería y tóner para el almacén B del cuartel general."},
+    {"doc_id": "x5", "nivel": "RESERVADO", "texto": "Lista de proveedores homologados para catering y cafetería interna."},
+]
+
+consulta_mision3 = "contacto frecuencia operativo handoff nocturno"
+
+# ESCRIBE TU CÓDIGO AQUÍ:
+# 1) Filtrar nivel SIGILO
+# 2) TF-IDF + cosine similarity vs consulta
+# 3) Imprimir doc_id top-1 y recorte de 120 caracteres del texto
+
+#+END_SRC
+
+*** Entregable: Reporte de Misión (Formato Markdown)
+Deben entregar un archivo =reporte_mision_busqueda.md= con la siguiente estructura. Deberán incluir sus códigos, *salidas* (texto) de cada misión en consola, y responder a las preguntas del *Análisis del Analista*.
+
+#+BEGIN_EXAMPLE markdown
+#  Reporte de Misión: Búsqueda y Recuperación de Información
+**Agente Especial:** [Tu Nombre/Matrícula]
+
+---
+## Misión 1, 2 y 3
+[Incluir aquí los bloques de código Python y las salidas (rankings, doc_id, etc.)]
+
+---
+##  Análisis del Analista (Reflexiones Finales)
+
+1. **Sobre la Investigación (Misión 1):** Explica con tus propias palabras qué es un índice invertido y por qué la intersección de postings implementa un AND booleano en este modelo.
+> *[Tu respuesta]*
+
+2. **Sobre TF-IDF (Misión 2):** ¿Por qué un término muy frecuente en *todos* los documentos suele discriminar peor que un término raro pero presente en pocos? Relacióna tu explicación con *idf*.
+> *[Tu respuesta]*
+
+3. **Sobre la Lógica de Recuperación (Misión 3):** Si aplicaras TF-IDF a *toda* la colección (sin filtrar por =SIGILO=), ¿cómo podría cambiar el documento top-1 y por qué el filtro actúa como una *llave de acceso* antes del ranking?
+> *[Tu respuesta]*
+#+END_EXAMPLE
+
+*** Notas para el docente (opcional, puedes borrar esta sección al publicar)
+- Misión 1: solución esperada de =agente AND red= → =d1= y =d2= (verificar tokenización; =d3= tiene "red" y "agente" en sentidos distintos según tokenización — ajusta puntuación si tu tokenizador incluye "agente" de "agentes").
+- Misión 2: top debería favorecer =a1=, =a2=, =a4=.
+- Misión 3: con la plantilla dada, el top entre SIGILO debería ser =x2=.
+
