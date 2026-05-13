@@ -10350,8 +10350,4 @@ Deben entregar un archivo =reporte_mision_busqueda.md= con la siguiente estructu
 > *[Tu respuesta]*
 #+END_EXAMPLE
 
-*** Notas para el docente (opcional, puedes borrar esta sección al publicar)
-- Misión 1: solución esperada de =agente AND red= → =d1= y =d2= (verificar tokenización; =d3= tiene "red" y "agente" en sentidos distintos según tokenización — ajusta puntuación si tu tokenizador incluye "agente" de "agentes").
-- Misión 2: top debería favorecer =a1=, =a2=, =a4=.
-- Misión 3: con la plantilla dada, el top entre SIGILO debería ser =x2=.
 
