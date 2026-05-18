@@ -381,7 +381,7 @@ code{
 
 #+begin_src css
 .codeblock-example{
-    border:1px solid #C1C7C8;
+    border:1px solid #e1e4e5;
     border-bottom:none;
     padding:24px;
     padding-top:48px;
@@ -399,7 +399,7 @@ code{
     padding:6px 12px}
 
 .codeblock-example.prettyprint-example-only{
-    border:1px solid #C1C7C8;
+    border:1px solid #e1e4e5;
     margin-bottom:24px}
 
 .codeblock,pre.src,#content .literal-block{

@@ -7347,6 +7347,634 @@ for x in sel.xpath("//div[contains(@class,'quote')]"):
 
 
 
+
+*  Web Semántica
+
+La *Web Semántica* (Semantic Web) es una visión de la evolución de la
+World Wide Web en la que la información publicada no solo es legible
+por humanos en páginas HTML, sino también *interpretable por máquinas*
+mediante descripciones formales de significado. El término fue
+popularizado por Tim Berners-Lee, James Hendler y Ora Lassila en su
+artículo seminal de 2001 en *Scientific American*, donde describieron
+una web de datos enlazados donde los agentes de software podrían
+descubrir, combinar y razonar sobre información de múltiples fuentes
+sin intervención humana constante.
+
+A diferencia de la *Web social* o la *Web 2.0* (centrada en participación y contenido generado por usuarios), la Web Semántica se centra en la *interoperabilidad semántica*: que distintos sistemas puedan entender que dos recursos distintos se refieren a la misma entidad, que una propiedad implica otra, o que un conjunto de hechos satisface una regla de negocio, gracias a vocabularios compartidos y lógica formal.
+
+** Contexto histórico y motivación
+
+Antes de la Web Semántica, la mayor parte del conocimiento en Internet estaba *encapsulado* en documentos no estructurados o en bases de datos con esquemas propietarios. Los buscadores indexaban palabras clave, pero no el *significado* de las relaciones («París es capital de Francia» vs. «París Hilton es una persona»). Los problemas que motivaron la Web Semántica incluyen:
+
+- *Integración de datos heterogéneos* entre departamentos, empresas o países.
+- *Reutilización* de esquemas y ontologías en lugar de reinventar modelos en cada proyecto.
+- *Razonamiento automático* (inferencia) sobre hechos declarados explícitamente.
+- *Descubrimiento de servicios* y composición de flujos (visión de agentes y servicios web semánticos).
+- *Gobernanza del conocimiento* en dominios regulados (salud, finanzas, administración pública).
+
+** Pilares conceptuales (capas de Berners-Lee)
+
+Aunque el modelo de «capas» es una simplificación pedagógica, ayuda a situar las tecnologías:
+
+| Capa (aprox.) | Tecnología / idea        | Función principal                          |
+|---------------+--------------------------+--------------------------------------------|
+| Identificadores | URI / IRI              | Nombres globales y persistentes de recursos |
+| Sintaxis      | RDF (grafos de triples)  | Modelo de datos uniforme para afirmaciones |
+| Esquema       | RDFS, OWL                | Clases, propiedades, restricciones, axiomas  |
+| Consulta      | SPARQL                   | Lenguaje declarativo sobre grafos RDF        |
+| Lógica / reglas | OWL 2 RL, SWRL, SHACL | Inferencia y validación de conformidad       |
+| Confianza / prueba | (investigación)     | Origen, firma, políticas de uso              |
+| Interfaz      | HTML, aplicaciones       | Presentación al usuario final                |
+
+** Principios de diseño
+
+1. *Todo es un recurso identificado por URI.* Los nodos del grafo (sujetos, predicados u objetos) suelen ser IRIs, no cadenas opacas sin contexto.
+2. *Open World Assumption (OWA).* La ausencia de un triple no implica su falsedad; el mundo abierto asume que puede haber información desconocida en otra fuente.
+3. *No monotonicidad parcial.* Añadir datos puede hacer que nuevas inferencias sean verdaderas sin invalidar las anteriores (a diferencia de bases de datos cerradas).
+4. *Vocabularios reutilizables.* Schema.org, Dublin Core, FOAF, SKOS, etc., evitan silos semánticos.
+5. *Linked Data.* Publicar datos con URIs HTTP resolvibles, enlaces entre conjuntos y formatos estándar (RDF).
+
+** Web Semántica vs. inteligencia artificial simbólica vs. aprendizaje automático
+
+La Web Semántica comparte raíces con la *IA simbólica* (representación del conocimiento, ontologías, lógica descriptiva), pero en la práctica moderna convive con el *machine learning*: los grafos de conocimiento alimentan sistemas de recomendación, respuesta a preguntas y LLMs; los embeddings capturan similitud estadística mientras RDF/OWL capturan hechos explícitos y restricciones. Un enfoque híbrido es habitual en industria (Google Knowledge Graph, Wikidata + modelos neuronales, etc.).
+
+** Aplicaciones representativas
+
+- Portales de *datos abiertos* gubernamentales (LOD).
+- *Catálogos* y metadatos bibliotecarios (BIBFRAME, Dublin Core).
+- *Life sciences*: ontologías Gene Ontology, UniProt, Linked Open Drug Data.
+- *Empresa*: grafos de productos, clientes, cadena de suministro (master data + semántica).
+- *Motores de búsqueda enriquecida* (paneles de conocimiento, rich snippets vía schema.org).
+- *Compliance* y trazabilidad (SHACL para validar formas de datos RDF).
+
+**  Definición
+
+*** Definición formal y operativa
+
+La *Web Semántica* puede definirse como el conjunto de estándares, prácticas y tecnologías W3C que permiten representar *conocimiento declarativo* sobre recursos de la Web en forma de *grafos de datos* enlazados, de modo que las aplicaciones puedan procesar ese conocimiento de manera automática, consistente y escalable a escala global.
+
+Operativamente, un *documento* o *conjunto de datos semánticos* es un grafo dirigido etiquetado donde cada arista es una afirmación (*triple*) de la forma ⟨sujeto, predicado, objeto⟩, y donde sujeto y predicado son típicamente IRIs, y el objeto puede ser un IRI (recurso) o un *literal* tipado (valor con tipo XSD o idioma).
+
+*** Elementos constitutivos
+
+**** Recurso (Resource)
+Cualquier cosa que pueda ser identificada: persona, libro, evento, concepto abstracto, relación, etc. En RDF todo lo que se describe es un recurso con URI.
+
+**** Afirmación (Statement) / Triple
+Unidad mínima de conocimiento. Ejemplo:
+#+BEGIN_EXAMPLE
+<http://ejemplo.org/persona/alicia>  <http://xmlns.com/foaf/0.1/name>  "Alicia"@es .
+#+END_EXAMPLE
+
+**** Vocabulario / Ontología
+Conjunto de términos (clases, propiedades) con definiciones y, opcionalmente, axiomas lógicos que restringen su uso.
+
+**** Grafo de conocimiento (Knowledge Graph)
+Instancia integrada de muchos triples (y posiblemente esquemas) que conecta entidades del mundo real o del dominio, a menudo con miles de millones de aristas en sistemas industriales.
+
+*** Objetivos según el W3C
+
+- *Compartir* datos entre aplicaciones sin acoplamiento fuerte a un esquema relacional único.
+- *Combinar* información de fuentes distintas mediante enlaces (=owl:sameAs=, =skos:exactMatch=, etc.).
+- *Inferir* conocimiento implícito a partir de reglas y axiomas.
+- *Consultar* de forma declarativa (SPARQL) en lugar de recorrer APIs ad hoc.
+
+*** Relación con otros paradigmas
+
+| Paradigma              | Unidad principal     | Semántica explícita | Consulta típica      |
+|------------------------+----------------------+---------------------+------------------------|
+| Web de documentos      | HTML/PDF             | Baja (humano)       | Búsqueda por keywords  |
+| Bases relacionales     | Tablas, filas        | Esquema cerrado     | SQL                    |
+| Web Semántica (RDF)    | Triples, grafos      | Alta (RDFS/OWL)     | SPARQL                 |
+| Property Graph (Neo4j) | Nodos, relaciones    | Media (etiquetas)   | Cypher                 |
+
+Los *property graphs* son cercanos conceptualmente pero no están estandarizados por el W3C como RDF; existen mapeos y puentes (RDF-star, reificacion, export/import).
+
+*** Linked Data: los cuatro principios (Berners-Lee, 2006)
+
+1. Usar URIs como nombres de cosas.
+2. Usar URIs HTTP para que las personas (y máquinas) puedan buscar esos nombres.
+3. Al buscar una URI, proporcionar información útil (RDF, Turtle, JSON-LD) mediante *content negotiation*.
+4. Incluir enlaces URIs a otros datos para descubrir más cosas.
+
+Esto convierte la Web en una base de datos distribuida y parcialmente conectada — el *Web of Data*.
+
+*** Ventajas y limitaciones teóricas
+
+*Ventajas:*
+- Flexibilidad de esquema (*schema-on-read*).
+- Interoperabilidad global mediante URIs y estándares abiertos.
+- Razonamiento formal en sublenguajes de OWL decidibles.
+
+*Limitaciones:*
+- Curva de aprendizaje (URIs, lógica, herramientas).
+- Rendimiento de inferencia y almacenamiento a gran escala (mitigado con triple stores optimizados).
+- Calidad y curación de datos (basura semántica = basura inferida).
+- OWA puede frustrar expectativas de usuarios acostumbrados a SQL «cerrado».
+
+**  Lenguajes semánticos
+
+Los *lenguajes semánticos* de la Web proporcionan sintaxis para intercambiar grafos (RDF), vocabulario para tipar y organizar términos (RDFS), expresividad ontológica y lógica (OWL) y consulta (SPARQL).
+
+*** RDF (Resource Description Framework)
+
+**** Definición
+
+*RDF* es el modelo de datos fundamental de la Web Semántica. Especificado originalmente por el W3C (RDF 1.1, 2014), define un grafo etiquetado donde las etiquetas de aristas (predicados) y muchos nodos son IRIs. RDF no es un formato de archivo único: es un *modelo abstracto* con múltiples sintaxis concretas (Turtle, N-Triples, RDF/XML, JSON-LD, TriG).
+
+**** Modelo de triples
+
+Un *RDF triple* = (s, p, o) ∈ (IRI ∪ BNode) × IRI × (IRI ∪ BNode ∪ Literal).
+
+- *Sujeto (s):* recurso descrito; puede ser IRI o nodo en blanco (*blank node*).
+- *Predicado (p):* IRI que denota la propiedad (relación).
+- *Objeto (o):* valor de la propiedad: otro recurso o literal.
+
+Un *conjunto de triples* es un *grafo RDF* (multigrafo dirigido).
+
+**** Literales y tipos
+
+Los literales pueden llevar:
+- *Etiqueta de idioma:* ="Hola"@es=
+- *Tipo de dato XSD:* ="2026-05-18"^^xsd:date=
+- Ambos en algunos casos (según sintaxis).
+
+Tipos comunes: =xsd:string=, =xsd:integer=, =xsd:decimal=, =xsd:boolean=, =xsd:dateTime=.
+
+**** Nodos en blanco (blank nodes)
+
+Identificadores locales sin URI global; representan existencia sin nombre público («algún autor de este artículo»). En SPARQL se pueden emparejar con variables.anónimas. Son fuente de dificultad en intercambio y firma digital; RDF-star y reificación abordan casos de metadatos sobre triples.
+
+**** Sintaxis: Turtle (ejemplo didáctico)
+
+#+BEGIN_SRC turtle :exports code
+@prefix ex: <http://ejemplo.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:alicia a foaf:Person ;
+    foaf:name "Alicia García"@es ;
+    foaf:age 34 ;
+    foaf:knows ex:bob .
+
+ex:bob foaf:name "Bob"@en .
+#+END_SRC
+
+Aquí =a= es abreviatura de =rdf:type=; =;= encadena predicados del mismo sujeto; =,= añade objetos al mismo predicado.
+
+**** JSON-LD
+
+Sintaxis JSON compatible con RDF, muy usada en APIs y schema.org embebido en HTML (=<script type="application/ld+json">=). Permite contextos (=@context=) que mapean claves cortas a IRIs.
+
+**** Semántica formal (entidades)
+
+La semántica directa de RDF 1.1 define interpretaciones sobre universos de recursos y literales. RDF por sí solo tiene poder expresivo limitado; la inferencia «estándar» llega con RDFS y OWL.
+
+**** RDF vs. XML
+
+RDF/XML fue la primera sintaxis; es verbosa. Turtle y JSON-LD son preferidas en la práctica. El modelo RDF es más flexible que un árbol XML rígido: un mismo recurso puede recibir triples desde muchos documentos (*smushing* controlado).
+
+***  RDFS (RDF Schema)
+
+**** Definición
+
+*RDF Schema* (RDFS) extiende RDF con un vocabulario para describir *esquemas ligeros*: clases, subclases, propiedades, subpropiedades y dominios/rangos. No es una ontología de dominio completa, sino un *meta-modelo* para organizar términos.
+
+Vocabulario central (espacio de nombres =rdfs:=, =rdf:=):
+
+| Término           | Tipo        | Significado intuitivo                          |
+|-------------------+-------------+------------------------------------------------|
+| =rdfs:Class=      | Clase       | Conjunto de recursos                           |
+| =rdfs:subClassOf= | Propiedad   | Jerarquía taxonómica                           |
+| =rdf:Property=    | Clase       | Propiedades RDF                                |
+| =rdfs:subPropertyOf= | Propiedad | Jerarquía de propiedades                    |
+| =rdfs:domain=     | Propiedad   | Sujeto esperado de una propiedad               |
+| =rdfs:range=      | Propiedad   | Tipo de objeto esperado                        |
+| =rdfs:label=      | Propiedad   | Nombre legible                                 |
+| =rdfs:comment=    | Propiedad   | Descripción textual                            |
+
+**** Reglas de inferencia RDFS (intuición)
+
+Si se declara:
+#+BEGIN_EXAMPLE
+ex:Profesor rdfs:subClassOf ex:Persona .
+ex:alicia rdf:type ex:Profesor .
+#+END_EXAMPLE
+
+Entonces se infiere: =ex:alicia rdf:type ex:Persona= (herencia de tipos).
+
+Si =ex:enseña rdfs:domain ex:Profesor= y =ex:enseña rdfs:range ex:Asignatura=, un triple =ex:alicia ex:enseña ex:matematicas= implica tipos de sujeto y objeto acordes al dominio y rango.
+
+**** Limitaciones de RDFS
+
+- No expresa cardinalidad («exactamente un DNI»), negación, disyunción, igualdad rica, ni restricciones complejas.
+- La semántica de =rdfs:domain= y =rdfs:range= es inclusiva (tipado suave), no validación estricta tipo bases de datos.
+- Para ontologías de dominio serias se usa OWL encima de RDFS.
+
+***  OWL (Web Ontology Language)
+
+**** Definición
+
+*OWL* (OWL 2 es la versión actual, W3C 2012) es un lenguaje ontológico basado en *lógica descriptiva* (Description Logic, DL). Permite declarar clases complejas, restricciones sobre propiedades, individuos, igualdad/diferencia y axiomas que un *reasoner* puede usar para clasificar la ontología e inferir tipos implícitos.
+
+Perfiles OWL 2 (trade-off expresividad / decidibilidad / rendimiento):
+
+| Perfil    | Características principales                    | Uso típico                    |
+|-----------+------------------------------------------------+-------------------------------|
+| OWL 2 EL  | Existential restrictions, jerarquías grandes   | Biomedicina, SNOMED           |
+| OWL 2 QL  | Consultas sobre grandes volúmenes de instancias| BD relacionales + ontología   |
+| OWL 2 RL  | Reglas tipo Datalog, escalable en triple stores| Razonamiento en RDF/SPARQL    |
+| OWL 2 DL  | Expresividad completa (decidible)              | Ontologías formales, diseño   |
+| OWL 2 Full| Sin garantías computacionales estrictas        | Compatibilidad RDF arbitraria |
+
+**** Constructos frecuentes
+
+- *Clases nombradas:* =Class: Profesor=
+- *Intersección, unión, complemento:* =Profesor ⊓ EmpleadoPublico=
+- *Restricciones existenciales/universales:* ∃trabajaEn.Departamento, ∀tieneEdad.xsd:integer
+- *Cardinalidad:* =min 1=, =max 1=, =exactly 1= sobre propiedades
+- *Propiedades:* ObjectProperty, DatatypeProperty, inversa, funcional, transitiva, simétrica
+- *Individuos y axiomas:* SameAs, DifferentFrom, ObjectAssertion, PropertyChain
+
+**** Ejemplo conceptual (Manchester Syntax / Turtle mixto)
+
+#+BEGIN_SRC turtle :exports code
+@prefix : <http://ejemplo.org/onto#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:Persona a owl:Class .
+:Profesor a owl:Class ; rdfs:subClassOf :Persona .
+:tieneDNI a owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:domain :Persona ;
+    rdfs:range xsd:string .
+#+END_EXAMPLE
+
+Una *FunctionalProperty* implica que no hay dos valores distintos para el mismo sujeto (máximo uno).
+
+**** Reasoning (razonamiento)
+
+Los *motores de inferencia* (Pellet, HermiT, FaCT++, RDFox, etc.) calculan la *clasificación* (jerarquía de clases) y la *realización* (tipos de individuos). La complejidad puede ser alta (NP o peor según constructos); por eso se eligen perfiles y ontologías modulares.
+
+**** OWL vs. RDFS en la práctica
+
+- RDFS: taxonomías simples, vocabularios ligeros.
+- OWL: dominios con reglas de negocio formales, ciencias de la vida, sistemas críticos.
+- Muchos proyectos usan OWL para el *TBox* (terminología) y grandes ABoxes en RDF sin materializar toda la inferencia.
+
+*** SPARQL (SPARQL Protocol and RDF Query Language)
+
+**** Definición
+
+*SPARQL 1.1* es el lenguaje estándar W3C para consultar y manipular grafos RDF. Es declarativo, similar en espíritu a SQL pero sobre *patrones de triples* en lugar de tablas relacionales.
+
+Componentes de una consulta:
+- *PREFIX* — abreviaturas de IRIs
+- *WHERE* — patrón del grafo (BGP: Basic Graph Pattern)
+- *OPTIONAL* — left join semántico
+- *FILTER* — restricciones (comparaciones, funciones, EXISTS)
+- *SELECT / CONSTRUCT / ASK / DESCRIBE* — formas de resultado
+- *ORDER BY, LIMIT, OFFSET, GROUP BY, HAVING* — agregación y paginación
+- *UPDATE* (SPARQL Update) — INSERT, DELETE, LOAD, CLEAR
+
+**** Patrones básicos
+
+#+BEGIN_SRC sparql :exports code
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT ?nombre ?amigo
+WHERE {
+  ?persona foaf:name ?nombre ;
+           foaf:knows ?amigo .
+  ?amigo foaf:name ?nombreAmigo .
+  FILTER(LANG(?nombre) = "es")
+}
+#+END_SRC
+
+Las variables comienzan con =?=; las variables sin usar en SELECT pueden actuar como existenciales.
+
+**** Formas de consulta
+
+| Forma      | Resultado                                                |
+|------------+----------------------------------------------------------|
+| SELECT     | Tabla de bindings (variables → valores)                  |
+| ASK        | Booleano: ¿existe al menos una solución?                 |
+| CONSTRUCT  | Grafo RDF nuevo según plantilla                          |
+| DESCRIBE   | Recursos relacionados (descripción, depende del motor)   |
+
+**** Federación y servicios
+
+SPARQL 1.1 Federated Query permite =SERVICE <endpoint> { ... }= para consultar remotamente otros endpoints (Linked Data en acción).
+
+**** SPARQL vs. SQL (teoría)
+
+- RDF: modelo de grafos, esquema flexible, OWA.
+- SQL: modelo relacional, esquema fijo, *closed world* en la práctica.
+- SPARQL no tiene JOIN explícito entre tablas: el «join» es la unificación de variables en patrones compartidos.
+- La complejidad de evaluación SPARQL es PSPACE-complete en general (subconjuntos tractables con restricciones).
+
+**** Protocolo SPARQL
+
+HTTP: envío de consulta a =/sparql?= con =query= URL-encoded o POST; respuestas en JSON, XML, CSV, TSV. Permite integrar triple stores en pipelines ETL y dashboards.
+
+** Librerías para consulta de documentos semánticos
+
+Esta sección recorre *herramientas de software* para cargar, parsear, consultar, validar y razonar sobre documentos RDF/OWL, tanto en *cliente* como en *servidor*.
+
+*** Triple stores y servidores SPARQL
+
+Son bases de datos optimizadas para grafos RDF con endpoint SPARQL:
+
+| Producto        | Licencia / notas     | Características destacadas              |
+|-----------------+----------------------+-----------------------------------------|
+| Apache Jena Fuseki | Open source       | Muy usado en academia, TDB2, reasoning  |
+| GraphDB (Ontotext) | Comercial / free tier | RDF-star, alto rendimiento           |
+| Virtuoso          | Open/comercial       | SQL + SPARQL, escalabilidad             |
+| Blazegraph        | Open source          | Big data, GPU histórico                 |
+| Amazon Neptune    | Cloud                | Gremlin + SPARQL                        |
+| Stardog           | Comercial            | Virtualización, reasoning, ML           |
+
+*** APIs y librerías por lenguaje
+
+**** Python
+
+| Librería    | Rol principal                                      |
+|-------------+----------------------------------------------------|
+| *rdflib*    | Parsear/serializar RDF, SPARQL local, grafos en memoria |
+| *SPARQLWrapper* | Cliente HTTP hacia endpoints remotos           |
+| *owlready2* | OWL en Python, reasoners, export RDF            |
+| *pySHACL*   | Validación de formas SHACL                         |
+| *RDFLib + plugins* | Plugins SQLAlchemy, etc.                    |
+
+Ejemplo mínimo con RDFLib:
+
+#+BEGIN_SRC python
+from rdflib import Graph, Namespace, Literal
+from rdflib.namespace import FOAF, RDF
+
+g = Graph()
+EX = Namespace("http://ejemplo.org/")
+
+g.add((EX.alicia, RDF.type, FOAF.Person))
+g.add((EX.alicia, FOAF.name, Literal("Alicia", lang="es")))
+
+q = """
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?name WHERE { ?p foaf:name ?name }
+"""
+for row in g.query(q):
+    print(row.name)
+#+END_SRC
+
+**** Java
+
+- *Apache Jena:* modelo RDF, ARQ (SPARQL), TDB, OWL API integración, Fuseki.
+- *Eclipse RDF4J* (antes Sesame): repositorios, SAIL, SPARQL.
+- *OWL API:* construcción y razonamiento OWL.
+
+**** JavaScript / Node.js
+
+- *N3.js:* parsing Turtle/N-Triples rápido.
+- *jsonld.js:* expansión/compacción JSON-LD.
+- *Comunica:* motor SPARQL modular para Linked Data en el cliente.
+
+**** Otros
+
+- *RDFLib-ruby*, *Redland* (C con bindings), *Rust* (=oxigraph=, =sophia=), *Prolog* (=SWI-Prolog semweb=).
+
+*** Motores de razonamiento (OWL / RDFS)
+
+| Motor     | Integración típica        |
+|-----------+---------------------------|
+| HermiT    | OWL API, Protégé          |
+| Pellet    | OWL API                   |
+| FaCT++    | OWL 2 DL                  |
+| RDFox     | Comercial, Datalog + OWL RL |
+| Pellet / MORe | OWL 2 EL/QL           |
+
+En pipelines industriales a menudo se *materializa* la inferencia (precomputar triples inferidos) para consultas SPARQL rápidas sin reasoner en tiempo real.
+
+*** Validación: SHACL y ShEx
+
+- *SHACL* (Shapes Constraint Language): describe «formas» que deben cumplir los nodos (cardinalidad, tipos, patrones). No es lógica de inferencia sino *validación de conformidad* — muy usado en datos abiertos y empresariales.
+- *ShEx:* esquemas para RDF, popular en life sciences (Wikidata, etc.).
+
+*** Herramientas de autoría y exploración
+
+- *Protégé:* editor OWL visual, reasoners integrados.
+- *TopBraid Composer:* entorno comercial semántico.
+- *VocBench, Skosmos:* gestión de tesauros SKOS.
+- *YASGUI, Tabulator:* interfaces SPARQL en navegador.
+- *Cytoscape, Gephi:* visualización de grafos exportados.
+
+*** Flujo típico de consulta de documentos semánticos
+
+1. *Adquisición:* descargar Turtle/JSON-LD o acceder a endpoint SPARQL.
+2. *Parsing:* librería (rdflib, Jena) → grafo en memoria o carga en triple store.
+3. *Opcional — inferencia:* aplicar reglas RDFS/OWL o materializar.
+4. *Consulta:* SPARQL local o remoto; post-procesado en Python/R.
+5. *Opcional — validación SHACL* antes de publicar o integrar.
+6. *Enlazado:* descubrir URIs relacionadas vía =owl:sameAs= o enlaces =rdfs:seeAlso=.
+
+*** Consideraciones de rendimiento
+
+- Grafos en memoria (RDFLib) solo para tamaños modestos (millones de triples según RAM).
+- Índices SPO/POS/OSP en triple stores para patrones SPARQL.
+- *Named graphs* para versionado y procedencia (=cuad:graph=).
+- Caché de consultas frecuentes; federación costosa en latencia.
+
+**  Datos abiertos
+
+
+Los *datos abiertos* (Open Data) son datos que pueden ser usados, reutilizados y redistribuidos libremente por cualquier persona, sujetos como máximo a la obligación de atribuir y compartir de forma igualitaria. La *Open Definition* (Open Knowledge Foundation) y las *5 estrellas de Tim Berners-Lee* describen niveles de calidad:
+
+1. ★ Disponibles en la web (cualquier formato).
+2. ★★ Datos legibles por máquina (estructurados).
+3. ★★★ Formatos no propietarios (CSV, XML).
+4. ★★★★ URIs para identificar cosas.
+5. ★★★★★ Enlazados a otros datos (Linked Open Data).
+
+La intersección *datos abiertos + Web Semántica* produce *Linked Open Data (LOD)*: conjuntos RDF publicados con licencias abiertas y enlaces entre ellos.
+
+*** Dimensiones legales y éticas
+
+- *Licencias:* CC0, CC BY, ODbL (Open Database License), dedicación al dominio público.
+- *Privacidad:* datos abiertos no deben incluir información personal identificable sin base legal (GDPR, LFPDPPP en México, etc.).
+- *Sesgo y representatividad:* datos públicos reflejan decisiones administrativas; pueden perpetuar desigualdades si se usan ciegamente en IA.
+
+*** Estándares técnicos en el ecosistema abierto
+
+| Estándar / vocabulario | Uso en datos abiertos                          |
+|------------------------+------------------------------------------------|
+| DCAT (Data Catalog Vocabulary) | Catálogos de datasets, metadatos      |
+| Dublin Core            | Título, autor, fecha, descripción              |
+| CSVW (CSV on the Web)  | Metadatos para tablas CSV enlazadas a RDF      |
+| SKOS                   | Tesauros, clasificaciones oficiales            |
+| GeoSPARQL / WGS84      | Datos geoespaciales abiertos                   |
+| schema.org             | Datos estructurados para buscadores            |
+| PROV-O                 | Procedencia de transformaciones                |
+
+*** Portales y ejemplos internacionales
+
+- *data.europa.eu*, *data.gov* (EE.UU.), *datos.gob.mx*, *datos.gob.es*.
+- *DBpedia:* extracción estructurada de Wikipedia.
+- *Wikidata:* base de conocimiento colaborativa multilingüe.
+- *GeoNames, OpenStreetMap* (vía enlaces y derivados LOD).
+
+*** Ciclo de vida de un dataset abierto semántico
+
+1. *Identificación* de fuentes tabulares o APIs.
+2. *Modelado* del vocabulario (reutilizar DCAT, dominio).
+3. *Transformación* (ETL: CSV → RDF, R2RML desde SQL).
+4. *Publicación* (dump Turtle, SPARQL endpoint, content negotiation).
+5. *Enlazado* (link discovery, sameAs a DBpedia/Wikidata).
+6. *Documentación* y *mantenimiento* (versiones, changelogs).
+7. *Medición de impacto* (uso, citaciones, aplicaciones).
+
+*** R2RML y generación automática
+
+*R2RML* mapea tablas relacionales a triples RDF sin duplicar físicamente toda la BD: vistas virtuales SPARQL sobre SQL (Ontop, D2RQ histórico). Útil cuando el dato «abierto» sigue viviendo en sistemas legados.
+
+*** Calidad de datos abiertos
+
+Dimensiones de calidad (teoría de información y gestión de datos):
+- *Exactitud, completitud, consistencia, actualidad, granularidad, accesibilidad.*
+- En LOD, la calidad de los *enlaces* (precision/recall de =sameAs=) es crítica.
+- *Feedback loops* comunitarios (Wikidata) vs. catálogos institucionales centralizados.
+
+*** Impacto social y económico
+
+Transparencia gubernamental, innovación en apps ciudadanas, investigación reproducible, economía de datos. La Web Semántica reduce costos de integración cuando muchos publicadores adoptan URIs y vocabularios compartidos.
+
+**  Knowledge Graph (Grafo de conocimiento)
+
+*** Definición
+
+Un *Knowledge Graph* (KG) es una representación estructurada de conocimiento en forma de grafo donde:
+- Los *nodos* representan *entidades* (personas, lugares, productos, conceptos).
+- Las *aristas* representan *relaciones tipadas* entre entidades.
+- Suele existir un *esquema* (ontología, tipos, restricciones) más un gran volumen de *hechos* (instancias).
+
+En la literatura académica e industrial el término se solapa con «base de conocimiento semántica», «grafo de entidades y relaciones» y, en implementaciones W3C, con grandes conjuntos RDF + ontología + enlaces externos.
+
+*** Origen del término en industria
+
+Google popularizó «Knowledge Graph» en 2012 (panel lateral de entidades en búsqueda). Antes existían proyectos equivalentes: *Freebase*, *YAGO*, *DBpedia*, *NELL*, *Microsoft Satori*, *Facebook Entity Graph*, *Amazon Product Graph*.
+
+*** Arquitectura lógica de un KG
+
+#+BEGIN_EXAMPLE
+┌─────────────────────────────────────────────────────────┐
+│  Capa de aplicación (búsqueda, QA, recomendación, UI)   │
+├─────────────────────────────────────────────────────────┤
+│  Capa de consulta (SPARQL, Gremlin, APIs GraphQL)       │
+├─────────────────────────────────────────────────────────┤
+│  Capa de conocimiento (TBox: ontología; ABox: hechos)   │
+├─────────────────────────────────────────────────────────┤
+│  Capa de integración (ETL, entity resolution, linking)  │
+├─────────────────────────────────────────────────────────┤
+│  Fuentes (BD, logs, web, documentos, sensores)          │
+└─────────────────────────────────────────────────────────┘
+#+END_EXAMPLE
+
+- *TBox (terminology box):* clases y propiedades (OWL/RDFS).
+- *ABox (assertion box):* individuos y hechos concretos.
+- A veces *VBox* (vistas) o capas de *reglas* (SWRL, Datalog).
+
+*** Entity Resolution y Entity Linking
+
+Problemas centrales al construir KGs:
+- *Entity resolution:* ¿«Apple Inc.» y «Apple Computer» son la misma entidad?
+- *Entity linking:* mencionar «París» en texto → =wd:Q90= (Wikidata).
+- Técnicas: similitud de cadenas, embeddings, reglas, supervisión humana.
+
+*** Knowledge Graphs famosos (referencia)
+
+| KG            | Escala (orden de magnitud) | Notas                          |
+|---------------+----------------------------+--------------------------------|
+| Google KG     | Miles de millones de hechos| Comercial, multi-fuente        |
+| Wikidata      | 100M+ elementos              | Colaborativo, SPARQL público  |
+| DBpedia       | Millones de recursos         | Derivado de Wikipedia          |
+| YAGO          | Ontología + hechos temporales| Geografía, tiempo              |
+| Enterprise KG | Variable                   | CRM, supply chain, fraud       |
+
+*** KG en formato RDF vs. property graph
+
+| Aspecto           | RDF Knowledge Graph     | Property Graph (Neo4j)   |
+|-------------------+-------------------------+--------------------------|
+| Estándar W3C      | Sí                      | De facto vendor            |
+| Metadatos en aristas | Reificación, RDF-star | Propiedades en relaciones |
+| Razonamiento OWL  | Nativo                  | Limitado / reglas propias  |
+| Mercado laboral   | LOD, pharma, gobierno   | Fraud, redes, recomendación |
+
+Muchas organizaciones mantienen ambos o traducen entre capas.
+
+*** Construcción y curación
+
+Fases:
+1. *Diseño ontológico* (reutilizar, alinear con estándares del sector).
+2. *Extracción de información* (NLP: relaciones, eventos) → triples candidatos.
+3. *Fusión* de fuentes y *desduplicación*.
+4. *Validación* (SHACL, reglas de negocio).
+5. *Actualización continua* (streaming, CDC).
+6. *Gobernanza* (roles, calidad, linaje PROV-O).
+
+*** Consultas y aplicaciones sobre KGs
+
+- *SPARQL* para exploración analítica.
+- *Question Answering over KG:* traducir preguntas naturales a SPARQL (semantic parsing).
+- *Embeddings de grafos* (TransE, ComplEx, RotatE): vectorizar entidades/relaciones para predicción de enlaces y similitud.
+- *RAG (Retrieval-Augmented Generation):* KG + LLM para respuestas fundamentadas y reducción de alucinaciones.
+- *Razonamiento híbrido:* reglas simbólicas + modelos neuronales.
+
+*** Métricas de evaluación de un KG
+
+- *Cobertura* del dominio (entidades y relaciones esperadas).
+- *Completitud* de atributos críticos.
+- *Freshness* (antigüedad de hechos).
+- *Precisión* de relaciones (muestreo humano o gold standard).
+- *Coherencia lógica* (contradicciones detectadas por reasoner).
+- *Conectividad* (diámetro, componentes, enlaces externos LOD).
+
+*** Desafíos actuales (investigación y práctica)
+
+- Escalar *razonamiento* y *actualización* en tiempo real.
+- *Multilingüismo* y alineación cultural de conceptos.
+- *Explicabilidad* de inferencias y recomendaciones.
+- *Privacidad* en KGs con datos sensibles (grafos anonimizados, acceso federado).
+- Integración con *LLMs* sin perder garantías formales (neuro-symbolic AI).
+
+*** Visión unificada: de la Web Semántica al Knowledge Graph empresarial
+
+La Web Semántica proporciona los *ladrillos estándar* (RDF, RDFS, OWL, SPARQL, LOD, SHACL). Un *Knowledge Graph* es la *materialización integrada y operativa* de ese paradigma para un dominio o para toda la Web: un activo estratégico de datos enlazados, curados y consultables que conecta documentos, tablas y modelos de IA en una capa de conocimiento compartida.
+
+** Referencias y lecturas recomendadas
+
+- Tim Berners-Lee, James Hendler, Ora Lassila: «The Semantic Web», *Scientific American*, 2001.
+- W3C RDF 1.1, RDFS, OWL 2, SPARQL 1.1 Specifications: https://www.w3.org/standards/semanticweb/
+- Tom Heath, Christian Bizer: *Linked Data: Evolving the Web into a Global Data Space* (2011).
+- Pascal Hitzler, Markus Krötzsch, Sebastian Rudolph: *Foundations of Semantic Web Technologies* (2010).
+- Dean Allemang, James Hendler: *Semantic Web for the Working Ontologist* (3rd ed.).
+- Fabien Gandon et al.: documentación *schema.org*, *DCAT 3*, *SHACL*.
+- Auer, Bizer et al.: «DBpedia: A Nucleus for a Web of Open Data».
+- Hogan et al.: surveys sobre Knowledge Graphs (ACM Computing Surveys).
+
+** Glosario breve
+
+| Término        | Definición corta                                              |
+|----------------+---------------------------------------------------------------|
+| IRI            | Internationalized Resource Identifier (URI + Unicode)         |
+| Triple         | Sujeto–predicado–objeto en RDF                                |
+| Ontología      | Especificación formal de un dominio compartido                |
+| Endpoint       | URL HTTP que expone SPARQL sobre un grafo                     |
+| LOD            | Linked Open Data: datos abiertos enlazados en RDF             |
+| Reasoner       | Motor que deduce triples lógicos desde axiomas OWL/RDFS       |
+| Materialización| Precomputar inferencias en el grafo almacenado                |
+| Entity Linking | Resolver menciones de texto a entidades del KG              |
+
+
+
+
 *  Proyecto: Sistema Inteligente de Monitoreo y Análisis de Noticias Web 2026 Enero Junio
 
 ** Descripción del Proyecto
@@ -10209,6 +10837,9 @@ for enlace in enriquecedor.consulta_enriquecimiento():
 print("\nQuery sugerida para Wikidata (tecnología):")
 print(enriquecedor.generar_query_wikidata('tecnologia'))
 #+end_src
+
+
+
 
 
 

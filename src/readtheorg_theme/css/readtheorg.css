@@ -9,7 +9,7 @@ h1,h2,h3,h4,h5,h6,legend{
 
 h1{
     font-size:175%;
-    text-align: left !important;
+    text-align: center !important;
     margin-bottom: 0.83em !important;
 }
 
@@ -51,7 +51,7 @@ html{
 }
 
 body{
-    background:#C1C7C8;
+    background:#edf0f2;
     color:#404040;
     font-family:"Lato","proxima-nova","Helvetica Neue",Arial,sans-serif;
     font-weight:normal;
