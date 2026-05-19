@@ -7348,12 +7348,11 @@ for x in sel.xpath("//div[contains(@class,'quote')]"):
 
 
 
-
 * Actividad previa  Web Semántica
 
 
 ** Para el estudiante
-Antes de estudiar RDF, OWL y SPARQL (ver =web_semantica.org=), esta actividad construye la intuición que esos estándares formalizan:
+Antes de estudiar RDF, OWL y SPARQL, esta actividad construye la intuición que esos estándares formalizan:
 
 - La Web «normal» mezcla *presentación* (HTML) y *datos* (JSON, CSV).
 - Una máquina no «entiende» un párrafo; necesita *hechos estructurados* y *identificadores estables*.
@@ -7373,8 +7372,13 @@ Antes de estudiar RDF, OWL y SPARQL (ver =web_semantica.org=), esta actividad co
 Responde por escrito (medio párrafo cada punto) *antes* de programar:
 
 1. ¿Qué diferencia hay entre una *página web* que describe a un museo y un *dataset* que lista museos con coordenadas y horarios?
-2. Busca «*Tim Berners-Lee four rules of linked data*» o «*cinco estrellas datos abiertos*». Resume con tus palabras qué significa que un dato esté «enlazado».
-3. Abre en el navegador la consulta de ejemplo de *Wikidata Query Service* (https://query.wikidata.org/) y ejecuta una consulta de demostración. ¿El resultado parece una tabla SQL o algo distinto? Anota una observación.
+2. Busca «*Tim Berners-Lee four rules of linked data*» o «*cinco
+   estrellas datos abiertos*». Resume con tus palabras qué significa
+   que un dato esté «enlazado».
+3. Abre en el navegador la consulta de ejemplo de *Wikidata Query
+   Service* (https://query.wikidata.org/) y ejecuta una consulta de
+   demostración. ¿El resultado parece una tabla SQL o algo distinto?
+   Anota una observación.
 
 #+BEGIN_EXAMPLE
 # Espacio para tus respuestas (o en tu reporte .md)
@@ -7386,7 +7390,11 @@ Responde por escrito (medio párrafo cada punto) *antes* de programar:
 ** Misión 1: Extracción manual de «triples» desde HTML y JSON
 
 **** La historia
-Interceptaste un informe en HTML sobre una persona y un archivo JSON con datos de una biblioteca. El buscador por palabras clave encuentra «García» en ambos, pero no sabe si es la misma persona. Tu equipo debe *extraer hechos* en forma (sujeto, predicado, objeto) como haría RDF antes de tener sintaxis Turtle.
+Interceptaste un informe en HTML sobre una persona y un archivo JSON
+con datos de una biblioteca. El buscador por palabras clave encuentra
+«García» en ambos, pero no sabe si es la misma persona. Tu equipo debe
+*extraer hechos* en forma (sujeto, predicado, objeto) como haría RDF
+antes de tener sintaxis Turtle.
 
 **** Datos de entrada (no modificar)
 
@@ -7410,9 +7418,13 @@ json_biblioteca = {
 #+END_SRC
 
 **** Tu tarea
-1. Escribe al menos *6 triples* en español o en notación =(sujeto, predicado, objeto)= tomados del HTML (usa identificadores inventados si hace falta, p. ej. =ex:alicia=).
+1. Escribe al menos *6 triples* en español o en notación =(sujeto,
+   predicado, objeto)= tomados del HTML (usa identificadores inventados
+   si hace falta, p. ej. =ex:alicia=).
 2. Escribe al menos *4 triples* tomados del JSON.
-3. Señala *un triple* que aparece «casi igual» en ambas fuentes pero con *sujetos distintos* si no unificas identificadores. Explica por qué eso es un problema para una máquina.
+3. Señala *un triple* que aparece «casi igual» en ambas fuentes pero con
+   *sujetos distintos* si no unificas identificadores. Explica por qué
+   eso es un problema para una máquina.
 
 #+BEGIN_SRC python :session m1
 # OPCIONAL: validar que tus triples cubren campos clave
@@ -11103,6 +11115,136 @@ print(enriquecedor.generar_query_wikidata('tecnologia'))
 #+end_src
 
 
+
+
+
+
+
+
+**** SIMANW — Actividades complementarias (AC-8 a AC-13) (extensión)
+
+**** Actividades Complementarias 
+
+Las siguientes actividades se integran al proyecto *Sistema Inteligente de
+Monitoreo y Análisis de Noticias Web* (SIMANW). Refuerzan y extienden las fases
+ya descritas. Cada una exige investigación, diseño e implementación propia;
+
+**** AC-8: Control de calidad del corpus rastreado (Fases 1–2)
+
+Tras incorporar al sistema las noticias obtenidas por rastreo real (no el HTML
+de demostración del tutorial), el alumno implementa un *módulo de validación*
+que revise el corpus antes del pipeline de lenguaje natural.
+
+Requisitos:
+
+- Generar un informe automático (texto o JSON) con: total de registros,
+  registros inválidos o incompletos, duplicados exactos y duplicados casi
+  idénticos (mismo título o misma URL).
+- Definir y documentar reglas mínimas de validez (campos obligatorios,
+  longitud mínima del cuerpo, formato de fecha, coherencia de URLs).
+- Producir una lista de registros rechazados con el motivo de cada rechazo.
+- Entregar un corpus depurado utilizable en las fases siguientes.
+- Incluir un párrafo breve (máximo 200 palabras) que explique cuántos
+  registros se descartaron y por qué.
+
+**** AC-9: Línea de tiempo y tendencias por tema (Fases 2–3)
+
+Con las noticias ya procesadas del SIMANW (fecha y categoría o tema asignado),
+el alumno construye un *análisis temporal* que responda qué temas ganan o
+pierden presencia a lo largo del tiempo.
+
+Requisitos:
+
+- Agrupar noticias por periodo (semana o mes); justificar la granularidad
+  elegida.
+- Para al menos tres temas o categorías: conteo por periodo y términos o
+  expresiones cuya frecuencia aumente o disminuya entre el primer y el último
+  periodo del corpus.
+- Identificar al menos un pico o una caída notable y explicarla apoyándose en
+  títulos reales del corpus.
+- Entregar una visualización y una tabla resumen exportable.
+- Redactar una conclusión de una página con los hallazgos principales.
+
+**** AC-10: Sistema de alertas por consulta guardada (Fases 1 y 4)
+
+El SIMANW debe permitir definir *consultas permanentes* (palabras clave o
+frases) y registrar alertas cuando entren noticias nuevas que las satisfagan.
+
+Requisitos:
+
+- Persistir al menos cinco consultas guardadas con nombre y fecha de creación.
+- Al incorporar noticias nuevas al índice, determinar qué consultas se activan
+  y con qué documentos.
+- Mantener un historial de alertas (consulta, noticia, marca de tiempo).
+- Demostrar dos ejecuciones: una sin noticias nuevas y otra tras agregar al
+  menos cinco noticias nuevas al corpus.
+- Documentar en medio página cómo se evitan alertas duplicadas para la misma
+  noticia y la misma consulta.
+
+**** AC-11: Estudio de usabilidad del buscador y del chatbot (Fases 4–5)
+
+El alumno diseña y ejecuta una *prueba con usuarios reales* (mínimo tres
+personas distintas del autor) sobre el motor de búsqueda y el sistema de
+preguntas y respuestas del SIMANW.
+
+Requisitos:
+
+- Elaborar un guion con al menos cinco tareas (búsqueda directa, búsqueda en
+  lenguaje natural, pregunta de conteo, pregunta de recomendación, pregunta de
+  seguimiento que use contexto previo).
+- Aplicar un cuestionario posterior con al menos ocho ítems (facilidad,
+  relevancia, confianza, claridad).
+- Presentar resultados anonimizados en tabla y promedios.
+- Listar al menos cinco problemas detectados y una propuesta de mejora
+  concreta para el sistema por cada uno.
+- Incluir una reflexión breve sobre consentimiento informado y tratamiento de
+  datos de los participantes.
+
+**** AC-12: Trazabilidad y reproducibilidad del pipeline (Fases 1–7)
+
+El alumno demuestra que el SIMANW es *reproducible*: debe quedar claro qué
+datos entraron, qué versión del software se usó y qué artefactos se generaron.
+
+Requisitos:
+
+- Manifiesto por ejecución: fecha y hora, identificación de la versión del
+  proyecto, fuente de noticias, número de documentos en cada etapa, referencia
+  a los archivos de salida principales (rastreo, reporte, grafo).
+- Log estructurado de al menos una ejecución completa (rastreo → procesamiento
+  → análisis → búsqueda → grafo → reporte).
+- Procedimiento documentado que reproduzca la ejecución a partir de datos de
+  entrada versionados, sin depender del HTML de demostración del tutorial.
+- Checklist firmado por el alumno con pasos ejecutados y artefactos generados.
+- Anexo de una página con limitaciones conocidas (cambios en el sitio
+  rastreado, conectividad, dependencias externas, etc.).
+
+**** AC-13: Publicación semántica y validación del grafo (Fase 6 — Web Semántica)
+
+El alumno lleva el Knowledge Graph del SIMANW a un nivel de *datos enlazados*
+consultables y verificables según buenas prácticas de la Web Semántica.
+
+Requisitos:
+
+- Exportar el grafo en al menos dos serializaciones RDF estándar (por ejemplo
+  Turtle y un formato alternativo acordado con el docente).
+- Publicar o entregar un *volcado RDF* acompañado de documentación de los
+  prefijos, clases y propiedades de la ontología del SIMANW (glosario de
+  términos en lenguaje natural).
+- Ejecutar al menos tres consultas SPARQL propias sobre el grafo local que no
+  estén en el material base del curso; cada consulta debe responder una
+  pregunta de negocio distinta (autores, sentimiento, categorías, fechas,
+  enlaces con datasets abiertos, etc.).
+- Validar el grafo con un mecanismo formal acordado con el docente (por
+  ejemplo reglas de forma, restricciones de ontología o validador SHACL):
+  reportar violaciones encontradas y correcciones aplicadas.
+- Establecer al menos cinco enlaces explícitos entre recursos del grafo local y
+  URIs externas de vocabularios o datasets públicos (Wikidata, DBpedia,
+  Schema.org, DCAT u otro catálogo justificado); documentar el criterio de
+  enlace.
+- Entregar un fragmento de ejemplo en JSON-LD que describa una noticia del
+  corpus y que sea coherente con el grafo RDF exportado.
+- Redactar media página sobre cómo un agente externo podría descubrir y
+  reutilizar estos datos sin acceso al código fuente del SIMANW.
 
 
 
