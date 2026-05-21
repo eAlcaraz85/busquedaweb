@@ -7624,6 +7624,8 @@ Responde en 5–8 líneas: «¿Qué problema de esta actividad resuelve RDF que 
 
 
 
+
+
 *  Web Semántica
 
 La *Web Semántica* (Semantic Web) es una visión de la evolución de la
@@ -7636,11 +7638,123 @@ una web de datos enlazados donde los agentes de software podrían
 descubrir, combinar y razonar sobre información de múltiples fuentes
 sin intervención humana constante.
 
-A diferencia de la *Web social* o la *Web 2.0* (centrada en participación y contenido generado por usuarios), la Web Semántica se centra en la *interoperabilidad semántica*: que distintos sistemas puedan entender que dos recursos distintos se refieren a la misma entidad, que una propiedad implica otra, o que un conjunto de hechos satisface una regla de negocio, gracias a vocabularios compartidos y lógica formal.
+A diferencia de la *Web social* o la *Web 2.0* (centrada en participación
+y contenido generado por usuarios), la Web Semántica se centra en la
+*interoperabilidad semántica*: que distintos sistemas puedan entender
+que dos recursos distintos se refieren a la misma entidad, que una
+propiedad implica otra, o que un conjunto de hechos satisface una
+regla de negocio, gracias a vocabularios compartidos y lógica formal.
+
+** Analogía general 
+
+Imagina la Web normal como una *biblioteca de folletos*: hay millones de
+páginas bonitas para leer, pero una máquina solo ve títulos y palabras
+sueltas. La Web Semántica quiere convertir parte de esa biblioteca en
+*fichas de catálogo conectadas*: cada ficha dice «este libro es de este
+autor», «este autor nació en esta ciudad», y todas las fichas usan *las
+mismas etiquetas* en todo el mundo. Así un programa puede *cruzar fichas
+de distintas bibliotecas* sin que un humano le explique cada vez qué
+significa cada columna.
+
+En una frase: *la Web Semántica es la Web hecha legible para programas,
+no solo para ojos humanos.*
+
+** Glosario, qué significa cada nomenclatura
+
+Esta sección define los términos que aparecerán una y otra vez. No hace falta memorizarlos; sirve como mapa mientras lees el resto del documento.
+
+*** Web, WWW y «recurso»
+
+- *World Wide Web (WWW):* red de documentos e hipervínculos accesibles
+  por HTTP. Es la parte «visible» que usamos en el navegador.
+- *Recurso:* en el sentido de la Web Semántica, *cualquier cosa* que
+  merezca tener nombre: una persona, un libro, una foto, un concepto
+  («democracia»), incluso una relación. *Analogía:* como una ficha en un
+  archivo: «expediente #4521» puede ser una persona o un trámite; lo
+  importante es que tiene *identidad propia*.
+
+*** Semántica e interoperabilidad semántica
+
+- *Semántica:* el *significado*, no solo la forma. En una frase, la semántica responde *de qué se habla*, no *cómo está escrito*.
+- *Interoperabilidad semántica:* que dos sistemas distintos (dos
+  universidades, dos ministerios, dos empresas) entiendan que =Persona=
+  en un lado es lo mismo que =Human= en otro, o que «capital de» implica
+  una relación geográfica concreta. *Analogía:* dos hospitales usan el
+  mismo código CIE para una enfermedad; así los historiales se
+  entienden entre sí.
+
+*** URI, URL e IRI (los nombres globales)
+
+| Término                                     | Qué es en criollo                                                                                                         | Analogía                                                                                                                            |
+|---------------------------------------------+---------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------|
+| *URI* (Uniform Resource Identifier)           | Cadena de texto que *identifica de forma única* algo en la Web (o fuera de ella). Es el «nombre oficial» del recurso.       | El número ISBN de un libro: distingue *este* libro de todos los demás, aunque lo encuentres en Amazon, en una biblioteca o en un PDF. |
+| *URL* (Uniform Resource Locator)              | Un tipo de URI que además dice *dónde y cómo obtener* el recurso (incluye =http://...=). Toda URL es URI; no toda URI es URL. | El ISBN (URI) vs. la dirección de la librería donde está en estantería hoy (URL).                                                   |
+| *IRI* (Internationalized Resource Identifier) | URI que admite caracteres Unicode (acentos, ñ, chino, etc.). En RDF moderno casi todo son IRIs.                           | El mismo ISBN, pero el título del libro puede escribirse «México» con acento en metadatos sin romper el estándar.                   |
+
+*Por qué importan:* si dos bases de datos usan *el mismo IRI* para
+«Francia», un programa sabe que hablan del mismo país sin comparar
+strings a mano. Sin identificadores globales, cada sistema inventa su
+ID interno (=país_003=) y la integración es frágil.
+
+*** RDF, triple, grafo y literal
+
+| Término                              | Qué es                                                                                                               | Analogía                                                                                             |
+|--------------------------------------+----------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------|
+| *RDF* (Resource Description Framework) | Formato/modelo estándar para decir hechos en la Web: todo se guarda como *frases mínimas* de tres piezas.              | El protocolo de cómo rellenar una ficha: siempre «sujeto — relación — valor».                        |
+| *Triple*                               | Afirmación (s, p, o): *sujeto*, *predicado* (relación), *objeto* (valor u otro recurso).                                   | Oración: «Alicia — tiene como nombre — Alicia». Una sola fila de verdad.                             |
+| *Grafo RDF*                            | Conjunto de triples; visualmente, nodos unidos por flechas etiquetadas.                                              | Red de contactos de LinkedIn: nodos = personas, flechas = «conoce a», «trabaja en».                  |
+| *Predicado*                            | El «verbo» del triple: la propiedad o relación (casi siempre un IRI).                                                | La columna «relación» en una tabla: =nombre=, =edad=, =capitalDe=.                                         |
+| *Literal*                              | Valor *concreto* (texto, número, fecha) que no es otro recurso con URI. Puede llevar idioma (=@es=) o tipo (=^^xsd:date=). | La celda «34» o «Alicia» en Excel: dato en bruto, no un enlace a otra fila.                          |
+| *Blank node* (nodo en blanco)          | Nodo sin URI pública; existe en el grafo pero no tiene «dirección global».                                           | «Un testigo anónimo» en un acta: sabes que alguien dijo algo, pero no tiene pasaporte en el sistema. |
+
+*** RDFS, OWL, ontología y vocabulario
+
+| Término                     | Qué es                                                                                                                 | Analogía                                                                                               |
+|-----------------------------+------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------|
+| *Vocabulario*                 | Lista acordada de nombres de relaciones y tipos (=foaf:name=, =schema.org/Person=).                                        | El menú fijo de un formulario oficial: mismos campos en todas las oficinas.                            |
+| *Ontología*                   | Descripción *formal* de un dominio: qué clases existen, qué propiedades, qué reglas (p. ej. «todo Profesor es Persona»). | El plano urbanístico de una ciudad: qué es «zona residencial», qué puede construirse, qué no.          |
+| *RDFS* (RDF Schema)           | Capa ligera encima de RDF: clases, subclases, dominio/rango de propiedades.                                            | El índice del diccionario: «perro es un tipo de animal».                                               |
+| *OWL* (Web Ontology Language) | Lenguaje con más *lógica*: cardinalidades, restricciones, «exactamente un DNI», propiedades inversas, etc.               | El código penal + reglamento: no solo categorías, sino reglas que se pueden *comprobar* automáticamente. |
+| *TBox / ABox*                 | *TBox* = terminología (clases y reglas). *ABox* = hechos sobre individuos concretos («Alicia es Profesor»).                | TBox = definición de «qué es un cliente». ABox = «Juan Pérez es cliente #8842».                        |
+
+*** SPARQL, endpoint y triple store
+
+| Término         | Qué es                                                                         | Analogía                                                                                       |
+|-----------------+--------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------|
+| *SPARQL*          | Lenguaje de *consulta* sobre grafos RDF (como SQL sobre tablas).                 | Preguntar al bibliotecario: «dame todos los autores españoles que conocen a alguien en París». |
+| *Endpoint SPARQL* | URL HTTP donde envías consultas SPARQL y recibes resultados (JSON, CSV, etc.). | La ventanilla única del archivo: escribes la pregunta en un formulario estándar.               |
+| *Triple store*    | Base de datos optimizada para guardar y buscar millones de triples.            | Almacén de fichas con índice por sujeto, predicado y objeto a la vez.                          |
+
+*** Linked Data, LOD y content negotiation
+
+| Término                | Qué es                                                                                            | Analogía                                                                                                                             |
+|------------------------+---------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------|
+| *Linked Data*            | Publicar datos con URIs HTTP que *enlazan* a otros conjuntos de datos.                              | Wikipedia: cada artículo enlaza a otros artículos; sigues los enlaces y aprendes más.                                                |
+| *LOD* (Linked Open Data) | Linked Data con *licencia abierta* (reutilizable legalmente).                                       | Wikipedia + biblioteca pública: puedes copiar y republicar con atribución.                                                           |
+| *Content negotiation*    | El servidor devuelve HTML para humanos o RDF/JSON-LD para máquinas según quién pide la misma URI. | Misma dirección postal: si preguntas en español te dan la guía turística; si preguntas en «formato máquina» te dan la base de datos. |
+
+*** Otras siglas que verás más adelante
+
+| Término                                 | Significado breve                                                                                    | Analogía                                                                                                                              |
+|-----------------------------------------+------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------|
+| *OWA* (Open World Assumption)             | «No está en mis datos» ≠ «es falso»; puede existir en otro sitio.                                    | No ver a alguien en tu lista de invitados no prueba que no exista; quizá está en otra fiesta.                                         |
+| *Closed world* (SQL típico)               | Si no hay fila, para la consulta *no existe*.                                                          | Lista cerrada de alumnos inscritos: si no apareces, no estás inscrito *en este sistema*.                                                |
+| *Reasoner*                                | Programa que *deduce* triples nuevos desde reglas OWL/RDFS.                                            | Un asistente que, sabiendo «todo mamífero es animal» y «perro es mamífero», concluye «perro es animal» sin que lo escribieras a mano. |
+| *SHACL*                                   | Lenguaje para *validar* que los datos cumplen formas («toda Persona debe tener exactamente un email»). | Inspector de calidad en fábrica: no inventa datos, solo rechaza piezas mal hechas.                                                    |
+| *JSON-LD*                                 | JSON con contexto que se traduce a RDF; muy usado en la web actual.                                  | Etiquetas en español en un formulario que por detrás se guardan en el código interno universal.                                       |
+| *schema.org*                              | Vocabulario de Google/Bing/Yahoo para describir productos, eventos, personas en páginas web.         | Plantilla de ficha de producto que entienden los buscadores para rich snippets.                                                       |
+| *Knowledge Graph* (grafo de conocimiento) | Gran red integrada de entidades y relaciones, lista para consultas y apps.                           | El «cerebro» de mapas de Google: lugares, horarios, reseñas, todo conectado.                                                          |
+| *sameAs / exactMatch*                     | Declarar que dos URIs de distintas fuentes son la *misma entidad real*.                                | «Juan Pérez (RRHH)» = «jperez (CRM)»: unificar expedientes.                                                                           |
+| *Entity linking / resolution*             | Detectar en texto «París» y enlazarlo al IRI correcto (ciudad vs. personaje).                        | Desambiguar en un chat: ¿París Francia o Paris Hilton?                                                                                |
 
 ** Contexto histórico y motivación
 
-Antes de la Web Semántica, la mayor parte del conocimiento en Internet estaba *encapsulado* en documentos no estructurados o en bases de datos con esquemas propietarios. Los buscadores indexaban palabras clave, pero no el *significado* de las relaciones («París es capital de Francia» vs. «París Hilton es una persona»). Los problemas que motivaron la Web Semántica incluyen:
+Antes de la Web Semántica, la mayor parte del conocimiento en Internet
+estaba *encapsulado* en documentos no estructurados o en bases de datos
+con esquemas propietarios. Los buscadores indexaban palabras clave,
+pero no el *significado* de las relaciones («París es capital de
+Francia» vs. «París Hilton es una persona»). Los problemas que
+motivaron la Web Semántica incluyen:
 
 - *Integración de datos heterogéneos* entre departamentos, empresas o países.
 - *Reutilización* de esquemas y ontologías en lugar de reinventar modelos en cada proyecto.
@@ -7652,23 +7766,23 @@ Antes de la Web Semántica, la mayor parte del conocimiento en Internet estaba *
 
 Aunque el modelo de «capas» es una simplificación pedagógica, ayuda a situar las tecnologías:
 
-| Capa (aprox.) | Tecnología / idea        | Función principal                          |
-|---------------+--------------------------+--------------------------------------------|
-| Identificadores | URI / IRI              | Nombres globales y persistentes de recursos |
-| Sintaxis      | RDF (grafos de triples)  | Modelo de datos uniforme para afirmaciones |
-| Esquema       | RDFS, OWL                | Clases, propiedades, restricciones, axiomas  |
-| Consulta      | SPARQL                   | Lenguaje declarativo sobre grafos RDF        |
-| Lógica / reglas | OWL 2 RL, SWRL, SHACL | Inferencia y validación de conformidad       |
-| Confianza / prueba | (investigación)     | Origen, firma, políticas de uso              |
-| Interfaz      | HTML, aplicaciones       | Presentación al usuario final                |
+| Capa (aprox.)      | Tecnología / idea       | Función principal (en criollo)              |
+|--------------------+-------------------------+---------------------------------------------|
+| Identificadores    | URI / IRI               | *DNI global* de cada cosa (sin ambigüedad)    |
+| Sintaxis           | RDF (grafos de triples) | *Frases* mínimas para afirmar hechos          |
+| Esquema            | RDFS, OWL               | *Reglas y categorías* (qué es válido decir)   |
+| Consulta           | SPARQL                  | *Preguntas* al grafo («quién conoce a quién») |
+| Lógica / reglas    | OWL 2 RL, SWRL, SHACL   | *Deducir* o *revisar* que los datos cuadran     |
+| Confianza / prueba | (investigación)         | *De dónde viene* cada dato (aún experimental) |
+| Interfaz           | HTML, aplicaciones      | Lo que *ve* el usuario en pantalla            |
 
 ** Principios de diseño
 
-1. *Todo es un recurso identificado por URI.* Los nodos del grafo (sujetos, predicados u objetos) suelen ser IRIs, no cadenas opacas sin contexto.
-2. *Open World Assumption (OWA).* La ausencia de un triple no implica su falsedad; el mundo abierto asume que puede haber información desconocida en otra fuente.
-3. *No monotonicidad parcial.* Añadir datos puede hacer que nuevas inferencias sean verdaderas sin invalidar las anteriores (a diferencia de bases de datos cerradas).
-4. *Vocabularios reutilizables.* Schema.org, Dublin Core, FOAF, SKOS, etc., evitan silos semánticos.
-5. *Linked Data.* Publicar datos con URIs HTTP resolvibles, enlaces entre conjuntos y formatos estándar (RDF).
+1. *Todo es un recurso identificado por URI.* Los nodos del grafo (sujetos, predicados u objetos) suelen ser IRIs, no cadenas opacas sin contexto. *En criollo:* no digas solo «María»; di «=http://miuni.edu/alumnos/maria-garcia=» para que nadie la confunda con otra María. *Analogía:* usar correo institucional (@uni.edu) en vez del apodo «maria92» en un chat grupal.
+2. *Open World Assumption (OWA).* La ausencia de un triple no implica su falsedad; el mundo abierto asume que puede haber información desconocida en otra fuente. *Analogía:* tu agenda no lista todos los humanos del planeta; eso no significa que solo existan tus contactos.
+3. *No monotonicidad parcial.* Añadir datos puede hacer que nuevas inferencias sean verdaderas sin invalidar las anteriores (a diferencia de bases de datos cerradas). *Analogía:* si descubres que alguien tiene segundo apellido, no borras lo que ya sabías de su nombre; solo *añades* conocimiento.
+4. *Vocabularios reutilizables.* Schema.org, Dublin Core, FOAF, SKOS, etc., evitan silos semánticos. *Analogía:* todos los hospitales usan la misma tabla de códigos de diagnóstico en lugar de inventar la suya.
+5. *Linked Data.* Publicar datos con URIs HTTP resolvibles, enlaces entre conjuntos y formatos estándar (RDF). *Analogía:* cada dataset es un capítulo de Wikipedia que enlaza al resto de la enciclopedia.
 
 ** Web Semántica vs. inteligencia artificial simbólica vs. aprendizaje automático
 
@@ -7687,26 +7801,39 @@ La Web Semántica comparte raíces con la *IA simbólica* (representación del c
 
 *** Definición formal y operativa
 
-La *Web Semántica* puede definirse como el conjunto de estándares, prácticas y tecnologías W3C que permiten representar *conocimiento declarativo* sobre recursos de la Web en forma de *grafos de datos* enlazados, de modo que las aplicaciones puedan procesar ese conocimiento de manera automática, consistente y escalable a escala global.
+La *Web Semántica* puede definirse como el conjunto de estándares,
+prácticas y tecnologías W3C que permiten representar *conocimiento
+declarativo* sobre recursos de la Web en forma de *grafos de datos*
+enlazados, de modo que las aplicaciones puedan procesar ese
+conocimiento de manera automática, consistente y escalable a escala
+global.
 
-Operativamente, un *documento* o *conjunto de datos semánticos* es un grafo dirigido etiquetado donde cada arista es una afirmación (*triple*) de la forma ⟨sujeto, predicado, objeto⟩, y donde sujeto y predicado son típicamente IRIs, y el objeto puede ser un IRI (recurso) o un *literal* tipado (valor con tipo XSD o idioma).
+Operativamente, un *documento* o *conjunto de datos semánticos* es un
+grafo dirigido etiquetado donde cada arista es una afirmación (*triple*)
+de la forma ⟨sujeto, predicado, objeto⟩, y donde sujeto y predicado
+son típicamente IRIs, y el objeto puede ser un IRI (recurso) o un
+*literal* tipado (valor con tipo XSD o idioma).
 
 *** Elementos constitutivos
 
 **** Recurso (Resource)
 Cualquier cosa que pueda ser identificada: persona, libro, evento, concepto abstracto, relación, etc. En RDF todo lo que se describe es un recurso con URI.
 
+*¿Qué significa «recurso»?* No es «archivo descargable» solamente; es *cualquier entidad nombrable*. Incluso una relación abstracta («ser capital de») puede tener URI. *Analogía:* en un ERP, «cliente», «pedido» y «línea de factura» son entidades distintas aunque no sean archivos PDF.
+
 **** Afirmación (Statement) / Triple
-Unidad mínima de conocimiento. Ejemplo:
+Unidad mínima de conocimiento: una sola proposición que el sistema puede almacenar y combinar con otras. *Analogía:* una fila en una hoja de cálculo con tres columnas fijas — «quién», «qué relación», «valor» — en lugar de tablas con esquemas distintos en cada hoja.
+
+Ejemplo:
 #+BEGIN_EXAMPLE
 <http://ejemplo.org/persona/alicia>  <http://xmlns.com/foaf/0.1/name>  "Alicia"@es .
 #+END_EXAMPLE
 
 **** Vocabulario / Ontología
-Conjunto de términos (clases, propiedades) con definiciones y, opcionalmente, axiomas lógicos que restringen su uso.
+*Vocabulario:* lista de términos acordados (=nombre=, =fechaNacimiento=). *Ontología:* vocabulario + reglas formales («si es =Profesor=, entonces es =Persona=»; «cada =Persona= tiene como máximo un =dni=»). *Analogía:* vocabulario = etiquetas del formulario; ontología = formulario + manual de instrucciones + validaciones.
 
 **** Grafo de conocimiento (Knowledge Graph)
-Instancia integrada de muchos triples (y posiblemente esquemas) que conecta entidades del mundo real o del dominio, a menudo con miles de millones de aristas en sistemas industriales.
+Instancia integrada de muchos triples (y posiblemente esquemas) que conecta entidades del mundo real o del dominio, a menudo con miles de millones de aristas en sistemas industriales. *Analogía:* el mapa de metro de una megaciudad: estaciones = entidades, líneas = relaciones; puedes planear rutas («¿qué productos compra este cliente en qué tiendas?») sin abrir cada «estación» a mano.
 
 *** Objetivos según el W3C
 
@@ -7728,12 +7855,14 @@ Los *property graphs* son cercanos conceptualmente pero no están estandarizados
 
 *** Linked Data: los cuatro principios (Berners-Lee, 2006)
 
-1. Usar URIs como nombres de cosas.
-2. Usar URIs HTTP para que las personas (y máquinas) puedan buscar esos nombres.
-3. Al buscar una URI, proporcionar información útil (RDF, Turtle, JSON-LD) mediante *content negotiation*.
-4. Incluir enlaces URIs a otros datos para descubrir más cosas.
+Cada principio responde a un problema concreto de la Web «solo humanos»:
 
-Esto convierte la Web en una base de datos distribuida y parcialmente conectada — el *Web of Data*.
+1. *Usar URIs como nombres de cosas.* Sin URI global, «ID 42» en un sitio no es «ID 42» en otro. *Analogía:* pasaporte internacional en vez de «el del sombrero rojo».
+2. *Usar URIs HTTP para que las personas (y máquinas) puedan buscar esos nombres.* El nombre debe ser *consultable* en la red, no una etiqueta interna. *Analogía:* el ISBN lleva a una página del editor donde hay metadatos.
+3. *Al buscar una URI, proporcionar información útil (RDF, Turtle, JSON-LD) mediante content negotiation.* La misma dirección sirve para humanos (HTML) y programas (RDF). *Analogía:* un museo con audioguía en español y base de datos en inglés según el dispositivo que escaneas el QR.
+4. *Incluir enlaces URIs a otros datos para descubrir más cosas.* Cada dataset apunta a otros (DBpedia, Wikidata, GeoNames…). *Analogía:* referencias bibliográficas que te llevan de paper en paper.
+
+Esto convierte la Web en una base de datos distribuida y parcialmente conectada — el *Web of Data* (Web de Datos), distinta de la *Web de Documentos* (páginas para leer).
 
 *** Ventajas y limitaciones teóricas
 
@@ -7758,13 +7887,15 @@ Los *lenguajes semánticos* de la Web proporcionan sintaxis para intercambiar gr
 
 *RDF* es el modelo de datos fundamental de la Web Semántica. Especificado originalmente por el W3C (RDF 1.1, 2014), define un grafo etiquetado donde las etiquetas de aristas (predicados) y muchos nodos son IRIs. RDF no es un formato de archivo único: es un *modelo abstracto* con múltiples sintaxis concretas (Turtle, N-Triples, RDF/XML, JSON-LD, TriG).
 
+*En criollo:* RDF no es «un tipo de XML»; es la *idea* de guardar todo como triples. Turtle, JSON-LD, etc. son solo *formas de escribir* la misma idea en disco. *Analogía:* una misma partitura puede estar en pentagrama impreso o en MIDI; la música es el modelo, los archivos son sintaxis.
+
 **** Modelo de triples
 
-Un *RDF triple* = (s, p, o) ∈ (IRI ∪ BNode) × IRI × (IRI ∪ BNode ∪ Literal).
+Un *RDF triple* = (s, p, o): tres posiciones fijas. Notación matemática: ∈ (IRI ∪ BNode) × IRI × (IRI ∪ BNode ∪ Literal) significa «el sujeto puede ser IRI o nodo anónimo; el predicado debe ser IRI; el objeto puede ser otro recurso, nodo anónimo o literal».
 
-- *Sujeto (s):* recurso descrito; puede ser IRI o nodo en blanco (*blank node*).
-- *Predicado (p):* IRI que denota la propiedad (relación).
-- *Objeto (o):* valor de la propiedad: otro recurso o literal.
+- *Sujeto (s):* *de quién o de qué* hablamos. Puede ser IRI o nodo en blanco (*blank node*). *Analogía:* el nombre propio al inicio de «María vive en Madrid».
+- *Predicado (p):* *qué relación* afirmamos; siempre IRI (nunca un literal suelto). *Analogía:* el verbo o la columna «vive en», «tiene edad», «es tipo de».
+- *Objeto (o):* *valor* de esa relación: otro recurso (Madrid) o literal («María», 34, 2026-05-18). *Analogía:* el complemento: lugar, texto, número.
 
 Un *conjunto de triples* es un *grafo RDF* (multigrafo dirigido).
 
@@ -7816,18 +7947,22 @@ RDF/XML fue la primera sintaxis; es verbosa. Turtle y JSON-LD son preferidas en 
 
 *RDF Schema* (RDFS) extiende RDF con un vocabulario para describir *esquemas ligeros*: clases, subclases, propiedades, subpropiedades y dominios/rangos. No es una ontología de dominio completa, sino un *meta-modelo* para organizar términos.
 
+*En criollo:* RDF solo dice hechos sueltos; RDFS dice «este hecho es un *tipo* de cosa» y «esta propiedad solo conecta *estos* tipos». *Analogía:* RDF = frases; RDFS = gramática que marca sustantivos y adjetivos.
+
+*Espacio de nombres* (=rdfs:=, =rdf:=): prefijo abreviado del IRI largo. =rdfs:Class= significa =http://www.w3.org/2000/01/rdf-schema#Class=. Como =namespace= en programación.
+
 Vocabulario central (espacio de nombres =rdfs:=, =rdf:=):
 
 | Término           | Tipo        | Significado intuitivo                          |
 |-------------------+-------------+------------------------------------------------|
-| =rdfs:Class=      | Clase       | Conjunto de recursos                           |
-| =rdfs:subClassOf= | Propiedad   | Jerarquía taxonómica                           |
-| =rdf:Property=    | Clase       | Propiedades RDF                                |
-| =rdfs:subPropertyOf= | Propiedad | Jerarquía de propiedades                    |
-| =rdfs:domain=     | Propiedad   | Sujeto esperado de una propiedad               |
-| =rdfs:range=      | Propiedad   | Tipo de objeto esperado                        |
-| =rdfs:label=      | Propiedad   | Nombre legible                                 |
-| =rdfs:comment=    | Propiedad   | Descripción textual                            |
+| =rdfs:Class=      | Clase       | Conjunto de recursos (ej. Persona, Libro)      |
+| =rdfs:subClassOf= | Propiedad   | «A es subtipo de B» (Profesor ⊂ Persona)       |
+| =rdf:Property=    | Clase       | Meta-tipo: «esto es una relación/atributo»     |
+| =rdfs:subPropertyOf= | Propiedad | «propiedad hija» de otra (hijoDe ⊂ parienteDe) |
+| =rdfs:domain=     | Propiedad   | Qué tipo debe ser el *sujeto* al usar la prop. |
+| =rdfs:range=      | Propiedad   | Qué tipo debe ser el *objeto*                  |
+| =rdfs:label=      | Propiedad   | Nombre legible para humanos («Persona»)        |
+| =rdfs:comment=    | Propiedad   | Descripción textual del término                |
 
 **** Reglas de inferencia RDFS (intuición)
 
@@ -7853,7 +7988,11 @@ Si =ex:enseña rdfs:domain ex:Profesor= y =ex:enseña rdfs:range ex:Asignatura=,
 
 *OWL* (OWL 2 es la versión actual, W3C 2012) es un lenguaje ontológico basado en *lógica descriptiva* (Description Logic, DL). Permite declarar clases complejas, restricciones sobre propiedades, individuos, igualdad/diferencia y axiomas que un *reasoner* puede usar para clasificar la ontología e inferir tipos implícitos.
 
-Perfiles OWL 2 (trade-off expresividad / decidibilidad / rendimiento):
+*¿Qué es «lógica descriptiva»?* Un fragmento de lógica formal diseñado para que las preguntas importantes («¿Juan es subtipo de Persona?») se respondan en tiempo razonable. *Analogía:* reglas de un juego de mesa que se pueden comprobar sin probar todas las combinaciones del universo.
+
+*Reasoner* (=motor de razonamiento=): programa que lee la ontología y los hechos y *calcula* conclusiones (nuevos =rdf:type=, inconsistencias, etc.). *Analogía:* Excel recalcula fórmulas cuando cambias una celda; el reasoner recalcula «tipos inferidos».
+
+Perfiles OWL 2 (trade-off = equilibrio= entre *expresividad* —qué puedes decir— y *decidibilidad* —si el computador termina en tiempo finito—):
 
 | Perfil    | Características principales                    | Uso típico                    |
 |-----------+------------------------------------------------+-------------------------------|
@@ -7884,9 +8023,9 @@ Perfiles OWL 2 (trade-off expresividad / decidibilidad / rendimiento):
 :tieneDNI a owl:DatatypeProperty , owl:FunctionalProperty ;
     rdfs:domain :Persona ;
     rdfs:range xsd:string .
-#+END_EXAMPLE
+#+END_SRC
 
-Una *FunctionalProperty* implica que no hay dos valores distintos para el mismo sujeto (máximo uno).
+Una *FunctionalProperty* (=owl:FunctionalProperty=) implica que no hay dos valores distintos para el mismo sujeto (máximo uno). *Analogía:* el campo «número de pasaporte» en un formulario: una persona, un pasaporte oficial; no dos distintos válidos a la vez.
 
 **** Reasoning (razonamiento)
 
@@ -7904,14 +8043,16 @@ Los *motores de inferencia* (Pellet, HermiT, FaCT++, RDFox, etc.) calculan la *c
 
 *SPARQL 1.1* es el lenguaje estándar W3C para consultar y manipular grafos RDF. Es declarativo, similar en espíritu a SQL pero sobre *patrones de triples* en lugar de tablas relacionales.
 
-Componentes de una consulta:
-- *PREFIX* — abreviaturas de IRIs
-- *WHERE* — patrón del grafo (BGP: Basic Graph Pattern)
-- *OPTIONAL* — left join semántico
-- *FILTER* — restricciones (comparaciones, funciones, EXISTS)
-- *SELECT / CONSTRUCT / ASK / DESCRIBE* — formas de resultado
-- *ORDER BY, LIMIT, OFFSET, GROUP BY, HAVING* — agregación y paginación
-- *UPDATE* (SPARQL Update) — INSERT, DELETE, LOAD, CLEAR
+*Analogía SQL vs. SPARQL:* en SQL unes tablas por columnas (=JOIN=). En SPARQL dibujas un *molde* de triples con huecos (=?variable=) y el motor busca todas las formas de rellenar esos huecos en el grafo. *Ejemplo mental:* «¿quién (?persona) tiene nombre (?nombre) y conoce (?amigo) a alguien que también tiene nombre?»
+
+Componentes de una consulta (qué significa cada palabra clave):
+- *PREFIX* — abreviaturas de IRIs largos (=foaf:= en vez de =http://xmlns.com/foaf/0.1/=). Como =import= o alias en código.
+- *WHERE* — patrón del grafo (BGP: Basic Graph Pattern): las «piezas del puzzle» que deben coincidir.
+- *OPTIONAL* — left join semántico: «si existe, tráelo; si no, no descartes la fila». Como «teléfono opcional» en un directorio.
+- *FILTER* — restricciones (comparaciones, funciones, EXISTS): =?edad > 18=, idioma español, etc.
+- *SELECT / CONSTRUCT / ASK / DESCRIBE* — formas de resultado (ver tabla más abajo).
+- *ORDER BY, LIMIT, OFFSET, GROUP BY, HAVING* — ordenar, paginar y agregar (como en SQL).
+- *UPDATE* (SPARQL Update) — INSERT, DELETE, LOAD, CLEAR: modificar el grafo, no solo leerlo.
 
 **** Patrones básicos
 
@@ -7953,7 +8094,7 @@ SPARQL 1.1 Federated Query permite =SERVICE <endpoint> { ... }= para consultar r
 
 HTTP: envío de consulta a =/sparql?= con =query= URL-encoded o POST; respuestas en JSON, XML, CSV, TSV. Permite integrar triple stores en pipelines ETL y dashboards.
 
-** Librerías para consulta de documentos semánticos
+**  Librerías para consulta de documentos semánticos
 
 Esta sección recorre *herramientas de software* para cargar, parsear, consultar, validar y razonar sobre documentos RDF/OWL, tanto en *cliente* como en *servidor*.
 
@@ -8061,14 +8202,17 @@ En pipelines industriales a menudo se *materializa* la inferencia (precomputar t
 
 **  Datos abiertos
 
+*** Definición y principios
 
 Los *datos abiertos* (Open Data) son datos que pueden ser usados, reutilizados y redistribuidos libremente por cualquier persona, sujetos como máximo a la obligación de atribuir y compartir de forma igualitaria. La *Open Definition* (Open Knowledge Foundation) y las *5 estrellas de Tim Berners-Lee* describen niveles de calidad:
 
-1. ★ Disponibles en la web (cualquier formato).
-2. ★★ Datos legibles por máquina (estructurados).
-3. ★★★ Formatos no propietarios (CSV, XML).
-4. ★★★★ URIs para identificar cosas.
-5. ★★★★★ Enlazados a otros datos (Linked Open Data).
+*Analogía de las 5 estrellas:* subir de «PDF escaneado ilegible» a «base de datos viva conectada con el mundo».
+
+1. ★ Disponibles en la web (cualquier formato). — *Publicaste algo; aunque sea un Excel en un enlace.*
+2. ★★ Datos legibles por máquina (estructurados). — *CSV, JSON, XML: un script puede leerlo sin OCR.*
+3. ★★★ Formatos no propietarios (CSV, XML). — *No solo Excel cerrado; estándares abiertos.*
+4. ★★★★ URIs para identificar cosas. — *Cada fila/concepto tiene ID global (Linked Data).*
+5. ★★★★★ Enlazados a otros datos (Linked Open Data). — *Tu «París» enlaza al París de Wikidata/DBpedia.*
 
 La intersección *datos abiertos + Web Semántica* produce *Linked Open Data (LOD)*: conjuntos RDF publicados con licencias abiertas y enlaces entre ellos.
 
@@ -8235,18 +8379,386 @@ La Web Semántica proporciona los *ladrillos estándar* (RDF, RDFS, OWL, SPARQL,
 - Auer, Bizer et al.: «DBpedia: A Nucleus for a Web of Open Data».
 - Hogan et al.: surveys sobre Knowledge Graphs (ACM Computing Surveys).
 
-** Glosario breve
+** Glosario ampliado (referencia rápida)
 
-| Término        | Definición corta                                              |
-|----------------+---------------------------------------------------------------|
-| IRI            | Internationalized Resource Identifier (URI + Unicode)         |
-| Triple         | Sujeto–predicado–objeto en RDF                                |
-| Ontología      | Especificación formal de un dominio compartido                |
-| Endpoint       | URL HTTP que expone SPARQL sobre un grafo                     |
-| LOD            | Linked Open Data: datos abiertos enlazados en RDF             |
-| Reasoner       | Motor que deduce triples lógicos desde axiomas OWL/RDFS       |
-| Materialización| Precomputar inferencias en el grafo almacenado                |
-| Entity Linking | Resolver menciones de texto a entidades del KG              |
+| Término | Qué es | Analogía |
+|---------+--------+----------|
+| *WWW / Web* | Red de documentos e hipervínculos | Biblioteca de folletos enlazados |
+| *Web Semántica* | Web donde las máquinas entienden relaciones explícitas | Misma biblioteca con fichas de catálogo estándar |
+| *Recurso* | Cualquier entidad identificable (persona, concepto, relación) | Expediente con número único |
+| *URI* | Identificador global único (cadena) | ISBN, DNI internacional del dato |
+| *URL* | URI que indica cómo descargar/localizar vía HTTP | Dirección web donde vive el recurso |
+| *IRI* | URI con caracteres internacionales (ñ, 中文…) | Mismo ISBN, metadatos en cualquier idioma |
+| *RDF* | Modelo de datos en triples | Protocolo de ficha «sujeto–relación–valor» |
+| *Triple* | Afirmación (s, p, o) | Oración mínima: «Alicia – nombre – Alicia» |
+| *Grafo* | Conjunto de triples conectados | Red social de hechos |
+| *Literal* | Valor concreto (texto, número, fecha) | Celda de Excel, no enlace |
+| *Blank node* | Nodo sin URI pública | «Un autor anónimo» en el grafo |
+| *Predicado* | Relación/propiedad en el triple (IRI) | Verbo o nombre de columna |
+| *RDFS* | Esquema ligero: clases, subclases, dominio/rango | Índice del diccionario |
+| *OWL* | Ontología con lógica y restricciones | Reglamento formal verificable |
+| *Ontología* | Modelo formal de un dominio | Plano urbanístico del conocimiento |
+| *Vocabulario* | Conjunto de términos RDF reutilizables | Campos estándar del formulario |
+| *TBox* | Terminología (clases, reglas) | Definición de «qué es un cliente» |
+| *ABox* | Hechos sobre individuos | «Juan es cliente #8842» |
+| *SPARQL* | Lenguaje de consulta sobre RDF | SQL para redes de triples |
+| *BGP* | Patrón básico de triples en WHERE | Molde con huecos ?variable |
+| *Endpoint* | URL HTTP con servicio SPARQL | Ventanilla del archivo nacional |
+| *Triple store* | BD optimizada para RDF | Almacén indexado por (s,p,o) |
+| *Linked Data* | Datos con URIs HTTP que enlazan entre sí | Wikipedia entre bases de datos |
+| *LOD* | Linked Data + licencia abierta | Wikipedia + datos públicos reutilizables |
+| *Content negotiation* | Misma URI → HTML o RDF según cliente | QR que abre guía humana o JSON para apps |
+| *OWA* | Ausencia de dato ≠ falsedad | No estar en mi lista ≠ no existir |
+| *Reasoner* | Motor de inferencia OWL/RDFS | Asistente que deduce lo implícito |
+| *Materialización* | Guardar triples ya inferidos | Precocinar respuestas para ir más rápido |
+| *SHACL* | Validación de formas en grafos | Control de calidad en fábrica |
+| *JSON-LD* | JSON con @context → RDF | Formulario en español, guardado en código universal |
+| *schema.org* | Vocabulario para buscadores | Ficha de producto que entiende Google |
+| *FOAF* | Vocabulario «amigo de un amigo» (personas, redes) | Perfil estándar de red social |
+| *Dublin Core* | Metadatos bibliográficos (título, autor, fecha) | Etiqueta de lomo de libro |
+| *SKOS* | Tesauros y jerarquías de conceptos | Árbol de categorías del ministerio |
+| *DCAT* | Catálogo de conjuntos de datos | Índice de datasets en portal open data |
+| *sameAs* | Dos URIs, misma entidad real | Unificar expediente RRHH y CRM |
+| *Knowledge Graph* | Grafo integrado de entidades y relaciones | Mapa de metro del conocimiento |
+| *Entity linking* | Texto → URI correcta en el KG | Desambiguar «París» ciudad vs. persona |
+| *Entity resolution* | ¿Son la misma entidad estos dos registros? | Fusionar duplicados en base de datos |
+| *Property graph* | Grafo con propiedades en aristas (Neo4j) | Red social con etiquetas en flechas (no W3C estándar) |
+| *RDF-star* | Metadatos sobre triples concretos | Nota al margen sobre una frase específica |
+| *W3C* | Consorcio que define estándares web | «Ministerio de normas» de Internet |
+| *Berners-Lee* | Inventor de la WWW; impulsor de Web Semántica | — |
+| *Protégé* | Editor visual de ontologías OWL | Figma para ontologías |
+| *Fuseki / Jena* | Servidor SPARQL open source muy usado | Apache para grafos RDF |
+| *rdflib* | Librería Python para RDF y SPARQL local | pandas pero para triples |
+| *Wikidata* | KG colaborativo multilingüe (hermano de Wikipedia) | Base de datos de Wikipedia en RDF |
+| *DBpedia* | RDF extraído automáticamente de Wikipedia | Exportar Wikipedia a fichas |
+| *5 estrellas (Tim BL)* | Escala de calidad de datos abiertos (★ a ★★★★★) | De PDF escaneado a datos enlazados |
+| *RAG* | LLM + recuperación de documentos/KG | Examen abierto con apuntes permitidos |
+| *Embedding* | Vector que captura similitud estadística | «Olor» numérico de una palabra (no reglas explícitas) |
+
+
+
+* Actividades extras Web Semántica (post-lectura)
+
+
+Estas actividades van *después* de leer el material teórico actualizado y *después* (idealmente) de la actividad previa. No repiten el calentamiento inicial: aquí se comprueba que entiendes la nomenclatura, que puedes leer/escribir RDF y SPARQL, y que relacionas conceptos con situaciones reales.
+
+
+*Prerrequisitos:*
+
+- Haber leído al menos: introducción, «Glosario desde cero», secciones 5.1, 5.2 (RDF, RDFS, OWL, SPARQL) y 5.4 (datos abiertos).
+- Python 3; para misiones 5 y 6: =pip install rdflib= (opcional SPARQLWrapper para federación).
+
+** Mapa de misiones
+
+| Misión | Tema principal               | Tiempo aprox. |
+|--------+------------------------------+---------------|
+| A      | Glosario y analogías         | 25 min        |
+| B      | Capas, OWA y SQL vs grafo    | 30 min        |
+| C      | Turtle + inferencia RDFS     | 35 min        |
+| D      | SPARQL (local o Wikidata)    | 40 min        |
+| E      | Linked Data y 5 estrellas    | 25 min        |
+| F      | Mini ontología + TBox/ABox   | 35 min        |
+| G      | SHACL vs reasoner (concepto) | 20 min        |
+| H      | Proyecto integrador corto    | 45 min        |
+
+*Entregable:* =reporte_extras_web_semantica.md= (plantilla al final).
+
+** Misión A: Comprueba el glosario (sin memorizar a ciegas)
+
+**** Instrucciones
+
+Usa solo el documento =web_semantica.org= (sección «Glosario desde cero» y glosario final). *No uses IA generativa* para esta misión.
+
+1. Completa la tabla: escribe *una frase en tus palabras* (no copies la analogía literal del documento).
+
+| Término | Tu definición (1 frase) | Ejemplo concreto (no del documento) |
+|---------+-------------------------+-----------------------------------|
+| URI     |                         |                                   |
+| Triple  |                         |                                   |
+| Literal |                         |                                   |
+| OWA     |                         |                                   |
+| TBox    |                         |                                   |
+| ABox    |                         |                                   |
+| Endpoint|                         |                                   |
+| LOD     |                         |                                   |
+
+2. *Emparejamiento:* une cada analogía del documento con el término correcto (escribe la letra).
+
+#+BEGIN_EXAMPLE
+a) ISBN de un libro
+b) Plano urbanístico del conocimiento
+c) SQL para redes de triples
+d) Inspector de calidad en fábrica
+e) No estar en mi lista de invitados ≠ no existir
+f) Celda «34» en Excel, no un enlace
+
+Términos: URI, Ontología, SPARQL, SHACL, OWA, Literal
+#+END_EXAMPLE
+
+3. *Pregunta corta:* ¿Por qué una *URL* puede ser URI pero un URI con esquema =urn:isbn:...= no tiene por qué ser URL? (3 líneas máximo).
+
+**** Criterio de autoevaluación
+Si en el ejemplo concreto usaste solo «Alicia» sin identificador global en la fila URI, revisa la sección «Principios de diseño» del material.
+
+** Misión B: Capas, mundo abierto y comparación con SQL
+
+**** Parte 1 — Ordena las capas
+
+Sin mirar la tabla del documento (cierra el archivo 2 minutos), intenta ordenar de abajo a arriba estas capas según Berners-Lee. Luego comprueba y corrige:
+
+- SPARQL, HTML, URI/IRI, OWL/RDFS, RDF
+
+*Pregunta:* ¿Por qué HTML está en la capa de «interfaz» y no en la de «sintaxis» de RDF? Relaciónalo con la analogía «biblioteca de folletos vs. fichas de catálogo».
+
+**** Parte 2 — OWA vs mundo cerrado
+
+Lee el escenario y responde *verdadero / falso / depende (mundo abierto)* con justificación de una línea.
+
+#+BEGIN_EXAMPLE
+Base RDF de una universidad publicada en 2024. No aparece ningún triple:
+  ex:maria rdf:type ex:Estudiante .
+
+Preguntas:
+1. ¿Se puede inferir que María NO es estudiante?
+2. ¿Es lo mismo que una consulta SQL SELECT * FROM estudiantes WHERE id='maria' sin filas?
+3. Si un reasoner OWL deduce ex:maria rdf:type ex:Persona porque ex:Estudiante rdfs:subClassOf ex:Persona
+   y más tarde aparece ex:maria rdf:type ex:Estudiante, ¿invalida la inferencia anterior?
+#+END_EXAMPLE
+
+**** Parte 3 — Tabla comparativa (completa tú)
+
+| Pregunta | Web de documentos | SQL típico | RDF + SPARQL |
+|----------+-------------------+------------+--------------|
+| Unidad básica | ? | ? | ? |
+| ¿Ausencia de dato implica falsedad? | ? | ? | ? |
+| Identificador global típico | ? | ? | ? |
+| Consulta declarativa | ? | ? | ? |
+
+** Misión C: Escribir Turtle y ver inferencia RDFS
+
+**** Contexto
+
+El dominio es un *catálogo universitario mínimo*. Debes usar prefijos y la sintaxis del documento (sección Turtle).
+
+**** Datos que debes modelar (hechos)
+
+- Alicia es Profesor; Bob es Estudiante.
+- Profesor es subclase de Persona; Estudiante es subclase de Persona.
+- Alicia enseña la asignatura Matemáticas I.
+- La propiedad =:enseña= tiene dominio Profesor y rango Asignatura.
+- El nombre de Alicia es «Alicia García» en español (@es).
+
+**** Tarea C1 — Archivo Turtle
+
+Crea mentalmente o en un bloque Org el grafo en Turtle (mínimo 8 triples explícitos + tipos). Usa:
+
+#+BEGIN_SRC turtle :exports code
+@prefix ex: <http://ejemplo.org/uni#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# TU GRAFO AQUÍ (completa el estudiante)
+#+END_SRC
+
+**** Tarea C2 — Inferencia en papel
+
+Lista *al menos 3 triples que un motor RDFS inferiría* sin que los hayas escrito a mano (herencia de tipos, dominio/rango). Explica cada uno: «por regla X del documento, se deduce Y».
+
+**** Tarea C3 — Validación con rdflib (opcional recomendado)
+
+#+BEGIN_SRC python :session c3
+# pip install rdflib
+# from rdflib import Graph
+# g = Graph()
+# g.parse("tu_archivo.ttl", format="turtle")  # o parse data= string
+# print(len(g)), "triples cargados"
+# Compara: triples explícitos vs g con RDFS reasoning si tu versión lo soporta
+#+END_SRC
+
+*Pregunta de cierre C:* ¿Qué diferencia hay entre «poner =rdfs:subClassOf= en el TBox» y «poner =rdf:type Profesor= en el ABox»? Usa la analogía TBox/ABox del glosario.
+
+** Misión D: Consultas SPARQL
+
+**** D1 — Sobre tu grafo de la Misión C (local)
+
+Escribe tres consultas y *resultado esperado en prosa* (no hace falta ejecutar si no tienes rdflib):
+
+1. *SELECT:* nombres de todas las Personas (inferidas o explícitas).
+2. *ASK:* ¿Bob es subtipo de Persona? (¿qué devuelve true/false?)
+3. *SELECT con FILTER:* profesores cuyo nombre está en idioma español.
+
+#+BEGIN_SRC sparql :exports code
+PREFIX ex: <http://ejemplo.org/uni#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Consulta 1
+# SELECT ...
+
+# Consulta 2
+# ASK ...
+
+# Consulta 3
+# SELECT ... FILTER ...
+#+END_SRC
+
+**** D2 — Wikidata Query Service (en línea)
+
+Abre https://query.wikidata.org/ y ejecuta *una* consulta que devuelva al menos 5 filas. Opciones (elige una):
+
+- Museos en México con coordenadas.
+- Películas de un director que elijas.
+- Ciudades que son capital de un país de América Latina.
+
+Entrega:
+- La consulta SPARQL pegada.
+- Captura o descripción de 2 columnas del resultado.
+- ¿Qué IRIs ves en la respuesta (ej. =wd:Q...=)? ¿Por qué Wikidata usa URIs y no solo nombres?
+
+**** D3 — Puente con la actividad previa
+
+Reescribe en SPARQL real la «Tarea A» de la Misión 3 de =web_semantica_actividad_previa.org= (autores de =ex:libro42=). Compara con tu función =consulta_simple=: ¿qué cláusula SPARQL no implementaste en Python?
+
+** Misión E: Linked Data, JSON-LD y datos abiertos
+
+**** E1 — Cuatro principios en la práctica
+
+Para un dataset hipotético «Bibliotecas de México»:
+
+| Principio Linked Data | ¿Cómo lo cumplirías? (1 línea) | ¿Qué pasa si NO lo cumples? |
+|-----------------------+--------------------------------+-----------------------------|
+| 1. URIs como nombres  |                                |                             |
+| 2. URIs HTTP          |                                |                             |
+| 3. Content negotiation|                                |                             |
+| 4. Enlaces a otros LOD|                                |                             |
+
+**** E2 — Subir en las 5 estrellas
+
+Un municipio publica un PDF con tabla escaneada de presupuesto. Clasifica en ★ a ★★★★★ y propón *dos pasos concretos* para subir al menos dos estrellas.
+
+**** E3 — JSON-LD embebido (lectura)
+
+Pega un fragmento *inventado* de =<script type="application/ld+json">= para un evento cultural (usa =@context= con schema.org). Indica qué triples RDF equivaldrían (sujeto, predicado, objeto en español).
+
+#+BEGIN_SRC json :exports code
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Feria del Libro",
+  "startDate": "2026-11-01",
+  "location": {
+    "@type": "Place",
+    "name": "Centro Histórico"
+  }
+}
+#+END_SRC
+
+*Pregunta E3:* ¿El =@context= cumple la misma función que =PREFIX= en Turtle? Explica en 2–3 líneas.
+
+** Misión F: Diseño TBox / ABox (mini ontología)
+
+**** Escenario
+
+Una app de *recomendación de cursos en línea* necesita interoperar con otra universidad. Diseña en papel (o Turtle solo TBox) lo siguiente:
+
+1. Al menos *3 clases* con jerarquía (=rdfs:subClassOf=).
+2. Al menos *2 propiedades* con =rdfs:domain= y =rdfs:range=.
+3. *Una* restricción que solo se puede expresar bien en OWL, no en RDFS puro (ej. =owl:FunctionalProperty=, cardinalidad =min 1=). Escríbela en Turtle con prefijo =owl:=.
+
+4. Escribe *5 triples ABox* de individuos ficticios que respeten tu TBox.
+
+**** Pregunta F
+¿Qué vocabulario reutilizarías del documento (=schema.org=, =FOAF=, =DCAT=, =SKOS=) y para qué campo concreto de tu app? Mínimo dos vocabularios con justificación.
+
+** Misión G: SHACL vs Reasoner (conceptual + mini ejercicio)
+
+**** G1 — Diferencia en criollo
+
+Completa:
+
+- El *reasoner* OWL/RDFS *añade* conocimiento porque ...
+- SHACL *no inventa* triples; en su lugar ...
+
+**** G2 — Detecta el error
+
+Este grafo dice:
+
+#+BEGIN_EXAMPLE
+ex:ana rdf:type ex:Persona .
+ex:ana ex:email "ana@uni.edu" .
+ex:ana ex:email "ana.personal@gmail.com" .
+#+END_EXAMPLE
+
+Y la forma SHACL dice: «cada ex:Persona tiene como máximo un ex:email».
+
+1. ¿El grafo viola SHACL?
+2. ¿Un reasoner RDFS inferiría algo sobre los dos emails? (pista: necesitas =owl:FunctionalProperty= en el TBox)
+3. ¿Qué herramienta usarías *antes de publicar* el dataset en un portal LOD?
+
+** Misión H: Proyecto integrador «Del dato abierto al grafo»
+
+**** Historia
+
+Tu equipo debe integrar dos fuentes para un panel «Quién enseña qué y dónde está el campus»:
+
+#+BEGIN_SRC python :exports code
+fuente_tabla = [
+    {"id_interno": "P1", "nombre": "Dr. Luis Méndez", "materia": "Física I"},
+    {"id_interno": "P2", "nombre": "Dra. Carmen Ruiz", "materia": "Química"},
+]
+
+fuente_rdf_snippet = """
+@prefix ex: <http://campus.ejemplo/edificios#> .
+ex:edificioNorte ex:tieneNombre "Edificio Norte"@es .
+ex:aula301 ex:estaEn ex:edificioNorte .
+"""
+#+END_SRC
+
+**** Entregables de la Misión H
+
+1. *Diseño:* IRIs propuestas para profesores, materias y edificios (tabla nombre legible → IRI).
+2. *Al menos 12 triples* Turtle unificados (puedes enlazar profesor ↔ materia ↔ aula).
+3. *Una consulta SPARQL* que responda: «¿Qué materias se imparten en el Edificio Norte?» (aunque la tabla original no mencionaba edificios).
+4. *Un enlace LOD:* propón =skos:exactMatch= o =owl:sameAs= hacia un recurso Wikidata (IRI =wd:...=) para *una* entidad (materia, ciudad o institución).
+5. *Reflexión (8–10 líneas):* ¿Qué parte de este ejercicio sería imposible solo con búsqueda por keywords en HTML?
+
+** Entregable único: Reporte en Markdown
+
+#+BEGIN_EXAMPLE markdown
+# Reporte — Actividades extras Web Semántica
+**Estudiante:** [Nombre / matrícula]
+**Fecha:**
+
+## Misión A — Glosario
+[Tabla + emparejamiento + URI vs URL]
+
+## Misión B — Capas y OWA
+[Orden capas + respuestas OWA + tabla comparativa]
+
+## Misión C — Turtle y RDFS
+[Código Turtle + triples inferidos + reflexión TBox/ABox]
+
+## Misión D — SPARQL
+[3 consultas locales + Wikidata + puente actividad previa]
+
+## Misión E — Linked Data
+[Tabla 4 principios + 5 estrellas + JSON-LD]
+
+## Misión F — Mini ontología
+[TBox + ABox + vocabularios reutilizados]
+
+## Misión G — SHACL vs reasoner
+[Completar frases + caso dos emails]
+
+## Misión H — Integración
+[IRIs + Turtle + SPARQL + sameAs + reflexión]
+
+## Síntesis final (obligatoria)
+Responde: «Si mañana desaparecieran los estándares W3C de RDF/SPARQL, ¿qué perdería concretamente
+el proyecto de la Misión H que sí tendría con solo APIs REST + JSON?»
+#+END_EXAMPLE
+
 
 
 
