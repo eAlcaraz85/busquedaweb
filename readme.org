@@ -7797,7 +7797,7 @@ La Web Semántica comparte raíces con la *IA simbólica* (representación del c
 - *Motores de búsqueda enriquecida* (paneles de conocimiento, rich snippets vía schema.org).
 - *Compliance* y trazabilidad (SHACL para validar formas de datos RDF).
 
-**  Definición
+** Definición
 
 *** Definición formal y operativa
 
@@ -7877,7 +7877,7 @@ Esto convierte la Web en una base de datos distribuida y parcialmente conectada 
 - Calidad y curación de datos (basura semántica = basura inferida).
 - OWA puede frustrar expectativas de usuarios acostumbrados a SQL «cerrado».
 
-**  Lenguajes semánticos
+** Lenguajes semánticos
 
 Los *lenguajes semánticos* de la Web proporcionan sintaxis para intercambiar grafos (RDF), vocabulario para tipar y organizar términos (RDFS), expresividad ontológica y lógica (OWL) y consulta (SPARQL).
 
@@ -8094,7 +8094,7 @@ SPARQL 1.1 Federated Query permite =SERVICE <endpoint> { ... }= para consultar r
 
 HTTP: envío de consulta a =/sparql?= con =query= URL-encoded o POST; respuestas en JSON, XML, CSV, TSV. Permite integrar triple stores en pipelines ETL y dashboards.
 
-**  Librerías para consulta de documentos semánticos
+** Librerías para consulta de documentos semánticos
 
 Esta sección recorre *herramientas de software* para cargar, parsear, consultar, validar y razonar sobre documentos RDF/OWL, tanto en *cliente* como en *servidor*.
 
@@ -8200,7 +8200,7 @@ En pipelines industriales a menudo se *materializa* la inferencia (precomputar t
 - *Named graphs* para versionado y procedencia (=cuad:graph=).
 - Caché de consultas frecuentes; federación costosa en latencia.
 
-**  Datos abiertos
+** Datos abiertos
 
 *** Definición y principios
 
@@ -8266,7 +8266,7 @@ Dimensiones de calidad (teoría de información y gestión de datos):
 
 Transparencia gubernamental, innovación en apps ciudadanas, investigación reproducible, economía de datos. La Web Semántica reduce costos de integración cuando muchos publicadores adoptan URIs y vocabularios compartidos.
 
-**  Knowledge Graph (Grafo de conocimiento)
+** Knowledge Graph (Grafo de conocimiento)
 
 *** Definición
 
@@ -8275,7 +8275,10 @@ Un *Knowledge Graph* (KG) es una representación estructurada de conocimiento en
 - Las *aristas* representan *relaciones tipadas* entre entidades.
 - Suele existir un *esquema* (ontología, tipos, restricciones) más un gran volumen de *hechos* (instancias).
 
-En la literatura académica e industrial el término se solapa con «base de conocimiento semántica», «grafo de entidades y relaciones» y, en implementaciones W3C, con grandes conjuntos RDF + ontología + enlaces externos.
+En la literatura académica e industrial el término se solapa con «base
+de conocimiento semántica», «grafo de entidades y relaciones» y, en
+implementaciones W3C, con grandes conjuntos RDF + ontología + enlaces
+externos.
 
 *** Origen del término en industria
 
@@ -8440,7 +8443,11 @@ La Web Semántica proporciona los *ladrillos estándar* (RDF, RDFS, OWL, SPARQL,
 * Actividades extras Web Semántica (post-lectura)
 
 
-Estas actividades van *después* de leer el material teórico actualizado y *después* (idealmente) de la actividad previa. No repiten el calentamiento inicial: aquí se comprueba que entiendes la nomenclatura, que puedes leer/escribir RDF y SPARQL, y que relacionas conceptos con situaciones reales.
+Estas actividades van *después* de leer el material teórico actualizado
+y *después* (idealmente) de la actividad previa. No repiten el
+calentamiento inicial: aquí se comprueba que entiendes la
+nomenclatura, que puedes leer/escribir RDF y SPARQL, y que relacionas
+conceptos con situaciones reales.
 
 
 *Prerrequisitos:*
@@ -8763,7 +8770,7 @@ el proyecto de la Misión H que sí tendría con solo APIs REST + JSON?»
 
 
 
-*  Proyecto: Sistema Inteligente de Monitoreo y Análisis de Noticias Web 2026 Enero Junio
+* Proyecto: Sistema Inteligente de Monitoreo y Análisis de Noticias Web 2026 Enero Junio
 
 ** Descripción del Proyecto
 
